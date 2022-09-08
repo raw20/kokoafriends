@@ -1,7 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import { KAKAO_AUTH_URL } from "../../auth/OAuth";
 
 const Btn = styled.button`
   width: 100px;
