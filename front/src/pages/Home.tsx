@@ -4,7 +4,8 @@ import { MdManageAccounts } from "react-icons/md";
 import { MdShoppingCart } from "react-icons/md";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
+import { KAKAO_AUTH_URL } from "../auth/OAuth";
 
 const Header = styled.div`
   width: 100%;
@@ -30,19 +31,19 @@ const GnbUl = styled.ul`
   width: 20%;
   display: flex;
 `;
-const GnbLi = styled(NavLink)`
+const GnbLi = styled.li<{ isActive: boolean }>`
   width: 100%;
   height: 72.6px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1.1rem;
-  &.selected {
-    border-bottom: 4px solid #ccc;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  font-size: ${(props) => (props.isActive ? "1.2rem" : "1.1rem")};
+  font-weight: ${(props) => (props.isActive ? "bold" : "600")};
+  border-bottom: ${(props) =>
+    props.isActive ? "4px solid" + props.theme.accentColor : "none"};
 `;
 const UtilUl = styled.ul`
   width: 17%;
@@ -53,6 +54,9 @@ const UtilUl = styled.ul`
 
 function Home() {
   const state = useLocation();
+  const homeMatch = useMatch("/");
+  const newMatch = useMatch("/new");
+  const bestMatch = useMatch("/best");
   return (
     <>
       <Header>
@@ -60,29 +64,20 @@ function Home() {
           <Logo>KOKOA FRIENDS</Logo>
         </Link>
         <GnbUl>
-          <GnbLi
-            to="/"
-            className={({ isActive }) => (isActive ? "selected" : "")}
-          >
-            홈
+          <GnbLi isActive={homeMatch !== null}>
+            <Link to="/">홈</Link>
           </GnbLi>
-          <GnbLi
-            to="/new"
-            className={({ isActive }) => (isActive ? "selected" : "")}
-          >
-            신상품
+          <GnbLi isActive={newMatch !== null}>
+            <Link to="/new">신상품</Link>
           </GnbLi>
-          <GnbLi
-            to="/best"
-            className={({ isActive }) => (isActive ? "selected" : "")}
-          >
-            베스트
+          <GnbLi isActive={bestMatch !== null}>
+            <Link to="/best">베스트</Link>
           </GnbLi>
         </GnbUl>
         <UtilUl>
-          <Link to="/login">
+          <a href={KAKAO_AUTH_URL}>
             <MdLogin title="로그인" />
-          </Link>
+          </a>
           <MdManageAccounts title="마이페이지" />
           <MdShoppingCart title="장바구니" />
           <MdOutlineFavoriteBorder title="찜한상품" />
