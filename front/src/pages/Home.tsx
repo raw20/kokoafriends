@@ -6,6 +6,7 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import mainSlice01 from "../img/main01.jpg";
 
 const Header = styled.div`
   width: 100%;
@@ -32,9 +33,10 @@ const GnbUl = styled.ul`
   display: flex;
 `;
 const GnbLi = styled.li<{ isActive: boolean }>`
-  width: 100%;
+  width: 100px;
   height: 72.6px;
   display: flex;
+  margin-right: 20px;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -50,8 +52,16 @@ const UtilUl = styled.ul`
   display: flex;
   font-size: 2.2rem;
   justify-content: space-between;
+  .util-icon {
+    &:hover {
+      transform: scale(120%);
+    }
+  }
 `;
-
+const Slice = styled.img`
+  width: 100%;
+  height: auto;
+`;
 function Home() {
   const state = useLocation();
   const homeMatch = useMatch("/");
@@ -64,27 +74,29 @@ function Home() {
           <Logo>KOKOA FRIENDS</Logo>
         </Link>
         <GnbUl>
-          <GnbLi isActive={homeMatch !== null}>
-            <Link to="/">홈</Link>
-          </GnbLi>
-          <GnbLi isActive={newMatch !== null}>
-            <Link to="/new">신상품</Link>
-          </GnbLi>
-          <GnbLi isActive={bestMatch !== null}>
-            <Link to="/best">베스트</Link>
-          </GnbLi>
+          <Link to="/">
+            <GnbLi isActive={homeMatch !== null}>홈 </GnbLi>
+          </Link>
+          <Link to="/new">
+            <GnbLi isActive={newMatch !== null}>신상품 </GnbLi>
+          </Link>
+          <Link to="/best">
+            <GnbLi isActive={bestMatch !== null}>베스트 </GnbLi>
+          </Link>
         </GnbUl>
         <UtilUl>
           <a href={KAKAO_AUTH_URL}>
-            <MdLogin title="로그인" />
+            <MdLogin className="util-icon" title="로그인" />
           </a>
-          <MdManageAccounts title="마이페이지" />
-          <MdShoppingCart title="장바구니" />
-          <MdOutlineFavoriteBorder title="찜한상품" />
-          <MdOutlineSearch title="검색" />
+          <MdManageAccounts className="util-icon" title="마이페이지" />
+          <MdShoppingCart className="util-icon" title="장바구니" />
+          <MdOutlineFavoriteBorder className="util-icon" title="찜한상품" />
+          <Link to="/search">
+            <MdOutlineSearch className="util-icon" title="검색" />
+          </Link>
         </UtilUl>
       </Header>
-      {state.pathname === "/" ? <h2>홈</h2> : <Outlet />}
+      {state.pathname === "/" ? <Slice src={mainSlice01} /> : <Outlet />}
     </>
   );
 }
