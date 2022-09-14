@@ -4,7 +4,9 @@ import { MdManageAccounts } from "react-icons/md";
 import { MdShoppingCart } from "react-icons/md";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
+import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import mainSlice01 from "../img/main01.jpg";
 
 const Header = styled.div`
   width: 100%;
@@ -30,29 +32,41 @@ const GnbUl = styled.ul`
   width: 20%;
   display: flex;
 `;
-const GnbLi = styled(NavLink)`
-  width: 100%;
+const GnbLi = styled.li<{ isActive: boolean }>`
+  width: 100px;
   height: 72.6px;
   display: flex;
+  margin-right: 20px;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1.1rem;
-  &.selected {
-    border-bottom: 4px solid #ccc;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  font-size: ${(props) => (props.isActive ? "1.2rem" : "1.1rem")};
+  font-weight: ${(props) => (props.isActive ? "bold" : "600")};
+  border-bottom: ${(props) =>
+    props.isActive ? "4px solid" + props.theme.accentColor : "none"};
 `;
 const UtilUl = styled.ul`
   width: 17%;
   display: flex;
   font-size: 2.2rem;
   justify-content: space-between;
+  .util-icon {
+    &:hover {
+      transform: scale(120%);
+    }
+  }
 `;
-
+const Slice = styled.img`
+  width: 100%;
+  height: auto;
+`;
 function Home() {
   const state = useLocation();
+  const homeMatch = useMatch("/");
+  const newMatch = useMatch("/new");
+  const bestMatch = useMatch("/best");
   return (
     <>
       <Header>
@@ -60,36 +74,29 @@ function Home() {
           <Logo>KOKOA FRIENDS</Logo>
         </Link>
         <GnbUl>
-          <GnbLi
-            to="/"
-            className={({ isActive }) => (isActive ? "selected" : "")}
-          >
-            홈
-          </GnbLi>
-          <GnbLi
-            to="/new"
-            className={({ isActive }) => (isActive ? "selected" : "")}
-          >
-            신상품
-          </GnbLi>
-          <GnbLi
-            to="/best"
-            className={({ isActive }) => (isActive ? "selected" : "")}
-          >
-            베스트
-          </GnbLi>
+          <Link to="/">
+            <GnbLi isActive={homeMatch !== null}>홈 </GnbLi>
+          </Link>
+          <Link to="/new">
+            <GnbLi isActive={newMatch !== null}>신상품 </GnbLi>
+          </Link>
+          <Link to="/best">
+            <GnbLi isActive={bestMatch !== null}>베스트 </GnbLi>
+          </Link>
         </GnbUl>
         <UtilUl>
-          <Link to="/login">
-            <MdLogin title="로그인" />
+          <a href={KAKAO_AUTH_URL}>
+            <MdLogin className="util-icon" title="로그인" />
+          </a>
+          <MdManageAccounts className="util-icon" title="마이페이지" />
+          <MdShoppingCart className="util-icon" title="장바구니" />
+          <MdOutlineFavoriteBorder className="util-icon" title="찜한상품" />
+          <Link to="/search">
+            <MdOutlineSearch className="util-icon" title="검색" />
           </Link>
-          <MdManageAccounts title="마이페이지" />
-          <MdShoppingCart title="장바구니" />
-          <MdOutlineFavoriteBorder title="찜한상품" />
-          <MdOutlineSearch title="검색" />
         </UtilUl>
       </Header>
-      {state.pathname === "/" ? <h2>홈</h2> : <Outlet />}
+      {state.pathname === "/" ? <Slice src={mainSlice01} /> : <Outlet />}
     </>
   );
 }

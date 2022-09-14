@@ -1,9 +1,22 @@
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { actionCreators as userActions } from "../module/user";
+import Home from "../pages/Home";
+
 function KaKaoRedirect() {
+  const dispatch = useDispatch();
   let code = new URL(window.location.href).searchParams.get("code");
-  console.log("cc", code);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await dispatch(userActions.user(code));
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
-      <h1>성공</h1>
+      <Home />
     </>
   );
 }
