@@ -17,4 +17,5 @@ function user(code: string) {
   };
 }
 const actionCreators = { user };
+
 export { actionCreators };
