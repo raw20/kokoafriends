@@ -16,5 +16,5 @@ function user(code: string) {
       });
   };
 }
-
-export default user;
+const actionCreators = { user };
+export { actionCreators };
