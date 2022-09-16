@@ -4,7 +4,7 @@ function user(code: string) {
   return function (dispatch: string, getState: string) {
     axios({
       method: "GET",
-      url: `http://3.36.133.109:3000/`,
+      url: `http://3.36.133.109:3000/oauth/callback/kakao?code=${code}`,
     })
         .then((res) => {
           const ACCESS_TOKEN = res.data.accessToken;
