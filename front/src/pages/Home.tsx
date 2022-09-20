@@ -64,11 +64,12 @@ const Main = styled.div`
 const Banner = styled.div`
   width: 50%;
   height: auto;
-  margin: 2rem auto;
+  margin: 1.5rem auto;
 `;
 const BannerImg = styled.img`
   width: 100%;
   height: 40%;
+  margin-bottom: 1rem;
   border-radius: 10px;
 `;
 function Home() {
@@ -115,7 +116,7 @@ function Home() {
         <Main>
           <Banner>
             {bannerImgArray.map((src) => (
-              <BannerImg src={`public/img/${src}`} />
+              <BannerImg src={`/img/${src}`} alt="picture" />
             ))}
           </Banner>
         </Main>
