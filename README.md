@@ -71,11 +71,17 @@
 
 ### 프론트엔드
 
+#### 언어
 - Typescript
+
+#### 라이브러리
 - React
 - styled-component
+- Apollo
 - Redux-toolkit
-- 
+
+#### Specification 
+- GraphQL
 
 ## 📋 주요 키워드
 
