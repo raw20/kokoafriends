@@ -74,7 +74,7 @@
 #### 언어
 - Typescript
 
-#### 라이브러리
+#### 주요 라이브러리
 - React
 - styled-component
 - Apollo
