@@ -1,18 +1,19 @@
 import express from "express";
-import { buildSchema } from "type-graphql";
-import { ApolloServer } from "apollo-server-express";
-import { MainItemResolver } from "./graphql/item";
+import morgan from "morgan";
+import compression from "compression";
 
-async function createApolloServer(port: number) {
-  const app = express();
-  const schema = await buildSchema({ resolvers: [MainItemResolver] });
-  const server = new ApolloServer({ schema });
+//dotenv.config();
 
-  await server.start();
-  server.applyMiddleware({ app });
+const app = express();
 
-  await new Promise<void>((resolve) => app.listen(port, resolve));
-  console.log("port : ", port);
+const prod: boolean = process.env.NODE_ENV === "production";
+const port = prod ? process.env.PORT : 4000;
 
-  return { server, app };
-}
+app.use(morgan("dev"));
+app.use(compression());
+
+app.listen(port, (): void =>
+  console.log(
+    `\n🚀      GraphQL is now running on http://localhost:${port}/graphql`
+  )
+);
