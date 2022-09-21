@@ -1,17 +1,24 @@
-import { useDispatch } from "react-redux";
+import axios from "axios";
 import { useEffect } from "react";
-import { actionCreators as userActions } from "../module/user";
+import { useNavigate } from "react-router-dom";
 import Home from "../pages/Home";
 
 function KaKaoRedirect() {
-  const dispatch = useDispatch();
-  let code = new URL(window.location.href).searchParams.get("code");
+  const navigate = useNavigate();
+  const code = new URL(window.location.href).searchParams.get("code");
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await dispatch(userActions.user(code));
-    }
-    fetchData();
+    (async () => {
+      try {
+        const res = await axios.get(`api/code=${code}`);
+        const token = res.headers.authorization;
+        window.localStorage.setItem("token", token);
+        navigate("/");
+      } catch (e) {
+        console.log("login error : ", e);
+        navigate("/");
+      }
+    })();
   }, []);
 
   return (
