@@ -6,7 +6,6 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
-import mainSlice01 from "../img/main01.jpg";
 
 const Header = styled.div`
   width: 100%;
@@ -58,15 +57,32 @@ const UtilUl = styled.ul`
     }
   }
 `;
-const Slice = styled.img`
+const Main = styled.div`
   width: 100%;
   height: auto;
+`;
+const Banner = styled.div`
+  width: 50%;
+  height: auto;
+  margin: 1.5rem auto;
+`;
+const BannerImg = styled.img`
+  width: 100%;
+  height: 40%;
+  margin-bottom: 1rem;
+  border-radius: 10px;
 `;
 function Home() {
   const state = useLocation();
   const homeMatch = useMatch("/");
-  const newMatch = useMatch("/new");
+  const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
+  const bannerImgArray = [
+    "HomeBanner01.jpg",
+    "HomeBanner02.jpg",
+    "HomeBanner03.jpg",
+    "HomeBanner04.jpg",
+  ];
   return (
     <>
       <Header>
@@ -77,11 +93,11 @@ function Home() {
           <Link to="/">
             <GnbLi isActive={homeMatch !== null}>홈 </GnbLi>
           </Link>
-          <Link to="/new">
-            <GnbLi isActive={newMatch !== null}>신상품 </GnbLi>
-          </Link>
           <Link to="/best">
             <GnbLi isActive={bestMatch !== null}>베스트 </GnbLi>
+          </Link>
+          <Link to="/contents">
+            <GnbLi isActive={contentsMatch !== null}>콘텐츠 </GnbLi>
           </Link>
         </GnbUl>
         <UtilUl>
@@ -96,7 +112,17 @@ function Home() {
           </Link>
         </UtilUl>
       </Header>
-      {state.pathname === "/" ? <Slice src={mainSlice01} /> : <Outlet />}
+      {state.pathname === "/" ? (
+        <Main>
+          <Banner>
+            {bannerImgArray.map((src) => (
+              <BannerImg src={`/img/${src}`} alt="picture" />
+            ))}
+          </Banner>
+        </Main>
+      ) : (
+        <Outlet />
+      )}
     </>
   );
 }

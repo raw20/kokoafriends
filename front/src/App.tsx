@@ -1,9 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
-import Home from "./pages/Home";
 import Router from "./routes/Router";
-
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
   html, body, div, span, applet, object, iframe,
