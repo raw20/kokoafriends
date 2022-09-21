@@ -1,7 +1,6 @@
 package kokoafriends.back.model.oauth;
 
 import lombok.Data;
-
 @Data
 public class OauthToken {
     private String access_token;
