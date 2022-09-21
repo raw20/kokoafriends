@@ -19,7 +19,6 @@
     "dotenv": "^16.0.2",
     "graphql": "^16.6.0",
     "http-proxy-middleware": "^2.0.6",
-    "morgan": "^1.10.0",
     "node-fetch": "^3.2.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -57,9 +56,6 @@
     ]
   },
   "devDependencies": {
-    "@types/compression": "^1.7.2",
-    "@types/dotenv": "^8.2.0",
-    "@types/morgan": "^1.9.3",
     "@types/react-router-dom": "^5.3.3",
     "nodemon": "^2.0.20",
     "v6": "^0.0.0"
