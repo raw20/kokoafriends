@@ -6,7 +6,28 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { MdOutlineSearch } from "react-icons/md";
 import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import { gql, useQuery } from "@apollo/client";
 
+interface MainBannerItem {
+  id: number;
+  title: string;
+  img: string;
+  contents: string;
+}
+
+interface MainBannerObj {
+  mainBanners: MainBannerItem[];
+}
+const MAIN_BANNERS = gql`
+  query {
+    mainBanners {
+      id
+      title
+      img
+      contents
+    }
+  }
+`;
 const Header = styled.div`
   width: 100%;
   height: 50px;
@@ -77,12 +98,8 @@ function Home() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const bannerImgArray = [
-    "HomeBanner01.jpg",
-    "HomeBanner02.jpg",
-    "HomeBanner03.jpg",
-    "HomeBanner04.jpg",
-  ];
+  const { data } = useQuery<MainBannerObj, MainBannerItem>(MAIN_BANNERS);
+
   return (
     <>
       <Header>
@@ -115,8 +132,8 @@ function Home() {
       {state.pathname === "/" ? (
         <Main>
           <Banner>
-            {bannerImgArray.map((src) => (
-              <BannerImg src={`/img/${src}`} alt="picture" />
+            {data?.mainBanners?.map((ele) => (
+              <BannerImg src={`/img/${ele?.img}`} alt="picture" />
             ))}
           </Banner>
         </Main>

@@ -24,7 +24,7 @@ const mainBanners = [
   {
     id: 2,
     title: "내 칫솔을 깨끗하게",
-    img: " HomeBanner02.jpg",
+    img: "HomeBanner02.jpg",
     contents: " 스탠드형 칫솔살균기로 /n구강 건강 챙겨봐요",
   },
   {
