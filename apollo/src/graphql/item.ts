@@ -17,7 +17,7 @@ export class MainItemResolver {
   async get_mainItem(
     @Arg("id", (type) => Number) id: number
   ): Promise<MainItem | null> {
-    const res = await fetch("db/mainBannerData.json");
+    const res = await fetch("./database/mainBannerData.json");
     const json = await res.json();
     return json.data;
   }
