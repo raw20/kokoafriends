@@ -7,9 +7,10 @@
 - 기간 : 22.09.02 ~ 22.09.30 (예정)
 
 ### 조원 및 역할
- - 정찬욱: 프론트엔드 기능 담당 및 백엔드 보조
- - 박민규 : 백엔드 기능 및 데이터 파이프라인
- 
+
+- 정찬욱: 프론트엔드 기능 담당 및 백엔드 보조
+- 박민규 : 백엔드 기능 및 데이터 파이프라인
+
 ### 페이지구성
 
 - 마이페이지
@@ -26,9 +27,7 @@
 
 **비회원일시 - 로그인창 보내기**
 
-
-
-##  개발환경
+## 개발환경
 
 - IntelliJ
 - visualstudio code
@@ -57,8 +56,6 @@
 
 - Spring AOP
 
-  
-
 #### Build tool
 
 - Gradle
@@ -67,32 +64,27 @@
 
 - Mysql
 
-
-
 ### 프론트엔드
 
 #### 언어
+
 - Typescript
+- Javascript
 
 #### 주요 라이브러리
+
 - React
 - styled-component
-- Apollo
-- Redux-toolkit
+- Apollo-client
 
-#### Specification 
+#### Specification
+
 - GraphQL
 
 ## 📋 주요 키워드
 
-
-
 ## 📋 성능 테스팅 도구
 
-
-
 ## 📋 로그 분석 도구
-
-
 
 ## 🏭 시스템 구조

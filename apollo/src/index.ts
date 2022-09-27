@@ -1,13 +1,20 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { bestItem } from "./data/bestItem";
+import bestItem from "./data/bestItem";
 
 const typeDefs = `#graphql
   type BestItem {
     id: Int!
+    name: String!
     title: String!
     bannerImg:String!
     contents:String!
+    price: Int!
+    like: Int!
+    view: Int!
+    slideImg: [String]!
+    mainTopImg:[String]!
+    mainBottomImg:[String]!
   }
 
   type Query {
@@ -23,6 +30,7 @@ const resolvers = {
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
