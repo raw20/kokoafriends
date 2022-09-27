@@ -1,31 +1,35 @@
-import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Home from "../pages/Home";
+import { CLIENT_ID, REDIRECT_URI } from "./OAuth";
 
 function KaKaoRedirect() {
   const navigate = useNavigate();
+  const location = useLocation();
   const code = new URL(window.location.href).searchParams.get("code");
 
+  const saveToken = () => {
+    fetch(`https://kauth.kakao.com/oauth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
+      body: `grant_type=authorization_code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&code=${code}`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.access_token) {
+          localStorage.setItem("token", data.access_token);
+        } else {
+          navigate("/");
+        }
+      });
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(`api/code=${code}`);
-        const token = res.headers.authorization;
-        window.localStorage.setItem("token", token);
-        navigate("/");
-      } catch (e) {
-        console.log("login error : ", e);
-        navigate("/");
-      }
-    })();
-  }, []);
+    if (!location.search) return;
+    saveToken();
+  });
 
-  return (
-    <>
-      <Home />
-    </>
-  );
+  return <></>;
 }
-
 export default KaKaoRedirect;

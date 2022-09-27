@@ -17,6 +17,5 @@
     "jsx": "react-jsx",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
-  },
-  "include": ["src"]
+  }
 }
