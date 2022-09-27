@@ -7,23 +7,14 @@ import { MdOutlineSearch } from "react-icons/md";
 import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
 import { gql, useQuery } from "@apollo/client";
+import { BestItem, BestItemObj } from "../interface/dataType";
 
-interface MainBannerItem {
-  id: number;
-  title: string;
-  img: string;
-  contents: string;
-}
-
-interface MainBannerObj {
-  mainBanners: MainBannerItem[];
-}
-const MAIN_BANNERS = gql`
+const BEST_ITEM = gql`
   query {
-    mainBanners {
+    bestItem {
       id
       title
-      img
+      bannerImg
       contents
     }
   }
@@ -87,18 +78,48 @@ const Banner = styled.div`
   height: auto;
   margin: 1.5rem auto;
 `;
+const BannerImgContentsArea = styled(Link)`
+  width: 100%;
+  height: 20%;
+  position: relative;
+`;
 const BannerImg = styled.img`
   width: 100%;
   height: 40%;
   margin-bottom: 1rem;
   border-radius: 10px;
+  position: relative;
 `;
+const ImgText = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 5.1rem 1.3rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
+const Title = styled.h1`
+  width: 100%;
+  height: auto;
+  font-size: 2rem;
+  font-weight: bold;
+  color: ${(props) => props.theme.bgColor};
+`;
+const Contents = styled.p`
+  width: 100%;
+  height: auto;
+  font-size: 1rem;
+  color: ${(props) => props.theme.bgColor};
+  font-weight: 500;
+  margin-top: 15px;
+`;
+
 function Home() {
   const state = useLocation();
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const { data } = useQuery<MainBannerObj, MainBannerItem>(MAIN_BANNERS);
+  const { data } = useQuery<BestItemObj, BestItem>(BEST_ITEM);
 
   return (
     <>
@@ -108,7 +129,7 @@ function Home() {
         </Link>
         <GnbUl>
           <Link to="/">
-            <GnbLi isActive={homeMatch !== null}>홈 </GnbLi>
+            <GnbLi isActive={homeMatch !== null}>홈</GnbLi>
           </Link>
           <Link to="/best">
             <GnbLi isActive={bestMatch !== null}>베스트 </GnbLi>
@@ -132,8 +153,19 @@ function Home() {
       {state.pathname === "/" ? (
         <Main>
           <Banner>
-            {data?.mainBanners?.map((ele) => (
-              <BannerImg src={`/img/${ele?.img}`} alt="picture" />
+            {data?.bestItem?.map((ele) => (
+              <>
+                <BannerImgContentsArea
+                  to={`/bestProduct/${ele?.id}`}
+                  key={ele?.id}
+                >
+                  <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
+                  <ImgText>
+                    <Title>{ele?.title}</Title>
+                    <Contents>{ele?.contents}</Contents>
+                  </ImgText>
+                </BannerImgContentsArea>
+              </>
             ))}
           </Banner>
         </Main>
