@@ -1,13 +1,20 @@
 import styled from "styled-components";
-import { MdLogin } from "react-icons/md";
-import { MdManageAccounts } from "react-icons/md";
-import { MdShoppingCart } from "react-icons/md";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { MdOutlineSearch } from "react-icons/md";
-import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
-import { KAKAO_AUTH_URL } from "../auth/OAuth";
-import mainSlice01 from "../img/main01.jpg";
+import {MdLogin, MdManageAccounts, MdOutlineFavoriteBorder, MdOutlineSearch, MdShoppingCart} from "react-icons/md";
+import {Link, Outlet, useLocation, useMatch} from "react-router-dom";
+import {KAKAO_AUTH_URL} from "../auth/OAuth";
+import { gql, useQuery } from "@apollo/client";
+import { BestItem, BestItemObj } from "../interface/dataType";
 
+const BEST_ITEM = gql`
+  query {
+    bestItem {
+      id
+      title
+      bannerImg
+      contents
+    }
+  }
+`;
 const Header = styled.div`
   width: 100%;
   height: 50px;
@@ -58,15 +65,58 @@ const UtilUl = styled.ul`
     }
   }
 `;
-const Slice = styled.img`
+const Main = styled.div`
   width: 100%;
   height: auto;
 `;
+const Banner = styled.div`
+  width: 50%;
+  height: auto;
+  margin: 1.5rem auto;
+`;
+const BannerImgContentsArea = styled(Link)`
+  width: 100%;
+  height: 20%;
+  position: relative;
+`;
+const BannerImg = styled.img`
+  width: 100%;
+  height: 40%;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  position: relative;
+`;
+const ImgText = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 5.1rem 1.3rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
+const Title = styled.h1`
+  width: 100%;
+  height: auto;
+  font-size: 2rem;
+  font-weight: bold;
+  color: ${(props) => props.theme.bgColor};
+`;
+const Contents = styled.p`
+  width: 100%;
+  height: auto;
+  font-size: 1rem;
+  color: ${(props) => props.theme.bgColor};
+  font-weight: 500;
+  margin-top: 15px;
+`;
+
 function Home() {
   const state = useLocation();
   const homeMatch = useMatch("/");
-  const newMatch = useMatch("/new");
+  const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
+  const { data } = useQuery<BestItemObj, BestItem>(BEST_ITEM);
+
   return (
     <>
       <Header>
@@ -75,13 +125,13 @@ function Home() {
         </Link>
         <GnbUl>
           <Link to="/">
-            <GnbLi isActive={homeMatch !== null}>홈 </GnbLi>
-          </Link>
-          <Link to="/new">
-            <GnbLi isActive={newMatch !== null}>신상품 </GnbLi>
+            <GnbLi isActive={homeMatch !== null}>홈</GnbLi>
           </Link>
           <Link to="/best">
             <GnbLi isActive={bestMatch !== null}>베스트 </GnbLi>
+          </Link>
+          <Link to="/contents">
+            <GnbLi isActive={contentsMatch !== null}>콘텐츠 </GnbLi>
           </Link>
         </GnbUl>
         <UtilUl>
@@ -96,7 +146,28 @@ function Home() {
           </Link>
         </UtilUl>
       </Header>
-      {state.pathname === "/" ? <Slice src={mainSlice01} /> : <Outlet />}
+      {state.pathname === "/" ? (
+        <Main>
+          <Banner>
+            {data?.bestItem?.map((ele) => (
+              <>
+                <BannerImgContentsArea
+                  to={`/bestProduct/${ele?.id}`}
+                  key={ele?.id}
+                >
+                  <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
+                  <ImgText>
+                    <Title>{ele?.title}</Title>
+                    <Contents>{ele?.contents}</Contents>
+                  </ImgText>
+                </BannerImgContentsArea>
+              </>
+            ))}
+          </Banner>
+        </Main>
+      ) : (
+        <Outlet />
+      )}
     </>
   );
 }
