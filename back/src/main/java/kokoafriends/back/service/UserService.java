@@ -1,11 +1,9 @@
 package kokoafriends.back.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kokoafriends.back.model.oauth.OauthToken;
 import kokoafriends.back.repositorty.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +18,9 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+
     public OauthToken getAccessToken(String code){
 
         RestTemplate rt = new RestTemplate();
@@ -31,14 +31,19 @@ public class UserService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant-type", "authorization_code");
         params.add("client-id", "83b96f66c5139aee7d3c0ac25fd76afa");
-        params.add("redirect-url", "http://localhost:3000/oauth/callback/kakao");
+        params.add("redirect-url", "http://172.16.7.205:3000/oauth/callback/kakao");
         params.add("code", code);
-//        params.add("client_secret", "SXAds5xcRMddtHvFvDhlM7g2QeGZvrpx");
+        params.add("client_secret", "vzBk5ynwzMCWc2cQPUoxsScxgQ6lsPnx");
 
-        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
+                new HttpEntity<>(params, headers);
 
-        ResponseEntity<String> accessTokenResponse =
-        rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST, kakaoTokenRequest, String.class);
+        ResponseEntity<String> accessTokenResponse = rt.exchange(
+                "https://kauth.kakao.com/oauth/token",
+                HttpMethod.POST,
+                kakaoTokenRequest,
+                String.class
+        );
 
         ObjectMapper objectMapper = new ObjectMapper();
         OauthToken oauthToken = null;

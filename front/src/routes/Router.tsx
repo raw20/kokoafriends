@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import KaKaoRedirect from "../auth/KaKaoRedirect";
 import Home from "../pages/Home";
 import NewProductItem from "../components/gnb/Contents";
