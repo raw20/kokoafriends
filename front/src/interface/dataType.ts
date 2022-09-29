@@ -7,4 +7,5 @@ export interface BestItem {
 
 export interface BestItemObj {
   bestItem: BestItem[];
+  selectBestItem(id: number): BestItem[];
 }

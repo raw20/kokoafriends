@@ -1,6 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import bestItem from "./data/bestItem";
+import { bestItem, getBestitemId } from "./db/bestItem.js";
 const typeDefs = `#graphql
   type BestItem {
     id: Int!
@@ -18,11 +18,13 @@ const typeDefs = `#graphql
 
   type Query {
     bestItem: [BestItem]
+    selectBestItem(id:Int!) : BestItem
   }
 `;
 const resolvers = {
     Query: {
         bestItem: () => bestItem,
+        selectBestItem: (root, { id }) => getBestitemId(id),
     },
 };
 // The ApolloServer constructor requires two parameters: your schema

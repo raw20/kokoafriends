@@ -1,4 +1,4 @@
-const bestItem = [
+export const bestItem = [
     {
         id: 1,
         name: "디지털 무빙시계_라이언&춘식이",
@@ -136,4 +136,7 @@ const bestItem = [
         mainBottomImg: ["best_cars_cushion_choonsikn_07.jpg"],
     },
 ];
-export default bestItem;
+export function getBestitemId(id) {
+    const selectedBestItem = bestItem.filter((ele) => ele.id === id);
+    return selectedBestItem[0];
+}
