@@ -1,11 +1,7 @@
 import styled from "styled-components";
-import { MdLogin } from "react-icons/md";
-import { MdManageAccounts } from "react-icons/md";
-import { MdShoppingCart } from "react-icons/md";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { MdOutlineSearch } from "react-icons/md";
-import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
-import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import {MdLogin, MdManageAccounts, MdOutlineFavoriteBorder, MdOutlineSearch, MdShoppingCart} from "react-icons/md";
+import {Link, Outlet, useLocation, useMatch} from "react-router-dom";
+import {KAKAO_AUTH_URL} from "../auth/OAuth";
 import { gql, useQuery } from "@apollo/client";
 import { BestItem, BestItemObj } from "../interface/dataType";
 

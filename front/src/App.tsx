@@ -61,8 +61,19 @@ a{
 `;
 
 function App() {
+  const [hello, setHello] = useState<string>("");
+
+  useEffect(() => {
+    axios
+      .get(
+        "../../back/src/main/java/kokoafriends/back/Controller/HelloWorldController.java"
+      )
+      .then((res) => setHello(res.data))
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <>
+      {hello}
       <GlobalStyle />
       <Router />
     </>
