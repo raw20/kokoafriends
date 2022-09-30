@@ -116,7 +116,7 @@ function Home() {
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
   const { data } = useQuery<BestItemObj, BestItem>(BEST_ITEM);
-
+  let mainBannerItem = data?.bestItem.filter((ele) => ele.id < 5);
   return (
     <>
       <Header>
@@ -149,7 +149,7 @@ function Home() {
       {state.pathname === "/" ? (
         <Main>
           <Banner>
-            {data?.bestItem?.map((ele) => (
+            {mainBannerItem?.map((ele) => (
               <>
                 <BannerImgContentsArea
                   to={`/bestProduct/${ele?.id}`}

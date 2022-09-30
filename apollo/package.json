@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon apolloServer.ts",
+    "dev": "nodemon index.ts",
     "compile": "tsc",
     "postinstall": "npm run compile",
     "start": "npm run compile && node ./dist/index.js"
@@ -36,6 +36,7 @@
     "express": "^4.18.1",
     "graphql": "^16.6.0",
     "graphql-tools": "^8.3.6",
+    "node-fetch": "^3.2.10",
     "type-graphql": "^1.1.1"
   }
 }
