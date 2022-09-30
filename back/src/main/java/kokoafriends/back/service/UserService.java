@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kokoafriends.back.model.oauth.OauthToken;
 import kokoafriends.back.repositorty.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,8 +16,11 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 
     public OauthToken getAccessToken(String code){
@@ -31,7 +33,7 @@ public class UserService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant-type", "authorization_code");
         params.add("client-id", "83b96f66c5139aee7d3c0ac25fd76afa");
-        params.add("redirect-url", "http://172.16.7.205:3000/oauth/callback/kakao");
+        params.add("redirect-url", "http://192.168.1.185:3000/oauth/callback/kakao");
         params.add("code", code);
         params.add("client_secret", "vzBk5ynwzMCWc2cQPUoxsScxgQ6lsPnx");
 
