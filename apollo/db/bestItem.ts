@@ -137,7 +137,7 @@ export const bestItem = [
     mainBottomImg: ["best_cars_cushion_choonsikn_07.jpg"],
   },
 ];
-export function getBestitemId(id) {
+export function getBestitemId(id: number) {
   const selectedBestItem = bestItem.filter((ele) => ele.id === id);
   return selectedBestItem[0];
 }

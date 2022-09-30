@@ -11,13 +11,16 @@ const typeDefs = `#graphql
     price: Int!
     like: Int!
     view: Int!
+    comment: String!
     slideImg: [String]!
     mainTopImg:[String]!
+    mainMidImg:[String]!
     mainBottomImg:[String]!
+    
   }
 
   type Query {
-    bestItem: [BestItem]
+    bestItem: [BestItem]!
     selectBestItem(id:Int!) : BestItem
   }
 `;
