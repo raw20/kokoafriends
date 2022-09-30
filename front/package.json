@@ -59,5 +59,6 @@
     "@types/react-router-dom": "^5.3.3",
     "nodemon": "^2.0.20",
     "v6": "^0.0.0"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

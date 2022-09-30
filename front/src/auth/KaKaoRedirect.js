@@ -1,35 +1,32 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { CLIENT_ID, REDIRECT_URI } from "./OAuth";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BASE_URL } from '../auth/OAuth';
+import { useNavigate } from 'react-router-dom';
 
-function KaKaoRedirect() {
+const KaKaoRedirect = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const code = new URL(window.location.href).searchParams.get("code");
-
-  const saveToken = () => {
-    fetch(`https://kauth.kakao.com/oauth/token`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
-      body: `grant_type=authorization_code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&code=${code}`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.access_token) {
-          localStorage.setItem("token", data.access_token);
-        } else {
-          navigate("/");
-        }
-      });
-  };
 
   useEffect(() => {
-    if (!location.search) return;
-    saveToken();
-  });
+    (async () => {
+      const pathname = window.location.search;
+      const code = pathname.split('=')[1];
+      //url의 인가코드
+      try {
+        const res = await axios.get(`${BASE_URL}/oauth/callback/kakao/token?code=${code}`);
+        //인가코드를 백엔드로 보내고 헤더에서 엑세스 토큰 받아옴
+        const token = res.headers.authorization;
+        window.localStorage.setItem('token', token);
+        //로컬스토리지에 저장
+        navigate('/');
+      } catch (e) {
+        console.error(e);
+        // navigate('/');
+      }
+    })();
+  }, []);
 
+  //코드를 백엔드로 보내서 토큰 받아와야 됨~~!!
   return <></>;
-}
+};
+
 export default KaKaoRedirect;
