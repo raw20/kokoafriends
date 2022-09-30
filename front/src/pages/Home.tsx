@@ -7,7 +7,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
 import { gql, useQuery } from "@apollo/client";
-import { BestItem, BestItemObj } from "../interface/dataType";
+import { BestItemObj } from "../interface/dataType";
 
 const BEST_ITEM = gql`
   query {
@@ -119,7 +119,7 @@ function Home() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const { data } = useQuery<BestItemObj, BestItem>(BEST_ITEM);
+  const { data } = useQuery<BestItemObj>(BEST_ITEM);
   let mainBannerItem = data?.bestItem.filter((ele) => ele.id < 5);
   return (
     <>

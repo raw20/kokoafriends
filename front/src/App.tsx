@@ -1,5 +1,3 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import Router from "./routes/Router";
 const GlobalStyle = createGlobalStyle`
