@@ -29,6 +29,7 @@ const Wrap = styled.div`
   margin: 0 auto;
   justify-content: center;
 `;
+const ItemSlide = styled.div``;
 
 function ProductItem() {
   const { id } = useParams();

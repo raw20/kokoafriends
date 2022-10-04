@@ -1,7 +1,13 @@
 import styled from "styled-components";
-import {MdLogin, MdManageAccounts, MdOutlineFavoriteBorder, MdOutlineSearch, MdShoppingCart} from "react-icons/md";
-import {Link, Outlet, useLocation, useMatch} from "react-router-dom";
-import {KAKAO_AUTH_URL} from "../auth/OAuth";
+import {
+  MdLogin,
+  MdManageAccounts,
+  MdOutlineFavoriteBorder,
+  MdOutlineSearch,
+  MdShoppingCart,
+} from "react-icons/md";
+import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
+import { KAKAO_AUTH_URL } from "../auth/OAuth";
 import { gql, useQuery } from "@apollo/client";
 import { BestItemObj } from "../interface/dataType";
 
@@ -150,18 +156,16 @@ function Home() {
         <Main>
           <Banner>
             {mainBannerItem?.map((ele) => (
-              <>
-                <BannerImgContentsArea
-                  to={`/bestProduct/${ele?.id}`}
-                  key={ele?.id}
-                >
-                  <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
-                  <ImgText>
-                    <Title>{ele?.title}</Title>
-                    <Contents>{ele?.contents}</Contents>
-                  </ImgText>
-                </BannerImgContentsArea>
-              </>
+              <BannerImgContentsArea
+                to={`/bestProduct/${ele?.id}`}
+                key={ele?.id}
+              >
+                <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
+                <ImgText>
+                  <Title>{ele?.title}</Title>
+                  <Contents>{ele?.contents}</Contents>
+                </ImgText>
+              </BannerImgContentsArea>
             ))}
           </Banner>
         </Main>
