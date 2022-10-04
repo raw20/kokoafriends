@@ -45,7 +45,7 @@ export const bestItem = [
       "best_mug_little_lion_05.jpg",
     ],
     mainTopImg: ["best_mug_little_lion_06.jpg"],
-    mainMidImg: ["best_mug_little_lionk_07.jpg", "best_mug_little_lion_08.jpg"],
+    mainMidImg: ["best_mug_little_lion_07.jpg", "best_mug_little_lion_08.jpg"],
     mainBottomImg: ["best_mug_little_lion_09.jpg"],
   },
   {

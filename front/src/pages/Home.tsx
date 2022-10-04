@@ -103,6 +103,7 @@ const ImgText = styled.div`
 const Title = styled.h1`
   width: 100%;
   height: auto;
+  line-height: auto;
   font-size: 2rem;
   font-weight: bold;
   color: ${(props) => props.theme.bgColor};
@@ -110,7 +111,8 @@ const Title = styled.h1`
 const Contents = styled.p`
   width: 100%;
   height: auto;
-  font-size: 1rem;
+  line-height: auto;
+  font-size: 1.3rem;
   color: ${(props) => props.theme.bgColor};
   font-weight: 500;
   margin-top: 15px;
@@ -162,8 +164,18 @@ function Home() {
               >
                 <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
                 <ImgText>
-                  <Title>{ele?.title}</Title>
-                  <Contents>{ele?.contents}</Contents>
+                  {ele?.title.split("\n").map((line, index) => (
+                    <Title key={index}>
+                      {line}
+                      <br />
+                    </Title>
+                  ))}
+                  {ele?.contents.split("\n").map((line, index) => (
+                    <Contents key={index}>
+                      {line}
+                      <br />
+                    </Contents>
+                  ))}
                 </ImgText>
               </BannerImgContentsArea>
             ))}

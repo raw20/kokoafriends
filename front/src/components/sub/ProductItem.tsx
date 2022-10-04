@@ -69,23 +69,34 @@ const ItemImformationBottom = styled.div`
   margin: 0 auto;
   padding: 0 1rem;
 `;
-
-const ItemName = styled.h1`
+const Itemtitle = styled.h1`
   font-size: 1.3rem;
   font-weight: 700;
+  line-height: 1.3rem;
 `;
 const ItemLike = styled.button`
   width: 35px;
   height: 35px;
   border-radius: 10px;
 `;
-const ItemPrice = styled.p`
+const Itemtext = styled.p`
   font-size: 1rem;
   font-weight: 600;
   margin-top: 1rem;
 `;
-const ItemViews = styled(ItemPrice)`
+const ItemViews = styled(Itemtext)`
   font-size: 0.9rem;
+`;
+const ItemContents = styled.div`
+  width: 30%;
+  height: auto;
+  margin: 3.5rem auto;
+  padding: 1.2rem 1rem;
+`;
+const ItemImg = styled.img`
+  width: 100%;
+  height: auto;
+  margin: 1rem auto;
 `;
 function ProductItem() {
   const { id } = useParams();
@@ -102,13 +113,46 @@ function ProductItem() {
         ))}
       </ItemImgSlider>
       <ItemImformationTop>
-        <ItemName>{data?.selectBestItem.name}</ItemName>
+        <Itemtitle>{data?.selectBestItem.name}</Itemtitle>
         <ItemLike>{data?.selectBestItem.like}</ItemLike>
       </ItemImformationTop>
       <ItemImformationBottom>
-        <ItemPrice>{data?.selectBestItem.price}원</ItemPrice>
+        <Itemtext>{data?.selectBestItem.price}원</Itemtext>
         <ItemViews>{data?.selectBestItem.view}번 조회되었습니다.</ItemViews>
       </ItemImformationBottom>
+      <ItemContents>
+        {data?.selectBestItem.comment
+          .split("\n")
+          .map((line: string, index: number) => (
+            <Itemtitle key={index}>
+              {line}
+              <br />
+            </Itemtitle>
+          ))}
+        {data?.selectBestItem.contents
+          .split("\n")
+          .map((line: string, index: number) => (
+            <Itemtext key={index}>
+              {line}
+              <br />
+            </Itemtext>
+          ))}
+        {data?.selectBestItem.mainTopImg.map((img: string, index: number) => (
+          <ItemImg key={index} src={`/img/best/${img}`} />
+        ))}
+        <Itemtext>이렇게 귀여운 카카오프렌즈샵 제품입니다.</Itemtext>
+        {data?.selectBestItem.mainMidImg.map((img: string, index: number) => (
+          <ItemImg key={index} src={`/img/best/${img}`} />
+        ))}
+        <Itemtext>지금 당장 카카오프렌즈를 만나보세요.</Itemtext>
+        {data?.selectBestItem.mainBottomImg.map(
+          (img: string, index: number) => (
+            <ItemImg key={index} src={`/img/best/${img}`} />
+          )
+        )}
+        <Itemtitle>구성품</Itemtitle>
+        <Itemtext>건진지 외 필요한거 여러개</Itemtext>
+      </ItemContents>
     </Wrap>
   );
 }
