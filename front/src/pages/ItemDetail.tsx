@@ -98,7 +98,7 @@ const ItemImg = styled.img`
   height: auto;
   margin: 1rem auto;
 `;
-function ProductItem() {
+function ItemDetail() {
   const { id } = useParams();
   const { data } = useQuery(GET_BEST_ITEM, {
     variables: {
@@ -157,4 +157,4 @@ function ProductItem() {
   );
 }
 
-export default ProductItem;
+export default ItemDetail;

@@ -111,7 +111,7 @@ export const bestItem = [
     ],
     mainTopImg: ["best_cars_cushion_choonsik_04.jpg"],
     mainMidImg: ["best_cars_cushion_choonsik_05.jpg"],
-    mainBottomImg: ["best_cars_cushion_choonsikn_06.jpg"],
+    mainBottomImg: ["best_cars_cushion_choonsik_06.jpg"],
   },
   {
     id: 6,
@@ -124,14 +124,14 @@ export const bestItem = [
     view: 0,
     comment: "휴식이 필요할 땐\n프렌즈와 칠랙스",
     slideImg: [
-      "best_cars_cushion_choonsik_01.jpg",
-      "best_cars_cushion_choonsik_02.jpg",
-      "best_cars_cushion_choonsik_03.jpg",
-      "best_cars_cushion_choonsik_04.jpg",
+      "best_togo_tumbler_lion-choonsik_01.jpg",
+      "best_togo_tumbler_lion-choonsik_02.jpg",
+      "best_togo_tumbler_lion-choonsik_03.jpg",
+      "best_togo_tumbler_lion-choonsik_04.jpg",
     ],
-    mainTopImg: ["best_cars_cushion_choonsik_05.jpg"],
-    mainMidImg: ["best_cars_cushion_choonsik_06.jpg"],
-    mainBottomImg: ["best_cars_cushion_choonsikn_07.jpg"],
+    mainTopImg: ["best_togo_tumbler_lion-choonsik_05.jpg"],
+    mainMidImg: ["best_togo_tumbler_lion-choonsik_06.jpg"],
+    mainBottomImg: ["best_togo_tumbler_lion-choonsik_07.jpg"],
   },
 ];
 export function getBestitemId(id: number) {
