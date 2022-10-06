@@ -42,7 +42,7 @@ menu, ol, ul {
 }
 blockquote, q {
   quotes: none;
-}
+}h
 blockquote:before, blockquote:after,
 q:before, q:after {
   content: '';

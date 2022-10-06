@@ -13,6 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+
 @Service
 public class UserService {
 
@@ -31,9 +32,9 @@ public class UserService {
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("grant-type", "authorization_code");
-        params.add("client-id", "83b96f66c5139aee7d3c0ac25fd76afa");
-        params.add("redirect-url", "http://192.168.1.185:3000/oauth/callback/kakao");
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", "10bdfc792e64f776f3f9756517af05cf");
+        params.add("redirect-url", "http://localhost:3000/oauth/callback/kakao");
         params.add("code", code);
         params.add("client_secret", "vzBk5ynwzMCWc2cQPUoxsScxgQ6lsPnx");
 
