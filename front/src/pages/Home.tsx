@@ -1,7 +1,13 @@
 import styled from "styled-components";
-import {MdLogin, MdManageAccounts, MdOutlineFavoriteBorder, MdOutlineSearch, MdShoppingCart} from "react-icons/md";
-import {Link, Outlet, useLocation, useMatch} from "react-router-dom";
-import {KAKAO_AUTH_URL} from "../auth/OAuth";
+import {
+  MdLogin,
+  MdManageAccounts,
+  MdOutlineFavoriteBorder,
+  MdOutlineSearch,
+  MdShoppingCart,
+} from "react-icons/md";
+import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
+import { KAKAO_AUTH_URL } from "../auth/OAuth";
 import { gql, useQuery } from "@apollo/client";
 import { BestItemObj } from "../interface/dataType";
 
@@ -16,7 +22,6 @@ const BEST_ITEM = gql`
   }
 `;
 const Header = styled.div`
-  width: 100%;
   height: 50px;
   padding: 0.8rem 0.5rem;
   border-bottom: 2px solid ${(props) => props.theme.accentColor};
@@ -97,6 +102,7 @@ const ImgText = styled.div`
 const Title = styled.h1`
   width: 100%;
   height: auto;
+  line-height: auto;
   font-size: 2rem;
   font-weight: bold;
   color: ${(props) => props.theme.bgColor};
@@ -104,7 +110,8 @@ const Title = styled.h1`
 const Contents = styled.p`
   width: 100%;
   height: auto;
-  font-size: 1rem;
+  line-height: auto;
+  font-size: 1.3rem;
   color: ${(props) => props.theme.bgColor};
   font-weight: 500;
   margin-top: 15px;
@@ -150,18 +157,26 @@ function Home() {
         <Main>
           <Banner>
             {mainBannerItem?.map((ele) => (
-              <>
-                <BannerImgContentsArea
-                  to={`/bestProduct/${ele?.id}`}
-                  key={ele?.id}
-                >
-                  <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
-                  <ImgText>
-                    <Title>{ele?.title}</Title>
-                    <Contents>{ele?.contents}</Contents>
-                  </ImgText>
-                </BannerImgContentsArea>
-              </>
+              <BannerImgContentsArea
+                to={`/bestProduct/${ele?.id}`}
+                key={ele?.id}
+              >
+                <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
+                <ImgText>
+                  {ele?.title.split("\n").map((line, index) => (
+                    <Title key={index}>
+                      {line}
+                      <br />
+                    </Title>
+                  ))}
+                  {ele?.contents.split("\n").map((line, index) => (
+                    <Contents key={index}>
+                      {line}
+                      <br />
+                    </Contents>
+                  ))}
+                </ImgText>
+              </BannerImgContentsArea>
             ))}
           </Banner>
         </Main>

@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./routes/Router";
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
   html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -33,7 +33,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Jua', sans-serif;
   background-color:  ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
 }

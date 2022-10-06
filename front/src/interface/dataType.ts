@@ -17,8 +17,6 @@ export interface BestItem {
 export interface BestItemObj {
   bestItem: BestItem[];
 }
-
-export interface SelectBestItem {
-  selectBestItemId: number;
+export interface SelectBestItemObj {
   selectBestItem(id: number): BestItem[];
 }
