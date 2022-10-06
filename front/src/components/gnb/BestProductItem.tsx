@@ -13,6 +13,13 @@ const BEST_ITEM = gql`
     }
   }
 `;
+const Title = styled.h1`
+  margin-top: 2.1rem;
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: bold;
+  word-spacing: -0.5rem;
+`;
 const Wrap = styled.div`
   width: 70%;
   height: auto;
@@ -51,15 +58,18 @@ const ItemPrice = styled.h1`
 function BestProductItem() {
   const { data } = useQuery<BestItemObj>(BEST_ITEM);
   return (
-    <Wrap>
-      {data?.bestItem.map((item: any) => (
-        <ItemList to={`/bestProduct/${item?.id}`} key={item?.id}>
-          <ItemImg src={`/img/best/${item?.slideImg[0]}`} />
-          <ItemName> {item?.name}</ItemName>
-          <ItemPrice>{item?.price}원</ItemPrice>
-        </ItemList>
-      ))}
-    </Wrap>
+    <>
+      <Title>지금 인기있는😍</Title>
+      <Wrap>
+        {data?.bestItem.map((item: any) => (
+          <ItemList to={`/bestProduct/${item?.id}`} key={item?.id}>
+            <ItemImg src={`/img/best/${item?.slideImg[0]}`} />
+            <ItemName> {item?.name}</ItemName>
+            <ItemPrice>{item?.price}원</ItemPrice>
+          </ItemList>
+        ))}
+      </Wrap>
+    </>
   );
 }
 

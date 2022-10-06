@@ -22,7 +22,6 @@ const BEST_ITEM = gql`
   }
 `;
 const Header = styled.div`
-  width: 100%;
   height: 50px;
   padding: 0.8rem 0.5rem;
   border-bottom: 2px solid ${(props) => props.theme.accentColor};
