@@ -9,11 +9,11 @@ import {
 import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
 import { gql, useQuery } from "@apollo/client";
-import { BestItemObj } from "../interface/dataType";
+import { ItemObj } from "../interface/dataType";
 
-const BEST_ITEM = gql`
+const ALL_ITEM = gql`
   query {
-    bestItem {
+    item {
       id
       title
       bannerImg
@@ -122,8 +122,8 @@ function Home() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const { data } = useQuery<BestItemObj>(BEST_ITEM);
-  let mainBannerItem = data?.bestItem.filter((ele) => ele.id < 5);
+  const { data } = useQuery<ItemObj>(ALL_ITEM);
+  let mainBannerItem = data?.item.filter((ele) => ele.id < 5);
   return (
     <>
       <Header>

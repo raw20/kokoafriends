@@ -1,4 +1,4 @@
-export const bestItem = [
+export const item = [
     {
         id: 1,
         name: "디지털 무빙시계_라이언&춘식이",
@@ -45,7 +45,7 @@ export const bestItem = [
             "mug_little_lion_05.jpg",
         ],
         mainTopImg: ["mug_little_lion_06.jpg"],
-        mainMidImg: ["mug_little_lion_07.jpg", "best_mug_little_lion_08.jpg"],
+        mainMidImg: ["mug_little_lion_07.jpg", "mug_little_lion_08.jpg"],
         mainBottomImg: ["mug_little_lion_09.jpg"],
     },
     {
@@ -67,7 +67,7 @@ export const bestItem = [
             "bike_lamp_lion_06.jpg",
         ],
         mainTopImg: ["bike_lamp_lion_07.jpg"],
-        mainMidImg: ["bike_lamp_lion_08.jpg", "best_bike_lamp_lion_09.jpg"],
+        mainMidImg: ["bike_lamp_lion_08.jpg", "bike_lamp_lion_09.jpg"],
         mainBottomImg: ["bike_lamp_lion_10.jpg"],
     },
     {
@@ -130,7 +130,7 @@ export const bestItem = [
         mainBottomImg: ["togo_tumbler_lion-choonsik_07.jpg"],
     },
 ];
-export function getBestitemId(id) {
-    const selectedBestItem = bestItem.filter((ele) => ele.id === id);
-    return selectedBestItem[0];
+export function getItemId(id) {
+    const selectedItem = item.filter((ele) => ele.id === id);
+    return selectedItem[0];
 }

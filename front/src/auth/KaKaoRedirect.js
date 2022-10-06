@@ -11,20 +11,21 @@ const KaKaoRedirect = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.post(
-          `${BASE_URL}/oauth/callback/kakao/token?code=${code}`
-        );
-
-        console.log("res : ", res);
-        const token = window.Kakao?.Auth?.setAccessToken(res.data.access_token);
-        window.localStorage.setItem("token", token);
-        alert(`토큰 ${token}`);
+        const res = await axios
+          .get(`${BASE_URL}/oauth/callback/kakao/token?code=${code}`)
+          .then((response) => {
+            console.log("확인", response);
+            const token = response.headers.authorization;
+            window.localStorage.setItem("token", token);
+            console.log("토큰", token);
+          });
         navigate("/");
+        console.log(res);
       } catch (e) {
         console.error(e);
       }
     })();
-  }, [navigate]);
+  }, []);
 
   return <></>;
 };

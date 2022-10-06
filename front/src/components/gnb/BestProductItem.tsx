@@ -1,11 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { BestItemObj } from "../../interface/dataType";
+import { ItemObj } from "../../interface/dataType";
 
 const BEST_ITEM = gql`
   query {
-    bestItem {
+    item {
       id
       name
       price
@@ -56,14 +56,14 @@ const ItemPrice = styled.h1`
   color: ${(props) => props.theme.accentColor};
 `;
 function BestProductItem() {
-  const { data } = useQuery<BestItemObj>(BEST_ITEM);
+  const { data } = useQuery<ItemObj>(BEST_ITEM);
   return (
     <>
       <Title>지금 인기있는😍</Title>
       <Wrap>
-        {data?.bestItem.map((item: any) => (
+        {data?.item.map((item: any) => (
           <ItemList to={`/bestProduct/${item?.id}`} key={item?.id}>
-            <ItemImg src={`/img/best/${item?.slideImg[0]}`} />
+            <ItemImg src={`/img/${item?.slideImg[0]}`} />
             <ItemName> {item?.name}</ItemName>
             <ItemPrice>{item?.price}원</ItemPrice>
           </ItemList>

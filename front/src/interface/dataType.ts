@@ -1,4 +1,4 @@
-export interface BestItem {
+export interface Item {
   id: number;
   name: string;
   title: string;
@@ -14,9 +14,9 @@ export interface BestItem {
   mainBottomImg: [string];
 }
 
-export interface BestItemObj {
-  bestItem: BestItem[];
+export interface ItemObj {
+  item: Item[];
 }
-export interface SelectBestItemObj {
-  selectBestItem(id: number): BestItem[];
+export interface SelectItemObj {
+  selectItem(id: number): Item[];
 }
