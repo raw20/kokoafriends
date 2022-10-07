@@ -10,6 +10,7 @@ const BEST_ITEM = gql`
       name
       price
       slideImg
+      view
     }
   }
 `;
@@ -57,11 +58,17 @@ const ItemPrice = styled.h1`
 `;
 function BestProductItem() {
   const { data } = useQuery<ItemObj>(BEST_ITEM);
+  const bestItem = data?.item
+    .filter((item) => item?.view > 10)
+    .map((ele) => ele)
+    .sort((a, b) => b.view - a.view);
+
+  console.log(bestItem);
   return (
     <>
       <Title>지금 인기있는😍</Title>
       <Wrap>
-        {data?.item.map((item: any) => (
+        {bestItem?.map((item) => (
           <ItemList to={`/bestProduct/${item?.id}`} key={item?.id}>
             <ItemImg src={`/img/${item?.slideImg[0]}`} />
             <ItemName> {item?.name}</ItemName>

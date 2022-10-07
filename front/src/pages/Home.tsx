@@ -16,7 +16,7 @@ const ALL_ITEM = gql`
     item {
       id
       title
-      bannerImg
+      mainBottomImg
       contents
     }
   }
@@ -85,8 +85,8 @@ const BannerImgContentsArea = styled(Link)`
   position: relative;
 `;
 const BannerImg = styled.img`
-  width: 100%;
-  height: 40%;
+  width: 90%;
+  height: 30%;
   margin-bottom: 1rem;
   border-radius: 10px;
   position: relative;
@@ -95,6 +95,7 @@ const ImgText = styled.div`
   width: 100%;
   height: auto;
   padding: 5.1rem 1.3rem;
+  letter-spacing: -0.1rem;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -145,9 +146,15 @@ function Home() {
           <a href={KAKAO_AUTH_URL}>
             <MdLogin className="util-icon" title="로그인" />
           </a>
-          <MdManageAccounts className="util-icon" title="마이페이지" />
-          <MdShoppingCart className="util-icon" title="장바구니" />
-          <MdOutlineFavoriteBorder className="util-icon" title="찜한상품" />
+          <Link to="/mypage">
+            <MdManageAccounts className="util-icon" title="마이페이지" />
+          </Link>
+          <Link to="/cart">
+            <MdShoppingCart className="util-icon" title="장바구니" />
+          </Link>
+          <Link to="favorite">
+            <MdOutlineFavoriteBorder className="util-icon" title="찜한상품" />
+          </Link>
           <Link to="/search">
             <MdOutlineSearch className="util-icon" title="검색" />
           </Link>
@@ -161,7 +168,10 @@ function Home() {
                 to={`/bestProduct/${ele?.id}`}
                 key={ele?.id}
               >
-                <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
+                <BannerImg
+                  src={`/img/${ele?.mainBottomImg[0]}`}
+                  alt={ele?.title}
+                />
                 <ImgText>
                   {ele?.title.split("\n").map((line, index) => (
                     <Title key={index}>

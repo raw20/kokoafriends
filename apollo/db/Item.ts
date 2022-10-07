@@ -191,7 +191,6 @@ export const item = [
       "silicon_coaster_lion_01.jpg",
       "silicon_coaster_lion_02.jpg",
       "silicon_coaster_lion_03.jpg",
-      ,
     ],
     mainTopImg: ["silicon_coaster_lion_04.jpg", "silicon_coaster_lion_05.jpg"],
     mainMidImg: ["silicon_coaster_lion_06.jpg"],
