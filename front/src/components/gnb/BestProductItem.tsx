@@ -25,7 +25,7 @@ const Wrap = styled.div`
   width: 70%;
   height: auto;
   display: flex;
-  margin: 0 auto;
+  margin: 1.5rem auto;
   padding: 1.2rem 7.5rem;
   box-sizing: border-box;
   flex-wrap: wrap;
@@ -41,40 +41,86 @@ const ItemList = styled(Link)`
   &:hover {
     opacity: 0.7;
   }
+  position: relative;
 `;
+
 const ItemImg = styled.img`
   width: 300px;
   height: 300px;
+  position: relative;
 `;
-const ItemName = styled.p`
+const ItemLank = styled.span`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  background-color: ${(props) => props.theme.accentColor};
+  color: ${(props) => props.theme.bgColor};
+  position: absolute;
+  border-radius: 5px;
+  top: 5%;
+  left: 5%;
+`;
+const ItemBestLank = styled(ItemLank)`
+  background-color: ${(props) => props.theme.secondColor};
+`;
+export const ItemName = styled.p`
   font-size: 1rem;
   font-weight: 700;
   color: ${(props) => props.theme.secondColor};
 `;
-const ItemPrice = styled.h1`
+export const ItemPrice = styled.h1`
   font-size: 1.3rem;
   font-weight: bold;
   color: ${(props) => props.theme.accentColor};
+  margin-bottom: 1rem;
 `;
 function BestProductItem() {
-  const { data } = useQuery<ItemObj>(BEST_ITEM);
-  const bestItem = data?.item
-    .filter((item) => item?.view > 10)
-    .map((ele) => ele)
-    .sort((a, b) => b.view - a.view);
+  const {
+    data,
+    client: { cache },
+  } = useQuery<ItemObj>(BEST_ITEM);
+  const bestItem = data?.item.map((ele) => ele).sort((a, b) => b.view - a.view);
 
-  console.log(bestItem);
+  function viewCount(id: number, view: number) {
+    cache.writeFragment({
+      id: `Item:${Number(id)}`,
+      fragment: gql`
+        fragment ItemFragment on Item {
+          view
+        }
+      `,
+      data: {
+        view: (view += 1),
+      },
+    });
+  }
   return (
     <>
       <Title>지금 인기있는😍</Title>
       <Wrap>
-        {bestItem?.map((item) => (
-          <ItemList to={`/bestProduct/${item?.id}`} key={item?.id}>
-            <ItemImg src={`/img/${item?.slideImg[0]}`} />
-            <ItemName> {item?.name}</ItemName>
-            <ItemPrice>{item?.price}원</ItemPrice>
-          </ItemList>
-        ))}
+        {bestItem?.map((item, index) =>
+          index < 6 ? (
+            <ItemList
+              onClick={() => {
+                viewCount(item?.id, item?.view);
+              }}
+              to={`/bestProduct/${item?.id}`}
+              key={item?.id}
+            >
+              <ItemImg src={`/img/${item?.slideImg[0]}`} />
+              {index < 3 ? (
+                <ItemLank>{index + 1}</ItemLank>
+              ) : (
+                <ItemBestLank>{index + 1}</ItemBestLank>
+              )}
+              <ItemName> {item?.name}</ItemName>
+              <ItemPrice>{item?.price}원</ItemPrice>
+            </ItemList>
+          ) : null
+        )}
       </Wrap>
     </>
   );

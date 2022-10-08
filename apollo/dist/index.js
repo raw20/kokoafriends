@@ -6,12 +6,11 @@ const typeDefs = `#graphql
     id: Int!
     name: String!
     title: String!
-    bannerImg:String!
     contents:String!
     price: Int!
     like: Int!
     view: Int!
-    comment: String!
+    half_title: String!
     slideImg: [String]!
     mainTopImg:[String]!
     mainMidImg:[String]!

@@ -11,12 +11,11 @@ const GET_ITEM = gql`
       id
       name
       title
-      bannerImg
       contents
       price
       like
       view
-      comment
+      half_title
       slideImg
       mainTopImg
       mainMidImg
@@ -98,6 +97,7 @@ const ItemImg = styled.img`
   height: auto;
   margin: 1rem auto;
 `;
+
 function ItemDetail() {
   const { id } = useParams();
   const { data } = useQuery(GET_ITEM, {
@@ -105,6 +105,7 @@ function ItemDetail() {
       selectItemId: Number(id),
     },
   });
+
   return (
     <Wrap>
       <ItemImgSlider {...settings}>
@@ -121,7 +122,7 @@ function ItemDetail() {
         <ItemViews>{data?.selectItem.view}번 조회되었습니다.</ItemViews>
       </ItemImformationBottom>
       <ItemContents>
-        {data?.selectItem.comment
+        {data?.selectItem.half_title
           .split("\n")
           .map((line: string, index: number) => (
             <Itemtitle key={index}>
