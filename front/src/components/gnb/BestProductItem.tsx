@@ -110,7 +110,7 @@ function BestProductItem() {
               to={`/bestProduct/${item?.id}`}
               key={item?.id}
             >
-              <ItemImg src={`/img/${item?.slideImg[0]}`} />
+              <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
               {index < 3 ? (
                 <ItemLank>{index + 1}</ItemLank>
               ) : (

@@ -129,7 +129,7 @@ function Home() {
                 key={ele?.id}
               >
                 <BannerImg
-                  src={`/img/${ele?.mainBottomImg[0]}`}
+                  src={`/img/product/${ele?.mainBottomImg[0]}`}
                   alt={ele?.title}
                 />
                 <ImgText>
@@ -154,7 +154,7 @@ function Home() {
             <ItemImgSlider {...settings}>
               {newItem?.map((item) => (
                 <ItemList to={`/bestProduct/${item?.id}`}>
-                  <ItemImg src={`/img/${item?.slideImg[0]}`} />
+                  <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
                   <ItemName> {item?.name}</ItemName>
                   <ItemPrice>{item?.price}원</ItemPrice>
                 </ItemList>
