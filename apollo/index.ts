@@ -13,6 +13,7 @@ const typeDefs = `#graphql
     like: Int!
     view: Int!
     half_title: String!
+    category:String!
     slideImg: [String]!
     mainTopImg:[String]!
     mainMidImg:[String]!
