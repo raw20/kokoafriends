@@ -49,6 +49,7 @@ const ItemImg = styled.img`
   height: 300px;
   position: relative;
 `;
+
 const ItemLank = styled.span`
   width: 20px;
   height: 20px;

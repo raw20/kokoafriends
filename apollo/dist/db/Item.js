@@ -8,6 +8,7 @@ export const item = [
         like: 40,
         view: 52,
         half_title: "시간 변화에 따라\n라이언 춘식이가 짠!",
+        category: "디지털&문구",
         slideImg: [
             "digital_clock_lion-choonsik_01.jpg",
             "digital_clock_lion-choonsik_02.jpg",
@@ -35,6 +36,7 @@ export const item = [
         like: 43,
         view: 60,
         half_title: "프렌즈 칫솔 지킴이\n청결하게 양치해요",
+        category: "디지털&생활",
         slideImg: [
             "mug_little_lion_01.jpg",
             "mug_little_lion_02.jpg",
@@ -55,6 +57,7 @@ export const item = [
         like: 66,
         view: 83,
         half_title: "귀여움과 안전을 책임져줄\n나만의 라이딩 메이트",
+        category: "디지털",
         slideImg: [
             "bike_lamp_lion_01.jpg",
             "bike_lamp_lion_02.jpg",
@@ -76,6 +79,7 @@ export const item = [
         like: 39,
         view: 53,
         half_title: "근처를 지나가면\n라이언 달님이 반짝",
+        category: "디지털&생활",
         slideImg: [
             "motion_sensor_lion_01.jpg",
             "motion_sensor_lion_02.jpg",
@@ -95,6 +99,7 @@ export const item = [
         like: 25,
         view: 37,
         half_title: "춘식이의 첫 드라이브",
+        category: "생활",
         slideImg: [
             "cars_cushion_choonsik_01.jpg",
             "cars_cushion_choonsik_02.jpg",
@@ -116,6 +121,7 @@ export const item = [
         like: 22,
         view: 31,
         half_title: "휴식이 필요할 땐\n프렌즈와 칠랙스",
+        category: "생활",
         slideImg: [
             "togo_tumbler_lion-choonsik_01.jpg",
             "togo_tumbler_lion-choonsik_02.jpg",
@@ -135,6 +141,7 @@ export const item = [
         like: 3,
         view: 10,
         half_title: "조물 조물 춘식이\n스트레스 팡팡 날려요",
+        category: "생활&문구",
         slideImg: [
             "squizball_cry_choonsik_01.jpg",
             "squizball_cry_choonsik_02.jpg",
@@ -160,6 +167,7 @@ export const item = [
         like: 2,
         view: 8,
         half_title: "소중한 마음을 담아\n춘식이가 전해드려요",
+        category: "문구",
         slideImg: [
             "basic_card_hifive_choonsik_01.jpg",
             "basic_card_hifive_choonsik_02.jpg",
@@ -180,6 +188,7 @@ export const item = [
         like: 1,
         view: 3,
         half_title: "테이블 위 생기발랄 포인트",
+        category: "생활",
         slideImg: [
             "silicon_coaster_lion_01.jpg",
             "silicon_coaster_lion_02.jpg",
@@ -201,6 +210,7 @@ export const item = [
         like: 4,
         view: 7,
         half_title: "시원하고 부드러운 한 잔\n라이언과 크림맥주 타임",
+        category: "디지털&생활",
         slideImg: [
             "creamy_beer_bubble_lion_01.jpg",
             "creamy_beer_bubble_lion_02.jpg",
