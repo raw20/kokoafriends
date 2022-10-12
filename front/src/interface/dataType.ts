@@ -8,6 +8,7 @@ export interface Item {
   like: number;
   view: number;
   comment: string;
+  category: string;
   slideImg: [string];
   mainTopImg: [string];
   mainMidImg: [string];
@@ -16,6 +17,10 @@ export interface Item {
 
 export interface ItemObj {
   item: Item[];
+}
+export interface SearchItem {
+  map(arg0: (item: any) => JSX.Element): import("react").ReactNode;
+  searchData: Item[];
 }
 export interface SelectItemObj {
   selectItem(id: number): Item[];
