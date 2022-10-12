@@ -5,7 +5,7 @@ import { useState } from "react";
 import SearchItemList from "./SearchItemList";
 import { SearchItem } from "../../interface/dataType";
 
-const Search_ITEM = gql`
+const SEARCH_ITEM = gql`
   query {
     item {
       id
@@ -99,7 +99,7 @@ const Text = styled.span`
 function Search() {
   const [searchData, setSearchData] = useState<SearchItem[]>([]);
   const [input, setInput] = useState("");
-  const { data } = useQuery(Search_ITEM);
+  const { data } = useQuery(SEARCH_ITEM);
 
   function getSearchData(e: any) {
     e.preventDefault();
@@ -108,7 +108,6 @@ function Search() {
     setSearchData(item);
     setInput(target);
   }
-  console.log("타자 친 결과 : ", searchData);
   return (
     <Wrap>
       <Top>

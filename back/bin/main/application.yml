@@ -23,3 +23,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
     url: jdbc:mysql://shop.ctwrry2uqbnz.ap-northeast-2.rds.amazonaws.com:3306/chauk?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+
+kakao:
+  clientId : "10bdfc792e64f776f3f9756517af05cf"
+  secret: "S3BMW324uWV2vFccAdnP7SZPtKztzQa7"

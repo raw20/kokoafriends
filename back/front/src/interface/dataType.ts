@@ -19,7 +19,6 @@ export interface ItemObj {
   item: Item[];
 }
 export interface SearchItem {
-  map(arg0: (item: any) => JSX.Element): import("react").ReactNode;
   searchData: Item[];
 }
 export interface SelectItemObj {
