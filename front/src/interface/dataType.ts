@@ -20,7 +20,7 @@ export interface ItemObj {
 }
 export interface SearchItem {
   map(arg0: (item: any) => JSX.Element): import("react").ReactNode;
-  searchData: Item[];
+  searchData: Item;
 }
 export interface SelectItemObj {
   selectItem(id: number): Item[];

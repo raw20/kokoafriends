@@ -3,9 +3,9 @@ import { MdOutlineSearch } from "react-icons/md";
 import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
 import SearchItemList from "./SearchItemList";
-import { SearchItem } from "../../interface/dataType";
+import { ItemObj, SearchItem } from "../../interface/dataType";
 
-const Search_ITEM = gql`
+const SEARCH_ITEM = gql`
   query {
     item {
       id
@@ -97,9 +97,9 @@ const Text = styled.span`
   font-weight: 700;
 `;
 function Search() {
-  const [searchData, setSearchData] = useState<SearchItem[]>([]);
+  const [searchData, setSearchData] = useState<SearchItem>();
   const [input, setInput] = useState("");
-  const { data } = useQuery(Search_ITEM);
+  const { data } = useQuery<ItemObj>(SEARCH_ITEM);
 
   function getSearchData(e: any) {
     e.preventDefault();

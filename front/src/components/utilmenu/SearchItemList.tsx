@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { SearchItem } from "../../interface/dataType";
+import { SearchItem, ItemObj } from "../../interface/dataType";
 
 const SEARCH_RESULT_ITEM = gql`
   query {
@@ -59,7 +59,7 @@ function SearchItemList(searchData: SearchItem[]) {
   const {
     data,
     client: { cache },
-  } = useQuery<SearchItem[]>(SEARCH_RESULT_ITEM);
+  } = useQuery<ItemObj>(SEARCH_RESULT_ITEM);
   console.log("검색결과 : ", searchData);
   function viewCount(id: number, view: number) {
     cache.writeFragment({
