@@ -4,13 +4,11 @@ import kokoafriends.back.config.jwt.JwtRequestFilter;
 import kokoafriends.back.repositorty.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
@@ -22,9 +20,6 @@ import org.springframework.web.filter.CorsFilter;
 // 4. 불러온 사용자 정보를 토대로 자동 회원가입/로그인 진행
 // ※ 소셜 플랫폼의 로그인과 프로젝트 앱의 로그인은 별개임!!
 
-@Configuration
-@EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -32,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String FRONT_URL = "http://localhost:3000";
 
-    private final CorsFilter corsFilter;
+    private CorsFilter corsFilter;
 
 
     @Override
