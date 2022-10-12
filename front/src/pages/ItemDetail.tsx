@@ -5,18 +5,17 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const GET_BEST_ITEM = gql`
-  query ($selectBestItemId: Int!) {
-    selectBestItem(id: $selectBestItemId) {
+const GET_ITEM = gql`
+  query ($selectItemId: Int!) {
+    selectItem(id: $selectItemId) {
       id
       name
       title
-      bannerImg
       contents
       price
       like
       view
-      comment
+      half_title
       slideImg
       mainTopImg
       mainMidImg
@@ -98,30 +97,32 @@ const ItemImg = styled.img`
   height: auto;
   margin: 1rem auto;
 `;
+
 function ItemDetail() {
   const { id } = useParams();
-  const { data } = useQuery(GET_BEST_ITEM, {
+  const { data } = useQuery(GET_ITEM, {
     variables: {
-      selectBestItemId: Number(id),
+      selectItemId: Number(id),
     },
   });
+
   return (
     <Wrap>
       <ItemImgSlider {...settings}>
-        {data?.selectBestItem.slideImg.map((item: string, index: number) => (
-          <ItemSlideImg key={index} src={`/img/best/${item}`} />
+        {data?.selectItem.slideImg.map((item: string, index: number) => (
+          <ItemSlideImg key={index} src={`/img/product/${item}`} />
         ))}
       </ItemImgSlider>
       <ItemImformationTop>
-        <Itemtitle>{data?.selectBestItem.name}</Itemtitle>
-        <ItemLike>{data?.selectBestItem.like}</ItemLike>
+        <Itemtitle>{data?.selectItem.name}</Itemtitle>
+        <ItemLike>{data?.selectItem.like}</ItemLike>
       </ItemImformationTop>
       <ItemImformationBottom>
-        <Itemtext>{data?.selectBestItem.price}원</Itemtext>
-        <ItemViews>{data?.selectBestItem.view}번 조회되었습니다.</ItemViews>
+        <Itemtext>{data?.selectItem.price}원</Itemtext>
+        <ItemViews>{data?.selectItem.view}번 조회되었습니다.</ItemViews>
       </ItemImformationBottom>
       <ItemContents>
-        {data?.selectBestItem.comment
+        {data?.selectItem.half_title
           .split("\n")
           .map((line: string, index: number) => (
             <Itemtitle key={index}>
@@ -129,7 +130,7 @@ function ItemDetail() {
               <br />
             </Itemtitle>
           ))}
-        {data?.selectBestItem.contents
+        {data?.selectItem.contents
           .split("\n")
           .map((line: string, index: number) => (
             <Itemtext key={index}>
@@ -137,19 +138,17 @@ function ItemDetail() {
               <br />
             </Itemtext>
           ))}
-        {data?.selectBestItem.mainTopImg.map((img: string, index: number) => (
-          <ItemImg key={index} src={`/img/best/${img}`} />
+        {data?.selectItem.mainTopImg.map((img: string, index: number) => (
+          <ItemImg key={index} src={`/img/product/${img}`} />
         ))}
         <Itemtext>이렇게 귀여운 카카오프렌즈샵 제품입니다.</Itemtext>
-        {data?.selectBestItem.mainMidImg.map((img: string, index: number) => (
-          <ItemImg key={index} src={`/img/best/${img}`} />
+        {data?.selectItem.mainMidImg.map((img: string, index: number) => (
+          <ItemImg key={index} src={`/img/product/${img}`} />
         ))}
         <Itemtext>지금 당장 카카오프렌즈를 만나보세요.</Itemtext>
-        {data?.selectBestItem.mainBottomImg.map(
-          (img: string, index: number) => (
-            <ItemImg key={index} src={`/img/best/${img}`} />
-          )
-        )}
+        {data?.selectItem.mainBottomImg.map((img: string, index: number) => (
+          <ItemImg key={index} src={`/img/product/${img}`} />
+        ))}
         <Itemtitle>구성품</Itemtitle>
         <Itemtext>건진지 외 필요한거 여러개</Itemtext>
       </ItemContents>

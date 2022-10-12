@@ -1,75 +1,28 @@
 import styled from "styled-components";
-import {
-  MdLogin,
-  MdManageAccounts,
-  MdOutlineFavoriteBorder,
-  MdOutlineSearch,
-  MdShoppingCart,
-} from "react-icons/md";
-import { Link, Outlet, useLocation, useMatch } from "react-router-dom";
-import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
-import { BestItemObj } from "../interface/dataType";
+import { ItemObj } from "../interface/dataType";
+import Header from "../components/header/Header";
+import { ItemName, ItemPrice } from "../components/gnb/BestProductItem";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const BEST_ITEM = gql`
+const ALL_ITEM = gql`
   query {
-    bestItem {
+    item {
       id
       title
-      bannerImg
+      slideImg
+      mainBottomImg
       contents
+      name
+      price
+      view
     }
   }
 `;
-const Header = styled.div`
-  height: 50px;
-  padding: 0.8rem 0.5rem;
-  border-bottom: 2px solid ${(props) => props.theme.accentColor};
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`;
-const Logo = styled.div`
-  width: 180px;
-  height: 31px;
-  line-height: 31px;
-  display: flex;
-  justify-content: center;
-  background-color: ${(props) => props.theme.accentColor};
-  color: #fff;
-  border-radius: 10px;
-  text-align: center;
-`;
-const GnbUl = styled.ul`
-  width: 20%;
-  display: flex;
-`;
-const GnbLi = styled.li<{ isActive: boolean }>`
-  width: 100px;
-  height: 72.6px;
-  display: flex;
-  margin-right: 20px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
-  font-size: ${(props) => (props.isActive ? "1.2rem" : "1.1rem")};
-  font-weight: ${(props) => (props.isActive ? "bold" : "600")};
-  border-bottom: ${(props) =>
-    props.isActive ? "4px solid" + props.theme.accentColor : "none"};
-`;
-const UtilUl = styled.ul`
-  width: 17%;
-  display: flex;
-  font-size: 2.2rem;
-  justify-content: space-between;
-  .util-icon {
-    &:hover {
-      transform: scale(120%);
-    }
-  }
-`;
+
 const Main = styled.div`
   width: 100%;
   height: auto;
@@ -86,7 +39,7 @@ const BannerImgContentsArea = styled(Link)`
 `;
 const BannerImg = styled.img`
   width: 100%;
-  height: 40%;
+  height: 30%;
   margin-bottom: 1rem;
   border-radius: 10px;
   position: relative;
@@ -95,6 +48,7 @@ const ImgText = styled.div`
   width: 100%;
   height: auto;
   padding: 5.1rem 1.3rem;
+  letter-spacing: -0.1rem;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -116,43 +70,56 @@ const Contents = styled.p`
   font-weight: 500;
   margin-top: 15px;
 `;
+const NewItem = styled(Banner)`
+  margin: 4.5rem auto;
+`;
+const NewItemTitle = styled.h1`
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+const ItemList = styled(Link)`
+  width: 40%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+const ItemImg = styled.img`
+  width: 350px;
+  height: 350px;
+`;
+
+const ItemImgSlider = styled(Slider)`
+  width: 100%;
+  height: auto;
+  .slick-list {
+    width: 100%;
+    box-sizing: border-box;
+  }
+`;
+const settings = {
+  dots: true,
+  className: "center",
+  centerMode: true,
+  infinite: true,
+  centerPadding: "3rem",
+  slidesToShow: 2,
+  speed: 500,
+};
 
 function Home() {
   const state = useLocation();
-  const homeMatch = useMatch("/");
-  const contentsMatch = useMatch("/contents");
-  const bestMatch = useMatch("/best");
-  const { data } = useQuery<BestItemObj>(BEST_ITEM);
-  let mainBannerItem = data?.bestItem.filter((ele) => ele.id < 5);
+
+  const { data } = useQuery<ItemObj>(ALL_ITEM);
+  const mainBannerItem = data?.item.filter((ele) => ele.id < 6);
+  const newItem = data?.item.filter((ele) => ele.id > data?.item.length - 4);
   return (
     <>
-      <Header>
-        <Link to="/">
-          <Logo>KOKOA FRIENDS</Logo>
-        </Link>
-        <GnbUl>
-          <Link to="/">
-            <GnbLi isActive={homeMatch !== null}>홈</GnbLi>
-          </Link>
-          <Link to="/best">
-            <GnbLi isActive={bestMatch !== null}>베스트 </GnbLi>
-          </Link>
-          <Link to="/contents">
-            <GnbLi isActive={contentsMatch !== null}>콘텐츠 </GnbLi>
-          </Link>
-        </GnbUl>
-        <UtilUl>
-          <a href={KAKAO_AUTH_URL}>
-            <MdLogin className="util-icon" title="로그인" />
-          </a>
-          <MdManageAccounts className="util-icon" title="마이페이지" />
-          <MdShoppingCart className="util-icon" title="장바구니" />
-          <MdOutlineFavoriteBorder className="util-icon" title="찜한상품" />
-          <Link to="/search">
-            <MdOutlineSearch className="util-icon" title="검색" />
-          </Link>
-        </UtilUl>
-      </Header>
+      <Header />
       {state.pathname === "/" ? (
         <Main>
           <Banner>
@@ -161,7 +128,10 @@ function Home() {
                 to={`/bestProduct/${ele?.id}`}
                 key={ele?.id}
               >
-                <BannerImg src={`/img/${ele?.bannerImg}`} alt={ele?.title} />
+                <BannerImg
+                  src={`/img/product/${ele?.mainBottomImg[0]}`}
+                  alt={ele?.title}
+                />
                 <ImgText>
                   {ele?.title.split("\n").map((line, index) => (
                     <Title key={index}>
@@ -179,6 +149,18 @@ function Home() {
               </BannerImgContentsArea>
             ))}
           </Banner>
+          <NewItem>
+            <NewItemTitle>새로나온 친구들</NewItemTitle>
+            <ItemImgSlider {...settings}>
+              {newItem?.map((item) => (
+                <ItemList to={`/bestProduct/${item?.id}`}>
+                  <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
+                  <ItemName> {item?.name}</ItemName>
+                  <ItemPrice>{item?.price}원</ItemPrice>
+                </ItemList>
+              ))}
+            </ItemImgSlider>
+          </NewItem>
         </Main>
       ) : (
         <Outlet />

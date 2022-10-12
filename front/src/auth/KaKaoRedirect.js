@@ -18,6 +18,7 @@ const KaKaoRedirect = () => {
         window.localStorage.setItem("token", token);
         console.log("token : ", token)
         navigate("/");
+        console.log(res);
       } catch (e) {
         console.error(e);
       }

@@ -1,4 +1,4 @@
-export interface BestItem {
+export interface Item {
   id: number;
   name: string;
   title: string;
@@ -8,15 +8,20 @@ export interface BestItem {
   like: number;
   view: number;
   comment: string;
+  category: string;
   slideImg: [string];
   mainTopImg: [string];
   mainMidImg: [string];
   mainBottomImg: [string];
 }
 
-export interface BestItemObj {
-  bestItem: BestItem[];
+export interface ItemObj {
+  item: Item[];
 }
-export interface SelectBestItemObj {
-  selectBestItem(id: number): BestItem[];
+export interface SearchItem {
+  map(arg0: (item: any) => JSX.Element): import("react").ReactNode;
+  searchData: Item[];
+}
+export interface SelectItemObj {
+  selectItem(id: number): Item[];
 }
