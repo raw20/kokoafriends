@@ -60,6 +60,10 @@
 
 - Spring AOP
 
+- JWT
+
+- Oauth
+
 #### Build tool
 
 - Gradle
