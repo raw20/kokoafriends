@@ -1,5 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { contents } from "./db/contents.js";
 import { item, getItemId } from "./db/Item.js";
 
 const typeDefs = `#graphql
@@ -7,12 +8,12 @@ const typeDefs = `#graphql
     id: Int!
     name: String!
     title: String!
-    bannerImg:String!
     contents:String!
     price: Int!
     like: Int!
     view: Int!
-    comment: String!
+    half_title: String!
+    category:String!
     slideImg: [String]!
     mainTopImg:[String]!
     mainMidImg:[String]!
@@ -20,8 +21,19 @@ const typeDefs = `#graphql
     
   }
 
+  type Contents {
+    id : Int!
+    writer : String!
+    image : String!
+    title : String!
+    content : String!
+    date : String!
+    like : Int!
+  }
+
   type Query {
     item: [Item]!
+    contents : [Contents]!
     selectItem(id:Int!) : Item
   }
 `;
@@ -29,6 +41,7 @@ const typeDefs = `#graphql
 const resolvers = {
   Query: {
     item: () => item,
+    contents: () => contents,
     selectItem: (root: any, { id }) => getItemId(id),
   },
 };

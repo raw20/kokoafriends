@@ -11,12 +11,11 @@ const GET_ITEM = gql`
       id
       name
       title
-      bannerImg
       contents
       price
       like
       view
-      comment
+      half_title
       slideImg
       mainTopImg
       mainMidImg
@@ -98,6 +97,7 @@ const ItemImg = styled.img`
   height: auto;
   margin: 1rem auto;
 `;
+
 function ItemDetail() {
   const { id } = useParams();
   const { data } = useQuery(GET_ITEM, {
@@ -105,11 +105,12 @@ function ItemDetail() {
       selectItemId: Number(id),
     },
   });
+
   return (
     <Wrap>
       <ItemImgSlider {...settings}>
         {data?.selectItem.slideImg.map((item: string, index: number) => (
-          <ItemSlideImg key={index} src={`/img/${item}`} />
+          <ItemSlideImg key={index} src={`/img/product/${item}`} />
         ))}
       </ItemImgSlider>
       <ItemImformationTop>
@@ -121,7 +122,7 @@ function ItemDetail() {
         <ItemViews>{data?.selectItem.view}번 조회되었습니다.</ItemViews>
       </ItemImformationBottom>
       <ItemContents>
-        {data?.selectItem.comment
+        {data?.selectItem.half_title
           .split("\n")
           .map((line: string, index: number) => (
             <Itemtitle key={index}>
@@ -138,15 +139,15 @@ function ItemDetail() {
             </Itemtext>
           ))}
         {data?.selectItem.mainTopImg.map((img: string, index: number) => (
-          <ItemImg key={index} src={`/img/${img}`} />
+          <ItemImg key={index} src={`/img/product/${img}`} />
         ))}
         <Itemtext>이렇게 귀여운 카카오프렌즈샵 제품입니다.</Itemtext>
         {data?.selectItem.mainMidImg.map((img: string, index: number) => (
-          <ItemImg key={index} src={`/img/${img}`} />
+          <ItemImg key={index} src={`/img/product/${img}`} />
         ))}
         <Itemtext>지금 당장 카카오프렌즈를 만나보세요.</Itemtext>
         {data?.selectItem.mainBottomImg.map((img: string, index: number) => (
-          <ItemImg key={index} src={`/img/${img}`} />
+          <ItemImg key={index} src={`/img/product/${img}`} />
         ))}
         <Itemtitle>구성품</Itemtitle>
         <Itemtext>건진지 외 필요한거 여러개</Itemtext>
