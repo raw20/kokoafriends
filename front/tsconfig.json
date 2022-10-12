@@ -17,5 +17,7 @@
     "jsx": "react-jsx",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
-  }
+  },
+  "include": ["types", "src"],
+  "exclude": ["next", "node_modules"]
 }

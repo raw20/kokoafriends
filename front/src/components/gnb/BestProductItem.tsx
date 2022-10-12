@@ -11,6 +11,7 @@ const BEST_ITEM = gql`
       price
       slideImg
       view
+      category
     }
   }
 `;

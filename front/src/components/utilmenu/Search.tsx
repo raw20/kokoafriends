@@ -1,5 +1,22 @@
 import styled from "styled-components";
 import { MdOutlineSearch } from "react-icons/md";
+import { gql, useQuery } from "@apollo/client";
+import { useState } from "react";
+import SearchItemList from "./SearchItemList";
+import { SearchItem } from "../../interface/dataType";
+
+const Search_ITEM = gql`
+  query {
+    item {
+      id
+      name
+      price
+      slideImg
+      view
+      category
+    }
+  }
+`;
 
 const Wrap = styled.div`
   width: 100%;
@@ -80,22 +97,38 @@ const Text = styled.span`
   font-weight: 700;
 `;
 function Search() {
+  const [searchData, setSearchData] = useState<SearchItem[]>([]);
+  const [input, setInput] = useState("");
+  const { data } = useQuery(Search_ITEM);
+
+  function getSearchData(e: any) {
+    e.preventDefault();
+    const target = e.target.value;
+    const item = data?.item.filter((ele: any) => ele?.name.includes(target));
+    setSearchData(item);
+    setInput(target);
+  }
+  console.log("타자 친 결과 : ", searchData);
   return (
     <Wrap>
       <Top>
         <SearchBar>
           <MdOutlineSearch className="util-icon" title="검색" />
-          <Input />
+          <Input type="text" onChange={(e) => getSearchData(e)} />
         </SearchBar>
       </Top>
-      <Middle>
-        <List>
-          <SearchLion>라이언</SearchLion>
-          <SearchChoonsik>춘식이</SearchChoonsik>
-          <Text>라이언</Text>
-          <Text>춘식이</Text>
-        </List>
-      </Middle>
+      {input !== "" ? (
+        <SearchItemList searchData={searchData} />
+      ) : (
+        <Middle>
+          <List>
+            <SearchLion>라이언</SearchLion>
+            <SearchChoonsik>춘식이</SearchChoonsik>
+            <Text>라이언</Text>
+            <Text>춘식이</Text>
+          </List>
+        </Middle>
+      )}
     </Wrap>
   );
 }
