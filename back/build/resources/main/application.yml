@@ -5,7 +5,7 @@ server:
       enabled: 'true'
       charset: UTF-8
     context-path: /api
-  port: '8080'
+  port: '8088'
 logging:
   level:
     org:
@@ -23,3 +23,35 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: admin
     url: jdbc:mysql://shop.ctwrry2uqbnz.ap-northeast-2.rds.amazonaws.com:3306/chauk?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id: [10bdfc792e64f776f3f9756517af05cf]
+#            redirect-uri: http://localhost:3000/oauth/callback/kakao
+#            client-authentication-method: POST
+#            client-secret: [vzBk5ynwzMCWc2cQPUoxsScxgQ6lsPnx]
+#            authorization-grant-type: authorization_code
+#            scope:
+#              - profile_nickname
+#              - profile_image
+#              - account_email
+#              - gender
+#              - birthday
+#            client_name: kakao
+#        provider:
+#          kakao:
+#            authorization-uri: https://kauth.kakao.com/oauth/authorize
+#            token-uri: https://kauth.kakao.com/oauth/token
+#            user-info-uri: https://kapi.kakao.com/v2/user/me
+#            user-name-attribute: id
+#
+#jwt:
+#  token:
+#    secret-key: [vzBk5ynwzMCWc2cQPUoxsScxgQ6lsPnx]
+#  access-token:
+#    expire-length: 1800000
+#  refresh-token:
+#    expire-length: 1209600000

@@ -1,27 +1,45 @@
 package kokoafriends.back.Controller;
 
+import kokoafriends.back.config.jwt.JwtProperties;
+import kokoafriends.back.model.User;
 import kokoafriends.back.model.oauth.OauthToken;
 import kokoafriends.back.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class UserController {
 
-    @Autowired
-    private  UserService userService;
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
+    private final UserService userService;
 
-    @GetMapping("/oauth/callback/kakao/token")
-    public OauthToken getLogin(@RequestParam("code") String code){
-        OauthToken oauthToken = userService.getAccessToken("code");
-        System.out.println("oauthToken");
-        return oauthToken;
+    public UserController(@Qualifier("userService") UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/oauth/token")
+    public ResponseEntity getLogin(@RequestParam(value = "code") String code){
+        OauthToken oauthToken = userService.getAccessToken(code);
+        String jwtToken = userService.SaveUserAndGetToken(oauthToken.getAccess_token());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
+        System.out.println(code);
+        System.out.println(oauthToken);
+        return ResponseEntity.ok().headers(headers).body("success");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Object> getCurrentUser(HttpServletRequest request){
+
+        User user = userService.getUser(request);
+
+        return ResponseEntity.ok().body(user);
     }
 }

@@ -1,13 +1,17 @@
 package kokoafriends.back.model.oauth;
 
-import lombok.Data;
-@Data
-public class OauthToken {
+import lombok.*;
 
-    private String access_token;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data //(2)
+public class OauthToken { //(1)
     private String token_type;
-    private String refresh_token;
+    private String access_token;
     private int expires_in;
-    private String scope;
+    private String refresh_token;
     private int refresh_token_expires_in;
+    private String scope;
 }
