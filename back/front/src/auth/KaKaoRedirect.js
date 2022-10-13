@@ -9,7 +9,7 @@ const KaKaoRedirect = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/oauth/token?code=${code}`);
+        const res = await axios.get(`${BASE_URL}/oauth/callback/kakao/token?code=${code}`);
         console.log("res : ", res);
         const token = res.headers.authorization;
         window.localStorage.setItem("token", token);

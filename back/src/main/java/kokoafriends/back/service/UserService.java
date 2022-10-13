@@ -2,21 +2,20 @@ package kokoafriends.back.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
 import kokoafriends.back.config.jwt.JwtProperties;
+import kokoafriends.back.config.jwt.JwtRequestFilter;
 import kokoafriends.back.model.User;
 import kokoafriends.back.model.oauth.KakaoProfile;
 import kokoafriends.back.model.oauth.OauthToken;
 import kokoafriends.back.repositorty.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -24,42 +23,40 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
-
-import static kokoafriends.back.config.SecurityConfig.FRONT_URL;
-
 
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
-
+    String SECRET = "back";
     @Autowired
-    @Qualifier("userRepository")
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Value("${kakao.clientId}")
     String client_id;
 
     @Value("${kakao.secret}")
     String client_secret;
-    public static final String FRONT_URL = "http://localhost:3000";
-
 
     public OauthToken getAccessToken(String code) {
-
-        try {
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("grant_type","authorization_code");
-            params.add("client_id", client_id);
-            params.add("redirect_uri", FRONT_URL + "/oauth/callback/kakao");
-            params.add("code", code);
-            params.add("client_secret", client_secret);
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
+            // HttpBody 오브젝트 생성
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.add("grant_type","authorization_code");
+            params.add("client_id", client_id);
+            params.add("redirect_uri", "http://localhost:3000/oauth/callback/kakao");
+            params.add("code", code);
+            params.add("client_secret", client_secret);
+
+//            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
             HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
                     new HttpEntity<>(params, headers);
@@ -69,23 +66,17 @@ public class UserService {
 //                    new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                     new ObjectMapper();
 
-
+            // POST 방식으로 key=value 데이터 요청
             RestTemplate rt = new RestTemplate();
+
             ResponseEntity<String> accessTokenResponse = rt.exchange(
                     "https://kauth.kakao.com/oauth/token",
                     HttpMethod.POST,
                     kakaoTokenRequest,
                     String.class
             );
-            OauthToken oauthToken = objectMapper.readValue(accessTokenResponse.getBody(), OauthToken.class);
 
-            return oauthToken;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    /*   OauthToken oauthToken = null;
+        OauthToken oauthToken = null;
 
        try {
            oauthToken = objectMapper.readValue(accessTokenResponse.getBody(), OauthToken.class);
@@ -93,7 +84,8 @@ public class UserService {
            e.printStackTrace();
        }
        return oauthToken;
-   }*/
+   }
+
     public String SaveUserAndGetToken(String token) {
 
         //(1)
@@ -121,13 +113,12 @@ public class UserService {
 
     public String createToken(User user) {
         String jwtToken = JWT.create()
-
                 .withSubject(user.getKakaoEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+                .withExpiresAt(new Date(System.currentTimeMillis()+ JwtProperties.EXPIRATION_TIME))
                 .withClaim("id", user.getUserCode())
                 .withClaim("nickname", user.getKakaoNickname())
-
                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
+
         return jwtToken;
     }
 
