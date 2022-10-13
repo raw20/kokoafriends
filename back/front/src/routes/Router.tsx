@@ -8,6 +8,7 @@ import ItemDetail from "../pages/ItemDetail";
 import Mypage from "../components/utilmenu/Mypage";
 import Cart from "../components/utilmenu/Cart";
 import Favorite from "../components/utilmenu/Favorite";
+import KaKaoLogout from "../auth/KaKaoLogout";
 
 function Router() {
   return (
@@ -26,6 +27,7 @@ function Router() {
         </Route>
         {/* login */}
         <Route path="/oauth/callback/kakao" element={<KaKaoRedirect />} />
+        <Route path="/oauth/callback/kakao/logout" element={<KaKaoLogout />} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,7 +4,7 @@ import { BASE_URL } from "../../auth/OAuth";
 import { useNavigate } from "react-router-dom";
 
 function Mypage() {
- /* const token = window.localStorage.getItem("token");
+  /* const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,8 +21,8 @@ function Mypage() {
         console.error(e);
       }
     })();
-  }, []);
-  return <div>마이페이지</div>;*/
+  }, []);*/
+  return <div>마이페이지</div>;
 }
 
 export default Mypage;

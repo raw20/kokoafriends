@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import {
   MdLogin,
+  MdLogout,
   MdManageAccounts,
   MdOutlineFavoriteBorder,
   MdOutlineSearch,
   MdShoppingCart,
 } from "react-icons/md";
-import { KAKAO_AUTH_URL } from "../../auth/OAuth";
+import { KAKAO_AUTH_URL, KAKAO_LOGOUT_URL } from "../../auth/OAuth";
 import { Link, useMatch } from "react-router-dom";
 
 const Wrap = styled.div`
@@ -82,6 +83,9 @@ function Header() {
       <UtilUl>
         <a href={KAKAO_AUTH_URL}>
           <MdLogin className="util-icon" title="로그인" />
+        </a>
+        <a href={KAKAO_LOGOUT_URL}>
+          <MdLogout className="util-icon" title="로그아웃" />
         </a>
         <Link to="/mypage">
           <MdManageAccounts className="util-icon" title="마이페이지" />
