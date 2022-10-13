@@ -4,8 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
+import com.nimbusds.jose.shaded.json.JSONObject;
 import kokoafriends.back.config.jwt.JwtProperties;
 import kokoafriends.back.config.jwt.JwtRequestFilter;
 import kokoafriends.back.model.User;
@@ -33,8 +35,6 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
-    String SECRET = "back";
-    @Autowired
     private UserRepository userRepository;
 
     @Value("${kakao.clientId}")
@@ -43,8 +43,14 @@ public class UserService {
     @Value("${kakao.secret}")
     String client_secret;
 
-    public OauthToken getAccessToken(String code) {
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
+    public OauthToken getAccessToken(String code){
+        OauthToken oauthToken = null;
+        try {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
@@ -58,16 +64,16 @@ public class UserService {
 
 //            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
+            RestTemplate rt = new RestTemplate();
             HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
                     new HttpEntity<>(params, headers);
 
 
             ObjectMapper objectMapper =
-//                    new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    new ObjectMapper();
+                    new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//                    new ObjectMapper();
 
             // POST 방식으로 key=value 데이터 요청
-            RestTemplate rt = new RestTemplate();
 
             ResponseEntity<String> accessTokenResponse = rt.exchange(
                     "https://kauth.kakao.com/oauth/token",
@@ -75,10 +81,6 @@ public class UserService {
                     kakaoTokenRequest,
                     String.class
             );
-
-        OauthToken oauthToken = null;
-
-       try {
            oauthToken = objectMapper.readValue(accessTokenResponse.getBody(), OauthToken.class);
        } catch (JsonProcessingException e) {
            e.printStackTrace();
@@ -125,7 +127,7 @@ public class UserService {
     public User getUser(HttpServletRequest request){
         Long userCode = (Long) request.getAttribute("userCode");
 
-        User user = userRepository.findByUserCode(String.valueOf(userCode));
+        User user = userRepository.findByUserCode(userCode);
 
         return user;
     }

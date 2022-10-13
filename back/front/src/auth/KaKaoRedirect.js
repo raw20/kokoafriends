@@ -13,9 +13,26 @@ const KaKaoRedirect = () => {
           `${BASE_URL}/oauth/callback/kakao/token?code=${code}`
         );
         console.log("res : ", res);
-        const token = res.data.access_token;
+        const token = res.headers.authorization;
         window.localStorage.setItem("token", token);
+        console.log("token", token);
         navigate("/");
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const token = window.localStorage.getItem("token");
+      try {
+        const res = await axios.post(`${BASE_URL}/post`, res.data, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        console.log("res : ", res);
       } catch (e) {
         console.error(e);
       }
