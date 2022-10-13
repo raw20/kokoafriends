@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MdOutlineSearch } from "react-icons/md";
+import { MdOutlineSearch, MdCached } from "react-icons/md";
 import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
 import SearchItemList from "./SearchItemList";
@@ -35,15 +35,15 @@ const Top = styled.div`
 `;
 const SearchBar = styled.span`
   width: 100%;
-  height: auto;
+  height: 30px;
   background-color: #dfd8d7;
   display: flex;
   justify-content: flex-start;
   border-radius: 15px;
-  box-sizing: border-box;
+  margin: 0 auto;
   .util-icon {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@ const SearchBar = styled.span`
   }
 `;
 const Input = styled.input`
-  width: 70%;
+  width: 80%;
   height: 30px;
   display: flex;
   background-color: #dfd8d7;
@@ -60,6 +60,7 @@ const Input = styled.input`
   :focus {
     outline: none;
   }
+  box-sizing: border-box;
 `;
 const Middle = styled(Top)``;
 
@@ -96,37 +97,110 @@ const Text = styled.span`
   text-align: center;
   font-weight: 700;
 `;
+const Bottom = styled(Top)`
+  border-bottom: none;
+`;
+const Title = styled.h1`
+  font-size: 1.2rem;
+`;
+const TextBox = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 1rem 1.5rem;
+`;
+const CategoryButton = styled.span`
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: 1px solid ${(props) => props.theme.accentColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto;
+  cursor: pointer;
+  &:hover {
+    background-color: ${(props) => props.theme.accentColor};
+    color: ${(props) => props.theme.bgColor};
+  }
+`;
 function Search() {
   const [searchData, setSearchData] = useState<SearchItem[]>([]);
   const [input, setInput] = useState("");
   const { data } = useQuery(SEARCH_ITEM);
+  const category = ["전체", "생활", "디지털", "문구"];
 
-  function getSearchData(e: any) {
+  function getSearchInput(e: any) {
     e.preventDefault();
     const target = e.target.value;
     const item = data?.item.filter((ele: any) => ele?.name.includes(target));
     setSearchData(item);
     setInput(target);
   }
+  function getSeletedImg(e: any) {
+    e.preventDefault();
+    const target = e.target.innerText;
+    const item = data?.item.filter((ele: any) => ele?.name.includes(target));
+    setSearchData(item);
+    setInput(target);
+  }
+  function getSeletedCategory(e: any) {
+    e.preventDefault();
+    const target = e.target.innerText;
+    if (target === "전체") {
+      const item = data?.item.map((ele: any) => ele);
+      setSearchData(item);
+    } else {
+      const item = data?.item.filter((ele: any) =>
+        ele?.category.includes(target)
+      );
+      setSearchData(item);
+    }
+    setInput(target);
+  }
+  function refresh(e: any) {
+    e.preventDefault();
+    setInput("");
+  }
   return (
     <Wrap>
       <Top>
         <SearchBar>
-          <MdOutlineSearch className="util-icon" title="검색" />
-          <Input type="text" onChange={(e) => getSearchData(e)} />
+          <MdOutlineSearch className="util-icon" />
+          <Input type="text" onChange={(e) => getSearchInput(e)} />
+          <MdCached className="util-icon" onClick={(e) => refresh(e)} />
         </SearchBar>
       </Top>
       {input !== "" ? (
         <SearchItemList searchData={searchData} />
       ) : (
-        <Middle>
-          <List>
-            <SearchLion>라이언</SearchLion>
-            <SearchChoonsik>춘식이</SearchChoonsik>
-            <Text>라이언</Text>
-            <Text>춘식이</Text>
-          </List>
-        </Middle>
+        <>
+          <Middle>
+            <List>
+              <SearchLion onClick={(e) => getSeletedImg(e)}>라이언</SearchLion>
+              <SearchChoonsik onClick={(e) => getSeletedImg(e)}>
+                춘식이
+              </SearchChoonsik>
+              <Text>라이언</Text>
+              <Text>춘식이</Text>
+            </List>
+          </Middle>
+          <Bottom>
+            <Title>카테고리</Title>
+            <TextBox>
+              {category.map((item, index) => (
+                <CategoryButton
+                  key={index}
+                  onClick={(e) => getSeletedCategory(e)}
+                >
+                  {item}
+                </CategoryButton>
+              ))}
+            </TextBox>
+          </Bottom>
+        </>
       )}
     </Wrap>
   );

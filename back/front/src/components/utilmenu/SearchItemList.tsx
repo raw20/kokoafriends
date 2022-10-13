@@ -16,11 +16,10 @@ const SEARCH_RESULT_ITEM = gql`
   }
 `;
 const Wrap = styled.div`
-  width: 70%;
+  width: 50%;
   height: auto;
   display: flex;
-  margin: 1.5rem auto;
-  padding: 1.2rem 7.5rem;
+  margin: 0 auto;
   box-sizing: border-box;
   flex-wrap: wrap;
   justify-content: center;
@@ -32,6 +31,7 @@ const ItemList = styled(Link)`
   justify-content: center;
   flex-direction: column;
   align-items: flex-start;
+  margin: 0 auto;
   &:hover {
     opacity: 0.7;
   }
@@ -57,7 +57,6 @@ export const ItemPrice = styled.h1`
 `;
 function SearchItemList({ searchData }: { searchData: SearchItem[] }) {
   const {
-    data,
     client: { cache },
   } = useQuery<ItemObj[]>(SEARCH_RESULT_ITEM);
 
