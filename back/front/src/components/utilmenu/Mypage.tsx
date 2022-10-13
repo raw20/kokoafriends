@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../auth/OAuth";
 import { useNavigate } from "react-router-dom";
@@ -6,15 +6,13 @@ import { useNavigate } from "react-router-dom";
 function Mypage() {
   const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  console.log("token", token)
+  console.log("token", token);
   useEffect(() => {
     (async () => {
       try {
-        setIsLoading(true);
-        const res = await axios.get(`${BASE_URL}/me`,{
+        const res = await axios.get(`${BASE_URL}/me`, {
           headers: {
-            "Authorization" : token,
+            Authorization: token,
           },
         });
         console.log("res : ", res.data);
@@ -26,6 +24,5 @@ function Mypage() {
   }, []);
   return <div>마이페이지</div>;
 }
-
 
 export default Mypage;

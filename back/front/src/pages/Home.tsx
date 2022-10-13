@@ -152,8 +152,8 @@ function Home() {
           <NewItem>
             <NewItemTitle>새로나온 친구들</NewItemTitle>
             <ItemImgSlider {...settings}>
-              {newItem?.map((item) => (
-                <ItemList to={`/bestProduct/${item?.id}`}>
+              {newItem?.map((item, index) => (
+                <ItemList to={`/bestProduct/${item?.id}`} key={index}>
                   <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
                   <ItemName> {item?.name}</ItemName>
                   <ItemPrice>{item?.price}원</ItemPrice>
