@@ -27,7 +27,7 @@ public class UserController {
 // 프론트에서 인가코드 돌려 받는 주소
 // 인가 코드로 엑세스 토큰 발급 -> 사용자 정보 조회 -> DB 저장 -> jwt 토큰 발급 -> 프론트에 토큰 전달
     @GetMapping("/oauth/callback/kakao/token")
-    public ResponseEntity getLogin(@RequestParam(value = "code") String code){
+    public ResponseEntity getLogin(@RequestParam(value = "code", required = false) String code){
         OauthToken oauthToken = userService.getAccessToken(code);
 
         // 발급 받은 accessToken 으로 카카오 회원 정보 DB 저장
@@ -36,9 +36,11 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
         System.out.println("code : " + code);
-        System.out.println("jwtToken : " + jwtToken);
         System.out.println("oauthToken : " + oauthToken);
+        System.out.println("jwtToken : " + jwtToken);
+        System.out.println("headers : " + headers);
         return ResponseEntity.ok().headers(headers).body("success");
+//        return oauthToken;
     }
 
     // jwt 토큰으로 유저정보 요청하기
@@ -47,6 +49,7 @@ public class UserController {
 
         User user = userService.getUser(request);
 
+        System.out.println("user" + user);
         return ResponseEntity.ok().body(user);
     }
 }

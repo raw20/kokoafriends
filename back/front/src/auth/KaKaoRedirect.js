@@ -4,16 +4,36 @@ import { BASE_URL } from "../auth/OAuth";
 import { useNavigate } from "react-router-dom";
 
 const KaKaoRedirect = () => {
-  let navigate = useNavigate();
-  let code = new URL(window.location.href).searchParams.get("code");
+  const navigate = useNavigate();
+  const code = new URL(window.location.href).searchParams.get("code");
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/oauth/callback/kakao/token?code=${code}`);
+        const res = await axios.get(
+            `${BASE_URL}/oauth/callback/kakao/token?code=${code}`
+        );
         console.log("res : ", res);
         const token = res.headers.authorization;
         window.localStorage.setItem("token", token);
+        console.log("token", token);
         navigate("/");
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const token = window.localStorage.getItem('token');
+      try {
+        const res = await axios.post(
+            `${BASE_URL}/post`, res.data, {
+              headers : {
+                Authorization : token,
+              },
+            });
+        console.log("res : ", res);
       } catch (e) {
         console.error(e);
       }
