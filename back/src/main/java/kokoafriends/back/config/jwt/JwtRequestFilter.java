@@ -6,7 +6,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import kokoafriends.back.repositorty.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,16 +23,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     UserRepository userRepository;
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String jwtHeader = ((HttpServletRequest)request).getHeader(JwtProperties.HEADER_STRING);
+        System.out.println("JwtRequestFilter 진입");
 
-        if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)){
+        if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // jwt 토큰을 검증해서 정상적인 사용자인지 확인
         String token = jwtHeader.replace(JwtProperties.TOKEN_PREFIX, "");
 
         Long userCode = null;
@@ -41,17 +43,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         try {
             userCode = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(token)
                     .getClaim("id").asLong();
-        } catch (TokenExpiredException e){
+
+        } catch (TokenExpiredException e) {
             e.printStackTrace();
-            request.setAttribute(JwtProperties.HEADER_STRING, "토큰 만료");
-        } catch (JWTVerificationException e){
+            request.setAttribute(JwtProperties.HEADER_STRING, "토큰이 만료되었습니다.");
+        } catch (JWTVerificationException e) {
             e.printStackTrace();
-            request.setAttribute(JwtProperties.HEADER_STRING, "유효하지않는 토큰");
+            request.setAttribute(JwtProperties.HEADER_STRING, "유효하지 않은 토큰입니다.");
         }
 
         request.setAttribute("userCode", userCode);
 
         filterChain.doFilter(request, response);
     }
-
 }
