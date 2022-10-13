@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { SearchItem } from "../../interface/dataType";
+import { SearchItem, ItemObj } from "../../interface/dataType";
 
 const SEARCH_RESULT_ITEM = gql`
   query {
@@ -16,11 +16,10 @@ const SEARCH_RESULT_ITEM = gql`
   }
 `;
 const Wrap = styled.div`
-  width: 70%;
+  width: 50%;
   height: auto;
   display: flex;
-  margin: 1.5rem auto;
-  padding: 1.2rem 7.5rem;
+  margin: 0 auto;
   box-sizing: border-box;
   flex-wrap: wrap;
   justify-content: center;
@@ -32,6 +31,7 @@ const ItemList = styled(Link)`
   justify-content: center;
   flex-direction: column;
   align-items: flex-start;
+  margin: 0 auto;
   &:hover {
     opacity: 0.7;
   }
@@ -55,12 +55,11 @@ export const ItemPrice = styled.h1`
   color: ${(props) => props.theme.accentColor};
   margin-bottom: 1rem;
 `;
-function SearchItemList(searchData: SearchItem[]) {
+function SearchItemList({ searchData }: { searchData: SearchItem[] }) {
   const {
-    data,
     client: { cache },
-  } = useQuery<SearchItem[]>(SEARCH_RESULT_ITEM);
-  console.log("검색결과 : ", searchData);
+  } = useQuery<ItemObj[]>(SEARCH_RESULT_ITEM);
+
   function viewCount(id: number, view: number) {
     cache.writeFragment({
       id: `Item:${Number(id)}`,
@@ -77,19 +76,23 @@ function SearchItemList(searchData: SearchItem[]) {
 
   return (
     <Wrap>
-      {/*   {searchData?.map((item: any) => (
-        <ItemList
-          onClick={() => {
-            viewCount(item?.id, item?.view);
-          }}
-          to={`/bestProduct/${item?.id}`}
-          key={item?.id}
-        >
-          <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-          <ItemName> {item?.name}</ItemName>
-          <ItemPrice>{item?.price}원</ItemPrice>
-        </ItemList>
-      ))} */}
+      {searchData.length === 0 ? (
+        <h2>검색 결과 없음</h2>
+      ) : (
+        searchData?.map((item: any) => (
+          <ItemList
+            onClick={() => {
+              viewCount(item?.id, item?.view);
+            }}
+            to={`/bestProduct/${item?.id}`}
+            key={item?.id}
+          >
+            <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
+            <ItemName> {item?.name}</ItemName>
+            <ItemPrice>{item?.price}원</ItemPrice>
+          </ItemList>
+        ))
+      )}
     </Wrap>
   );
 }
