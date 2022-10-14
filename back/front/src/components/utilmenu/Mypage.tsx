@@ -1,12 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../auth/OAuth";
-import { useNavigate } from "react-router-dom";
 
+/* interface UserData {
+  userCode: number;
+  kakaoId: number;
+  kakaoProfileImg: string;
+  kakaoNickname: string;
+  kakaoEmail: string;
+  userRole: string;
+  createTime: number;
+}
+ */
 function Mypage() {
-  const token = window.localStorage.getItem("token");
-  const navigate = useNavigate();
-  console.log("token", token);
+  const token: string = window.localStorage.getItem("token") as string;
+  const [name, setName] = useState<string>("");
   useEffect(() => {
     (async () => {
       try {
@@ -15,14 +23,14 @@ function Mypage() {
             Authorization: token,
           },
         });
-        console.log("res : ", res.data);
-        navigate("/mypage");
+        console.log(res.data);
+        setName(res.data.kakaoNickname);
       } catch (e) {
         console.error(e);
       }
     })();
   }, []);
-  return <div>마이페이지</div>;
+  return <div>{name}</div>;
 }
 
 export default Mypage;
