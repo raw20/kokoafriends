@@ -52,6 +52,7 @@ const ImgText = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
+  font-family: "Noto Sans KR", sans-serif;
 `;
 const Title = styled.h1`
   width: 100%;

@@ -21,13 +21,10 @@ const KaKaoRedirect = () => {
         console.error(e);
       }
     })();
-  }, []);
-
-  useEffect(() => {
     (async () => {
       const token = window.localStorage.getItem("token");
       try {
-        const res = await axios.post(`${BASE_URL}/post`, res.data, {
+        const res = await axios.post(`${BASE_URL}/post`, {
           headers: {
             Authorization: token,
           },
