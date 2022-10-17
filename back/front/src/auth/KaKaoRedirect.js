@@ -12,10 +12,10 @@ const KaKaoRedirect = () => {
         const res = await axios.get(
           `${BASE_URL}/oauth/callback/kakao/token?code=${code}`
         );
-        console.log("res : ", res);
+        console.log("res1 : ", res);
+
         const token = res.headers.authorization;
         window.localStorage.setItem("token", token);
-        console.log("token", token);
         navigate("/");
       } catch (e) {
         console.error(e);
@@ -29,7 +29,7 @@ const KaKaoRedirect = () => {
             Authorization: token,
           },
         });
-        console.log("res : ", res);
+        console.log("res2 : ", res);
       } catch (e) {
         console.error(e);
       }

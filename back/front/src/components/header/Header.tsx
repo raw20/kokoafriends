@@ -64,6 +64,7 @@ function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
+  const token = window.localStorage.getItem("token");
   return (
     <Wrap>
       <Link to="/">
@@ -81,12 +82,16 @@ function Header() {
         </Link>
       </GnbUl>
       <UtilUl>
-        <a href={KAKAO_AUTH_URL}>
-          <MdLogin className="util-icon" title="로그인" />
-        </a>
-        <a href={KAKAO_LOGOUT_URL}>
-          <MdLogout className="util-icon" title="로그아웃" />
-        </a>
+        {!token ? (
+          <a href={KAKAO_AUTH_URL}>
+            <MdLogin className="util-icon" title="로그인" />
+          </a>
+        ) : (
+          <a href={KAKAO_LOGOUT_URL}>
+            <MdLogout className="util-icon" title="로그아웃" />
+          </a>
+        )}
+
         <Link to="/mypage">
           <MdManageAccounts className="util-icon" title="마이페이지" />
         </Link>

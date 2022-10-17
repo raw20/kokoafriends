@@ -4,16 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { ADMIN_KEY } from "./OAuth";
 
 function KaKaoLogout() {
-  const token = window.localStorage.getItem("token");
   const navigate = useNavigate();
+
   const formUrlEncoded = (x) =>
     Object.keys(x).reduce(
       (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
       ""
     );
-
-  console.log("로그아웃 페이지");
-  console.log(token);
 
   useEffect(() => {
     (async () => {
@@ -32,7 +29,8 @@ function KaKaoLogout() {
           }
         );
         console.log("res : ", res.data);
-        alert("로그아웃되었습니다..");
+        window.localStorage.removeItem("token");
+        alert("로그아웃되었습니다.");
         navigate("/");
       } catch (e) {
         console.error(e);

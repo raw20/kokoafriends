@@ -1,4 +1,4 @@
-export const contents = [
+export let contents = [
   {
     id: 1,
     writer: "춘식이",
