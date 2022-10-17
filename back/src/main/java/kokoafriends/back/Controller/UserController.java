@@ -1,5 +1,6 @@
 package kokoafriends.back.Controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import kokoafriends.back.config.jwt.JwtProperties;
 import kokoafriends.back.model.User;
 import kokoafriends.back.model.oauth.OauthToken;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 @RestController
@@ -39,8 +41,8 @@ public class UserController {
         System.out.println("oauthToken : " + oauthToken);
         System.out.println("jwtToken : " + jwtToken);
         System.out.println("headers : " + headers);
-        return ResponseEntity.ok().headers(headers).body("success");
-//        return oauthToken;
+       return ResponseEntity.ok().headers(headers).body("success");
+        //        return oauthToken;
     }
 
     // jwt 토큰으로 유저정보 요청하기
@@ -52,4 +54,13 @@ public class UserController {
         System.out.println("user" + user);
         return ResponseEntity.ok().body(user);
     }
+
+    @RequestMapping (value = "/logout")
+    public String Logout(HttpSession session){
+        UserService us = new UserService();
+        JsonNode token = us.Logout(session.getAttribute("token").toString());
+        System.out.println("로그인 후 반환되는 아이디 : " + token);
+        return "redirect:/";
+    }
+
 }

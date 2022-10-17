@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.nimbusds.jose.shaded.json.JSONObject;
@@ -15,6 +16,11 @@ import kokoafriends.back.model.oauth.KakaoProfile;
 import kokoafriends.back.model.oauth.OauthToken;
 import kokoafriends.back.repositorty.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -169,5 +175,32 @@ public class UserService {
         return kakaoProfile;
     }
 
+   /* public JsonNode Logout(String autorize_code){
+        final String RequestUrl = "https://kapi.kakao.com/v1/user/logout";
+
+        final HttpClient client = HttpClientBuilder.create().build();
+
+        final HttpPost post =new HttpPost(RequestUrl);
+
+        post.addHeader("Authorization","Bearer" + autorize_code);
+
+        JsonNode returnNode =null;
+
+        try{
+            final HttpResponse response = client.execute(post);
+
+             ObjectMapper mapper = new ObjectMapper();
+
+             returnNode = mapper.readTree(response.getEntity().getContent());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch(ClientProtocolException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        } finally{
+
+        }
+        return returnNode;}*/
 }
 
