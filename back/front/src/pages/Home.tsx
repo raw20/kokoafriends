@@ -41,14 +41,14 @@ const BannerImg = styled.img`
   width: 100%;
   height: 30%;
   margin-bottom: 1rem;
-  border-radius: 10px;
+  border-radius: 20px;
   position: relative;
 `;
 const ImgText = styled.div`
   width: 100%;
   height: auto;
   padding: 5.1rem 1.3rem;
-  letter-spacing: -0.1rem;
+  letter-spacing: 0.1rem;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -58,7 +58,7 @@ const Title = styled.h1`
   width: 100%;
   height: auto;
   line-height: auto;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
   color: ${(props) => props.theme.bgColor};
 `;
@@ -68,14 +68,14 @@ const Contents = styled.p`
   line-height: auto;
   font-size: 1.3rem;
   color: ${(props) => props.theme.bgColor};
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 15px;
 `;
 const NewItem = styled(Banner)`
   margin: 4.5rem auto;
 `;
 const NewItemTitle = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   font-weight: bold;
 `;
 const ItemList = styled(Link)`
