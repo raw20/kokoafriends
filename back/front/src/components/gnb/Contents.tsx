@@ -15,10 +15,15 @@ const GET_CONTENTS = gql`
       content
       date
       like
+      comments {
+        comment
+        writer {
+          name
+        }
+      }
     }
   }
 `;
-
 const Wrap = styled.div`
   width: 100%;
   height: auto;
@@ -97,7 +102,20 @@ const IconBox = styled(TextBox)`
     margin: 1rem 1rem 1rem 0;
   }
 `;
-const BottomBox = styled(HeaderBox)``;
+const BottomBox = styled(HeaderBox)`
+  align-items: flex-start;
+  flex-direction: column;
+`;
+const Comment = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5rem;
+`;
+const UserName = styled.h1`
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+`;
 const CommentBox = styled.span`
   width: 100%;
   height: 30px;
@@ -114,7 +132,8 @@ const CommentBox = styled.span`
 `;
 function Contents() {
   const { data } = useQuery<ContentsObj>(GET_CONTENTS);
-  console.log(data);
+  const token = window.localStorage.getItem("token");
+
   return (
     <Wrap>
       <Inner>
@@ -146,7 +165,20 @@ function Contents() {
               </TextBox>
             </MainBox>
             <BottomBox>
-              <CommentBox>댓글을 남겨주세요.</CommentBox>
+              <SmallText>댓글{item.comments.length}개</SmallText>
+              <Comment>
+                {item.comments.map((comment, index) =>
+                  index < 1 ? <UserName>{comment.writer.name}</UserName> : null
+                )}
+                {item.comments.map((ele, index) =>
+                  index < 1 ? <SmallText>{ele.comment}</SmallText> : null
+                )}
+              </Comment>
+              {!token ? (
+                <CommentBox>로그인 후 이용해주세요..</CommentBox>
+              ) : (
+                <CommentBox>댓글을 남겨주세요.</CommentBox>
+              )}
             </BottomBox>
           </ContentsBox>
         ))}

@@ -3,6 +3,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { comments } from "./db/comment.js";
 import { contents } from "./db/contents.js";
 import { item, getItemId } from "./db/Item.js";
+import { user } from "./db/user.js";
 
 const writeComment = new Date();
 const year = writeComment.getFullYear();
@@ -34,20 +35,26 @@ const typeDefs = `#graphql
     content : String!
     date : String!
     like : Int!
-    comments : Comment
+    comments : [Comment]
   }
   type Comment {
     id : Int!
     contents_id : Int!
-    writer : String!
+    user_id : Int
+    writer : User
     comment : String!
     date : String!
+  }
+  type User{
+    id: Int
+    name: String
   }
 
   type Query {
     item: [Item]!
-    contents : [Contents]!
-    comments(id:Int!) : Comment
+    contents : [Contents]
+    selectContents (id:Int!) : [Contents]
+    comments(id:Int!) : [Comment]
     selectItem(id:Int!) : Item
   }
 `;
@@ -56,9 +63,21 @@ const resolvers = {
   Query: {
     item: () => item,
     contents: () => contents,
+    selectContents: (root: any, { id }) =>
+      contents.filter((contents) => contents.id === id),
     comments: (root: any, { id }) =>
-      comments.find((comment) => comment.contents_id === id),
+      comments.filter((comment) => comment.contents_id === id),
     selectItem: (root: any, { id }) => getItemId(id),
+  },
+  Contents: {
+    comments({ id }) {
+      return comments.filter((comments) => comments.contents_id === id);
+    },
+  },
+  Comment: {
+    writer({ user_id }) {
+      return user.find((user) => user.id === user_id);
+    },
   },
   /* Mutation: {
     postContentsComment(root: any, { id, contents_id, writer, comment }) {

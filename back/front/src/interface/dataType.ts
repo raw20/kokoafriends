@@ -23,13 +23,19 @@ export interface Contents {
   content: string;
   date: string;
   like: number;
-  comments: Comment;
+  comments: Comment[];
 }
 export interface Comment {
   id: number;
-  writer: string;
+  contents_id: number;
+  user_id: number;
+  writer: User;
   comment: string;
   date: string;
+}
+export interface User {
+  id: number;
+  name: string;
 }
 export interface ItemObj {
   item: Item[];
