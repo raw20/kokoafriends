@@ -7,7 +7,6 @@ import Search from "../components/utilmenu/Search";
 import ItemDetail from "../pages/ItemDetail";
 import Mypage from "../components/utilmenu/Mypage";
 import Cart from "../components/utilmenu/Cart";
-import Favorite from "../components/utilmenu/Favorite";
 import KaKaoLogout from "../auth/KaKaoLogout";
 
 function Router() {
@@ -22,7 +21,6 @@ function Router() {
           {/* util menu */}
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/favorite" element={<Favorite />} />
           <Route path="/search" element={<Search />} />
         </Route>
         {/* login */}
