@@ -23,9 +23,10 @@ const Inner = styled.div`
 `;
 const Left = styled.div`
   width: 100%;
-  height: auto;
+  height: 80px;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 const Middle = styled(Left)``;
 const Right = styled(Left)``;
@@ -43,6 +44,7 @@ const Logo = styled.div`
 const GnbUl = styled.ul`
   width: 100%;
   display: flex;
+  justify-content: center;
 `;
 const GnbLi = styled.li<{ isActive: boolean }>`
   width: 100px;
@@ -59,12 +61,13 @@ const GnbLi = styled.li<{ isActive: boolean }>`
   border-bottom: ${(props) =>
     props.isActive ? "4px solid" + props.theme.accentColor : "none"};
 `;
-const UtilUl = styled.ul`
+const UtilUl = styled.div`
   width: 100%;
   display: flex;
   font-size: 2.2rem;
-  justify-content: space-evenly;
+  justify-content: center;
   .util-icon {
+    margin-right: 1rem;
     &:hover {
       transform: scale(120%);
     }
