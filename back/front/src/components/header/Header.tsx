@@ -48,14 +48,14 @@ const GnbLi = styled.li<{ isActive: boolean }>`
   width: 100px;
   height: 80px;
   display: flex;
-  margin-right: 20px;
+  margin-right: 2rem;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
-  font-size: ${(props) => (props.isActive ? "1.2rem" : "1.1rem")};
-  font-weight: ${(props) => (props.isActive ? "bold" : "600")};
+  font-size: ${(props) => (props.isActive ? "1.5rem" : "1.4rem")};
+  font-weight: ${(props) => (props.isActive ? "bold" : "500")};
   border-bottom: ${(props) =>
     props.isActive ? "4px solid" + props.theme.accentColor : "none"};
 `;
