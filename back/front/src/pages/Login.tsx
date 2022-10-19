@@ -47,9 +47,9 @@ function Login() {
         <Alert>
           <Image src={`/img/etc/${image[index]}`} alt="사진" />
           <Text>로그인이 필요한 서비스입니다. 로그인 후 이용해 주세요.</Text>
-          <Button>
-            <a href={KAKAO_AUTH_URL}> 카카오 로그인</a>
-          </Button>
+          <a href={KAKAO_AUTH_URL}>
+            <Button>카카오 로그인</Button>
+          </a>
         </Alert>
       </Inner>
     </Wrap>
