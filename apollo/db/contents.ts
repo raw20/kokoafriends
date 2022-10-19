@@ -32,3 +32,7 @@ export let contents = [
     like: 49,
   },
 ];
+export function getContentsId(id: number) {
+  const selectedContents = contents.filter((ele) => ele.id === id);
+  return selectedContents[0];
+}

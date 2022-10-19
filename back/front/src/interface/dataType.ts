@@ -49,3 +49,6 @@ export interface SelectItemObj {
 export interface ContentsObj {
   contents: Contents[];
 }
+export interface SelectConObj {
+  selectContents(selectContentsId: number): Contents[];
+}

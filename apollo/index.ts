@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { comments } from "./db/comment.js";
-import { contents } from "./db/contents.js";
+import { contents, getContentsId } from "./db/contents.js";
 import { item, getItemId } from "./db/Item.js";
 import { user } from "./db/user.js";
 
@@ -49,13 +49,15 @@ const typeDefs = `#graphql
     id: Int
     name: String
   }
-
   type Query {
     item: [Item]!
     contents : [Contents]
-    selectContents (id:Int!) : [Contents]
+    selectContents (id:Int!) : Contents
     comments(id:Int!) : [Comment]
     selectItem(id:Int!) : Item
+  }
+  type Mutation {
+    postContentsComment(user_id:Int!,contents_id:Int!,writer:User,comment:String!) : Comment
   }
 `;
 
@@ -63,8 +65,8 @@ const resolvers = {
   Query: {
     item: () => item,
     contents: () => contents,
-    selectContents: (root: any, { id }) =>
-      contents.filter((contents) => contents.id === id),
+    selectContents: (root: any, { id }) => getContentsId(id),
+
     comments: (root: any, { id }) =>
       comments.filter((comment) => comment.contents_id === id),
     selectItem: (root: any, { id }) => getItemId(id),
@@ -79,11 +81,12 @@ const resolvers = {
       return user.find((user) => user.id === user_id);
     },
   },
-  /* Mutation: {
-    postContentsComment(root: any, { id, contents_id, writer, comment }) {
+  Mutation: {
+    postContentsComment(root: any, { user_id, contents_id, writer, comment }) {
       const newComment = {
-        id,
+        id: comment.index + 1,
         contents_id,
+        user_id,
         writer,
         comment,
         date: `${year}.${month}.${day}`,
@@ -91,7 +94,7 @@ const resolvers = {
       comments.push(newComment);
       return newComment;
     },
-  }, */
+  },
 };
 
 // The ApolloServer constructor requires two parameters: your schema
