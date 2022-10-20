@@ -1,93 +1,57 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { comments } from "./db/comment.js";
-import { contents, getContentsId } from "./db/contents.js";
-import { item, getItemId } from "./db/Item.js";
-import { user } from "./db/user.js";
-const writeComment = new Date();
-const year = writeComment.getFullYear();
-const month = writeComment.getMonth() + 1;
-const day = writeComment.getDate();
+import { content, getContent } from "./db/contents.js";
+import { getDbShop } from "./db/Item.js";
 const typeDefs = `#graphql
   type Item {
-    id: Int!
-    name: String!
-    title: String!
-    contents:String!
-    price: Int!
-    like: Int!
-    view: Int!
-    half_title: String!
-    category:String!
-    slideImg: [String]!
-    mainTopImg:[String]!
-    mainMidImg:[String]!
-    mainBottomImg:[String]! 
+    sId: Int!
+    sName: String!
+    sPrice: Int!
+    sLike: Int!
+    sView: Int!
+    sCategory:String!
+    sImage: String!
   }
+
   type Contents {
-    id : Int!
-    writer : String!
-    profileImg : String!
-    image : String!
-    title : String!
-    content : String!
-    date : String!
-    like : Int!
-    comments : [Comment]
+    cId : Int!
+    cWriter : String!
+    cProfileImg : String!
+    cImage : String!
+    cTitle : String!
+    cContent : String!
+    cDate : String!
+    cLike : Int!
   }
-  type Comment {
-    id : Int!
-    contents_id : Int!
-    user_id : Int
-    writer : User
-    comment : String!
-    date : String!
-  }
-  type User{
-    id: Int
-    name: String
-  }
+
   type Query {
-    item: [Item]!
-    contents : [Contents]
-    selectContents (id:Int!) : Contents
-    comments(id:Int!) : [Comment]
+    item: [Item]
+    getDbShop: [Item]
+    getContent : [Contents]!
+    contents : [Contents]!
     selectItem(id:Int!) : Item
   }
-  type Mutation  {
-    postContentsComment(user_id:Int!,contents_id:Int!,writer:User,comment:String!) : Comment
-  }
+  type Mutation{
+      addContent( cId : Int!, cWriter : String!, cProfileImg : String!, cImage : String!
+      ,cTitle : String!
+      ,cContent : String!
+      ,cDate : String!
+      ,cLike : Int!) :Boolean
+    }
 `;
 const resolvers = {
     Query: {
-        item: () => item,
-        contents: () => contents,
-        selectContents: (root, { id }) => getContentsId(id),
-        comments: (root, { id }) => comments.filter((comment) => comment.contents_id === id),
-        selectItem: (root, { id }) => getItemId(id),
-    },
-    Contents: {
-        comments({ id }) {
-            return comments.filter((comments) => comments.contents_id === id);
-        },
-    },
-    Comment: {
-        writer({ user_id }) {
-            return user.find((user) => user.id === user_id);
+        getDbShop: () => getDbShop(),
+        getContent: () => getContent(),
+        contents: async (cId, cWriter, cProfileImg, cImage, cTitle, cContent, cDate, cLike) => {
+            const result = await content.selectAll(cId, cWriter, cProfileImg, cImage, cTitle, cContent, cDate, cLike);
+            return result;
         },
     },
     Mutation: {
-        postContentsComment(root, { user_id, contents_id, writer, comment }) {
-            const newComment = {
-                id: comment.index + 1,
-                contents_id,
-                user_id,
-                writer,
-                comment,
-                date: `${year}.${month}.${day}`,
-            };
-            comments.push(newComment);
-            return newComment;
+        addContent: async (_, { cId, cWriter, cProfileImg, cImage, cTitle, cContent, cDate, cLike }) => {
+            const result = await content.insert(cId, cWriter, cProfileImg, cImage, cTitle, cContent, cDate, cLike);
+            return result.code;
         },
     },
 };
