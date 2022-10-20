@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../auth/OAuth";
 import styled from "styled-components";
+import Login from "../../pages/Login";
 
 /* interface UserData {
   userCode: number;
@@ -76,28 +77,34 @@ function Mypage() {
     })();
   }, []);
   return (
-    <Wrap>
-      <Container>
-        <UserBox>
-          <Inner>
-            <ChildBox>
-              <UserImg src={image} />
-            </ChildBox>
-            <ChildBox>
-              <UserLargeText>{name}</UserLargeText>
-            </ChildBox>
-            <ChildBox>
-              <UserSmallText>{email}</UserSmallText>
-            </ChildBox>
-          </Inner>
-        </UserBox>
-        <CartBox>
-          <ChildBox>
-            <UserLargeText>최근 구매목록</UserLargeText>
-          </ChildBox>
-        </CartBox>
-      </Container>
-    </Wrap>
+    <>
+      {!token ? (
+        <Login />
+      ) : (
+        <Wrap>
+          <Container>
+            <UserBox>
+              <Inner>
+                <ChildBox>
+                  <UserImg src={image} />
+                </ChildBox>
+                <ChildBox>
+                  <UserLargeText>{name}</UserLargeText>
+                </ChildBox>
+                <ChildBox>
+                  <UserSmallText>{email}</UserSmallText>
+                </ChildBox>
+              </Inner>
+            </UserBox>
+            <CartBox>
+              <ChildBox>
+                <UserLargeText>최근 구매목록</UserLargeText>
+              </ChildBox>
+            </CartBox>
+          </Container>
+        </Wrap>
+      )}
+    </>
   );
 }
 

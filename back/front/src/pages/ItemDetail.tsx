@@ -50,28 +50,31 @@ const ItemImgSlider = styled(Slider)`
 `;
 const ItemSlideImg = styled.img`
   width: 620px;
-  height: auto;
+  height: 620px;
 `;
 
 const ItemImformationTop = styled.div`
-  width: 30%;
+  width: 50%;
   height: auto;
   margin: 3.5rem auto 0;
   display: flex;
-  padding: 0.7rem 1rem;
+  padding: 0.7rem 0.5rem;
   justify-content: space-between;
 `;
 
 const ItemImformationBottom = styled.div`
-  width: 30%;
+  width: 50%;
   height: auto;
   margin: 0 auto;
   padding: 0 1rem;
 `;
 const Itemtitle = styled.h1`
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 1.3rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+`;
+const ItemName = styled(Itemtitle)`
+  font-size: 2.1rem;
 `;
 const ItemLike = styled.button`
   width: 35px;
@@ -79,15 +82,15 @@ const ItemLike = styled.button`
   border-radius: 10px;
 `;
 const Itemtext = styled.p`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 500;
   margin-top: 1rem;
 `;
 const ItemViews = styled(Itemtext)`
-  font-size: 0.9rem;
+  font-size: 1.1rem;
 `;
 const ItemContents = styled.div`
-  width: 30%;
+  width: 50%;
   height: auto;
   margin: 3.5rem auto;
   padding: 1.2rem 1rem;
@@ -114,7 +117,7 @@ function ItemDetail() {
         ))}
       </ItemImgSlider>
       <ItemImformationTop>
-        <Itemtitle>{data?.selectItem.name}</Itemtitle>
+        <ItemName>{data?.selectItem.name}</ItemName>
         <ItemLike>{data?.selectItem.like}</ItemLike>
       </ItemImformationTop>
       <ItemImformationBottom>

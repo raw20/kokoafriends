@@ -1,4 +1,4 @@
-export const contents = [
+export let contents = [
     {
         id: 1,
         writer: "춘식이",
@@ -30,3 +30,7 @@ export const contents = [
         like: 49,
     },
 ];
+export function getContentsId(id) {
+    const selectedContents = contents.filter((ele) => ele.id === id);
+    return selectedContents[0];
+}

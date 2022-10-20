@@ -55,12 +55,4 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    @RequestMapping (value = "/logout")
-    public String Logout(HttpSession session){
-        UserService us = new UserService();
-        JsonNode token = us.Logout(session.getAttribute("token").toString());
-        System.out.println("로그인 후 반환되는 아이디 : " + token);
-        return "redirect:/";
-    }
-
 }
