@@ -54,8 +54,8 @@ const typeDefs = `#graphql
     comments(id:Int!) : [Comment]
     selectItem(id:Int!) : Item
   }
-  type Mutation  {
-    postContentsComment(user_id:Int!,contents_id:Int!,writer:User,comment:String!) : Comment
+  type Mutation {
+    postContentsComment(user_id:Int!,contents_id:Int!,comment:String!) : [Comment]
   }
 `;
 const resolvers = {
@@ -77,12 +77,11 @@ const resolvers = {
         },
     },
     Mutation: {
-        postContentsComment(root, { user_id, contents_id, writer, comment }) {
+        postContentsComment(root, { user_id, contents_id, comment }) {
             const newComment = {
-                id: comment.index + 1,
-                contents_id,
+                id: comment.length + 1,
                 user_id,
-                writer,
+                contents_id,
                 comment,
                 date: `${year}.${month}.${day}`,
             };
