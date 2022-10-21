@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useParams, Link } from "react-router-dom";
 import { BsHeart } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
@@ -23,6 +23,7 @@ import {
   UserName,
 } from "../components/gnb/Contents";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import { useState } from "react";
 
 const SELECT_CONTENTS = gql`
   query SelectContents($selectContentsId: Int!) {
@@ -38,14 +39,43 @@ const SELECT_CONTENTS = gql`
       comments {
         id
         contents_id
-        user_id
+        kakaoId
         writer {
           id
+          kakaoId
           name
         }
         comment
         date
       }
+    }
+    aboutMe {
+      kakaoId
+      name
+    }
+  }
+`;
+const POST_COMMENT = gql`
+  mutation PostContentsComment(
+    $kakaoId: String!
+    $contentsId: Int!
+    $comment: String!
+  ) {
+    postContentsComment(
+      kakaoId: $kakaoId
+      contents_id: $contentsId
+      comment: $comment
+    ) {
+      id
+      contents_id
+      kakaoId
+      writer {
+        id
+        kakaoId
+        name
+      }
+      comment
+      date
     }
   }
 `;
@@ -106,9 +136,18 @@ function ContentsDetail() {
       selectContentsId: Number(id),
     },
   });
-
-  function postComments(event: any) {
-    cache.writeFragment({
+  const [postComment] = useMutation(POST_COMMENT);
+  const [comment, setComment] = useState<string>("");
+  const myData = data?.aboutMe.map((me: any) => me.kakaoId).join();
+  function postComments() {
+    postComment({
+      variables: {
+        kakaoId: myData,
+        contentsId: data?.selectContents.id,
+        comment: comment,
+      },
+    });
+    /*  cache.writeFragment({
       id: `Comment:${Number(id)}`,
       fragment: gql`
         fragment ItemFragment on Comment {
@@ -116,11 +155,16 @@ function ContentsDetail() {
         }
       `,
       data: {
-        comment: event.target.value,
+        comment: [...event.target.value],
       },
-    });
+    }); */
   }
-
+  function enterSubmit(e: any) {
+    if (e.key === "Enter") {
+      postComments();
+      setComment("");
+    }
+  }
   const token = window.localStorage.getItem("token");
   return (
     <Wrap>
@@ -164,8 +208,10 @@ function ContentsDetail() {
               </a>
             ) : (
               <CommentInput
-                onChange={(e) => postComments(e)}
+                onChange={({ target: { value } }) => setComment(value)}
+                onKeyDown={(e) => enterSubmit(e)}
                 placeholder="댓글을 입력해보세요."
+                value={comment}
               />
             )}
           </BottomBox>

@@ -35,6 +35,7 @@ export interface Comment {
 }
 export interface User {
   id: number;
+  kakaoId: string;
   name: string;
 }
 export interface ItemObj {
@@ -48,6 +49,9 @@ export interface SelectItemObj {
 }
 export interface ContentsObj {
   contents: Contents[];
+}
+export interface AllUser {
+  allUser: User[];
 }
 export interface SelectConObj {
   selectContents(selectContentsId: number): Contents[];

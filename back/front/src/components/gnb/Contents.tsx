@@ -133,7 +133,6 @@ export const CommentBox = styled(Link)`
 `;
 function Contents() {
   const { data } = useQuery<ContentsObj>(GET_CONTENTS);
-
   return (
     <Wrap>
       <Inner>

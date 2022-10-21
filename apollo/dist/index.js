@@ -4,10 +4,7 @@ import { comments } from "./db/comment.js";
 import { contents, getContentsId } from "./db/contents.js";
 import { item, getItemId } from "./db/Item.js";
 import { user } from "./db/user.js";
-const writeComment = new Date();
-const year = writeComment.getFullYear();
-const month = writeComment.getMonth() + 1;
-const day = writeComment.getDate();
+let aboutMe = [];
 const typeDefs = `#graphql
   type Item {
     id: Int!
@@ -38,13 +35,14 @@ const typeDefs = `#graphql
   type Comment {
     id : Int!
     contents_id : Int!
-    user_id : Int
+    kakaoId : String
     writer : User
     comment : String!
     date : String!
   }
   type User{
     id: Int
+    kakaoId: String
     name: String
   }
   type Query {
@@ -53,9 +51,12 @@ const typeDefs = `#graphql
     selectContents (id:Int!) : Contents
     comments(id:Int!) : [Comment]
     selectItem(id:Int!) : Item
+    allUser:[User]!
+    aboutMe:[User]!
   }
   type Mutation {
-    postContentsComment(user_id:Int!,contents_id:Int!,comment:String!) : [Comment]
+    postContentsComment(kakaoId:String!,contents_id:Int!,comment:String!) : Comment
+    addUser(kakaoId:String!,name:String!): User
   }
 `;
 const resolvers = {
@@ -65,6 +66,8 @@ const resolvers = {
         selectContents: (root, { id }) => getContentsId(id),
         comments: (root, { id }) => comments.filter((comment) => comment.contents_id === id),
         selectItem: (root, { id }) => getItemId(id),
+        allUser: () => user,
+        aboutMe: () => aboutMe,
     },
     Contents: {
         comments({ id }) {
@@ -72,21 +75,39 @@ const resolvers = {
         },
     },
     Comment: {
-        writer({ user_id }) {
-            return user.find((user) => user.id === user_id);
+        writer({ kakaoId }) {
+            return user.find((user) => user.kakaoId === kakaoId);
         },
     },
     Mutation: {
-        postContentsComment(root, { user_id, contents_id, comment }) {
+        postContentsComment(root, { kakaoId, contents_id, comment }) {
+            const writeComment = new Date();
+            const year = writeComment.getFullYear();
+            const month = writeComment.getMonth() + 1;
+            const day = writeComment.getDate();
             const newComment = {
                 id: comment.length + 1,
-                user_id,
+                kakaoId,
                 contents_id,
                 comment,
                 date: `${year}.${month}.${day}`,
             };
             comments.push(newComment);
             return newComment;
+        },
+        addUser(root, { kakaoId, name }) {
+            const newUser = {
+                id: user.length + 1,
+                kakaoId,
+                name,
+            };
+            aboutMe.push(newUser);
+            user.push(newUser);
+            if (aboutMe.length > 1) {
+                aboutMe = [];
+                aboutMe.push(newUser);
+            }
+            return newUser;
         },
     },
 };
