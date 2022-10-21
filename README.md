@@ -35,11 +35,17 @@
 
 - IntelliJ
 - Visual Studio Code
-- Postman
 - HeidiSql
 - Sourcetree
 - GitHub
-- 
+ 
+## 📋 성능 테스팅 도구
+
+- Postman
+
+## 📋 로그 분석 도구
+
+## 🏭 시스템 구조
 
 ## 📋 사용 기술
 
@@ -53,13 +59,7 @@
 
 - Spring Boot Security
 
-- Spring Boot Actuator
-
 - Spring Data JPA
-
-- Spring Boot Batch
-
-- Spring AOP
 
 - JWT
 
@@ -95,18 +95,9 @@
 
 #### Specification
 
-- GraphQL
+- 
 
 ## 📋 주요 키워드
 
 - git repository 다운로드 후 로컬환경에서 서버 실행 테스트 및 유저 데이터 검수 작업<박민규>
 
-## 📋 성능 테스팅 도구
-
-- intellij
-- Postman
-- Dbeaver
-
-## 📋 로그 분석 도구
-
-## 🏭 시스템 구조
