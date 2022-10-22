@@ -1,12 +1,11 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { comments } from "./db/comment.js";
+import { comments, deleteId } from "./db/comment.js";
 import { contents, getContentsId } from "./db/contents.js";
 import { item, getItemId } from "./db/Item.js";
 import { user } from "./db/user.js";
 
 let aboutMe = [];
-
 const typeDefs = `#graphql
   type Item {
     id: Int!
@@ -58,7 +57,7 @@ const typeDefs = `#graphql
   }
   type Mutation {
     postContentsComment(kakaoId:String!,contents_id:Int!,comment:String!) : Comment
-    deleteContentsComment(kakaoId:String!) : Boolean!
+    deleteContentsComment(id:Int!) : Comment
     addUser(kakaoId:String!,name:String!): User
   }
 `;
@@ -68,7 +67,6 @@ const resolvers = {
     item: () => item,
     contents: () => contents,
     selectContents: (root: any, { id }) => getContentsId(id),
-
     comments: (root: any, { id }) =>
       comments.filter((comment) => comment.contents_id === id),
     selectItem: (root: any, { id }) => getItemId(id),
@@ -92,7 +90,7 @@ const resolvers = {
       const month = writeComment.getMonth() + 1;
       const day = writeComment.getDate();
       const newComment = {
-        id: comment.length + 1,
+        id: comments.length + 1,
         kakaoId,
         contents_id,
         comment,
@@ -102,11 +100,8 @@ const resolvers = {
       return newComment;
     },
 
-    deleteContentsComment(root: any, { kakaoId }) {
-      const comment = comments.find((comment) => comment.kakaoId === kakaoId);
-      if (!comment) return false;
-      comments.filter((comment) => comment.kakaoId !== kakaoId);
-      return true;
+    deleteContentsComment(root: any, { id }) {
+      deleteId(id);
     },
     addUser(root: any, { kakaoId, name }) {
       const newUser = {

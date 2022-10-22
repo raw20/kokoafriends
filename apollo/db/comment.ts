@@ -63,3 +63,10 @@ export let comments = [
     date: "2022.09.21",
   },
 ];
+
+export function deleteId(id: number) {
+  const deletedComment = comments.filter((comment) => comment.id !== id);
+  if (comments.length !== deletedComment.length) {
+    comments = deletedComment;
+  }
+}

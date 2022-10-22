@@ -78,6 +78,13 @@ const POST_COMMENT = gql`
     }
   }
 `;
+const DELETE_COMMENT = gql`
+  mutation DeleteContentsComment($deleteContentsCommentId: Int!) {
+    deleteContentsComment(id: $deleteContentsCommentId) {
+      id
+    }
+  }
+`;
 export const CommentBox = styled.span`
   width: 100%;
   height: 30px;
@@ -125,6 +132,22 @@ const Message = styled.span`
   padding: 0.5rem 1rem;
   background-color: #dfd8d7;
 `;
+const ChatTop = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+const DeleteButton = styled.span`
+  width: 35px;
+  height: 20px;
+  border: 1px solid ${(props) => props.theme.secondColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
 function ContentsDetail() {
   const { id } = useParams();
   const { data } = useQuery(SELECT_CONTENTS, {
@@ -135,10 +158,12 @@ function ContentsDetail() {
   const [PostContentsComment] = useMutation(POST_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
   });
+  const [deleteContentsComment] = useMutation(DELETE_COMMENT, {
+    refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
+  });
   const [comment, setComment] = useState<string>("");
   const myKakaoId = data?.aboutMe.map((me: any) => me.kakaoId).join();
-  console.log("kakaoid", myKakaoId);
-  console.log(data?.selectContents.comments.map((ele: any) => ele.comment));
+
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
       PostContentsComment({
@@ -150,6 +175,14 @@ function ContentsDetail() {
       });
       setComment("");
     }
+  }
+  function deleteHandler(id: number) {
+    deleteContentsComment({
+      variables: {
+        deleteContentsCommentId: id,
+      },
+    });
+    alert("댓글이 삭제되었습니다.");
   }
   const token = window.localStorage.getItem("token");
   return (
@@ -203,9 +236,20 @@ function ContentsDetail() {
           </BottomBox>
           <ChatBox>
             <SmallText>댓글{data?.selectContents.comments.length}개</SmallText>
-            {data?.selectContents.comments.map((comment: any, index: any) => (
-              <Chat key={index}>
-                <UserName>{comment.writer.name}</UserName>
+            {data?.selectContents.comments.map((comment: any) => (
+              <Chat key={comment.id}>
+                <ChatTop>
+                  <UserName>{comment.writer.name}</UserName>
+                  {comment.kakaoId === myKakaoId && token ? (
+                    <DeleteButton
+                      onClick={() => {
+                        deleteHandler(comment.id);
+                      }}
+                    >
+                      삭제
+                    </DeleteButton>
+                  ) : null}
+                </ChatTop>
                 <Message>{comment.comment}</Message>
                 <SmallText>{comment.date}</SmallText>
               </Chat>
