@@ -85,7 +85,7 @@ const DELETE_COMMENT = gql`
     }
   }
 `;
-export const CommentBox = styled.span`
+export const CommentBox = styled.a`
   width: 100%;
   height: 30px;
   margin: 1rem auto;
@@ -222,9 +222,9 @@ function ContentsDetail() {
           </MainBox>
           <BottomBox>
             {!token ? (
-              <a href={KAKAO_AUTH_URL}>
-                <CommentBox>로그인 후 이용해주세요..</CommentBox>
-              </a>
+              <CommentBox href={KAKAO_AUTH_URL}>
+                로그인 후 이용해주세요..
+              </CommentBox>
             ) : (
               <CommentInput
                 onChange={({ target: { value } }) => setComment(value)}
