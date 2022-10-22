@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
-import { ItemObj } from "../interface/dataType";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import { AllItem } from "../interface/dataType";
 import Header from "../components/header/Header";
 import { ItemName, ItemPrice } from "../components/gnb/BestProductItem";
 import Slider from "react-slick";
+import { useEffect } from "react";
+import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { BASE_URL } from "../auth/OAuth";
 
 const ALL_ITEM = gql`
   query {
@@ -20,9 +23,25 @@ const ALL_ITEM = gql`
       price
       view
     }
+    allUser {
+      kakaoId
+      name
+    }
+    aboutMe {
+      kakaoId
+      name
+    }
   }
 `;
 
+const ADD_USER = gql`
+  mutation Mutation($kakaoId: String!, $name: String!) {
+    addUser(kakaoId: $kakaoId, name: $name) {
+      kakaoId
+      name
+    }
+  }
+`;
 const Main = styled.div`
   width: 100%;
   height: auto;
@@ -114,10 +133,35 @@ const settings = {
 
 function Home() {
   const state = useLocation();
-
-  const { data } = useQuery<ItemObj>(ALL_ITEM);
+  const [addUser] = useMutation(ADD_USER);
+  const { data } = useQuery<AllItem>(ALL_ITEM);
   const mainBannerItem = data?.item.filter((ele) => ele.id < 6);
+  const token: string = window.localStorage.getItem("token") as string;
   const newItem = data?.item.filter((ele) => ele.id > data?.item.length - 4);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/me`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        window.localStorage.setItem("user_data", res.data);
+
+        function AddUser() {
+          addUser({
+            variables: {
+              kakaoId: String(res.data.kakaoId),
+              name: res.data.kakaoNickname,
+            },
+          });
+        }
+        AddUser();
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [addUser, data?.allUser, token]);
   return (
     <>
       <Header />

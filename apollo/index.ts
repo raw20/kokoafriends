@@ -58,6 +58,7 @@ const typeDefs = `#graphql
   }
   type Mutation {
     postContentsComment(kakaoId:String!,contents_id:Int!,comment:String!) : Comment
+    deleteContentsComment(kakaoId:String!) : Boolean!
     addUser(kakaoId:String!,name:String!): User
   }
 `;
@@ -100,14 +101,24 @@ const resolvers = {
       comments.push(newComment);
       return newComment;
     },
+
+    deleteContentsComment(root: any, { kakaoId }) {
+      const comment = comments.find((comment) => comment.kakaoId === kakaoId);
+      if (!comment) return false;
+      comments.filter((comment) => comment.kakaoId !== kakaoId);
+      return true;
+    },
     addUser(root: any, { kakaoId, name }) {
       const newUser = {
         id: user.length + 1,
         kakaoId,
         name,
       };
+      const findId = user.find((ele) => ele.kakaoId === kakaoId);
+      if (!findId) {
+        user.push(newUser);
+      }
       aboutMe.push(newUser);
-      user.push(newUser);
       if (aboutMe.length > 1) {
         aboutMe = [];
         aboutMe.push(newUser);

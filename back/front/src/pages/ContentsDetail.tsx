@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BsHeart } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import styled from "styled-components";
@@ -19,7 +19,6 @@ import {
   Image,
   IconBox,
   BottomBox,
-  Comment,
   UserName,
 } from "../components/gnb/Contents";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
@@ -128,40 +127,27 @@ const Message = styled.span`
 `;
 function ContentsDetail() {
   const { id } = useParams();
-  const {
-    data,
-    client: { cache },
-  } = useQuery(SELECT_CONTENTS, {
+  const { data } = useQuery(SELECT_CONTENTS, {
     variables: {
       selectContentsId: Number(id),
     },
   });
-  const [postComment] = useMutation(POST_COMMENT);
+  const [PostContentsComment] = useMutation(POST_COMMENT, {
+    refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
+  });
   const [comment, setComment] = useState<string>("");
-  const myData = data?.aboutMe.map((me: any) => me.kakaoId).join();
-  function postComments() {
-    postComment({
-      variables: {
-        kakaoId: myData,
-        contentsId: data?.selectContents.id,
-        comment: comment,
-      },
-    });
-    /*  cache.writeFragment({
-      id: `Comment:${Number(id)}`,
-      fragment: gql`
-        fragment ItemFragment on Comment {
-          comment
-        }
-      `,
-      data: {
-        comment: [...event.target.value],
-      },
-    }); */
-  }
+  const myKakaoId = data?.aboutMe.map((me: any) => me.kakaoId).join();
+  console.log("kakaoid", myKakaoId);
+  console.log(data?.selectContents.comments.map((ele: any) => ele.comment));
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
-      postComments();
+      PostContentsComment({
+        variables: {
+          kakaoId: myKakaoId,
+          contentsId: data?.selectContents.id,
+          comment: comment,
+        },
+      });
       setComment("");
     }
   }
@@ -209,7 +195,7 @@ function ContentsDetail() {
             ) : (
               <CommentInput
                 onChange={({ target: { value } }) => setComment(value)}
-                onKeyDown={(e) => enterSubmit(e)}
+                onKeyUp={(e) => enterSubmit(e)}
                 placeholder="댓글을 입력해보세요."
                 value={comment}
               />

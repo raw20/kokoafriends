@@ -41,6 +41,10 @@ export interface User {
 export interface ItemObj {
   item: Item[];
 }
+export interface AllItem {
+  item: Item[];
+  allUser: User[];
+}
 export interface SearchItem {
   searchData: Item[];
 }

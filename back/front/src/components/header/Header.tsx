@@ -6,33 +6,8 @@ import {
   MdOutlineSearch,
   MdShoppingCart,
 } from "react-icons/md";
-import { KAKAO_AUTH_URL, KAKAO_LOGOUT_URL, BASE_URL } from "../../auth/OAuth";
+import { KAKAO_AUTH_URL, KAKAO_LOGOUT_URL } from "../../auth/OAuth";
 import { Link, useMatch } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { AllUser } from "../../interface/dataType";
-import { cp } from "fs/promises";
-const ALL_USER = gql`
-  query Query {
-    allUser {
-      kakaoId
-      name
-    }
-    aboutMe {
-      kakaoId
-      name
-    }
-  }
-`;
-const ADD_USER = gql`
-  mutation Mutation($kakaoId: String!, $name: String!) {
-    addUser(kakaoId: $kakaoId, name: $name) {
-      kakaoId
-      name
-    }
-  }
-`;
 
 const Wrap = styled.div`
   width: 100%;
@@ -103,43 +78,8 @@ function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const { data } = useQuery<AllUser>(ALL_USER);
-  const [addUser] = useMutation(ADD_USER);
-
   const token: string = window.localStorage.getItem("token") as string;
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/me`, {
-          headers: {
-            Authorization: token,
-          },
-        });
-        window.localStorage.setItem("user_data", res.data);
 
-        function AddUser() {
-          addUser({
-            variables: {
-              kakaoId: String(res.data.kakaoId),
-              name: res.data.kakaoNickname,
-            },
-          });
-        }
-        const findId = data?.allUser.find(
-          (ele) => ele.kakaoId === res.data.kakaoId
-        );
-        if (
-          findId === undefined &&
-          res.data.kakaoNickname !== "" &&
-          String(res.data.kakaoId) !== ""
-        ) {
-          AddUser();
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, []);
   return (
     <Wrap>
       <Inner>
