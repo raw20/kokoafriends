@@ -3,6 +3,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { comments, deleteId } from "./db/comment.js";
 import { contents, getContentsId } from "./db/contents.js";
 import { item, getItemId } from "./db/Item.js";
+import { deleteItemId, reviews } from "./db/review.js";
 import { user } from "./db/user.js";
 let aboutMe = [];
 const typeDefs = `#graphql
@@ -14,6 +15,7 @@ const typeDefs = `#graphql
     price: Int!
     like: Int!
     view: Int!
+    reviews : [Review]
     half_title: String!
     category:String!
     slideImg: [String]!
@@ -31,6 +33,14 @@ const typeDefs = `#graphql
     date : String!
     like : Int!
     comments : [Comment]
+  }
+  type Review {
+    id : Int!
+    product_id : Int!
+    kakaoId : String
+    writer : User
+    review : String!
+    date : String!
   }
   type Comment {
     id : Int!
@@ -50,29 +60,47 @@ const typeDefs = `#graphql
     contents : [Contents]
     selectContents (id:Int!) : Contents
     comments(id:Int!) : [Comment]
+    reviews(id:Int!): [Review]
     selectItem(id:Int!) : Item
     allUser:[User]!
     aboutMe:[User]!
   }
   type Mutation {
-    postContentsComment(kakaoId:String!,contents_id:Int!,comment:String!) : Comment
-    deleteContentsComment(id:Int!) : Comment
+    postReview(kakaoId:String!,product_id:Int!,review:String!) : Review
+    postComment(kakaoId:String!,contents_id:Int!,comment:String!) : Comment
+    deleteReview(id:Int!) : Review
+    deleteComment(id:Int!) : Comment
     addUser(kakaoId:String!,name:String!): User
   }
 `;
+const writeComment = new Date();
+const year = writeComment.getFullYear();
+const month = writeComment.getMonth() + 1;
+const day = writeComment.getDate();
 const resolvers = {
     Query: {
         item: () => item,
         contents: () => contents,
         selectContents: (root, { id }) => getContentsId(id),
         comments: (root, { id }) => comments.filter((comment) => comment.contents_id === id),
+        reviews: (root, { id }) => reviews.filter((review) => review.product_id === id),
         selectItem: (root, { id }) => getItemId(id),
         allUser: () => user,
         aboutMe: () => aboutMe,
     },
+    Item: {
+        reviews({ id }) {
+            return reviews.filter((review) => review.product_id === id);
+        },
+    },
     Contents: {
         comments({ id }) {
             return comments.filter((comments) => comments.contents_id === id);
+        },
+    },
+    Review: {
+        writer({ kakaoId }) {
+            return user.find((user) => user.kakaoId === kakaoId);
         },
     },
     Comment: {
@@ -81,11 +109,18 @@ const resolvers = {
         },
     },
     Mutation: {
-        postContentsComment(root, { kakaoId, contents_id, comment }) {
-            const writeComment = new Date();
-            const year = writeComment.getFullYear();
-            const month = writeComment.getMonth() + 1;
-            const day = writeComment.getDate();
+        postReview(root, { kakaoId, product_id, review }) {
+            const newReview = {
+                id: reviews.length + 1,
+                kakaoId,
+                product_id,
+                review,
+                date: `${year}.${month}.${day}`,
+            };
+            reviews.push(newReview);
+            return newReview;
+        },
+        postComment(root, { kakaoId, contents_id, comment }) {
             const newComment = {
                 id: comments.length + 1,
                 kakaoId,
@@ -96,7 +131,10 @@ const resolvers = {
             comments.push(newComment);
             return newComment;
         },
-        deleteContentsComment(root, { id }) {
+        deleteReview(root, { id }) {
+            deleteItemId(id);
+        },
+        deleteComment(root, { id }) {
             deleteId(id);
         },
         addUser(root, { kakaoId, name }) {

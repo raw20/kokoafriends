@@ -55,12 +55,12 @@ const SELECT_CONTENTS = gql`
   }
 `;
 const POST_COMMENT = gql`
-  mutation PostContentsComment(
+  mutation PostComment(
     $kakaoId: String!
     $contentsId: Int!
     $comment: String!
   ) {
-    postContentsComment(
+    postComment(
       kakaoId: $kakaoId
       contents_id: $contentsId
       comment: $comment
@@ -79,8 +79,8 @@ const POST_COMMENT = gql`
   }
 `;
 const DELETE_COMMENT = gql`
-  mutation DeleteContentsComment($deleteContentsCommentId: Int!) {
-    deleteContentsComment(id: $deleteContentsCommentId) {
+  mutation DeleteComment($deleteCommentId: Int!) {
+    deleteComment(id: $deleteCommentId) {
       id
     }
   }
@@ -155,10 +155,10 @@ function ContentsDetail() {
       selectContentsId: Number(id),
     },
   });
-  const [PostContentsComment] = useMutation(POST_COMMENT, {
+  const [postComment] = useMutation(POST_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
   });
-  const [deleteContentsComment] = useMutation(DELETE_COMMENT, {
+  const [deleteComment] = useMutation(DELETE_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
   });
   const [comment, setComment] = useState<string>("");
@@ -166,7 +166,7 @@ function ContentsDetail() {
 
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
-      PostContentsComment({
+      postComment({
         variables: {
           kakaoId: myKakaoId,
           contentsId: data?.selectContents.id,
@@ -177,9 +177,9 @@ function ContentsDetail() {
     }
   }
   function deleteHandler(id: number) {
-    deleteContentsComment({
+    deleteComment({
       variables: {
-        deleteContentsCommentId: id,
+        deleteCommentId: id,
       },
     });
     alert("댓글이 삭제되었습니다.");

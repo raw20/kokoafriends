@@ -10,6 +10,7 @@ import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BASE_URL } from "../auth/OAuth";
+import Footer from "../components/footer/Footer";
 
 const ALL_ITEM = gql`
   query {
@@ -210,6 +211,7 @@ function Home() {
       ) : (
         <Outlet />
       )}
+      <Footer />
     </>
   );
 }

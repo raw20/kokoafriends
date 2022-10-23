@@ -7,6 +7,7 @@ export interface Item {
   price: number;
   like: number;
   view: number;
+  reviews: Review[];
   comment: string;
   category: string;
   slideImg: [string];
@@ -24,6 +25,14 @@ export interface Contents {
   date: string;
   like: number;
   comments: Comment[];
+}
+export interface Review {
+  id: number;
+  product_id: number;
+  user_id: number;
+  writer: User;
+  comment: string;
+  date: string;
 }
 export interface Comment {
   id: number;

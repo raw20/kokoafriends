@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { ContentsObj } from "../../interface/dataType";
-import { BsHeart } from "react-icons/bs";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -102,6 +102,9 @@ export const IconBox = styled(TextBox)`
     font-size: 2rem;
     margin: 1rem 1rem 1rem 0;
   }
+  .heart {
+    color: red;
+  }
 `;
 export const BottomBox = styled(HeaderBox)`
   align-items: flex-start;
@@ -150,7 +153,7 @@ function Contents() {
                 <Image src={`/img/contents/${item.image}`} />
               </ImgBox>
               <IconBox>
-                <BsHeart className="icon" />
+                <BsHeartFill className="icon heart" />
                 <FaRegComment className="icon" />
               </IconBox>
               <TextBox>
