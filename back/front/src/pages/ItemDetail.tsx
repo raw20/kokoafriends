@@ -5,6 +5,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
+import Modal from "react-modal";
+import ItemNumControl from "../components/productBuy/ItemNumControl";
+import { INumber } from "../interface/dataType";
 
 const GET_ITEM = gql`
   query SelectItem($selectItemId: Int!) {
@@ -72,7 +75,6 @@ const settings = {
   autoplay: true,
   autoplaySpeed: 2000,
 };
-
 const Wrap = styled.div`
   width: 100%;
   height: auto;
@@ -97,7 +99,6 @@ const ItemSlideImg = styled.img`
   width: 620px;
   height: 620px;
 `;
-
 const ItemImformationTop = styled.div`
   width: 100%;
   height: auto;
@@ -105,7 +106,6 @@ const ItemImformationTop = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
 const ItemImformationBottom = styled.div`
   width: 100%;
   height: auto;
@@ -226,7 +226,24 @@ const BuyButton = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
+const ModalDiv = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+`;
+const CustomModalStyles = {
+  content: {
+    width: "50%",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+Modal.setAppElement("#root");
 function ItemDetail() {
   const token = window.localStorage.getItem("token");
   const { id } = useParams();
@@ -243,7 +260,15 @@ function ItemDetail() {
     refetchQueries: [{ query: GET_ITEM }, "SelectItem"],
   });
   const [review, setReview] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  /* const [number, setNumber] = useState<INumber>(1); */
 
+  function openModal() {
+    setModalOpen(true);
+  }
+  function closeModal() {
+    setModalOpen(false);
+  }
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
       postReview({
@@ -345,7 +370,22 @@ function ItemDetail() {
               ))}
             </ItemReviewList>
           </ItemReview>
-          <BuyButton>구매하기</BuyButton>
+          <BuyButton onClick={() => openModal()}>구매하기</BuyButton>
+          <Modal
+            isOpen={modalOpen}
+            onRequestClose={() => closeModal()}
+            style={CustomModalStyles}
+          >
+            <ModalDiv>
+              <Itemtext>수량 선택</Itemtext>
+              {/*  <ItemNumControl number={number} setNumber={setNumber} /> */}
+            </ModalDiv>
+            <ModalDiv>
+              <Itemtitle>총 제품금액</Itemtitle>
+              <Itemtext>{data?.selectItem.price}원</Itemtext>
+            </ModalDiv>
+            <BuyButton>구매하기</BuyButton>
+          </Modal>
         </BuyButtonArea>
       </Inner>
     </Wrap>

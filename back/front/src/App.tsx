@@ -30,6 +30,11 @@ footer, header, hgroup, main, menu, nav, section {
 *[hidden] {
     display: none;
 }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 body {
   line-height: 1;
   background-color:  ${(props) => props.theme.bgColor};
