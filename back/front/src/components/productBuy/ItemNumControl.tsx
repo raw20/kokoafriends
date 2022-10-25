@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { Dispatch, SetStateAction } from "react";
 
+export interface INumber {
+  number: number;
+  setNumber: Dispatch<SetStateAction<number>>;
+}
+
 const Wrap = styled.div`
   width: 30%;
   display: flex;
@@ -24,10 +29,7 @@ const Input = styled.input`
   text-align: center;
 `;
 
-function ItemNumControl(
-  number: number,
-  setNumber: Dispatch<SetStateAction<number>>
-) {
+function ItemNumControl({ number, setNumber }: INumber) {
   function plusNumber() {
     setNumber(number + 1);
   }

@@ -18,7 +18,7 @@ const KaKaoRedirect = () => {
         console.log("res1 : ", res);
         navigate("/");
       } catch (e) {
-        console.error(e);
+        console.error(e.response);
       }
     })();
   }, []);

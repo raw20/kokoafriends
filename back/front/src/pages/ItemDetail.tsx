@@ -7,7 +7,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import Modal from "react-modal";
 import ItemNumControl from "../components/productBuy/ItemNumControl";
-import { INumber } from "../interface/dataType";
 
 const GET_ITEM = gql`
   query SelectItem($selectItemId: Int!) {
@@ -225,6 +224,7 @@ const BuyButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 const ModalDiv = styled.div`
   width: 100%;
@@ -261,13 +261,16 @@ function ItemDetail() {
   });
   const [review, setReview] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  /* const [number, setNumber] = useState<INumber>(1); */
+  const [number, setNumber] = useState(1);
 
   function openModal() {
     setModalOpen(true);
   }
   function closeModal() {
     setModalOpen(false);
+  }
+  function buyItem() {
+    alert("구매하였습니다.");
   }
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
@@ -378,13 +381,13 @@ function ItemDetail() {
           >
             <ModalDiv>
               <Itemtext>수량 선택</Itemtext>
-              {/*  <ItemNumControl number={number} setNumber={setNumber} /> */}
+              <ItemNumControl number={number} setNumber={setNumber} />
             </ModalDiv>
             <ModalDiv>
               <Itemtitle>총 제품금액</Itemtitle>
-              <Itemtext>{data?.selectItem.price}원</Itemtext>
+              <Itemtext>{data?.selectItem.price * number}원</Itemtext>
             </ModalDiv>
-            <BuyButton>구매하기</BuyButton>
+            <BuyButton onClick={() => buyItem()}>구매하기</BuyButton>
           </Modal>
         </BuyButtonArea>
       </Inner>

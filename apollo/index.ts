@@ -7,6 +7,7 @@ import { deleteItemId, reviews } from "./db/review.js";
 import { user } from "./db/user.js";
 
 let aboutMe = [];
+let purchaseList = [];
 const typeDefs = `#graphql
   type Item {
     id: Int!
@@ -141,16 +142,17 @@ const resolvers = {
       deleteId(id);
     },
     addUser(root: any, { kakaoId, name }) {
+      const findUser = user.find((ele) => ele.kakaoId === kakaoId);
+
       const newUser = {
-        id: user.length + 1,
+        id: !findUser ? user.length + 1 : findUser.id,
         kakaoId,
         name,
       };
-      const findId = user.find((ele) => ele.kakaoId === kakaoId);
-      if (!findId) {
+      aboutMe.push(newUser);
+      if (!findUser) {
         user.push(newUser);
       }
-      aboutMe.push(newUser);
       if (aboutMe.length > 1) {
         aboutMe = [];
         aboutMe.push(newUser);

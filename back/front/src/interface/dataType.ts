@@ -1,10 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
-
 export interface Item {
   id: number;
   name: string;
   title: string;
-  bannerImg: string;
   contents: string;
   price: number;
   like: number;
@@ -17,6 +14,22 @@ export interface Item {
   mainMidImg: [string];
   mainBottomImg: [string];
 }
+/* export interface Item {
+  sId: number;
+  sName: string;
+  sTitle: string;
+  sContents: string;
+  sPrice: number;
+  sLike: number;
+  sView: number;
+  sReviews: Review[];
+  sComment: string;
+  sCategory: string;
+  slideImg: [string];
+  mainTopImg: [string];
+  mainMidImg: [string];
+  mainBottomImg: [string];
+} */
 export interface Contents {
   id: number;
   writer: string;
@@ -59,10 +72,7 @@ export interface AllItem {
 export interface SearchItem {
   searchData: Item[];
 }
-export interface INumber {
-  number: number;
-  setNumber: Dispatch<SetStateAction<number>>;
-}
+
 export interface SelectItemObj {
   selectItem(id: number): Item[];
 }
