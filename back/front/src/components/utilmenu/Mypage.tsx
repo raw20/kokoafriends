@@ -66,7 +66,7 @@ function Mypage() {
             Authorization: token,
           },
         });
-        console.log(res);
+        console.log(res.data);
         window.localStorage.setItem("user_data", res.data);
         setName(res.data.kakaoNickname);
         setImage(res.data.kakaoProfileImg);

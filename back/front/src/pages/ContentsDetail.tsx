@@ -1,5 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
-import { useParams, Link } from "react-router-dom";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
 import { BsHeart } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import styled from "styled-components";
@@ -19,10 +19,10 @@ import {
   Image,
   IconBox,
   BottomBox,
-  Comment,
   UserName,
 } from "../components/gnb/Contents";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
+import { useState } from "react";
 
 const SELECT_CONTENTS = gql`
   query SelectContents($selectContentsId: Int!) {
@@ -38,18 +38,54 @@ const SELECT_CONTENTS = gql`
       comments {
         id
         contents_id
-        user_id
+        kakaoId
         writer {
           id
+          kakaoId
           name
         }
         comment
         date
       }
     }
+    aboutMe {
+      kakaoId
+      name
+    }
   }
 `;
-export const CommentBox = styled.span`
+const POST_COMMENT = gql`
+  mutation PostComment(
+    $kakaoId: String!
+    $contentsId: Int!
+    $comment: String!
+  ) {
+    postComment(
+      kakaoId: $kakaoId
+      contents_id: $contentsId
+      comment: $comment
+    ) {
+      id
+      contents_id
+      kakaoId
+      writer {
+        id
+        kakaoId
+        name
+      }
+      comment
+      date
+    }
+  }
+`;
+const DELETE_COMMENT = gql`
+  mutation DeleteComment($deleteCommentId: Int!) {
+    deleteComment(id: $deleteCommentId) {
+      id
+    }
+  }
+`;
+export const CommentBox = styled.a`
   width: 100%;
   height: 30px;
   margin: 1rem auto;
@@ -96,31 +132,58 @@ const Message = styled.span`
   padding: 0.5rem 1rem;
   background-color: #dfd8d7;
 `;
+const ChatTop = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+const DeleteButton = styled.span`
+  width: 35px;
+  height: 20px;
+  border: 1px solid ${(props) => props.theme.secondColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
 function ContentsDetail() {
   const { id } = useParams();
-  const {
-    data,
-    client: { cache },
-  } = useQuery(SELECT_CONTENTS, {
+  const { data } = useQuery(SELECT_CONTENTS, {
     variables: {
       selectContentsId: Number(id),
     },
   });
+  const [postComment] = useMutation(POST_COMMENT, {
+    refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
+  });
+  const [deleteComment] = useMutation(DELETE_COMMENT, {
+    refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
+  });
+  const [comment, setComment] = useState<string>("");
+  const myKakaoId = data?.aboutMe.map((me: any) => me.kakaoId).join();
 
-  function postComments(event: any) {
-    cache.writeFragment({
-      id: `Comment:${Number(id)}`,
-      fragment: gql`
-        fragment ItemFragment on Comment {
-          comment
-        }
-      `,
-      data: {
-        comment: event.target.value,
+  function enterSubmit(e: any) {
+    if (e.key === "Enter") {
+      postComment({
+        variables: {
+          kakaoId: myKakaoId,
+          contentsId: data?.selectContents.id,
+          comment: comment,
+        },
+      });
+      setComment("");
+    }
+  }
+  function deleteHandler(id: number) {
+    deleteComment({
+      variables: {
+        deleteCommentId: id,
       },
     });
+    alert("댓글이 삭제되었습니다.");
   }
-
   const token = window.localStorage.getItem("token");
   return (
     <Wrap>
@@ -159,21 +222,34 @@ function ContentsDetail() {
           </MainBox>
           <BottomBox>
             {!token ? (
-              <a href={KAKAO_AUTH_URL}>
-                <CommentBox>로그인 후 이용해주세요..</CommentBox>
-              </a>
+              <CommentBox href={KAKAO_AUTH_URL}>
+                로그인 후 이용해주세요..
+              </CommentBox>
             ) : (
               <CommentInput
-                onChange={(e) => postComments(e)}
+                onChange={({ target: { value } }) => setComment(value)}
+                onKeyUp={(e) => enterSubmit(e)}
                 placeholder="댓글을 입력해보세요."
+                value={comment}
               />
             )}
           </BottomBox>
           <ChatBox>
             <SmallText>댓글{data?.selectContents.comments.length}개</SmallText>
-            {data?.selectContents.comments.map((comment: any, index: any) => (
-              <Chat key={index}>
-                <UserName>{comment.writer.name}</UserName>
+            {data?.selectContents.comments.map((comment: any) => (
+              <Chat key={comment.id}>
+                <ChatTop>
+                  <UserName>{comment.writer.name}</UserName>
+                  {comment.kakaoId === myKakaoId && token ? (
+                    <DeleteButton
+                      onClick={() => {
+                        deleteHandler(comment.id);
+                      }}
+                    >
+                      삭제
+                    </DeleteButton>
+                  ) : null}
+                </ChatTop>
                 <Message>{comment.comment}</Message>
                 <SmallText>{comment.date}</SmallText>
               </Chat>

@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface Item {
   id: number;
   name: string;
@@ -7,6 +9,7 @@ export interface Item {
   price: number;
   like: number;
   view: number;
+  reviews: Review[];
   comment: string;
   category: string;
   slideImg: [string];
@@ -25,6 +28,14 @@ export interface Contents {
   like: number;
   comments: Comment[];
 }
+export interface Review {
+  id: number;
+  product_id: number;
+  user_id: number;
+  writer: User;
+  comment: string;
+  date: string;
+}
 export interface Comment {
   id: number;
   contents_id: number;
@@ -35,19 +46,31 @@ export interface Comment {
 }
 export interface User {
   id: number;
+  kakaoId: string;
   name: string;
 }
 export interface ItemObj {
   item: Item[];
 }
+export interface AllItem {
+  item: Item[];
+  allUser: User[];
+}
 export interface SearchItem {
   searchData: Item[];
+}
+export interface INumber {
+  number: number;
+  setNumber: Dispatch<SetStateAction<number>>;
 }
 export interface SelectItemObj {
   selectItem(id: number): Item[];
 }
 export interface ContentsObj {
   contents: Contents[];
+}
+export interface AllUser {
+  allUser: User[];
 }
 export interface SelectConObj {
   selectContents(selectContentsId: number): Contents[];

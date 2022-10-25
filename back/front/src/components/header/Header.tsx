@@ -78,7 +78,8 @@ function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const token = window.localStorage.getItem("token");
+  const token: string = window.localStorage.getItem("token") as string;
+
   return (
     <Wrap>
       <Inner>
