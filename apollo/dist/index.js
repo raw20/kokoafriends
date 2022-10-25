@@ -54,7 +54,7 @@ const typeDefs = `#graphql
     id: Int
     kakaoId: String
     name: String
-  }
+
   type Query {
     item: [Item]!
     contents : [Contents]
