@@ -49,7 +49,7 @@ export const item = [
   },
 ];
 export function getItemId(id: number) {
-  const selectedItem = item.filter((ele) => ele.sId === id);
+  const selectedItem = item.filter((ele) => ele.id === id);
   return selectedItem[0];
 }
 // const tableName = "shop"
