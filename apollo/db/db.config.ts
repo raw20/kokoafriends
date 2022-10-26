@@ -7,4 +7,5 @@ export const dbConfig = {
   database: "chauk",
   charset: "utf8mb4",
 };
+
 export default mysql.createPool(dbConfig);

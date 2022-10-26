@@ -25,6 +25,7 @@ const typeDefs = `#graphql
     mainMidImg:[String]!
     mainBottomImg:[String]! 
   }
+
   type Contents {
     id : Int!
     writer : String!
@@ -65,6 +66,7 @@ const typeDefs = `#graphql
     kakaoId: String
     name: String
   }
+
   type Query {
     item: [Item]!
     contents : [Contents]
