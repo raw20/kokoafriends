@@ -24,7 +24,6 @@ const Wrap = styled.div`
   padding: 1.2rem 7.5rem;
   box-sizing: border-box;
   justify-content: center;
-  box-sizing: border-box;
 `;
 const Top = styled.div`
   width: 50%;

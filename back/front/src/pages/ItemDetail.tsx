@@ -6,8 +6,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import Modal from "react-modal";
-import ItemNumControl from "../components/productBuy/ItemNumControl";
+import BuyModal from "../components/productBuy/BuyModal";
 
+const CustomModalStyles = {
+  content: {
+    width: "50%",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 const GET_ITEM = gql`
   query SelectItem($selectItemId: Int!) {
     selectItem(id: $selectItemId) {
@@ -40,6 +51,13 @@ const GET_ITEM = gql`
       kakaoId
       name
     }
+    buyItem {
+      id
+      product_id
+      user_code
+      count
+      date
+    }
   }
 `;
 const POST_REVIEW = gql`
@@ -65,6 +83,7 @@ const DELETE_REVIEW = gql`
     }
   }
 `;
+
 const settings = {
   dots: true,
   infinite: true,
@@ -110,7 +129,7 @@ const ItemImformationBottom = styled.div`
   height: auto;
   margin: 0 auto;
 `;
-const Itemtitle = styled.h1`
+export const Itemtitle = styled.h1`
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.6rem;
@@ -123,7 +142,7 @@ const ItemLike = styled.button`
   height: 35px;
   border-radius: 10px;
 `;
-const Itemtext = styled.p`
+export const Itemtext = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
   margin-top: 1rem;
@@ -150,6 +169,20 @@ const ItemReview = styled.div`
 const ItemReviewInform = styled.div`
   width: 100%;
   margin: 1rem 0;
+`;
+const FalseReviewButton = styled.span`
+  width: 100%;
+  height: 40px;
+  margin: 1rem auto;
+  display: flex;
+  background-color: ${(props) => props.theme.boxColor};
+  border-radius: 10px;
+  align-items: center;
+  border: none;
+  font-size: 0.9rem;
+  color: ${(props) => props.theme.bgColor};
+  font-family: "Noto Sans KR", sans-serif;
+  padding-left: 1rem;
 `;
 const WriteReviewButton = styled.input`
   width: 100%;
@@ -213,7 +246,7 @@ const DeleteButton = styled.span`
   border-radius: 10px;
   cursor: pointer;
 `;
-const BuyButton = styled.div`
+export const BuyButton = styled.div`
   width: 100%;
   height: 50px;
   background-color: ${(props) => props.theme.accentColor};
@@ -226,24 +259,7 @@ const BuyButton = styled.div`
   align-items: center;
   cursor: pointer;
 `;
-const ModalDiv = styled.div`
-  width: 100%;
-  margin: 1rem 0;
-  display: flex;
-  justify-content: space-between;
-`;
-const CustomModalStyles = {
-  content: {
-    width: "50%",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-Modal.setAppElement("#root");
+
 function ItemDetail() {
   const token = window.localStorage.getItem("token");
   const { id } = useParams();
@@ -261,16 +277,16 @@ function ItemDetail() {
   });
   const [review, setReview] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [number, setNumber] = useState(1);
-
+  const buyBoolean = data?.buyItem.find(
+    (item: any) =>
+      item.user_code === myKakaoId && item.product_id === Number(id)
+  );
+  console.log(typeof buyBoolean);
   function openModal() {
     setModalOpen(true);
   }
   function closeModal() {
     setModalOpen(false);
-  }
-  function buyItem() {
-    alert("구매하였습니다.");
   }
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
@@ -346,12 +362,21 @@ function ItemDetail() {
             <ItemReviewInform>
               <ItemName>리뷰 {data?.selectItem.reviews.length} 건</ItemName>
             </ItemReviewInform>
-            <WriteReviewButton
-              placeholder="리뷰를 남겨주세요."
-              onChange={({ target: { value } }) => setReview(value)}
-              onKeyUp={(e) => enterSubmit(e)}
-              value={review}
-            />
+            {buyBoolean === undefined || !token ? (
+              <>
+                <FalseReviewButton>
+                  구매 후 리뷰 등록이 가능합니다.
+                </FalseReviewButton>
+              </>
+            ) : (
+              <WriteReviewButton
+                placeholder="리뷰를 남겨주세요."
+                onChange={({ target: { value } }) => setReview(value)}
+                onKeyUp={(e) => enterSubmit(e)}
+                value={review}
+              />
+            )}
+
             <ItemReviewList>
               {data?.selectItem.reviews.map((item: any) => (
                 <ReviewBox key={item.id}>
@@ -379,15 +404,7 @@ function ItemDetail() {
             onRequestClose={() => closeModal()}
             style={CustomModalStyles}
           >
-            <ModalDiv>
-              <Itemtext>수량 선택</Itemtext>
-              <ItemNumControl number={number} setNumber={setNumber} />
-            </ModalDiv>
-            <ModalDiv>
-              <Itemtitle>총 제품금액</Itemtitle>
-              <Itemtext>{data?.selectItem.price * number}원</Itemtext>
-            </ModalDiv>
-            <BuyButton onClick={() => buyItem()}>구매하기</BuyButton>
+            <BuyModal kakaoId={myKakaoId} productId={Number(id)} />
           </Modal>
         </BuyButtonArea>
       </Inner>

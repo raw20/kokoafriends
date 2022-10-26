@@ -6,7 +6,7 @@ import { item, getItemId } from "./db/Item.js";
 import { deleteItemId, reviews } from "./db/review.js";
 import { user } from "./db/user.js";
 let aboutMe = [];
-let purchaseList = [];
+let buyItem = [];
 const typeDefs = `#graphql
   type Item {
     id: Int!
@@ -34,6 +34,14 @@ const typeDefs = `#graphql
     date : String!
     like : Int!
     comments : [Comment]
+  }
+  type BuyItem{
+    id: Int!
+    product_id : Int!
+    user_code : String!
+    item: [Item]!
+    count : Int!
+    date : String!
   }
   type Review {
     id : Int!
@@ -64,7 +72,9 @@ const typeDefs = `#graphql
     reviews(id:Int!): [Review]
     selectItem(id:Int!) : Item
     allUser:[User]!
-    aboutMe:[User]!
+    aboutMe:[User]
+    buyItem:[BuyItem]!
+    myItem(user_code:String!):[BuyItem]
   }
   type Mutation {
     postReview(kakaoId:String!,product_id:Int!,review:String!) : Review
@@ -72,6 +82,7 @@ const typeDefs = `#graphql
     deleteReview(id:Int!) : Review
     deleteComment(id:Int!) : Comment
     addUser(kakaoId:String!,name:String!): User
+    putItem( product_id: Int!, user_code:String!, count:Int!) : BuyItem
   }
 `;
 const writeComment = new Date();
@@ -88,6 +99,8 @@ const resolvers = {
         selectItem: (root, { id }) => getItemId(id),
         allUser: () => user,
         aboutMe: () => aboutMe,
+        buyItem: () => buyItem,
+        myItem: (root, { user_code }) => buyItem.filter((item) => item.user_code === user_code),
     },
     Item: {
         reviews({ id }) {
@@ -107,6 +120,11 @@ const resolvers = {
     Comment: {
         writer({ kakaoId }) {
             return user.find((user) => user.kakaoId === kakaoId);
+        },
+    },
+    BuyItem: {
+        item({ product_id }) {
+            return item.filter((item) => item.id === product_id);
         },
     },
     Mutation: {
@@ -154,6 +172,17 @@ const resolvers = {
                 aboutMe.push(newUser);
             }
             return newUser;
+        },
+        putItem(root, { product_id, user_code, count }) {
+            const itemList = {
+                id: buyItem.length + 1,
+                product_id,
+                user_code,
+                count,
+                date: `${year}.${month}.${day}`,
+            };
+            buyItem.push(itemList);
+            return itemList;
         },
     },
 };

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "../../auth/OAuth";
 import styled from "styled-components";
 import Login from "../../pages/Login";
+import { gql, useQuery } from "@apollo/client";
+import RecentBuyList from "./RecentBuyList";
 
 /* interface UserData {
   userCode: number;
@@ -14,8 +13,22 @@ import Login from "../../pages/Login";
   createTime: number;
 }
  */
+
+const GET_DATA = gql`
+  query Query {
+    aboutMe {
+      id
+      kakaoId
+      name
+    }
+  }
+`;
 const Wrap = styled.div`
   width: 100%;
+  height: 100vh;
+  padding: 1.2rem 7.5rem;
+  box-sizing: border-box;
+  justify-content: center;
 `;
 const Container = styled.div`
   width: 70%;
@@ -24,7 +37,7 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 const UserBox = styled.div`
-  width: 50%;
+  width: 40%;
   height: auto;
   border: 1px solid #f3eaea;
 `;
@@ -44,38 +57,19 @@ const UserImg = styled.img`
   height: 150px;
   border-radius: 50%;
 `;
-const UserLargeText = styled.p`
-  font-size: 1.3rem;
-  font-weight: bold;
-`;
 const UserSmallText = styled.p`
   font-size: 1rem;
   font-weight: 500;
 `;
-const CartBox = styled(UserBox)``;
+const UserLargeText = styled.p`
+  font-size: 1.3rem;
+  font-weight: bold;
+`;
+
 function Mypage() {
   const token: string = window.localStorage.getItem("token") as string;
-  const [name, setName] = useState<string>("");
-  const [image, setImage] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/me`, {
-          headers: {
-            Authorization: token,
-          },
-        });
-        console.log(res.data);
-        window.localStorage.setItem("user_data", res.data);
-        setName(res.data.kakaoNickname);
-        setImage(res.data.kakaoProfileImg);
-        setEmail(res.data.kakaoEmail);
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, []);
+  const { data } = useQuery(GET_DATA);
+  const myKakaoId = data?.aboutMe.map((user: any) => user.kakaoId).join();
   return (
     <>
       {!token ? (
@@ -83,24 +77,20 @@ function Mypage() {
       ) : (
         <Wrap>
           <Container>
-            <UserBox>
-              <Inner>
-                <ChildBox>
-                  <UserImg src={image} />
-                </ChildBox>
-                <ChildBox>
-                  <UserLargeText>{name}</UserLargeText>
-                </ChildBox>
-                <ChildBox>
-                  <UserSmallText>{email}</UserSmallText>
-                </ChildBox>
-              </Inner>
-            </UserBox>
-            <CartBox>
-              <ChildBox>
-                <UserLargeText>최근 구매목록</UserLargeText>
-              </ChildBox>
-            </CartBox>
+            {data?.aboutMe.map((user: any) => (
+              <UserBox key={user.id}>
+                <Inner>
+                  <ChildBox>{/*  <UserImg src={image} /> */}</ChildBox>
+                  <ChildBox>
+                    <UserLargeText>{user.name}</UserLargeText>
+                  </ChildBox>
+                  <ChildBox>
+                    {/* <UserSmallText>{email}</UserSmallText> */}
+                  </ChildBox>
+                </Inner>
+              </UserBox>
+            ))}
+            <RecentBuyList kakaoId={myKakaoId} />
           </Container>
         </Wrap>
       )}
