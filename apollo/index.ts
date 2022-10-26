@@ -1,165 +1,85 @@
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
-import { comments, deleteId } from "./db/comment.js";
-import { contents, getContentsId } from "./db/contents.js";
-import { item, getItemId } from "./db/Item.js";
-import { deleteItemId, reviews } from "./db/review.js";
-import { user } from "./db/user.js";
+import {ApolloServer} from "@apollo/server";
+import {startStandaloneServer} from "@apollo/server/standalone";
+import {item} from "./db/Item.js";
+import {contents} from "./db/contents.js";
+import {comments} from "./db/comment.js";
+import {user} from "./db/user.js";
+import {review} from "./db/review.js";
 
-let aboutMe = [];
 const typeDefs = `#graphql
   type Item {
-    id: Int!
-    name: String!
-    title: String!
-    contents:String!
-    price: Int!
-    like: Int!
-    view: Int!
-    reviews : [Review]
-    half_title: String!
-    category:String!
+    sId: Int!
+    sName: String!
+    sTitle: String!
+    sContents: String!
+    sPrice: Int!
+    sLike: Int!
+    sView: Int!
+    sHalf_title:String!
+    sCategory:String!
     slideImg: [String]!
-    mainTopImg:[String]!
-    mainMidImg:[String]!
-    mainBottomImg:[String]! 
+    mainTopImg: [String]!
+    mainMidImg: [String]!
+    mainBottomImg: [String]!
   }
-
+  
+   type User{
+    user_code : Int
+    kakao_id : String
+    kakao_profile_img : String
+    kakao_nickname : String
+    kakao_email : String
+    user_role : String
+    create_time : Date
+  }
+ 
   type Contents {
-    id : Int!
-    writer : String!
-    profileImg : String!
-    image : String!
-    title : String!
-    content : String!
-    date : String!
-    like : Int!
-    comments : [Comment]
+    cId : Int!
+    cWriter : String!
+    cProfileImg : String!
+    cImage : String!
+    cTitle : String!
+    cContent : String!
+    cDate : String!
+    cLike : Int!
   }
-  type Review {
-    id : Int!
-    product_id : Int!
-    kakaoId : String
-    writer : User
-    review : String!
-    date : String!
-  }
-  type Comment {
-    id : Int!
-    contents_id : Int!
-    kakaoId : String
-    writer : User
+  
+   type Comment {
+    tId : Int!
+    cId : Int!
+    user_code : Int!
     comment : String!
-    date : String!
+    co_date : Date
   }
-  type User{
-    id: Int
-    kakaoId: String
-    name: String
+  
+   type Review {
+    rId : Int!
+    sId : Int!
+    user_code : Int!
+    rReview : String!
+    rDate : Date
   }
-
+  
   type Query {
-    item: [Item]!
-    contents : [Contents]
-    selectContents (id:Int!) : Contents
-    comments(id:Int!) : [Comment]
-    reviews(id:Int!): [Review]
-    selectItem(id:Int!) : Item
-    allUser:[User]!
-    aboutMe:[User]!
+    item : [Item]
+    contents : [Contents]!
+    comments : [Comment]
+    user : [User]
+    review : [Review]
   }
-  type Mutation {
-    postReview(kakaoId:String!,product_id:Int!,review:String!) : Review
-    postComment(kakaoId:String!,contents_id:Int!,comment:String!) : Comment
-    deleteReview(id:Int!) : Review
-    deleteComment(id:Int!) : Comment
-    addUser(kakaoId:String!,name:String!): User
-  }
+    scalar Date
+
 `;
-const writeComment = new Date();
-const year = writeComment.getFullYear();
-const month = writeComment.getMonth() + 1;
-const day = writeComment.getDate();
+
 const resolvers = {
   Query: {
-    item: () => item,
-    contents: () => contents,
-    selectContents: (root: any, { id }) => getContentsId(id),
-    comments: (root: any, { id }) =>
-      comments.filter((comment) => comment.contents_id === id),
-    reviews: (root: any, { id }) =>
-      reviews.filter((review) => review.product_id === id),
-    selectItem: (root: any, { id }) => getItemId(id),
-    allUser: () => user,
-    aboutMe: () => aboutMe,
+    item:() => item(),
+    contents:() => contents(),
+    comments:() => comments(),
+    user:() => user(),
+    review:() => review()
   },
-  Item: {
-    reviews({ id }) {
-      return reviews.filter((review) => review.product_id === id);
-    },
-  },
-  Contents: {
-    comments({ id }) {
-      return comments.filter((comments) => comments.contents_id === id);
-    },
-  },
-  Review: {
-    writer({ kakaoId }) {
-      return user.find((user) => user.kakaoId === kakaoId);
-    },
-  },
-  Comment: {
-    writer({ kakaoId }) {
-      return user.find((user) => user.kakaoId === kakaoId);
-    },
-  },
-  Mutation: {
-    postReview(root: any, { kakaoId, product_id, review }) {
-      const newReview = {
-        id: reviews.length + 1,
-        kakaoId,
-        product_id,
-        review,
-        date: `${year}.${month}.${day}`,
-      };
-      reviews.push(newReview);
-      return newReview;
-    },
-    postComment(root: any, { kakaoId, contents_id, comment }) {
-      const newComment = {
-        id: comments.length + 1,
-        kakaoId,
-        contents_id,
-        comment,
-        date: `${year}.${month}.${day}`,
-      };
-      comments.push(newComment);
-      return newComment;
-    },
-    deleteReview(root: any, { id }) {
-      deleteItemId(id);
-    },
-    deleteComment(root: any, { id }) {
-      deleteId(id);
-    },
-    addUser(root: any, { kakaoId, name }) {
-      const newUser = {
-        id: user.length + 1,
-        kakaoId,
-        name,
-      };
-      const findId = user.find((ele) => ele.kakaoId === kakaoId);
-      if (!findId) {
-        user.push(newUser);
-      }
-      aboutMe.push(newUser);
-      if (aboutMe.length > 1) {
-        aboutMe = [];
-        aboutMe.push(newUser);
-      }
-      return newUser;
-    },
-  },
+
 };
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -170,8 +90,12 @@ const server = new ApolloServer({
   resolvers,
 });
 (async () => {
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+  const {url} = await startStandaloneServer(server, {
+    listen: {port: 4000},
   });
   console.log(`🚀 Server listening at: ${url}`);
 })();
+
+
+
+
