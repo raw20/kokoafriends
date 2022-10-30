@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { SearchItem, ItemObj } from "../../interface/dataType";
+import { AllItem, Item } from "../../interface/IDBdataType";
 
 const SEARCH_RESULT_ITEM = gql`
   query {
     item {
-      id
-      name
-      price
+      sId
+      sName
+      sPrice
       slideImg
-      view
-      category
+      sView
+      sCategory
     }
   }
 `;
@@ -55,10 +55,10 @@ export const ItemPrice = styled.h1`
   color: ${(props) => props.theme.accentColor};
   margin-bottom: 1rem;
 `;
-function SearchItemList({ searchData }: { searchData: SearchItem[] }) {
+function SearchItemList({ searchData }: { searchData: Item[] }) {
   const {
     client: { cache },
-  } = useQuery<ItemObj[]>(SEARCH_RESULT_ITEM);
+  } = useQuery<AllItem>(SEARCH_RESULT_ITEM);
 
   function viewCount(id: number, view: number) {
     cache.writeFragment({
@@ -73,23 +73,22 @@ function SearchItemList({ searchData }: { searchData: SearchItem[] }) {
       },
     });
   }
-
   return (
     <Wrap>
       {searchData.length === 0 ? (
         <h2>검색 결과 없음</h2>
       ) : (
-        searchData?.map((item: any) => (
+        searchData?.map((item) => (
           <ItemList
             onClick={() => {
-              viewCount(item?.id, item?.view);
+              viewCount(item?.sId, item?.sView);
             }}
-            to={`/bestProduct/${item?.id}`}
-            key={item?.id}
+            to={`/bestProduct/${item?.sId}`}
+            key={item?.sId}
           >
             <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-            <ItemName> {item?.name}</ItemName>
-            <ItemPrice>{item?.price}원</ItemPrice>
+            <ItemName> {item?.sName}</ItemName>
+            <ItemPrice>{item?.sPrice}원</ItemPrice>
           </ItemList>
         ))
       )}

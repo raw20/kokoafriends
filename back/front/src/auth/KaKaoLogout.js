@@ -2,9 +2,27 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_KEY } from "./OAuth";
+import { gql, useMutation } from "@apollo/client";
 
+const NOW_USER = gql`
+  query NowUser {
+    nowUser {
+      kakao_id
+    }
+  }
+`;
+const LOGOUT = gql`
+  mutation LogOutUser {
+    logOutUser {
+      kakao_id
+    }
+  }
+`;
 function KaKaoLogout() {
   const navigate = useNavigate();
+  const [logOutUser] = useMutation(LOGOUT, {
+    refetchQueries: [{ query: NOW_USER }],
+  });
   const formUrlEncoded = (x) =>
     Object.keys(x).reduce(
       (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
@@ -28,6 +46,7 @@ function KaKaoLogout() {
         );
         console.log("res : ", res.data);
         window.localStorage.removeItem("token");
+        logOutUser({});
         alert("로그아웃되었습니다.");
         navigate("/");
       } catch (e) {

@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import { AllItem } from "../interface/dataType";
+import { AllItem } from "../interface/IDBdataType";
 import Header from "../components/header/Header";
 import { ItemName, ItemPrice } from "../components/gnb/BestProductItem";
 import Slider from "react-slick";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -13,36 +13,52 @@ import { BASE_URL } from "../auth/OAuth";
 import Footer from "../components/footer/Footer";
 
 const ALL_ITEM = gql`
-  query {
+  query Item {
     item {
-      id
-      title
+      sId
+      sName
+      sTitle
+      sContents
+      sPrice
+      sView
       slideImg
       mainBottomImg
-      contents
-      name
-      price
-      view
     }
-    allUser {
-      kakaoId
-      name
+    nowUser {
+      kakao_id
     }
-    aboutMe {
-      kakaoId
-      name
+  }
+`;
+const MY_PROFILE = gql`
+  mutation LogInUser(
+    $userCode: Int!
+    $kakaoId: String!
+    $kakaoProfileImg: String
+    $kakaoNickname: String!
+    $kakaoEmail: String!
+    $userRole: String!
+    $createTime: Date
+  ) {
+    logInUser(
+      user_code: $userCode
+      kakao_id: $kakaoId
+      kakao_profile_img: $kakaoProfileImg
+      kakao_nickname: $kakaoNickname
+      kakao_email: $kakaoEmail
+      user_role: $userRole
+      create_time: $createTime
+    ) {
+      user_code
+      kakao_id
+      kakao_profile_img
+      kakao_nickname
+      kakao_email
+      user_role
+      create_time
     }
   }
 `;
 
-const ADD_USER = gql`
-  mutation Mutation($kakaoId: String!, $name: String!) {
-    addUser(kakaoId: $kakaoId, name: $name) {
-      kakaoId
-      name
-    }
-  }
-`;
 const Main = styled.div`
   width: 100%;
   height: auto;
@@ -134,11 +150,13 @@ const settings = {
 
 function Home() {
   const state = useLocation();
-  const [addUser] = useMutation(ADD_USER);
   const { data } = useQuery<AllItem>(ALL_ITEM);
-  const mainBannerItem = data?.item.filter((ele) => ele.id < 6);
+  const [logInUser] = useMutation(MY_PROFILE, {
+    refetchQueries: [{ query: ALL_ITEM }, "Item"],
+  });
+  const newItem = data?.item.filter((ele) => ele.sId > data?.item.length - 4);
+  const mainBannerItem = data?.item.filter((ele) => ele.sId < 6);
   const token: string = window.localStorage.getItem("token") as string;
-  const newItem = data?.item.filter((ele) => ele.id > data?.item.length - 4);
   useEffect(() => {
     (async () => {
       try {
@@ -148,21 +166,22 @@ function Home() {
           },
         });
         window.localStorage.setItem("user_data", res.data);
-
-        function AddUser() {
-          addUser({
-            variables: {
-              kakaoId: String(res.data.kakaoId),
-              name: res.data.kakaoNickname,
-            },
-          });
-        }
-        AddUser();
+        logInUser({
+          variables: {
+            userCode: res.data.userCode,
+            kakaoId: String(res.data.kakaoId),
+            kakaoProfileImg: res.data.kakaoProfileImg,
+            kakaoNickname: res.data.kakaoNickname,
+            kakaoEmail: res.data.kakaoEmail,
+            userRole: res.data.userRole,
+            createTime: res.data.createTime,
+          },
+        });
       } catch (e) {
         console.error(e);
       }
     })();
-  }, [addUser, data?.allUser, token]);
+  }, []);
   return (
     <>
       <Header />
@@ -171,21 +190,21 @@ function Home() {
           <Banner>
             {mainBannerItem?.map((ele) => (
               <BannerImgContentsArea
-                to={`/bestProduct/${ele?.id}`}
-                key={ele?.id}
+                to={`/bestProduct/${ele?.sId}`}
+                key={ele?.sId}
               >
                 <BannerImg
                   src={`/img/product/${ele?.mainBottomImg[0]}`}
-                  alt={ele?.title}
+                  alt={ele?.sTitle}
                 />
                 <ImgText>
-                  {ele?.title.split("\n").map((line, index) => (
+                  {ele?.sTitle.split("\n").map((line, index: any) => (
                     <Title key={index}>
                       {line}
                       <br />
                     </Title>
                   ))}
-                  {ele?.contents.split("\n").map((line, index) => (
+                  {ele?.sContents.split("\n").map((line, index: any) => (
                     <Contents key={index}>
                       {line}
                       <br />
@@ -199,10 +218,10 @@ function Home() {
             <NewItemTitle>새로나온 친구들</NewItemTitle>
             <ItemImgSlider {...settings}>
               {newItem?.map((item, index) => (
-                <ItemList to={`/bestProduct/${item?.id}`} key={index}>
+                <ItemList to={`/bestProduct/${item?.sId}`} key={index}>
                   <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-                  <ItemName> {item?.name}</ItemName>
-                  <ItemPrice>{item?.price}원</ItemPrice>
+                  <ItemName> {item?.sName}</ItemName>
+                  <ItemPrice>{item?.sPrice}원</ItemPrice>
                 </ItemList>
               ))}
             </ItemImgSlider>

@@ -1,17 +1,17 @@
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ItemObj } from "../../interface/dataType";
+import { AllItem } from "../../interface/IDBdataType";
 
 const BEST_ITEM = gql`
   query {
     item {
-      id
-      name
-      price
+      sId
+      sName
+      sPrice
       slideImg
-      view
-      category
+      sView
+      sCategory
     }
   }
 `;
@@ -97,8 +97,10 @@ function BestProductItem() {
   const {
     data,
     client: { cache },
-  } = useQuery<ItemObj>(BEST_ITEM);
-  const bestItem = data?.item.map((ele) => ele).sort((a, b) => b.view - a.view);
+  } = useQuery<AllItem>(BEST_ITEM);
+  const bestItem = data?.item
+    .map((ele) => ele)
+    .sort((a, b) => b.sView - a.sView);
 
   function viewCount(id: number, view: number) {
     cache.writeFragment({
@@ -121,10 +123,10 @@ function BestProductItem() {
           index < 6 ? (
             <ItemList
               onClick={() => {
-                viewCount(item?.id, item?.view);
+                viewCount(item?.sId, item?.sView);
               }}
-              to={`/bestProduct/${item?.id}`}
-              key={item?.id}
+              to={`/bestProduct/${item?.sId}`}
+              key={item?.sId}
             >
               <ItemBox>
                 <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
@@ -133,8 +135,8 @@ function BestProductItem() {
                 ) : (
                   <ItemBestLank>{index + 1}</ItemBestLank>
                 )}
-                <ItemName> {item?.name}</ItemName>
-                <ItemPrice>{item?.price}원</ItemPrice>
+                <ItemName> {item?.sName}</ItemName>
+                <ItemPrice>{item?.sPrice}원</ItemPrice>
               </ItemBox>
             </ItemList>
           ) : null

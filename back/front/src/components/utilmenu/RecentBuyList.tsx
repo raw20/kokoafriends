@@ -1,24 +1,25 @@
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { RecentBIComponent } from "../../interface/IDBdataType";
 
 interface IRecentBuyListProps {
-  kakaoId: string | undefined;
+  userCode: number | undefined;
 }
 
 const GET_DATA = gql`
-  query MyItem($userCode: String!) {
-    myItem(user_code: $userCode) {
-      product_id
+  query SelectUserBuyItemList($userCode: Int!) {
+    selectUserBuyItemList(user_code: $userCode) {
       user_code
-      count
-      date
-      item {
-        id
-        name
-        price
-        slideImg
-      }
+      sId
+      bId
+      sName
+      sPrice
+      bDate
+      slideImg
+    }
+    nowUser {
+      user_code
     }
   }
 `;
@@ -93,31 +94,33 @@ const PriceBox = styled.div`
   text-align: center;
   align-items: center;
 `;
-function RecentBuyList({ kakaoId }: IRecentBuyListProps) {
-  const { data } = useQuery(GET_DATA, {
-    variables: { userCode: kakaoId },
+function RecentBuyList({ userCode }: IRecentBuyListProps) {
+  const { data } = useQuery<RecentBIComponent>(GET_DATA, {
+    variables: {
+      userCode: userCode,
+    },
   });
+  console.log(userCode);
+  console.log(data?.selectUserBuyItemList.map((ele) => ele.sId));
   return (
     <>
       <CartBox>
         <ChildBox>
           <LargeText>최근 구매목록</LargeText>
-          {data?.myItem.map((ele: any) =>
-            ele.item?.map((child: any) => (
-              <ListBox to={`/bestProduct/${ele.product_id}`} key={ele.id}>
-                <ItemImage>
-                  <Image src={`/img/product/${child?.slideImg[0]}`} />
-                </ItemImage>
-                <ImformBox>
-                  <SubLargeText>{child.name}</SubLargeText>
-                  <SubSmallText>{child.price * ele.count}원</SubSmallText>
-                </ImformBox>
-                <PriceBox>
-                  <SmallText>{ele.date}</SmallText>
-                </PriceBox>
-              </ListBox>
-            ))
-          )}
+          {data?.selectUserBuyItemList.map((list: any) => (
+            <ListBox to={`/bestProduct/${list.sId}`} key={list.bId}>
+              <ItemImage>
+                <Image src={`/img/product/${list?.slideImg[0]}`} />
+              </ItemImage>
+              <ImformBox>
+                <SubLargeText>{list.sName}</SubLargeText>
+                <SubSmallText>{list.sPrice}원</SubSmallText>
+              </ImformBox>
+              <PriceBox>
+                <SmallText>{list.bDate}</SmallText>
+              </PriceBox>
+            </ListBox>
+          ))}
         </ChildBox>
       </CartBox>
     </>

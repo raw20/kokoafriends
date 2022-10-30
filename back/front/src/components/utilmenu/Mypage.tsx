@@ -2,24 +2,18 @@ import styled from "styled-components";
 import Login from "../../pages/Login";
 import { gql, useQuery } from "@apollo/client";
 import RecentBuyList from "./RecentBuyList";
+import { MyProfile } from "../../interface/IDBdataType";
 
-/* interface UserData {
-  userCode: number;
-  kakaoId: number;
-  kakaoProfileImg: string;
-  kakaoNickname: string;
-  kakaoEmail: string;
-  userRole: string;
-  createTime: number;
-}
- */
-
-const GET_DATA = gql`
-  query Query {
-    aboutMe {
-      id
-      kakaoId
-      name
+const NOW_USER = gql`
+  query NowUser {
+    nowUser {
+      user_code
+      kakao_id
+      kakao_profile_img
+      kakao_nickname
+      kakao_email
+      user_role
+      create_time
     }
   }
 `;
@@ -68,8 +62,9 @@ const UserLargeText = styled.p`
 
 function Mypage() {
   const token: string = window.localStorage.getItem("token") as string;
-  const { data } = useQuery(GET_DATA);
-  const myKakaoId = data?.aboutMe.map((user: any) => user.kakaoId).join();
+  const { data } = useQuery<MyProfile>(NOW_USER);
+  const userCode = Number(data?.nowUser.map((user) => user.user_code));
+
   return (
     <>
       {!token ? (
@@ -77,20 +72,22 @@ function Mypage() {
       ) : (
         <Wrap>
           <Container>
-            {data?.aboutMe.map((user: any) => (
-              <UserBox key={user.id}>
+            {data?.nowUser.map((user) => (
+              <UserBox key={user.user_code}>
                 <Inner>
-                  <ChildBox>{/*  <UserImg src={image} /> */}</ChildBox>
                   <ChildBox>
-                    <UserLargeText>{user.name}</UserLargeText>
+                    <UserImg src={user.kakao_profile_img} />{" "}
                   </ChildBox>
                   <ChildBox>
-                    {/* <UserSmallText>{email}</UserSmallText> */}
+                    <UserLargeText>{user.kakao_nickname}</UserLargeText>
+                  </ChildBox>
+                  <ChildBox>
+                    <UserSmallText>{user.kakao_email}</UserSmallText>
                   </ChildBox>
                 </Inner>
               </UserBox>
             ))}
-            <RecentBuyList kakaoId={myKakaoId} />
+            <RecentBuyList userCode={userCode} />
           </Container>
         </Wrap>
       )}

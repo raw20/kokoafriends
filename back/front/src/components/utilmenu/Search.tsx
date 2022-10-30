@@ -3,17 +3,17 @@ import { MdOutlineSearch, MdCached } from "react-icons/md";
 import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
 import SearchItemList from "./SearchItemList";
-import { SearchItem } from "../../interface/dataType";
+import { SearchItem, Item } from "../../interface/IDBdataType";
 
 const SEARCH_ITEM = gql`
   query {
     item {
-      id
-      name
-      price
+      sId
+      sName
+      sPrice
       slideImg
-      view
-      category
+      sView
+      sCategory
     }
   }
 `;
@@ -126,36 +126,37 @@ const CategoryButton = styled.span`
   }
 `;
 function Search() {
-  const [searchData, setSearchData] = useState<SearchItem[]>([]);
+  const [searchData, setSearchData] = useState<Item[]>([]);
   const [input, setInput] = useState("");
-  const { data } = useQuery(SEARCH_ITEM);
+  const { data } = useQuery<SearchItem>(SEARCH_ITEM);
   const category = ["전체", "생활", "디지털", "문구"];
-
   function getSearchInput(e: any) {
     e.preventDefault();
     const target = e.target.value;
-    const item = data?.item.filter((ele: any) => ele?.name.includes(target));
-    setSearchData(item);
+    const items = data?.item.filter((ele) => ele?.sName.includes(target));
+    if (!items) throw new Error("undefined");
+    setSearchData(items);
     setInput(target);
   }
   function getSeletedImg(e: any) {
     e.preventDefault();
     const target = e.target.innerText;
-    const item = data?.item.filter((ele: any) => ele?.name.includes(target));
-    setSearchData(item);
+    const items = data?.item.filter((ele: any) => ele?.sName.includes(target));
+    if (!items) throw new Error("undefined");
+    setSearchData(items);
     setInput(target);
   }
   function getSeletedCategory(e: any) {
     e.preventDefault();
     const target = e.target.innerText;
     if (target === "전체") {
-      const item = data?.item.map((ele: any) => ele);
-      setSearchData(item);
+      const items = data?.item.map((ele) => ele);
+      if (!items) throw new Error("undefined");
+      setSearchData(items);
     } else {
-      const item = data?.item.filter((ele: any) =>
-        ele?.category.includes(target)
-      );
-      setSearchData(item);
+      const items = data?.item.filter((ele) => ele?.sCategory.includes(target));
+      if (!items) throw new Error("undefined");
+      setSearchData(items);
     }
     setInput(target);
   }

@@ -1,196 +1,158 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { comments, deleteId } from "./db/comment.js";
-import { contents, getContentsId } from "./db/contents.js";
-import { item, getItemId } from "./db/Item.js";
-import { deleteItemId, reviews } from "./db/review.js";
+import {
+  allUserBuyItemList,
+  buyItem,
+  selectUserBuyItemList,
+} from "./db/buyItem.js";
+import { comments } from "./db/comment.js";
+import { contents } from "./db/contents.js";
+import { getItemId, item } from "./db/Item.js";
+import {
+  deleteReview,
+  getItemReview,
+  postReview,
+  review,
+} from "./db/review.js";
 import { user } from "./db/user.js";
 
-let aboutMe = [];
-let buyItem = [];
+let nowUser = [];
+
 const typeDefs = `#graphql
   type Item {
-    id: Int!
-    name: String!
-    title: String!
-    contents:String!
-    price: Int!
-    like: Int!
-    view: Int!
-    reviews : [Review]
-    half_title: String!
-    category:String!
+    sId: Int!
+    sName: String!
+    sTitle: String!
+    sContents: String!
+    sPrice: Int!
+    sLike: Int!
+    sView: Int!
+    sHalf_title:String!
+    sCategory:String!
     slideImg: [String]!
-    mainTopImg:[String]!
-    mainMidImg:[String]!
-    mainBottomImg:[String]! 
-  }
-
-  type Contents {
-    id : Int!
-    writer : String!
-    profileImg : String!
-    image : String!
-    title : String!
-    content : String!
-    date : String!
-    like : Int!
-    comments : [Comment]
-  }
-  type BuyItem{
-    id: Int!
-    product_id : Int!
-    user_code : String!
-    item: [Item]!
-    count : Int!
-    date : String!
-  }
-  type Review {
-    id : Int!
-    product_id : Int!
-    kakaoId : String
-    writer : User
-    review : String!
-    date : String!
-  }
-  type Comment {
-    id : Int!
-    contents_id : Int!
-    kakaoId : String
-    writer : User
-    comment : String!
-    date : String!
+    mainTopImg: [String]!
+    mainMidImg: [String]!
+    mainBottomImg: [String]!
   }
   type User{
-    id: Int
-    kakaoId: String
-    name: String
+    user_code : Int
+    kakao_id : String
+    kakao_profile_img : String
+    kakao_nickname : String
+    kakao_email : String
+    user_role : String
+    create_time : Date
   }
-
+  type Contents {
+    cId : Int!
+    cWriter : String!
+    cProfileImg : String!
+    cImage : String!
+    cTitle : String!
+    cContent : String!
+    cDate : String!
+    cLike : Int!
+  }
+  type Comment {
+    tId : Int!
+    cId : Int!
+    user_code : Int!
+    comment : String!
+    co_date : Date!
+  }
+  type Review {
+    rId : Int
+    sId : Int
+    user_code : Int
+    rReview : String
+    kakao_nickname : String
+    rDate : Date
+  }
+  type BuyItem {
+    bId: Int
+    sId : Int
+    user_code: Int
+    bDate : Date
+    sName: String
+    sPrice: Int
+    slideImg: [String]
+  }
   type Query {
-    item: [Item]!
-    contents : [Contents]
-    selectContents (id:Int!) : Contents
-    comments(id:Int!) : [Comment]
-    reviews(id:Int!): [Review]
-    selectItem(id:Int!) : Item
-    allUser:[User]!
-    aboutMe:[User]
-    buyItem:[BuyItem]!
-    myItem(user_code:String!):[BuyItem]
+    item : [Item]!
+    selectItem(id:Int!) : [Item]!
+    contents : [Contents]!
+    comments : [Comment]
+    user : [User]
+    myProfile : [User]
+    review : [Review]
+    selectReview (id:Int!) : [Review]
+    nowUser : [User]
+    allUserBuyItemList : [BuyItem]
+    selectUserBuyItemList (user_code:Int!) : [BuyItem]
   }
+  scalar Date
   type Mutation {
-    postReview(kakaoId:String!,product_id:Int!,review:String!) : Review
-    postComment(kakaoId:String!,contents_id:Int!,comment:String!) : Comment
-    deleteReview(id:Int!) : Review
-    deleteComment(id:Int!) : Comment
-    addUser(kakaoId:String!,name:String!): User
-    putItem( product_id: Int!, user_code:String!, count:Int!) : BuyItem
+    postReviews(rId:Int, sId:Int, user_code:Int, rReview:String ) : Review
+    deleteReviews(id:Int!) : Review
+    logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
+    logOutUser:User
+    buyItems(bId:Int, sId:Int, user_code:Int) : BuyItem
   }
 `;
-const writeComment = new Date();
-const year = writeComment.getFullYear();
-const month = writeComment.getMonth() + 1;
-const day = writeComment.getDate();
+
 const resolvers = {
   Query: {
-    item: () => item,
-    contents: () => contents,
-    selectContents: (root: any, { id }) => getContentsId(id),
-    comments: (root: any, { id }) =>
-      comments.filter((comment) => comment.contents_id === id),
-    reviews: (root: any, { id }) =>
-      reviews.filter((review) => review.product_id === id),
+    item: () => item(),
+    contents: () => contents(),
+    comments: () => comments(),
+    user: () => user(),
+    nowUser: () => nowUser,
     selectItem: (root: any, { id }) => getItemId(id),
-    allUser: () => user,
-    aboutMe: () => aboutMe,
-    buyItem: () => buyItem,
-    myItem: (root: any, { user_code }) =>
-      buyItem.filter((item) => item.user_code === user_code),
-  },
-  Item: {
-    reviews({ id }) {
-      return reviews.filter((review) => review.product_id === id);
-    },
-  },
-  Contents: {
-    comments({ id }) {
-      return comments.filter((comments) => comments.contents_id === id);
-    },
-  },
-  Review: {
-    writer({ kakaoId }) {
-      return user.find((user) => user.kakaoId === kakaoId);
-    },
-  },
-  Comment: {
-    writer({ kakaoId }) {
-      return user.find((user) => user.kakaoId === kakaoId);
-    },
-  },
-  BuyItem: {
-    item({ product_id }) {
-      return item.filter((item) => item.id === product_id);
-    },
+    review: () => review(),
+    selectReview: (root: any, { id }) => getItemReview(id),
+    allUserBuyItemList: () => allUserBuyItemList(),
+    selectUserBuyItemList: (root: any, { user_code }) =>
+      selectUserBuyItemList(user_code),
   },
 
   Mutation: {
-    postReview(root: any, { kakaoId, product_id, review }) {
-      const newReview = {
-        id: reviews.length + 1,
-        kakaoId,
-        product_id,
-        review,
-        date: `${year}.${month}.${day}`,
-      };
-      reviews.push(newReview);
-      return newReview;
+    postReviews: (root: any, { rId, sId, user_code, rReview }) => {
+      return postReview(rId, sId, user_code, rReview);
     },
-    postComment(root: any, { kakaoId, contents_id, comment }) {
-      const newComment = {
-        id: comments.length + 1,
-        kakaoId,
-        contents_id,
-        comment,
-        date: `${year}.${month}.${day}`,
-      };
-      comments.push(newComment);
-      return newComment;
+    deleteReviews(root: any, { id }) {
+      return deleteReview(id);
     },
-    deleteReview(root: any, { id }) {
-      deleteItemId(id);
-    },
-    deleteComment(root: any, { id }) {
-      deleteId(id);
-    },
-    addUser(root: any, { kakaoId, name }) {
-      const findUser = user.find((ele) => ele.kakaoId === kakaoId);
-
-      const newUser = {
-        id: !findUser ? user.length + 1 : findUser.id,
-        kakaoId,
-        name,
-      };
-      aboutMe.push(newUser);
-      if (!findUser) {
-        user.push(newUser);
-      }
-      if (aboutMe.length > 1) {
-        aboutMe = [];
-        aboutMe.push(newUser);
-      }
-      return newUser;
-    },
-    putItem(root: any, { product_id, user_code, count }) {
-      const itemList = {
-        id: buyItem.length + 1,
-        product_id,
+    logInUser(
+      root: any,
+      {
         user_code,
-        count,
-        date: `${year}.${month}.${day}`,
+        kakao_id,
+        kakao_profile_img,
+        kakao_nickname,
+        kakao_email,
+        user_role,
+        create_time,
+      }
+    ) {
+      const me = {
+        user_code,
+        kakao_id,
+        kakao_profile_img,
+        kakao_nickname,
+        kakao_email,
+        user_role,
+        create_time,
       };
-      buyItem.push(itemList);
-      return itemList;
+      nowUser.push(me);
+      if (nowUser.length > 1) {
+        nowUser = [];
+        nowUser.push(me);
+      }
+      return me;
+    },
+    logOutUser: () => (nowUser = []),
+    buyItems: (root: any, { bId, sId, user_code }) => {
+      return buyItem(bId, sId, user_code);
     },
   },
 };

@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
-import { ContentsObj } from "../../interface/dataType";
+import { AllContents } from "../../interface/IDBdataType";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -8,20 +8,14 @@ import { Link } from "react-router-dom";
 const GET_CONTENTS = gql`
   query {
     contents {
-      id
-      writer
-      profileImg
-      image
-      title
-      content
-      date
-      like
-      comments {
-        comment
-        writer {
-          name
-        }
-      }
+      cId
+      cWriter
+      cProfileImg
+      cImage
+      cTitle
+      cContent
+      cDate
+      cLike
     }
   }
 `;
@@ -135,38 +129,38 @@ export const CommentBox = styled(Link)`
   padding-left: 1rem;
 `;
 function Contents() {
-  const { data } = useQuery<ContentsObj>(GET_CONTENTS);
+  const { data } = useQuery<AllContents>(GET_CONTENTS);
   return (
     <Wrap>
       <Inner>
         {data?.contents.map((item) => (
-          <ContentsBox key={item.id}>
+          <ContentsBox key={item.cId}>
             <HeaderBox>
-              <ProfileImage src={`/img/search/${item.profileImg}.jpg`} />
+              <ProfileImage src={`/img/search/${item.cProfileImg}.jpg`} />
               <TextBox>
-                <LargeText>{item.writer}</LargeText>
-                <SmallText>{item.date}</SmallText>
+                <LargeText>{item.cWriter}</LargeText>
+                <SmallText>{item.cDate}</SmallText>
               </TextBox>
             </HeaderBox>
             <MainBox>
               <ImgBox>
-                <Image src={`/img/contents/${item.image}`} />
+                <Image src={`/img/contents/${item.cImage}`} />
               </ImgBox>
               <IconBox>
                 <BsHeartFill className="icon heart" />
                 <FaRegComment className="icon" />
               </IconBox>
               <TextBox>
-                <EmpText>좋아요 {item.like}명</EmpText>
-                {item.title.split("\n").map((text, index) => (
+                <EmpText>좋아요 {item.cLike}명</EmpText>
+                {item.cTitle.split("\n").map((text, index) => (
                   <TitleText key={index}>{text}</TitleText>
                 ))}
-                {item.content.split("\n").map((text, index) => (
+                {item.cContent.split("\n").map((text, index) => (
                   <SmallText key={index}>{text}</SmallText>
                 ))}
               </TextBox>
             </MainBox>
-            <BottomBox>
+            {/*  <BottomBox>
               <SmallText>댓글{item.comments.length}개</SmallText>
               <Comment>
                 {item.comments.map((comment, index) =>
@@ -183,7 +177,7 @@ function Contents() {
               <CommentBox to={`/contentsDetail/${item.id}`}>
                 댓글을 남겨주세요.
               </CommentBox>
-            </BottomBox>
+            </BottomBox> */}
           </ContentsBox>
         ))}
       </Inner>
