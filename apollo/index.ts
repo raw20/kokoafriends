@@ -18,6 +18,7 @@ import { user } from "./db/user.js";
 
 let nowUser = [];
 
+
 const typeDefs = `#graphql
   type Item {
     sId: Int!
@@ -35,6 +36,7 @@ const typeDefs = `#graphql
     mainBottomImg: [String]!
   }
   type User{
+
     user_code : Int
     kakao_id : String
     kakao_profile_img : String
@@ -43,6 +45,7 @@ const typeDefs = `#graphql
     user_role : String
     create_time : Date
   }
+
   type Contents {
     cId : Int!
     cWriter : String!
@@ -54,6 +57,7 @@ const typeDefs = `#graphql
     cLike : Int!
   }
   type Comment {
+
     tId : Int!
     cId : Int!
     user_code : Int!
@@ -97,7 +101,10 @@ const typeDefs = `#graphql
     logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
     logOutUser:User
     buyItems(bId:Int, sId:Int, user_code:Int) : BuyItem
+
   }
+    scalar Date
+
 `;
 
 const resolvers = {
@@ -154,7 +161,9 @@ const resolvers = {
     buyItems: (root: any, { bId, sId, user_code }) => {
       return buyItem(bId, sId, user_code);
     },
+
   },
+
 };
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -165,8 +174,12 @@ const server = new ApolloServer({
   resolvers,
 });
 (async () => {
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+  const {url} = await startStandaloneServer(server, {
+    listen: {port: 4000},
   });
   console.log(`🚀 Server listening at: ${url}`);
 })();
+
+
+
+

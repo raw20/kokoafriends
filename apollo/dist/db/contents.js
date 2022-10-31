@@ -13,3 +13,8 @@ export const contents = async () => {
     const [rows] = await pool1.query("select * from contents");
     return rows;
 };
+/*
+export function getContentsId(id: number) {
+  const selectedContents = contents.filter((ele) => ele.id === id);
+  return selectedContents[0];
+}*/
