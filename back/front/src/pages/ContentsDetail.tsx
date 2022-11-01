@@ -1,7 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { BsHeart } from "react-icons/bs";
-import { FaRegComment } from "react-icons/fa";
 import styled from "styled-components";
 import {
   Wrap,
@@ -20,68 +18,67 @@ import {
   IconBox,
   BottomBox,
   UserName,
+  HeartEmpty,
+  RegComment,
 } from "../components/gnb/Contents";
 import { KAKAO_AUTH_URL } from "../auth/OAuth";
 import { useState } from "react";
+import { SelectConObj } from "../interface/IDBdataType";
 
 const SELECT_CONTENTS = gql`
-  query SelectContents($selectContentsId: Int!) {
+  query SelectContents($selectContentsId: Int!, $selectCommentId: Int!) {
     selectContents(id: $selectContentsId) {
-      id
-      writer
-      profileImg
-      image
-      title
-      content
-      date
-      like
-      comments {
-        id
-        contents_id
-        kakaoId
-        writer {
-          id
-          kakaoId
-          name
-        }
-        comment
-        date
-      }
+      cId
+      cWriter
+      cProfileImg
+      cImage
+      cTitle
+      cContent
+      cDate
+      cLike
     }
-    aboutMe {
-      kakaoId
-      name
+    selectComment(id: $selectCommentId) {
+      tId
+      cId
+      user_code
+      comment
+      kakao_nickname
+      co_date
+    }
+    comments {
+      tId
+    }
+    nowUser {
+      user_code
     }
   }
 `;
 const POST_COMMENT = gql`
-  mutation PostComment(
-    $kakaoId: String!
-    $contentsId: Int!
-    $comment: String!
+  mutation PostComments(
+    $tId: Int
+    $cId: Int
+    $userCode: Int
+    $comment: String
   ) {
-    postComment(
-      kakaoId: $kakaoId
-      contents_id: $contentsId
+    postComments(
+      tId: $tId
+      cId: $cId
+      user_code: $userCode
       comment: $comment
     ) {
-      id
-      contents_id
-      kakaoId
-      writer {
-        id
-        kakaoId
-        name
-      }
+      tId
+      cId
+      user_code
       comment
-      date
+      kakao_nickname
+      co_date
     }
   }
 `;
 const DELETE_COMMENT = gql`
-  mutation DeleteComment($deleteCommentId: Int!) {
-    deleteComment(id: $deleteCommentId) {
-      id
+  mutation DeleteComments($deleteCommentsId: Int!) {
+    deleteComments(id: $deleteCommentsId) {
+      tId
     }
   }
 `;
@@ -150,26 +147,28 @@ const DeleteButton = styled.span`
 
 function ContentsDetail() {
   const { id } = useParams();
-  const { data } = useQuery(SELECT_CONTENTS, {
+  const { data } = useQuery<SelectConObj>(SELECT_CONTENTS, {
     variables: {
       selectContentsId: Number(id),
+      selectCommentId: Number(id),
     },
   });
-  const [postComment] = useMutation(POST_COMMENT, {
+  const [postComments] = useMutation(POST_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
   });
-  const [deleteComment] = useMutation(DELETE_COMMENT, {
+  const [deleteComments] = useMutation(DELETE_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
   });
   const [comment, setComment] = useState<string>("");
-  const myKakaoId = data?.aboutMe.map((me: any) => me.kakaoId).join();
-
+  const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
+  const commentIndex = Number(data?.comments.length);
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
-      postComment({
+      postComments({
         variables: {
-          kakaoId: myKakaoId,
-          contentsId: data?.selectContents.id,
+          tId: commentIndex + 1,
+          cId: Number(id),
+          userCode: userCode,
           comment: comment,
         },
       });
@@ -177,9 +176,9 @@ function ContentsDetail() {
     }
   }
   function deleteHandler(id: number) {
-    deleteComment({
+    deleteComments({
       variables: {
-        deleteCommentId: id,
+        deleteCommentsId: id,
       },
     });
     alert("댓글이 삭제되었습니다.");
@@ -188,32 +187,32 @@ function ContentsDetail() {
   return (
     <Wrap>
       <Inner>
-        <ContentsBox key={data?.selectContents.id}>
+        <ContentsBox key={data?.selectContents[0].cId}>
           <HeaderBox>
             <ProfileImage
-              src={`/img/search/${data?.selectContents.profileImg}.jpg`}
+              src={`/img/search/${data?.selectContents[0].cProfileImg}.jpg`}
             />
             <TextBox>
-              <LargeText>{data?.selectContents.writer}</LargeText>
-              <SmallText>{data?.selectContents.date}</SmallText>
+              <LargeText>{data?.selectContents[0].cWriter}</LargeText>
+              <SmallText>{data?.selectContents[0].cDate}</SmallText>
             </TextBox>
           </HeaderBox>
           <MainBox>
             <ImgBox>
-              <Image src={`/img/contents/${data?.selectContents.image}`} />
+              <Image src={`/img/contents/${data?.selectContents[0].cImage}`} />
             </ImgBox>
             <IconBox>
-              <BsHeart className="icon" />
-              <FaRegComment className="icon" />
+              <HeartEmpty className="icon" />
+              <RegComment className="icon" />
             </IconBox>
             <TextBox>
-              <EmpText>좋아요 {data?.selectContents.like}명</EmpText>
-              {data?.selectContents.title
+              <EmpText>좋아요 {data?.selectContents[0].cLike}명</EmpText>
+              {data?.selectContents[0].cTitle
                 .split("\n")
                 .map((text: string, index: any) => (
                   <TitleText key={index}>{text}</TitleText>
                 ))}
-              {data?.selectContents.content
+              {data?.selectContents[0].cContent
                 .split("\n")
                 .map((text: string, index: any) => (
                   <SmallText key={index}>{text}</SmallText>
@@ -235,23 +234,23 @@ function ContentsDetail() {
             )}
           </BottomBox>
           <ChatBox>
-            <SmallText>댓글{data?.selectContents.comments.length}개</SmallText>
-            {data?.selectContents.comments.map((comment: any) => (
-              <Chat key={comment.id}>
+            <SmallText>댓글{data?.selectComment.length}개</SmallText>
+            {data?.selectComment.map((ele) => (
+              <Chat key={ele.tId}>
                 <ChatTop>
-                  <UserName>{comment.writer.name}</UserName>
-                  {comment.kakaoId === myKakaoId && token ? (
+                  <UserName>{ele.kakao_nickname}</UserName>
+                  {ele.user_code === userCode && token ? (
                     <DeleteButton
                       onClick={() => {
-                        deleteHandler(comment.id);
+                        deleteHandler(ele.tId);
                       }}
                     >
                       삭제
                     </DeleteButton>
                   ) : null}
                 </ChatTop>
-                <Message>{comment.comment}</Message>
-                <SmallText>{comment.date}</SmallText>
+                <Message>{ele.comment}</Message>
+                <SmallText>{ele.co_date}</SmallText>
               </Chat>
             ))}
           </ChatBox>

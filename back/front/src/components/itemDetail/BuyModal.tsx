@@ -8,13 +8,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import Login from "../../pages/Login";
 import { BuyModalComponent } from "../../interface/IDBdataType";
 
+interface IBuyModalProps {
+  userCode: number | undefined;
+}
+
 const GET_ITEM = gql`
-  query SelectItem($selectItemId: Int!) {
+  query SelectItem($selectItemId: Int!, $userCode: Int!) {
     selectItem(id: $selectItemId) {
       sPrice
     }
-    nowUser {
+    selectUserBuyItemList(user_code: $userCode) {
       user_code
+      sId
+      bId
+      sName
+      sPrice
+      bDate
+      slideImg
     }
     allUserBuyItemList {
       bId
@@ -22,11 +32,12 @@ const GET_ITEM = gql`
   }
 `;
 const BUY_ITEM = gql`
-  mutation BuyItems($bId: Int, $sId: Int, $userCode: Int) {
-    buyItems(bId: $bId, sId: $sId, user_code: $userCode) {
+  mutation BuyItems($bId: Int!, $sId: Int!, $userCode: Int!, $bCount: Int!) {
+    buyItems(bId: $bId, sId: $sId, user_code: $userCode, bCount: $bCount) {
       bId
       sId
       user_code
+      bCount
     }
   }
 `;
@@ -40,7 +51,7 @@ const ModalDiv = styled.div`
 
 Modal.setAppElement("#root");
 
-function BuyModal() {
+function BuyModal({ userCode }: IBuyModalProps) {
   const { id } = useParams();
   const [number, setNumber] = useState(1);
   const token = window.localStorage.getItem("token");
@@ -48,19 +59,21 @@ function BuyModal() {
   const { data } = useQuery<BuyModalComponent>(GET_ITEM, {
     variables: {
       selectItemId: Number(id),
+      userCode: userCode,
     },
   });
   const [buyItems] = useMutation(BUY_ITEM, {
     refetchQueries: [{ query: GET_ITEM }, "SelectItem"],
   });
-  const buyItemIndex = Number(data?.allUserBuyItemList.length) + 1;
-  const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
+  const buyItemIndex = Number(data?.allUserBuyItemList.length);
+
   function buyItem() {
     buyItems({
       variables: {
-        bId: buyItemIndex,
+        bId: buyItemIndex + 1,
         sId: Number(id),
-        user_code: userCode,
+        userCode: userCode,
+        bCount: number,
       },
     });
     alert("구매하였습니다.");

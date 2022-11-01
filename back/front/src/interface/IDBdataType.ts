@@ -19,6 +19,7 @@ export interface AllItem {
 }
 export interface SelectItemObj {
   selectItem: [Item];
+  nowUser: [User];
 }
 export interface Contents {
   cId: number;
@@ -29,12 +30,18 @@ export interface Contents {
   cContent: string;
   cDate: string;
   cLike: string;
+  kakao_nickname: [string];
+  comment: [string];
 }
 export interface AllContents {
   contents: [Contents];
+  comments: [Comment];
 }
 export interface SelectConObj {
   selectContents: [Contents];
+  selectComment: [Comment];
+  comments: [Review];
+  nowUser: [User];
 }
 export interface Review {
   rId: number;
@@ -50,12 +57,12 @@ export interface ReviewObj {
   nowUser: [User];
 }
 export interface Comment {
-  id: number;
-  contents_id: number;
-  user_id: number;
-  writer: User;
+  tId: number;
+  cId: number;
+  user_code: number;
   comment: string;
-  date: string;
+  kakao_nickname: string;
+  co_date: string;
 }
 export interface User {
   user_code: number;
@@ -79,8 +86,8 @@ export interface MyProfile {
 }
 export interface BuyModalComponent {
   selectItem: [Item];
-  nowUser: [User];
   allUserBuyItemList: [BuyItem];
+  selectUserBuyItemList: [BuyItem];
 }
 export interface RecentBIComponent {
   selectUserBuyItemList: [BuyItem];

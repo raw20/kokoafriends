@@ -17,6 +17,7 @@ const GET_DATA = gql`
       sPrice
       bDate
       slideImg
+      bCount
     }
     nowUser {
       user_code
@@ -100,8 +101,6 @@ function RecentBuyList({ userCode }: IRecentBuyListProps) {
       userCode: userCode,
     },
   });
-  console.log(userCode);
-  console.log(data?.selectUserBuyItemList.map((ele) => ele.sId));
   return (
     <>
       <CartBox>
@@ -114,7 +113,7 @@ function RecentBuyList({ userCode }: IRecentBuyListProps) {
               </ItemImage>
               <ImformBox>
                 <SubLargeText>{list.sName}</SubLargeText>
-                <SubSmallText>{list.sPrice}원</SubSmallText>
+                <SubSmallText>{list.sPrice * list.bCount}원</SubSmallText>
               </ImformBox>
               <PriceBox>
                 <SmallText>{list.bDate}</SmallText>

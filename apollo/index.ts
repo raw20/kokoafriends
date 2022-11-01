@@ -5,9 +5,15 @@ import {
   buyItem,
   selectUserBuyItemList,
 } from "./db/buyItem.js";
-import { comments } from "./db/comment.js";
-import { contents } from "./db/contents.js";
+import {
+  comments,
+  deleteComment,
+  getContentsComment,
+  postComment,
+} from "./db/comment.js";
+import { contents, getContentsId } from "./db/contents.js";
 import { getItemId, item } from "./db/Item.js";
+import { clickLiked, likeContents } from "./db/likeContents.js";
 import {
   deleteReview,
   getItemReview,
@@ -52,13 +58,16 @@ const typeDefs = `#graphql
     cContent : String!
     cDate : String!
     cLike : Int!
+    comment : String
+    kakao_nickname : String
   }
   type Comment {
-    tId : Int!
-    cId : Int!
-    user_code : Int!
-    comment : String!
-    co_date : Date!
+    tId : Int
+    cId : Int
+    user_code : Int
+    comment : String
+    kakao_nickname : String
+    co_date : Date
   }
   type Review {
     rId : Int
@@ -75,28 +84,41 @@ const typeDefs = `#graphql
     bDate : Date
     sName: String
     sPrice: Int
+    bCount:Int
     slideImg: [String]
+  }
+  type LikeContents {
+    lId : Int,
+    user_code : Int,
+    cId : Int,
+    like_check : Int
   }
   type Query {
     item : [Item]!
     selectItem(id:Int!) : [Item]!
     contents : [Contents]!
+    selectContents(id:Int!) : [Contents]!
     comments : [Comment]
     user : [User]
     myProfile : [User]
     review : [Review]
     selectReview (id:Int!) : [Review]
+    selectComment (id:Int!) : [Comment]
     nowUser : [User]
     allUserBuyItemList : [BuyItem]
     selectUserBuyItemList (user_code:Int!) : [BuyItem]
+    likeContents: [LikeContents]
   }
   scalar Date
   type Mutation {
     postReviews(rId:Int, sId:Int, user_code:Int, rReview:String ) : Review
     deleteReviews(id:Int!) : Review
+    postComments( tId: Int, cId: Int,user_code: Int, comment: String) : Comment
+    deleteComments(id:Int!) : Comment
     logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
     logOutUser:User
-    buyItems(bId:Int, sId:Int, user_code:Int) : BuyItem
+    buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
+    clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int!) : LikeContents
   }
 `;
 
@@ -108,11 +130,14 @@ const resolvers = {
     user: () => user(),
     nowUser: () => nowUser,
     selectItem: (root: any, { id }) => getItemId(id),
+    selectContents: (root: any, { id }) => getContentsId(id),
     review: () => review(),
     selectReview: (root: any, { id }) => getItemReview(id),
+    selectComment: (root: any, { id }) => getContentsComment(id),
     allUserBuyItemList: () => allUserBuyItemList(),
     selectUserBuyItemList: (root: any, { user_code }) =>
       selectUserBuyItemList(user_code),
+    likeContents: () => likeContents(),
   },
 
   Mutation: {
@@ -121,6 +146,12 @@ const resolvers = {
     },
     deleteReviews(root: any, { id }) {
       return deleteReview(id);
+    },
+    postComments: (root: any, { tId, cId, user_code, comment }) => {
+      return postComment(tId, cId, user_code, comment);
+    },
+    deleteComments(root: any, { id }) {
+      return deleteComment(id);
     },
     logInUser(
       root: any,
@@ -151,8 +182,11 @@ const resolvers = {
       return me;
     },
     logOutUser: () => (nowUser = []),
-    buyItems: (root: any, { bId, sId, user_code }) => {
-      return buyItem(bId, sId, user_code);
+    buyItems: (root: any, { bId, sId, user_code, bCount }) => {
+      return buyItem(bId, sId, user_code, bCount);
+    },
+    clickLiked: (root: any, { lId, user_code, cId, like_check }) => {
+      return clickLiked(lId, user_code, cId, like_check);
     },
   },
 };

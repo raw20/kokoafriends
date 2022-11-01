@@ -37,6 +37,9 @@ const GET_ITEM = gql`
       mainMidImg
       mainBottomImg
     }
+    nowUser {
+      user_code
+    }
   }
 `;
 
@@ -149,6 +152,8 @@ function ItemDetail() {
   function closeModal() {
     setModalOpen(false);
   }
+  const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
+
   return (
     <Wrap>
       <Inner>
@@ -210,7 +215,7 @@ function ItemDetail() {
             onRequestClose={() => closeModal()}
             style={CustomModalStyles}
           >
-            <BuyModal />
+            <BuyModal userCode={userCode} />
           </Modal>
         </BuyButtonArea>
       </Inner>

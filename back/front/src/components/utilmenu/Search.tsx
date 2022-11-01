@@ -98,18 +98,22 @@ const Text = styled.span`
 `;
 const Bottom = styled(Top)`
   border-bottom: none;
+  margin: 1rem auto;
+  padding: 0;
 `;
 const Title = styled.h1`
   font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
 `;
 const TextBox = styled.div`
   width: 100%;
   height: auto;
   display: flex;
-  padding: 1rem 1.5rem;
+  justify-content: start;
 `;
 const CategoryButton = styled.span`
-  width: 120px;
+  width: 150px;
   height: 40px;
   border-radius: 10px;
   font-size: 1.1rem;

@@ -10,6 +10,10 @@ const pool1 = mysql.createPool({
     queueLimit: 0,
 });
 export const contents = async () => {
-    const [rows] = await pool1.query("select * from contents");
+    const [rows] = await pool1.query(`select * from contents`);
+    return rows;
+};
+export const getContentsId = async (id) => {
+    const [rows] = await pool1.query(`select * from contents where cId=${id}`);
     return rows;
 };

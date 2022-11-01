@@ -19,7 +19,7 @@ const NOW_USER = gql`
 `;
 const Wrap = styled.div`
   width: 100%;
-  height: 100vh;
+  height: auto;
   padding: 1.2rem 7.5rem;
   box-sizing: border-box;
   justify-content: center;

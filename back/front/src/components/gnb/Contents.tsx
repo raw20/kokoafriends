@@ -4,6 +4,7 @@ import { AllContents } from "../../interface/IDBdataType";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const GET_CONTENTS = gql`
   query {
@@ -16,6 +17,12 @@ const GET_CONTENTS = gql`
       cContent
       cDate
       cLike
+    }
+    comments {
+      cId
+      kakao_nickname
+      comment
+      user_code
     }
   }
 `;
@@ -92,13 +99,21 @@ export const Image = styled.img`
 `;
 export const IconBox = styled(TextBox)`
   flex-direction: row;
-  .icon {
-    font-size: 2rem;
-    margin: 1rem 1rem 1rem 0;
-  }
-  .heart {
-    color: red;
-  }
+`;
+export const HeartEmpty = styled(BsHeart)`
+  font-size: 2rem;
+  margin: 1rem 1rem 1rem 0;
+  cursor: pointer;
+`;
+export const HeartFull = styled(BsHeartFill)`
+  font-size: 2rem;
+  margin: 1rem 1rem 1rem 0;
+  color: red;
+  cursor: pointer;
+`;
+export const RegComment = styled(FaRegComment)`
+  font-size: 2rem;
+  margin: 1rem 1rem 1rem 0;
 `;
 export const BottomBox = styled(HeaderBox)`
   align-items: flex-start;
@@ -130,10 +145,15 @@ export const CommentBox = styled(Link)`
 `;
 function Contents() {
   const { data } = useQuery<AllContents>(GET_CONTENTS);
+  const [liked, setLiked] = useState(false);
+  function likeHandler(index: number) {
+    if (Number(data?.contents[index].cId) - 1 === index)
+      setLiked((liked) => !liked);
+  }
   return (
     <Wrap>
       <Inner>
-        {data?.contents.map((item) => (
+        {data?.contents.map((item, index) => (
           <ContentsBox key={item.cId}>
             <HeaderBox>
               <ProfileImage src={`/img/search/${item.cProfileImg}.jpg`} />
@@ -147,8 +167,12 @@ function Contents() {
                 <Image src={`/img/contents/${item.cImage}`} />
               </ImgBox>
               <IconBox>
-                <BsHeartFill className="icon heart" />
-                <FaRegComment className="icon" />
+                {!liked ? (
+                  <HeartEmpty onClick={() => likeHandler(index)} />
+                ) : (
+                  <HeartFull onClick={() => likeHandler(index)} />
+                )}
+                <RegComment />
               </IconBox>
               <TextBox>
                 <EmpText>좋아요 {item.cLike}명</EmpText>
@@ -160,24 +184,16 @@ function Contents() {
                 ))}
               </TextBox>
             </MainBox>
-            {/*  <BottomBox>
-              <SmallText>댓글{item.comments.length}개</SmallText>
+            <BottomBox>
+              <SmallText>댓글{index}개</SmallText>
               <Comment>
-                {item.comments.map((comment, index) =>
-                  index < 1 ? (
-                    <UserName key={index}>{comment.writer.name}</UserName>
-                  ) : null
-                )}
-                {item.comments.map((ele, index) =>
-                  index < 1 ? (
-                    <SmallText key={index}>{ele.comment}</SmallText>
-                  ) : null
-                )}
+                <UserName>{data?.comments[index].kakao_nickname}</UserName>
+                <SmallText>{data?.comments[index].comment}</SmallText>
               </Comment>
-              <CommentBox to={`/contentsDetail/${item.id}`}>
+              <CommentBox to={`/contentsDetail/${item.cId}`}>
                 댓글을 남겨주세요.
               </CommentBox>
-            </BottomBox> */}
+            </BottomBox>
           </ContentsBox>
         ))}
       </Inner>

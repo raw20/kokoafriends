@@ -19,9 +19,14 @@ export const selectUserBuyItemList = async (user_code: number) => {
   );
   return rows;
 };
-export const buyItem = async (bId: number, sId: number, user_code: number) => {
+export const buyItem = async (
+  bId: number,
+  sId: number,
+  user_code: number,
+  bCount: number
+) => {
   const [rows] = await pool1.query(
-    `insert into buyItem(bId,sId,user_code) values('${bId}','${sId}','${user_code}') `
+    `insert into buyItem(bId,sId,user_code,bCount) values('${bId}','${sId}','${user_code}','${bCount}') `
   );
   return rows;
 };

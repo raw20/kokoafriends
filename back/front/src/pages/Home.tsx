@@ -5,7 +5,7 @@ import { AllItem } from "../interface/IDBdataType";
 import Header from "../components/header/Header";
 import { ItemName, ItemPrice } from "../components/gnb/BestProductItem";
 import Slider from "react-slick";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -67,6 +67,12 @@ const Banner = styled.div`
   width: 50%;
   height: auto;
   margin: 1.5rem auto;
+  @media ${(props) => props.theme.tablet} {
+    width: 70%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 const BannerImgContentsArea = styled(Link)`
   width: 100%;
@@ -97,6 +103,9 @@ const Title = styled.h1`
   font-size: 2.2rem;
   font-weight: bold;
   color: ${(props) => props.theme.bgColor};
+  @media ${(props) => props.theme.tablet} {
+    font-size: 1.5rem;
+  }
 `;
 const Contents = styled.p`
   width: 100%;
@@ -106,9 +115,24 @@ const Contents = styled.p`
   color: ${(props) => props.theme.bgColor};
   font-weight: 600;
   margin-top: 15px;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    font-size: 1.2rem;
+  }
 `;
 const NewItem = styled(Banner)`
+  width: 50%;
   margin: 4.5rem auto;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 70%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
+`;
+const NewItemInner = styled.div`
+  width: 100%;
 `;
 const NewItemTitle = styled.h1`
   font-size: 1.7rem;
@@ -121,6 +145,7 @@ const ItemList = styled(Link)`
   justify-content: center;
   flex-direction: column;
   align-items: flex-start;
+
   &:hover {
     opacity: 0.7;
   }
@@ -128,14 +153,39 @@ const ItemList = styled(Link)`
 const ItemImg = styled.img`
   width: 350px;
   height: 350px;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const ItemImgSlider = styled(Slider)`
   width: 100%;
   height: auto;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 85%;
+    margin: 0 auto;
+  }
   .slick-list {
     width: 100%;
     box-sizing: border-box;
+    @media ${(props) => props.theme.tablet} {
+      width: 100%;
+    }
+    @media ${(props) => props.theme.mobile} {
+      width: 100%;
+      margin-right: 1rem;
+    }
+  }
+  .slick-arrow {
+    background-color: ${(props) => props.theme.secondColor};
   }
 `;
 const settings = {
@@ -144,7 +194,7 @@ const settings = {
   centerMode: true,
   infinite: true,
   centerPadding: "3rem",
-  slidesToShow: 2,
+  slidesToShow: 3,
   speed: 500,
 };
 
@@ -215,16 +265,18 @@ function Home() {
             ))}
           </Banner>
           <NewItem>
-            <NewItemTitle>새로나온 친구들</NewItemTitle>
-            <ItemImgSlider {...settings}>
-              {newItem?.map((item, index) => (
-                <ItemList to={`/bestProduct/${item?.sId}`} key={index}>
-                  <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-                  <ItemName> {item?.sName}</ItemName>
-                  <ItemPrice>{item?.sPrice}원</ItemPrice>
-                </ItemList>
-              ))}
-            </ItemImgSlider>
+            <NewItemInner>
+              <NewItemTitle>새로나온 친구들</NewItemTitle>
+              <ItemImgSlider {...settings}>
+                {newItem?.map((item, index) => (
+                  <ItemList to={`/bestProduct/${item?.sId}`} key={index}>
+                    <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
+                    <ItemName> {item?.sName}</ItemName>
+                    <ItemPrice>{item?.sPrice}원</ItemPrice>
+                  </ItemList>
+                ))}
+              </ItemImgSlider>
+            </NewItemInner>
           </NewItem>
         </Main>
       ) : (

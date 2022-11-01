@@ -13,6 +13,10 @@ const pool1 = mysql.createPool({
 });
 
 export const contents = async () => {
-  const [rows] = await pool1.query("select * from contents");
+  const [rows] = await pool1.query(`select * from contents`);
+  return rows;
+};
+export const getContentsId = async (id: number) => {
+  const [rows] = await pool1.query(`select * from contents where cId=${id}`);
   return rows;
 };

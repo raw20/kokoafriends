@@ -157,7 +157,7 @@ function Reviews() {
       reviewId: Number(id),
     },
   });
-  const reviewIndex = Number(data?.review.length) + 1;
+  const reviewIndex = Number(data?.review.length);
   const [input, setInput] = useState<string>("");
   const [postReviews] = useMutation(POST_REVIEW, {
     refetchQueries: [{ query: GET_REVIEW }, "SelectReview"],
@@ -170,7 +170,7 @@ function Reviews() {
     if (e.key === "Enter") {
       postReviews({
         variables: {
-          rId: reviewIndex,
+          rId: reviewIndex + 1,
           sId: Number(id),
           userCode: myUserCode,
           rReview: input,

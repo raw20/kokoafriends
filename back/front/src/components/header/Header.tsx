@@ -20,6 +20,9 @@ const Inner = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 const Left = styled.div`
   width: 100%;
@@ -40,6 +43,10 @@ const Logo = styled.div`
   color: #fff;
   border-radius: 10px;
   text-align: center;
+  @media ${(props) => props.theme.mobile} {
+    width: 100px;
+    font-size: 0.5rem;
+  }
 `;
 const GnbUl = styled.ul`
   width: 100%;
@@ -60,6 +67,11 @@ const GnbLi = styled.li<{ isActive: boolean }>`
   font-weight: ${(props) => (props.isActive ? "bold" : "500")};
   border-bottom: ${(props) =>
     props.isActive ? "4px solid" + props.theme.accentColor : "none"};
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    font-size: 1rem;
+  }
 `;
 const UtilUl = styled.div`
   width: 100%;
@@ -70,6 +82,11 @@ const UtilUl = styled.div`
     margin-right: 1rem;
     &:hover {
       transform: scale(120%);
+    }
+    @media ${(props) => props.theme.mobile} {
+      width: 100%;
+      font-size: 1.5rem;
+      margin-right: 0;
     }
   }
 `;
