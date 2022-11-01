@@ -41,6 +41,7 @@ const typeDefs = `#graphql
     mainBottomImg: [String]!
   }
   type User{
+
     user_code : Int
     kakao_id : String
     kakao_profile_img : String
@@ -49,6 +50,7 @@ const typeDefs = `#graphql
     user_role : String
     create_time : Date
   }
+
   type Contents {
     cId : Int!
     cWriter : String!
@@ -120,6 +122,8 @@ const typeDefs = `#graphql
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int!) : LikeContents
   }
+    scalar Date
+
 `;
 
 const resolvers = {

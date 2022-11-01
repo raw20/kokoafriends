@@ -34,3 +34,4 @@ export const deleteReview = async (id: number) => {
   const [rows] = await pool1.query(`DELETE FROM review where rId=${id}`);
   return rows;
 };
+

@@ -12,6 +12,7 @@ const pool1 = mysql.createPool({
   queueLimit: 0,
 });
 
+
 export const contents = async () => {
   const [rows] = await pool1.query(`select * from contents`);
   return rows;
