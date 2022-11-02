@@ -19,6 +19,6 @@ export const selectedContentsLike = async () => {
 };
 export const clickLiked = async (lId, user_code, cId, like_check) => {
     const [rows] = await pool1.query(`insert into contentsLike(lId,user_code,cId,like_check) values('${lId}','${user_code}','${cId}','${like_check}') on duplicate key
-    update like_check = ${like_check} `);
+    update lid = '${lId}' , user_code = '${user_code}', cId='${cId}' , like_check = '${like_check}' `);
     return rows;
 };

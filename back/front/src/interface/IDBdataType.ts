@@ -33,9 +33,11 @@ export interface Contents {
   kakao_nickname: [string];
   comment: [string];
 }
-export interface AllContents {
+export interface ContentsComponent {
   contents: [Contents];
   comments: [Comment];
+  likeContents: [LikeContents];
+  nowUser: [User];
 }
 export interface SelectConObj {
   selectContents: [Contents];
@@ -80,6 +82,12 @@ export interface BuyItem {
   sName: String;
   sPrice: number;
   slideImg: [string];
+}
+export interface LikeContents {
+  lId: number;
+  user_code: number;
+  cId: number;
+  like_check: number;
 }
 export interface MyProfile {
   nowUser: [User];

@@ -11,7 +11,7 @@ import {
   getContentsComment,
   postComment,
 } from "./db/comment.js";
-import { contents, getContentsId } from "./db/contents.js";
+import { contents, countLike, getContentsId } from "./db/contents.js";
 import { getItemId, item } from "./db/Item.js";
 import { clickLiked, likeContents } from "./db/likeContents.js";
 import {
@@ -120,7 +120,8 @@ const typeDefs = `#graphql
     logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
     logOutUser:User
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
-    clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int!) : LikeContents
+    clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
+    countLike(cId:Int! cLike:Int!) : Contents
   }
     scalar Date
 
@@ -191,6 +192,9 @@ const resolvers = {
     },
     clickLiked: (root: any, { lId, user_code, cId, like_check }) => {
       return clickLiked(lId, user_code, cId, like_check);
+    },
+    countLike: (root: any, { cId, cLike }) => {
+      return countLike(cId, cLike);
     },
   },
 };

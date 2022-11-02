@@ -65,12 +65,11 @@ function BuyModal({ userCode }: IBuyModalProps) {
   const [buyItems] = useMutation(BUY_ITEM, {
     refetchQueries: [{ query: GET_ITEM }, "SelectItem"],
   });
-  const buyItemIndex = Number(data?.allUserBuyItemList.length);
-
+  const bId = Number(`${userCode}${id}`);
   function buyItem() {
     buyItems({
       variables: {
-        bId: buyItemIndex + 1,
+        bId: bId,
         sId: Number(id),
         userCode: userCode,
         bCount: number,

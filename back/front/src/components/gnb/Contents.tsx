@@ -1,13 +1,13 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import styled from "styled-components";
-import { AllContents } from "../../interface/IDBdataType";
+import { ContentsComponent } from "../../interface/IDBdataType";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const GET_CONTENTS = gql`
-  query {
+  query Contents {
     contents {
       cId
       cWriter
@@ -23,6 +23,40 @@ const GET_CONTENTS = gql`
       kakao_nickname
       comment
       user_code
+    }
+    likeContents {
+      like_check
+      lId
+      user_code
+      cId
+    }
+    nowUser {
+      user_code
+    }
+  }
+`;
+const CLICK_LIKE = gql`
+  mutation ClickLiked(
+    $lId: Int!
+    $userCode: Int!
+    $cId: Int!
+    $likeCheck: Int
+  ) {
+    clickLiked(
+      lId: $lId
+      user_code: $userCode
+      cId: $cId
+      like_check: $likeCheck
+    ) {
+      cId
+      like_check
+    }
+  }
+`;
+const COUNT_LIKE = gql`
+  mutation CountLike($cId: Int!, $cLike: Int!) {
+    countLike(cId: $cId, cLike: $cLike) {
+      cLike
     }
   }
 `;
@@ -144,12 +178,53 @@ export const CommentBox = styled(Link)`
   padding-left: 1rem;
 `;
 function Contents() {
-  const { data } = useQuery<AllContents>(GET_CONTENTS);
-  const [liked, setLiked] = useState(false);
-  function likeHandler(index: number) {
-    if (Number(data?.contents[index].cId) - 1 === index)
-      setLiked((liked) => !liked);
+  const token: string = window.localStorage.getItem("token") as string;
+  const { data } = useQuery<ContentsComponent>(GET_CONTENTS);
+  const [liked, setLiked] = useState<number>(1);
+  const userCode = Number(data?.nowUser.map((ele) => ele.user_code));
+  const userCodeMatchLikeContents = data?.likeContents?.filter(
+    (ele) => ele.user_code === userCode
+  );
+  const [clickLiked] = useMutation(CLICK_LIKE, {
+    refetchQueries: [{ query: GET_CONTENTS }, "Contents"],
+  });
+  const [countLike] = useMutation(COUNT_LIKE, {
+    refetchQueries: [{ query: GET_CONTENTS }, "Contents"],
+  });
+  function likeHandler(id: number, index: number) {
+    const lid = Number(`${userCode}${id}`);
+    const contentsLike = Number(data?.contents[index].cLike);
+
+    if (!token) {
+      alert("로그인이 필요합니다.");
+    } else {
+      setLiked(liked === 1 ? 0 : 1);
+      clickLiked({
+        variables: {
+          lId: lid,
+          userCode: userCode,
+          cId: id,
+          likeCheck: Number(liked),
+        },
+      });
+      if (liked === 1) {
+        countLike({
+          variables: {
+            cId: id,
+            cLike: Number((userCodeMatchLikeContents[index].like_check -= 1)),
+          },
+        });
+      } else if (liked === 0) {
+        countLike({
+          variables: {
+            cId: id,
+            cLike: Number((userCodeMatchLikeContents[index].like_check += 1)),
+          },
+        });
+      }
+    }
   }
+
   return (
     <Wrap>
       <Inner>
@@ -167,10 +242,10 @@ function Contents() {
                 <Image src={`/img/contents/${item.cImage}`} />
               </ImgBox>
               <IconBox>
-                {!liked ? (
-                  <HeartEmpty onClick={() => likeHandler(index)} />
+                {userCodeMatchLikeContents[index]?.like_check !== 1 ? (
+                  <HeartEmpty onClick={() => likeHandler(item.cId, index)} />
                 ) : (
-                  <HeartFull onClick={() => likeHandler(index)} />
+                  <HeartFull onClick={() => likeHandler(item.cId, index)} />
                 )}
                 <RegComment />
               </IconBox>

@@ -26,7 +26,8 @@ export const buyItem = async (
   bCount: number
 ) => {
   const [rows] = await pool1.query(
-    `insert into buyItem(bId,sId,user_code,bCount) values('${bId}','${sId}','${user_code}','${bCount}') `
+    `insert into buyItem(bId,sId,user_code,bCount) values('${bId}','${sId}','${user_code}','${bCount}') on duplicate key
+    update bCount = ${bCount + bCount}`
   );
   return rows;
 };
