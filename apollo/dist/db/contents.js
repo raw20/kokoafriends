@@ -17,3 +17,7 @@ export const getContentsId = async (id) => {
     const [rows] = await pool1.query(`select * from contents where cId=${id}`);
     return rows;
 };
+export const countLike = async (id, like) => {
+    const [rows] = await pool1.query(`update contents set cLike = ${like} where cId = ${id}`);
+    return rows;
+};

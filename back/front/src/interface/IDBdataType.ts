@@ -17,10 +17,7 @@ export interface Item {
 export interface AllItem {
   item: [Item];
 }
-export interface SelectItemObj {
-  selectItem: [Item];
-  nowUser: [User];
-}
+
 export interface Contents {
   cId: number;
   cWriter: string;
@@ -32,12 +29,6 @@ export interface Contents {
   cLike: string;
   kakao_nickname: [string];
   comment: [string];
-}
-export interface ContentsComponent {
-  contents: [Contents];
-  comments: [Comment];
-  likeContents: [LikeContents];
-  nowUser: [User];
 }
 export interface SelectConObj {
   selectContents: [Contents];
@@ -81,6 +72,7 @@ export interface BuyItem {
   bDate: string;
   sName: String;
   sPrice: number;
+  bCount: number;
   slideImg: [string];
 }
 export interface LikeContents {
@@ -91,6 +83,20 @@ export interface LikeContents {
 }
 export interface MyProfile {
   nowUser: [User];
+}
+export interface ItemDetailComponent {
+  selectItem: [Item];
+  nowUser: [User];
+  cartList: [BuyItem];
+}
+export interface ContentsComponent {
+  contents: [Contents];
+  comments: [Comment];
+  likeContents: [LikeContents];
+  nowUser: [User];
+}
+export interface CartComponent {
+  cartList: [BuyItem];
 }
 export interface BuyModalComponent {
   selectItem: [Item];

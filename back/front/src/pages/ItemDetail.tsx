@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Slider from "react-slick";
@@ -7,8 +7,9 @@ import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import Modal from "react-modal";
 import BuyModal from "../components/itemDetail/BuyModal";
-import { SelectItemObj } from "../interface/IDBdataType";
+import { ItemDetailComponent } from "../interface/IDBdataType";
 import Reviews from "../components/itemDetail/Reviews";
+import { BsCart4 } from "react-icons/bs";
 
 const CustomModalStyles = {
   content: {
@@ -40,9 +41,38 @@ const GET_ITEM = gql`
     nowUser {
       user_code
     }
+    cartList {
+      sName
+      sPrice
+      slideImg
+    }
   }
 `;
-
+const ADD_CART = gql`
+  mutation AddCart(
+    $cartId: Int!
+    $sId: Int!
+    $sName: String!
+    $sPrice: Int!
+    $bCount: Int!
+    $slideImg: [String]!
+  ) {
+    addCart(
+      cartId: $cartId
+      sId: $sId
+      sName: $sName
+      sPrice: $sPrice
+      bCount: $bCount
+      slideImg: $slideImg
+    ) {
+      sId
+      sName
+      sPrice
+      bCount
+      slideImg
+    }
+  }
+`;
 const settings = {
   dots: true,
   infinite: true,
@@ -96,11 +126,6 @@ export const Itemtitle = styled.h1`
 const ItemName = styled(Itemtitle)`
   font-size: 2.1rem;
 `;
-const ItemLike = styled.button`
-  width: 35px;
-  height: 35px;
-  border-radius: 10px;
-`;
 export const Itemtext = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
@@ -122,7 +147,10 @@ const ItemImg = styled.img`
 const BuyButtonArea = styled.div`
   width: 100%;
 `;
-
+const BsCart = styled(BsCart4)`
+  font-size: 2rem;
+  cursor: pointer;
+`;
 export const BuyButton = styled.div`
   width: 100%;
   height: 50px;
@@ -139,10 +167,13 @@ export const BuyButton = styled.div`
 
 function ItemDetail() {
   const { id } = useParams();
-  const { data } = useQuery<SelectItemObj>(GET_ITEM, {
+  const { data } = useQuery<ItemDetailComponent>(GET_ITEM, {
     variables: {
       selectItemId: Number(id),
     },
+  });
+  const [addCart] = useMutation(ADD_CART, {
+    refetchQueries: [{ query: GET_ITEM }, "SelectItem"],
   });
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   function openModal() {
@@ -153,7 +184,20 @@ function ItemDetail() {
     setModalOpen(false);
   }
   const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
-
+  const cartIndex = Number(data?.cartList.length);
+  function addCartHandler(name: string, price: number, slideImg: string) {
+    addCart({
+      variables: {
+        cartId: cartIndex + 1,
+        sId: Number(id),
+        sName: name,
+        sPrice: price,
+        bCount: 1,
+        slideImg: slideImg,
+      },
+    });
+    alert(`${name}이(가) 장바구니에 담겼습니다.`);
+  }
   return (
     <Wrap>
       <Inner>
@@ -164,7 +208,15 @@ function ItemDetail() {
         </ItemImgSlider>
         <ItemImformationTop>
           <ItemName>{data?.selectItem[0].sName}</ItemName>
-          <ItemLike>{data?.selectItem[0].sLike}</ItemLike>
+          <BsCart
+            onClick={() =>
+              addCartHandler(
+                String(data?.selectItem[0].sName),
+                Number(data?.selectItem[0].sPrice),
+                String(data?.selectItem[0].slideImg[0])
+              )
+            }
+          />
         </ItemImformationTop>
         <ItemImformationBottom>
           <Itemtext>{data?.selectItem[0].sPrice}원</Itemtext>

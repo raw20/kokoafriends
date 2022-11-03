@@ -10,7 +10,7 @@ const pool1 = mysql.createPool({
     queueLimit: 0,
 });
 export const likeContents = async () => {
-    const [rows] = await pool1.query("select * from contentsLike");
+    const [rows] = await pool1.query("select * from contentsLike order by lId asc");
     return rows;
 };
 export const selectedContentsLike = async () => {
@@ -18,7 +18,7 @@ export const selectedContentsLike = async () => {
     return rows;
 };
 export const clickLiked = async (lId, user_code, cId, like_check) => {
-    const [rows] = await pool1.query(`insert into contentsLike(lId,user_code,cId,like_check) values('${lId}','${user_code}','${cId}','${like_check}') on duplicate key
-    update lid = '${lId}' , user_code = '${user_code}', cId='${cId}' , like_check = '${like_check}' `);
+    const [rows] = await pool1.query(`insert into contentsLike(lId, user_code,cId,like_check) values('${lId}','${user_code}','${cId}','${like_check}') on duplicate key
+      update like_check = ${like_check}`);
     return rows;
 };

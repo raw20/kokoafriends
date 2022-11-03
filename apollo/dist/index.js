@@ -2,12 +2,13 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { allUserBuyItemList, buyItem, selectUserBuyItemList, } from "./db/buyItem.js";
 import { comments, deleteComment, getContentsComment, postComment, } from "./db/comment.js";
-import { contents, getContentsId } from "./db/contents.js";
+import { contents, countLike, getContentsId } from "./db/contents.js";
 import { getItemId, item } from "./db/Item.js";
 import { clickLiked, likeContents } from "./db/likeContents.js";
 import { deleteReview, getItemReview, postReview, review, } from "./db/review.js";
 import { user } from "./db/user.js";
 let nowUser = [];
+let cart = [];
 const typeDefs = `#graphql
   type Item {
     sId: Int!
@@ -25,7 +26,6 @@ const typeDefs = `#graphql
     mainBottomImg: [String]!
   }
   type User{
-
     user_code : Int
     kakao_id : String
     kakao_profile_img : String
@@ -91,6 +91,7 @@ const typeDefs = `#graphql
     selectReview (id:Int!) : [Review]
     selectComment (id:Int!) : [Comment]
     nowUser : [User]
+    cartList : [BuyItem]
     allUserBuyItemList : [BuyItem]
     selectUserBuyItemList (user_code:Int!) : [BuyItem]
     likeContents: [LikeContents]
@@ -104,7 +105,9 @@ const typeDefs = `#graphql
     logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
     logOutUser:User
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
+    addCart(sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
+    countLike(cId:Int! cLike:Int!) : Contents
   }
     scalar Date
 
@@ -116,6 +119,7 @@ const resolvers = {
         comments: () => comments(),
         user: () => user(),
         nowUser: () => nowUser,
+        cartList: () => cart,
         selectItem: (root, { id }) => getItemId(id),
         selectContents: (root, { id }) => getContentsId(id),
         review: () => review(),
@@ -159,8 +163,22 @@ const resolvers = {
         buyItems: (root, { bId, sId, user_code, bCount }) => {
             return buyItem(bId, sId, user_code, bCount);
         },
+        addCart: (root, { sId, sName, sPrice, bCount, slideImg }) => {
+            const ItemId = {
+                sId,
+                sName,
+                sPrice,
+                bCount,
+                slideImg,
+            };
+            cart.push(ItemId);
+            return ItemId;
+        },
         clickLiked: (root, { lId, user_code, cId, like_check }) => {
             return clickLiked(lId, user_code, cId, like_check);
+        },
+        countLike: (root, { cId, cLike }) => {
+            return countLike(cId, cLike);
         },
     },
 };

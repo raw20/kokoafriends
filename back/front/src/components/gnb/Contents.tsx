@@ -182,9 +182,10 @@ function Contents() {
   const { data } = useQuery<ContentsComponent>(GET_CONTENTS);
   const [liked, setLiked] = useState<number>(1);
   const userCode = Number(data?.nowUser.map((ele) => ele.user_code));
-  const userCodeMatchLikeContents = data?.likeContents?.filter(
-    (ele) => ele.user_code === userCode
-  );
+  const userCodeMatchLikeContents = data
+    ? data.likeContents.filter((ele) => ele.user_code === userCode)
+    : undefined;
+
   const [clickLiked] = useMutation(CLICK_LIKE, {
     refetchQueries: [{ query: GET_CONTENTS }, "Contents"],
   });
@@ -208,19 +209,27 @@ function Contents() {
         },
       });
       if (liked === 1) {
-        countLike({
-          variables: {
-            cId: id,
-            cLike: Number((userCodeMatchLikeContents[index].like_check -= 1)),
-          },
-        });
+        if (userCodeMatchLikeContents) {
+          countLike({
+            variables: {
+              cId: id,
+              cLike:
+                contentsLike +
+                Number(userCodeMatchLikeContents[index].like_check),
+            },
+          });
+        }
       } else if (liked === 0) {
-        countLike({
-          variables: {
-            cId: id,
-            cLike: Number((userCodeMatchLikeContents[index].like_check += 1)),
-          },
-        });
+        if (userCodeMatchLikeContents) {
+          countLike({
+            variables: {
+              cId: id,
+              cLike:
+                contentsLike -
+                Number(userCodeMatchLikeContents[index].like_check),
+            },
+          });
+        }
       }
     }
   }
@@ -242,7 +251,7 @@ function Contents() {
                 <Image src={`/img/contents/${item.cImage}`} />
               </ImgBox>
               <IconBox>
-                {userCodeMatchLikeContents[index]?.like_check !== 1 ? (
+                {userCodeMatchLikeContents?.[index]?.like_check !== 1 ? (
                   <HeartEmpty onClick={() => likeHandler(item.cId, index)} />
                 ) : (
                   <HeartFull onClick={() => likeHandler(item.cId, index)} />

@@ -7,7 +7,7 @@ export interface INumber {
 }
 
 const Wrap = styled.div`
-  width: 30%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,6 +30,7 @@ const Input = styled.input`
 `;
 
 function ItemNumControl({ number, setNumber }: INumber) {
+  console.log(number);
   function plusNumber() {
     setNumber(number + 1);
   }

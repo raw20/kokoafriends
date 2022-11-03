@@ -12,6 +12,7 @@ export const theme: DefaultTheme = {
   secondColor: "#999999",
   accentColor: " #513B1C",
   boxColor: "  #dfd8d7",
+  borderColor: "#FFF1EE",
   mobile: `(max-width: ${size.mobile})`,
   tablet: `(max-width: ${size.tablet})`,
   desktop: `(max-width: ${size.desktop})`,

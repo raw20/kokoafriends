@@ -48,7 +48,9 @@ const ModalDiv = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
+const ControlDiv = styled.div`
+  width: 25%;
+`;
 Modal.setAppElement("#root");
 
 function BuyModal({ userCode }: IBuyModalProps) {
@@ -86,7 +88,9 @@ function BuyModal({ userCode }: IBuyModalProps) {
         <>
           <ModalDiv>
             <Itemtext>수량 선택</Itemtext>
-            <ItemNumControl number={number} setNumber={setNumber} />
+            <ControlDiv>
+              <ItemNumControl number={number} setNumber={setNumber} />
+            </ControlDiv>
           </ModalDiv>
           <ModalDiv>
             <Itemtitle>총 제품금액</Itemtitle>
