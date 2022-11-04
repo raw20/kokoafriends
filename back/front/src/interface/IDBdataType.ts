@@ -44,10 +44,11 @@ export interface Review {
   rDate: string;
   kakao_nickname: string;
 }
-export interface ReviewObj {
+export interface ReviewsComponent {
   review: [Review];
   selectReview: [Review];
   nowUser: [User];
+  selectUserBuyItemList: [BuyItem];
 }
 export interface Comment {
   tId: number;
@@ -74,6 +75,7 @@ export interface BuyItem {
   sPrice: number;
   bCount: number;
   slideImg: [string];
+  cartId: number;
 }
 export interface LikeContents {
   lId: number;

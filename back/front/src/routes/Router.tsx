@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import KaKaoRedirect from "../auth/KaKaoRedirect";
-import Home from "../pages/Home";
-import Contents from "../components/gnb/Contents";
-import BestProductItem from "../components/gnb/BestProductItem";
-import Search from "../components/utilmenu/Search";
-import ItemDetail from "../pages/ItemDetail";
-import Mypage from "../components/utilmenu/Mypage";
-import Cart from "../components/utilmenu/Cart";
+import Home from "../pages/mainMenu/home/Home";
+import Contents from "../pages/mainMenu/contents/Contents";
+import BestProductItem from "../pages/mainMenu/best/BestProductItem";
+import Search from "../pages/subMenu/search/Search";
+import ItemDetail from "../components/itemDetail/ItemDetail";
+import Mypage from "../pages/subMenu/myPage/Mypage";
+import Cart from "../pages/subMenu/cart/Cart";
 import KaKaoLogout from "../auth/KaKaoLogout";
-import ContentsDetail from "../pages/ContentsDetail";
+import ContentsDetail from "../components/contentsDetail/ContentsDetail";
 
 function Router() {
   return (

@@ -20,10 +20,10 @@ import {
   UserName,
   HeartEmpty,
   RegComment,
-} from "../components/gnb/Contents";
-import { KAKAO_AUTH_URL } from "../auth/OAuth";
+} from "../../pages/mainMenu/contents/Contents";
+import { KAKAO_AUTH_URL } from "../../auth/OAuth";
 import { useState } from "react";
-import { SelectConObj } from "../interface/IDBdataType";
+import { SelectConObj } from "../../interface/IDBdataType";
 
 const SELECT_CONTENTS = gql`
   query SelectContents($selectContentsId: Int!, $selectCommentId: Int!) {

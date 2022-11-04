@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { AllItem, Item } from "../../interface/IDBdataType";
+import { AllItem, Item } from "../../../../interface/IDBdataType";
 
 const SEARCH_RESULT_ITEM = gql`
   query {

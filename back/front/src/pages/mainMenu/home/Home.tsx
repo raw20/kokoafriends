@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import { AllItem } from "../interface/IDBdataType";
-import Header from "../components/header/Header";
-import { ItemName, ItemPrice } from "../components/gnb/BestProductItem";
+import { AllItem } from "../../../interface/IDBdataType";
+import Header from "../../../components/header/Header";
+import { ItemName, ItemPrice } from "../best/BestProductItem";
 import Slider from "react-slick";
 import { useEffect } from "react";
 import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { BASE_URL } from "../auth/OAuth";
-import Footer from "../components/footer/Footer";
+import { BASE_URL } from "../../../auth/OAuth";
+import Footer from "../../../components/footer/Footer";
 
 const ALL_ITEM = gql`
   query Item {
@@ -120,16 +120,19 @@ const Contents = styled.p`
     font-size: 1.2rem;
   }
 `;
-const NewItem = styled(Banner)`
+const NewItemWrap = styled.div`
   width: 50%;
-  margin: 4.5rem auto;
-
+  margin: 0 auto;
   @media ${(props) => props.theme.tablet} {
     width: 70%;
   }
   @media ${(props) => props.theme.mobile} {
     width: 100%;
   }
+`;
+const NewItem = styled(Banner)`
+  width: 100%;
+  margin: 4.5rem auto;
 `;
 const NewItemInner = styled.div`
   width: 100%;
@@ -151,8 +154,8 @@ const ItemList = styled(Link)`
   }
 `;
 const ItemImg = styled.img`
-  width: 350px;
-  height: 350px;
+  width: 270px;
+  height: 270px;
 
   @media ${(props) => props.theme.tablet} {
     width: 100%;
@@ -264,20 +267,22 @@ function Home() {
               </BannerImgContentsArea>
             ))}
           </Banner>
-          <NewItem>
-            <NewItemInner>
-              <NewItemTitle>새로나온 친구들</NewItemTitle>
-              <ItemImgSlider {...settings}>
-                {newItem?.map((item, index) => (
-                  <ItemList to={`/bestProduct/${item?.sId}`} key={index}>
-                    <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-                    <ItemName> {item?.sName}</ItemName>
-                    <ItemPrice>{item?.sPrice}원</ItemPrice>
-                  </ItemList>
-                ))}
-              </ItemImgSlider>
-            </NewItemInner>
-          </NewItem>
+          <NewItemWrap>
+            <NewItem>
+              <NewItemInner>
+                <NewItemTitle>새로나온 친구들</NewItemTitle>
+                <ItemImgSlider {...settings}>
+                  {newItem?.map((item, index) => (
+                    <ItemList to={`/bestProduct/${item?.sId}`} key={index}>
+                      <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
+                      <ItemName> {item?.sName}</ItemName>
+                      <ItemPrice>{item?.sPrice}원</ItemPrice>
+                    </ItemList>
+                  ))}
+                </ItemImgSlider>
+              </NewItemInner>
+            </NewItem>
+          </NewItemWrap>
         </Main>
       ) : (
         <Outlet />

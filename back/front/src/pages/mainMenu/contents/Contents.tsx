@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import styled from "styled-components";
-import { ContentsComponent } from "../../interface/IDBdataType";
+import { ContentsComponent } from "../../../interface/IDBdataType";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { Link } from "react-router-dom";

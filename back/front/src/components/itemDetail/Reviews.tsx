@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { ReviewObj } from "../../interface/IDBdataType";
+import { ReviewsComponent } from "../../interface/IDBdataType";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
+interface IReviewsProps {
+  userCode: number | undefined;
+}
+
 const GET_REVIEW = gql`
-  query SelectReview($reviewId: Int!) {
+  query SelectReview($reviewId: Int!, $userCode: Int!) {
     selectReview(id: $reviewId) {
       rReview
       user_code
@@ -19,6 +23,10 @@ const GET_REVIEW = gql`
     }
     nowUser {
       user_code
+    }
+    selectUserBuyItemList(user_code: $userCode) {
+      user_code
+      sId
     }
   }
 `;
@@ -149,12 +157,13 @@ export const BuyButton = styled.div`
   align-items: center;
   cursor: pointer;
 `;
-function Reviews() {
+function Reviews({ userCode }: IReviewsProps) {
   const { id } = useParams();
   const token = window.localStorage.getItem("token");
-  const { data } = useQuery<ReviewObj>(GET_REVIEW, {
+  const { data } = useQuery<ReviewsComponent>(GET_REVIEW, {
     variables: {
       reviewId: Number(id),
+      userCode: userCode,
     },
   });
   const reviewIndex = Number(data?.review.length);
@@ -166,6 +175,9 @@ function Reviews() {
     refetchQueries: [{ query: GET_REVIEW }, "SelectReview"],
   });
   const myUserCode = Number(data?.nowUser.map((user) => user.user_code));
+  const itemBuyListCheck = data?.selectUserBuyItemList.filter(
+    (ele) => ele.sId === Number(id)
+  );
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
       postReviews({
@@ -195,6 +207,8 @@ function Reviews() {
         </ItemReviewInform>
         {!token ? (
           <FalseReviewButton>로그인이 필요합니다.</FalseReviewButton>
+        ) : itemBuyListCheck?.length === 0 ? (
+          <FalseReviewButton>구매 후 리뷰를 남겨주세요.</FalseReviewButton>
         ) : (
           <WriteReviewButton
             placeholder="리뷰를 남겨주세요."

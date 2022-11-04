@@ -30,7 +30,6 @@ const Input = styled.input`
 `;
 
 function ItemNumControl({ number, setNumber }: INumber) {
-  console.log(number);
   function plusNumber() {
     setNumber(number + 1);
   }

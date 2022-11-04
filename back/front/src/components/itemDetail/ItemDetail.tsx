@@ -6,9 +6,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import Modal from "react-modal";
-import BuyModal from "../components/itemDetail/BuyModal";
-import { ItemDetailComponent } from "../interface/IDBdataType";
-import Reviews from "../components/itemDetail/Reviews";
+import BuyModal from "./BuyModal";
+import { ItemDetailComponent } from "../../interface/IDBdataType";
+import Reviews from "./Reviews";
 import { BsCart4 } from "react-icons/bs";
 
 const CustomModalStyles = {
@@ -260,7 +260,7 @@ function ItemDetail() {
             <Itemtitle>구성품</Itemtitle>
             <Itemtext>건진지 외 필요한거 여러개</Itemtext>
           </ItemContents>
-          <Reviews />
+          <Reviews userCode={userCode} />
           <BuyButton onClick={() => openModal()}>구매하기</BuyButton>
           <Modal
             isOpen={modalOpen}

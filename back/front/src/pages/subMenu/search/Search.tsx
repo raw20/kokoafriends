@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { MdOutlineSearch, MdCached } from "react-icons/md";
 import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
-import SearchItemList from "./SearchItemList";
-import { SearchItem, Item } from "../../interface/IDBdataType";
+import SearchItemList from "./components/SearchItemList";
+import { SearchItem, Item } from "../../../interface/IDBdataType";
 
 const SEARCH_ITEM = gql`
   query {

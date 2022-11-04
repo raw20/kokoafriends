@@ -124,6 +124,7 @@ const typeDefs = `#graphql
     addCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
     countLike(cId:Int! cLike:Int!) : Contents
+    updateBCount(cartId:Int, bCount:Int): BuyItem
   }
     scalar Date
 
@@ -210,6 +211,10 @@ const resolvers = {
     },
     countLike: (root: any, { cId, cLike }) => {
       return countLike(cId, cLike);
+    },
+    updateBCount: (root: any, { cartId, bCount }) => {
+      cart[cartId - 1].bCount = bCount;
+      return cart;
     },
   },
 };

@@ -1,8 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { AllItem } from "../../interface/IDBdataType";
-
+import { AllItem } from "../../../interface/IDBdataType";
 const BEST_ITEM = gql`
   query {
     item {

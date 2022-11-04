@@ -1,9 +1,7 @@
-import Login from "../../pages/Login";
+import Login from "../login/Login";
 import styled from "styled-components";
-import { gql, useQuery } from "@apollo/client";
-import { CartComponent } from "../../interface/IDBdataType";
-import ItemNumControl from "../itemDetail/ItemNumControl";
-import { useState } from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { CartComponent } from "../../../interface/IDBdataType";
 
 const GET_CART = gql`
   query CartList {
@@ -12,6 +10,15 @@ const GET_CART = gql`
       sPrice
       bCount
       slideImg
+      cartId
+    }
+  }
+`;
+const UPDATE_COUNT = gql`
+  mutation UpdateBCount($cartId: Int, $bCount: Int) {
+    updateBCount(cartId: $cartId, bCount: $bCount) {
+      cartId
+      bCount
     }
   }
 `;
@@ -104,12 +111,64 @@ const BuyButton = styled.div`
   align-items: center;
   cursor: pointer;
 `;
+const NumControl = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Control = styled.span`
+  width: 25px;
+  height: 25px;
+  margin: 1rem;
+  border-radius: 50%;
+  border: 1px solid ${(props) => props.theme.accentColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+const Input = styled.input`
+  width: 50px;
+  height: 25px;
+  text-align: center;
+`;
 function Cart() {
   const token: string = window.localStorage.getItem("token") as string;
-  let [number, setNumber] = useState(1);
   const { data } = useQuery<CartComponent>(GET_CART);
-  const sPriceArr = data?.cartList.map((ele) => ele.sPrice);
-  const sumPrice = sPriceArr?.reduce((a, b) => a + b);
+  const [updateBCount] = useMutation(UPDATE_COUNT, {
+    refetchQueries: [{ query: GET_CART }, "CartList"],
+  });
+  const ItemPrice = data?.cartList.map((cart) => cart.sPrice);
+  function plusNumber(id: number, count: number) {
+    updateBCount({
+      variables: {
+        cartId: Number(id),
+        bCount: count + 1,
+      },
+    });
+  }
+  function minusNumber(id: number, count: number) {
+    if (count > 1) {
+      updateBCount({
+        variables: {
+          cartId: Number(id),
+          bCount: count - 1,
+        },
+      });
+    }
+  }
+  function inputOnchange(id: number, event: any) {
+    if (event.target.value < 1) {
+      event.target.value = 1;
+    }
+    updateBCount({
+      variables: {
+        cartId: Number(id),
+        bCount: Number(event.target.value),
+      },
+    });
+  }
   return (
     <>
       {!token ? (
@@ -129,13 +188,29 @@ function Cart() {
                     <MediumText>{ele.sPrice * ele.bCount}원</MediumText>
                   </BoxCenter>
                   <BoxRight>
-                    <ItemNumControl number={number} setNumber={setNumber} />
+                    <NumControl>
+                      <Control
+                        onClick={() => minusNumber(ele.cartId, ele.bCount)}
+                      >
+                        -
+                      </Control>
+                      <Input
+                        type="number"
+                        value={ele.bCount}
+                        onChange={(event) => inputOnchange(ele.cartId, event)}
+                      />
+                      <Control
+                        onClick={() => plusNumber(ele.cartId, ele.bCount)}
+                      >
+                        +
+                      </Control>
+                    </NumControl>
                   </BoxRight>
                 </CartItemBox>
               ))}
             </CartListTable>
             <BuyTable>
-              <BuyButton>{sumPrice}원 주문하기</BuyButton>
+              <BuyButton>0원 주문하기</BuyButton>
             </BuyTable>
           </Inner>
         </Wrap>

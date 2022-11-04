@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Modal from "react-modal";
 import ItemNumControl from "./ItemNumControl";
-import { BuyButton, Itemtext, Itemtitle } from "../../pages/ItemDetail";
+import { BuyButton, Itemtext, Itemtitle } from "./ItemDetail";
 import { useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
-import Login from "../../pages/Login";
+import Login from "../../pages/subMenu/login/Login";
 import { BuyModalComponent } from "../../interface/IDBdataType";
 
 interface IBuyModalProps {
@@ -13,7 +13,7 @@ interface IBuyModalProps {
 }
 
 const GET_ITEM = gql`
-  query SelectItem($selectItemId: Int!, $userCode: Int!) {
+  query SelectUserBuyItemList($selectItemId: Int!, $userCode: Int!) {
     selectItem(id: $selectItemId) {
       sPrice
     }
@@ -65,7 +65,7 @@ function BuyModal({ userCode }: IBuyModalProps) {
     },
   });
   const [buyItems] = useMutation(BUY_ITEM, {
-    refetchQueries: [{ query: GET_ITEM }, "SelectItem"],
+    refetchQueries: [{ query: GET_ITEM }, "SelectUserBuyItemList"],
   });
   const bId = Number(`${userCode}${id}`);
   function buyItem() {

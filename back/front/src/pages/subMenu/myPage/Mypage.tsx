@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Login from "../../pages/Login";
+import Login from "../login/Login";
 import { gql, useQuery } from "@apollo/client";
-import RecentBuyList from "./RecentBuyList";
-import { MyProfile } from "../../interface/IDBdataType";
+import RecentBuyList from "./components/RecentBuyList";
+import { MyProfile } from "../../../interface/IDBdataType";
 
 const NOW_USER = gql`
   query NowUser {

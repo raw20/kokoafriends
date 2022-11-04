@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { RecentBIComponent } from "../../interface/IDBdataType";
+import { RecentBIComponent } from "../../../../interface/IDBdataType";
 
 interface IRecentBuyListProps {
   userCode: number | undefined;
