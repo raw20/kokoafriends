@@ -35,6 +35,9 @@ input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+input:focus{
+  outline: none;
+}
 body {
   line-height: 1;
   background-color:  ${(props) => props.theme.bgColor};

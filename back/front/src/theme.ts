@@ -9,10 +9,11 @@ const size = {
 export const theme: DefaultTheme = {
   bgColor: "#ffffff",
   textColor: "#333333",
+  seconetTextColor: "#aeaeaf",
   secondColor: "#999999",
   accentColor: " #513B1C",
   boxColor: "  #dfd8d7",
-  borderColor: "#FFF1EE",
+  borderColor: "#EDE5E3",
   mobile: `(max-width: ${size.mobile})`,
   tablet: `(max-width: ${size.tablet})`,
   desktop: `(max-width: ${size.desktop})`,

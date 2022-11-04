@@ -99,6 +99,8 @@ export interface ContentsComponent {
 }
 export interface CartComponent {
   cartList: [BuyItem];
+  allUserBuyItemList: [BuyItem];
+  nowUser: [User];
 }
 export interface BuyModalComponent {
   selectItem: [Item];

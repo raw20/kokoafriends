@@ -125,6 +125,7 @@ const typeDefs = `#graphql
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
     countLike(cId:Int! cLike:Int!) : Contents
     updateBCount(cartId:Int, bCount:Int): BuyItem
+    deleteCartItem(cartId:Int): BuyItem
   }
     scalar Date
 
@@ -215,6 +216,12 @@ const resolvers = {
     updateBCount: (root: any, { cartId, bCount }) => {
       cart[cartId - 1].bCount = bCount;
       return cart;
+    },
+    deleteCartItem: (root: any, { cartId }) => {
+      const findCart = cart.find((cart) => cart.cartId === cartId);
+      if (!findCart) return false;
+      cart = cart.filter((cart) => cart.cartId !== cartId);
+      return true;
     },
   },
 };
