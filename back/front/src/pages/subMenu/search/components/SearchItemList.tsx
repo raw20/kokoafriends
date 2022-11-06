@@ -16,42 +16,61 @@ const SEARCH_RESULT_ITEM = gql`
   }
 `;
 const Wrap = styled.div`
-  width: 50%;
+  width: 100%;
+`;
+const Inner = styled.div`
+  width: 60%;
   height: auto;
   display: flex;
-  margin: 0 auto;
+  margin: 1.5rem auto;
+  padding: 1.2rem 7.5rem;
   box-sizing: border-box;
   flex-wrap: wrap;
   justify-content: center;
 `;
-
 const ItemList = styled(Link)`
   width: 40%;
+  height: auto;
+  margin: 1rem auto;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: flex-start;
-  margin: 0 auto;
+  box-sizing: border-box;
   &:hover {
     opacity: 0.7;
   }
   position: relative;
 `;
-
-const ItemImg = styled.img`
-  width: 300px;
-  height: 300px;
-  position: relative;
+const ItemBox = styled.div`
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
-
+const ItemImg = styled.img`
+  width: 280px;
+  height: 280px;
+  position: relative;
+  border: 2px solid ${(props) => props.theme.borderColor};
+  margin-bottom: 1rem;
+  border-radius: 10px;
+`;
 export const ItemName = styled.p`
-  font-size: 1rem;
+  width: 100%;
+  font-size: 1.1rem;
   font-weight: 700;
+  text-align: start;
   color: ${(props) => props.theme.secondColor};
 `;
 export const ItemPrice = styled.h1`
-  font-size: 1.3rem;
+  width: 100%;
+  font-size: 1.4rem;
   font-weight: bold;
+  display: flex;
   color: ${(props) => props.theme.accentColor};
   margin-bottom: 1rem;
 `;
@@ -75,23 +94,27 @@ function SearchItemList({ searchData }: { searchData: Item[] }) {
   }
   return (
     <Wrap>
-      {searchData.length === 0 ? (
-        <h2>검색 결과 없음</h2>
-      ) : (
-        searchData?.map((item) => (
-          <ItemList
-            onClick={() => {
-              viewCount(item?.sId, item?.sView);
-            }}
-            to={`/bestProduct/${item?.sId}`}
-            key={item?.sId}
-          >
-            <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-            <ItemName> {item?.sName}</ItemName>
-            <ItemPrice>{item?.sPrice}원</ItemPrice>
-          </ItemList>
-        ))
-      )}
+      <Inner>
+        {searchData.length === 0 ? (
+          <h2>검색 결과 없음</h2>
+        ) : (
+          searchData?.map((item) => (
+            <ItemList
+              onClick={() => {
+                viewCount(item?.sId, item?.sView);
+              }}
+              to={`/bestProduct/${item?.sId}`}
+              key={item?.sId}
+            >
+              <ItemBox>
+                <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
+                <ItemName> {item?.sName}</ItemName>
+                <ItemPrice>{item?.sPrice}원</ItemPrice>
+              </ItemBox>
+            </ItemList>
+          ))
+        )}
+      </Inner>
     </Wrap>
   );
 }

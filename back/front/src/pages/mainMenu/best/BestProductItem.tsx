@@ -25,7 +25,7 @@ const Wrap = styled.div`
   width: 100%;
 `;
 const Inner = styled.div`
-  width: 80%;
+  width: 60%;
   height: auto;
   display: flex;
   margin: 1.5rem auto;
@@ -36,8 +36,9 @@ const Inner = styled.div`
 `;
 
 const ItemList = styled(Link)`
-  width: 50%;
-  margin: 0 auto;
+  width: 40%;
+  height: auto;
+  margin: 1rem auto;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -58,9 +59,12 @@ const ItemBox = styled.div`
   flex-direction: column;
 `;
 const ItemImg = styled.img`
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   position: relative;
+  border: 2px solid ${(props) => props.theme.borderColor};
+  margin-bottom: 1rem;
+  border-radius: 10px;
 `;
 
 const ItemLank = styled.span`
@@ -74,23 +78,29 @@ const ItemLank = styled.span`
   color: ${(props) => props.theme.bgColor};
   position: absolute;
   border-radius: 5px;
-  top: 10%;
-  left: 21%;
+  top: 4%;
+  left: 4%;
 `;
 const ItemBestLank = styled(ItemLank)`
   background-color: ${(props) => props.theme.secondColor};
 `;
 export const ItemName = styled.p`
-  font-size: 1.2rem;
+  width: 100%;
+  font-size: 1.3rem;
   font-weight: 700;
   text-align: start;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${(props) => props.theme.secondColor};
 `;
 export const ItemPrice = styled.h1`
+  width: 100%;
   font-size: 1.4rem;
   font-weight: bold;
+  display: flex;
   color: ${(props) => props.theme.accentColor};
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 `;
 function BestProductItem() {
   const {

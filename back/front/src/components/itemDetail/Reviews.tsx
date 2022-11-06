@@ -233,7 +233,7 @@ function Reviews({ userCode }: IReviewsProps) {
                   ) : null}
                 </ReviewWriter>
                 <ReviewRate>
-                  <ReviewDate>{item.rDate}</ReviewDate>
+                  <ReviewDate>{item.rDate.substring(10, -1)}</ReviewDate>
                 </ReviewRate>
                 <ReViewContent>
                   <UserReview>{item.rReview}</UserReview>

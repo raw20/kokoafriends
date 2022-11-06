@@ -23,6 +23,7 @@ const Wrap = styled.div`
   padding: 1.2rem 7.5rem;
   box-sizing: border-box;
   justify-content: center;
+  font-family: "Noto Sans KR", sans-serif;
 `;
 const Container = styled.div`
   width: 70%;
@@ -51,6 +52,13 @@ const UserImg = styled.img`
   height: 150px;
   border-radius: 50%;
 `;
+const LargeText = styled.p`
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
+`;
 const UserSmallText = styled.p`
   font-size: 1rem;
   font-weight: 500;
@@ -76,7 +84,10 @@ function Mypage() {
               <UserBox key={user.user_code}>
                 <Inner>
                   <ChildBox>
-                    <UserImg src={user.kakao_profile_img} />{" "}
+                    <LargeText>회원정보</LargeText>
+                  </ChildBox>
+                  <ChildBox>
+                    <UserImg src={user.kakao_profile_img} />
                   </ChildBox>
                   <ChildBox>
                     <UserLargeText>{user.kakao_nickname}</UserLargeText>

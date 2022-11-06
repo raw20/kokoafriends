@@ -37,15 +37,15 @@ const CartBox = styled.div`
   width: 100%;
   height: auto;
   border: 1px solid #f3eaea;
-  font-family: "Noto Sans KR", sans-serif;
 `;
 const LargeText = styled.p`
   width: 100%;
   font-size: 1.3rem;
   font-weight: bold;
-  text-align: center;
+  text-align: flex-start;
   padding: 1rem 0;
-  border-bottom: 1px solid ${(props) => props.theme.secondColor};
+  border-radius: 10px;
+  color: ${(props) => props.theme.seconetTextColor};
 `;
 const SubLargeText = styled.p`
   width: 200px;
@@ -54,6 +54,7 @@ const SubLargeText = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: ${(props) => props.theme.seconetTextColor};
 `;
 const SmallText = styled.p`
   width: 200px;
@@ -62,12 +63,15 @@ const SmallText = styled.p`
 `;
 const SubSmallText = styled(SmallText)`
   margin-top: 1rem;
+  font-weight: bold;
 `;
 const ListBox = styled(Link)`
   width: 100%;
   height: auto;
   padding: 1rem 0;
-  border-bottom: 1px solid ${(props) => props.theme.secondColor};
+  border: 2px solid ${(props) => props.theme.borderColor};
+  border-radius: 10px;
+  margin-top: 1rem;
   display: flex;
 `;
 const ItemImage = styled.div`
@@ -80,7 +84,7 @@ const Image = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 1px solid ${(props) => props.theme.secondColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
 `;
 const ImformBox = styled.div`
   width: 100%;
@@ -116,7 +120,7 @@ function RecentBuyList({ userCode }: IRecentBuyListProps) {
                 <SubSmallText>{list.sPrice * list.bCount}원</SubSmallText>
               </ImformBox>
               <PriceBox>
-                <SmallText>{list.bDate}</SmallText>
+                <SmallText>{list.bDate.substring(10, -1)}</SmallText>
               </PriceBox>
             </ListBox>
           ))}
