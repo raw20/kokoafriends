@@ -100,6 +100,7 @@ const ItemReviewList = styled.div`
 const ReviewBox = styled.div`
   width: 100%;
   height: auto;
+  border-bottom: 2px solid ${(props) => props.theme.borderColor};
   font-family: "Noto Sans KR", sans-serif;
 `;
 const ReviewWriter = styled.div`
@@ -116,7 +117,7 @@ const UserName = styled.p`
 const ReViewContent = styled.div`
   width: 100%;
   height: auto;
-  margin-top: 1rem;
+  margin: 1rem 0;
 `;
 const NormalText = styled.p`
   font-size: 2.1rem;
@@ -137,11 +138,12 @@ const ReviewDate = styled.p`
 const DeleteButton = styled.span`
   width: 35px;
   height: 20px;
+  font-size: 0.7rem;
   border: 1px solid ${(props) => props.theme.secondColor};
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 1px;
   cursor: pointer;
 `;
 export const BuyButton = styled.div`

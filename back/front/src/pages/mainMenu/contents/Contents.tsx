@@ -17,6 +17,7 @@ const GET_CONTENTS = gql`
       cContent
       cDate
       cLike
+      comment
     }
     comments {
       cId
@@ -160,7 +161,8 @@ export const Comment = styled.div`
   margin-top: 0.5rem;
 `;
 export const UserName = styled.h1`
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-family: 700;
   margin-right: 0.5rem;
 `;
 export const CommentBox = styled(Link)`
@@ -185,7 +187,6 @@ function Contents() {
   const userCodeMatchLikeContents = data
     ? data.likeContents.filter((ele) => ele.user_code === userCode)
     : undefined;
-
   const [clickLiked] = useMutation(CLICK_LIKE, {
     refetchQueries: [{ query: GET_CONTENTS }, "Contents"],
   });
@@ -195,7 +196,6 @@ function Contents() {
   function likeHandler(id: number, index: number) {
     const lid = Number(`${userCode}${id}`);
     const contentsLike = Number(data?.contents[index].cLike);
-
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
@@ -208,25 +208,19 @@ function Contents() {
           likeCheck: Number(liked),
         },
       });
-      if (liked === 1) {
-        if (userCodeMatchLikeContents) {
+      if (userCodeMatchLikeContents) {
+        if (userCodeMatchLikeContents[index].like_check === 0) {
           countLike({
             variables: {
               cId: id,
-              cLike:
-                contentsLike +
-                Number(userCodeMatchLikeContents[index].like_check),
+              cLike: contentsLike + 1,
             },
           });
-        }
-      } else if (liked === 0) {
-        if (userCodeMatchLikeContents) {
+        } else if (userCodeMatchLikeContents[index].like_check === 1) {
           countLike({
             variables: {
               cId: id,
-              cLike:
-                contentsLike -
-                Number(userCodeMatchLikeContents[index].like_check),
+              cLike: contentsLike - 1,
             },
           });
         }

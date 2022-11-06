@@ -137,11 +137,12 @@ const ChatTop = styled.div`
 const DeleteButton = styled.span`
   width: 35px;
   height: 20px;
+  font-size: 0.7rem;
   border: 1px solid ${(props) => props.theme.secondColor};
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 7px;
   cursor: pointer;
 `;
 
@@ -250,7 +251,7 @@ function ContentsDetail() {
                   ) : null}
                 </ChatTop>
                 <Message>{ele.comment}</Message>
-                <SmallText>{ele.co_date}</SmallText>
+                <SmallText>{ele.co_date.substring(10, -1)}</SmallText>
               </Chat>
             ))}
           </ChatBox>

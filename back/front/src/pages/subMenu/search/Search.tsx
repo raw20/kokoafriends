@@ -114,9 +114,9 @@ const TextBox = styled.div`
   justify-content: start;
 `;
 const CategoryButton = styled.span`
-  width: 150px;
-  height: 40px;
-  border-radius: 10px;
+  width: 100px;
+  height: 35px;
+  border-radius: 15px;
   font-size: 1.1rem;
   font-weight: 500;
   border: 1px solid ${(props) => props.theme.accentColor};

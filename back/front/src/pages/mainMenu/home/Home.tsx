@@ -188,7 +188,8 @@ const ItemImgSlider = styled(Slider)`
     }
   }
   .slick-arrow {
-    background-color: ${(props) => props.theme.secondColor};
+    background-color: ${(props) => props.theme.borderColor};
+    border-radius: 50%;
   }
 `;
 const settings = {
