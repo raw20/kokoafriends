@@ -58,7 +58,7 @@ const typeDefs = `#graphql
     cTitle : String!
     cContent : String!
     cDate : String!
-    cLike : Int!
+    cLike : Int
     comment : String
     kakao_nickname : String
   }
@@ -123,7 +123,7 @@ const typeDefs = `#graphql
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
     addCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
-    countLike(cId:Int! cLike:Int!) : Contents
+    countLike(cId:Int! cLike:Int) : Contents
     updateBCount(cartId:Int, bCount:Int): BuyItem
     deleteCartItem(cartId:Int): BuyItem
   }

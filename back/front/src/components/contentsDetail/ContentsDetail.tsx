@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
   Wrap,
@@ -19,11 +19,12 @@ import {
   BottomBox,
   UserName,
   HeartEmpty,
+  HeartFull,
   RegComment,
 } from "../../pages/mainMenu/contents/Contents";
 import { KAKAO_AUTH_URL } from "../../auth/OAuth";
-import { useState } from "react";
-import { SelectConObj } from "../../interface/IDBdataType";
+import { useState, SetStateAction, Dispatch } from "react";
+import { ContentsDetailComponent } from "../../interface/IDBdataType";
 
 const SELECT_CONTENTS = gql`
   query SelectContents($selectContentsId: Int!, $selectCommentId: Int!) {
@@ -47,6 +48,15 @@ const SELECT_CONTENTS = gql`
     }
     comments {
       tId
+    }
+    nowUser {
+      user_code
+    }
+    likeContents {
+      like_check
+      lId
+      user_code
+      cId
     }
     nowUser {
       user_code
@@ -79,6 +89,31 @@ const DELETE_COMMENT = gql`
   mutation DeleteComments($deleteCommentsId: Int!) {
     deleteComments(id: $deleteCommentsId) {
       tId
+    }
+  }
+`;
+const CLICK_LIKE = gql`
+  mutation ClickLiked(
+    $lId: Int!
+    $userCode: Int!
+    $cId: Int!
+    $likeCheck: Int
+  ) {
+    clickLiked(
+      lId: $lId
+      user_code: $userCode
+      cId: $cId
+      like_check: $likeCheck
+    ) {
+      cId
+      like_check
+    }
+  }
+`;
+const COUNT_LIKE = gql`
+  mutation CountLike($cId: Int!, $cLike: Int!) {
+    countLike(cId: $cId, cLike: $cLike) {
+      cLike
     }
   }
 `;
@@ -145,24 +180,79 @@ const DeleteButton = styled.span`
   border-radius: 7px;
   cursor: pointer;
 `;
-
+interface IPropsConDetail {
+  state: {
+    liked: number;
+  };
+}
 function ContentsDetail() {
   const { id } = useParams();
-  const { data } = useQuery<SelectConObj>(SELECT_CONTENTS, {
+  const { state } = useLocation() as IPropsConDetail;
+  const [liked, setLiked] = useState<number>(1);
+  const { data } = useQuery<ContentsDetailComponent>(SELECT_CONTENTS, {
     variables: {
       selectContentsId: Number(id),
       selectCommentId: Number(id),
     },
   });
+  console.log("liked", state.liked);
+  const userCode = Number(data?.nowUser.map((ele) => ele.user_code));
   const [postComments] = useMutation(POST_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
   });
   const [deleteComments] = useMutation(DELETE_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
   });
+  const [clickLiked] = useMutation(CLICK_LIKE, {
+    refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
+  });
+  const [countLike] = useMutation(COUNT_LIKE, {
+    refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
+  });
   const [comment, setComment] = useState<string>("");
-  const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
-  const commentIndex = Number(data?.comments.length);
+  const getIndex = String(new Date().getTime());
+  const commentIndex = Number(
+    `${id}${userCode}${getIndex.substring(getIndex.length - 3)}`
+  );
+  const userCodeMatchLikeContents = data
+    ? data.likeContents.filter(
+        (ele) => ele.user_code === userCode && ele.cId === Number(id)
+      )
+    : undefined;
+  function likeHandler(id: number) {
+    const lid = Number(`${userCode}${id}`);
+    const contentsLike = Number(data?.selectContents[0].cLike);
+    if (!token) {
+      alert("로그인이 필요합니다.");
+    } else {
+      setLiked(liked === 1 ? 0 : 1);
+      clickLiked({
+        variables: {
+          lId: lid,
+          userCode: userCode,
+          cId: id,
+          likeCheck: Number(liked),
+        },
+      });
+      if (userCodeMatchLikeContents) {
+        if (userCodeMatchLikeContents[0]?.like_check === 0) {
+          countLike({
+            variables: {
+              cId: id,
+              cLike: contentsLike + 1,
+            },
+          });
+        } else if (userCodeMatchLikeContents[0]?.like_check === 1) {
+          countLike({
+            variables: {
+              cId: id,
+              cLike: contentsLike - 1,
+            },
+          });
+        }
+      }
+    }
+  }
   function enterSubmit(e: any) {
     if (e.key === "Enter") {
       postComments({
@@ -203,8 +293,20 @@ function ContentsDetail() {
               <Image src={`/img/contents/${data?.selectContents[0].cImage}`} />
             </ImgBox>
             <IconBox>
-              <HeartEmpty className="icon" />
-              <RegComment className="icon" />
+              {userCodeMatchLikeContents?.[0].like_check !== 1 ? (
+                <HeartEmpty
+                  onClick={() =>
+                    likeHandler(Number(data?.selectContents[0].cId))
+                  }
+                />
+              ) : (
+                <HeartFull
+                  onClick={() =>
+                    likeHandler(Number(data?.selectContents[0].cId))
+                  }
+                />
+              )}
+              <RegComment />
             </IconBox>
             <TextBox>
               <EmpText>좋아요 {data?.selectContents[0].cLike}명</EmpText>
@@ -235,7 +337,6 @@ function ContentsDetail() {
             )}
           </BottomBox>
           <ChatBox>
-            <SmallText>댓글{data?.selectComment.length}개</SmallText>
             {data?.selectComment.map((ele) => (
               <Chat key={ele.tId}>
                 <ChatTop>

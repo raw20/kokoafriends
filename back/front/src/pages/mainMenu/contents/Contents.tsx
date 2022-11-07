@@ -55,7 +55,7 @@ const CLICK_LIKE = gql`
   }
 `;
 const COUNT_LIKE = gql`
-  mutation CountLike($cId: Int!, $cLike: Int!) {
+  mutation CountLike($cId: Int!, $cLike: Int) {
     countLike(cId: $cId, cLike: $cLike) {
       cLike
     }
@@ -193,6 +193,7 @@ function Contents() {
   const [countLike] = useMutation(COUNT_LIKE, {
     refetchQueries: [{ query: GET_CONTENTS }, "Contents"],
   });
+  console.log(liked);
   function likeHandler(id: number, index: number) {
     const lid = Number(`${userCode}${id}`);
     const contentsLike = Number(data?.contents[index].cLike);
@@ -268,7 +269,10 @@ function Contents() {
                 <UserName>{data?.comments[index].kakao_nickname}</UserName>
                 <SmallText>{data?.comments[index].comment}</SmallText>
               </Comment>
-              <CommentBox to={`/contentsDetail/${item.cId}`}>
+              <CommentBox
+                to={`/contentsDetail/${item.cId}`}
+                state={{ liked: liked }}
+              >
                 댓글을 남겨주세요.
               </CommentBox>
             </BottomBox>

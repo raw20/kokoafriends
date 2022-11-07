@@ -30,12 +30,7 @@ export interface Contents {
   kakao_nickname: [string];
   comment: [string];
 }
-export interface SelectConObj {
-  selectContents: [Contents];
-  selectComment: [Comment];
-  comments: [Review];
-  nowUser: [User];
-}
+
 export interface Review {
   rId: number;
   sId: number;
@@ -94,6 +89,13 @@ export interface ItemDetailComponent {
 export interface ContentsComponent {
   contents: [Contents];
   comments: [Comment];
+  likeContents: [LikeContents];
+  nowUser: [User];
+}
+export interface ContentsDetailComponent {
+  selectContents: [Contents];
+  selectComment: [Comment];
+  comments: [Review];
   likeContents: [LikeContents];
   nowUser: [User];
 }
