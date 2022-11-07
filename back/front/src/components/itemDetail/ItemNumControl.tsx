@@ -15,18 +15,21 @@ const Wrap = styled.div`
 const Control = styled.span`
   width: 25px;
   height: 25px;
+  line-height: 25px;
   margin: 1rem;
   border-radius: 50%;
-  border: 1px solid ${(props) => props.theme.accentColor};
+  border: 1px solid ${(props) => props.theme.borderColor};
   display: flex;
   justify-content: center;
-  align-items: center;
+  font-size: 1rem;
   cursor: pointer;
 `;
 const Input = styled.input`
   width: 50px;
   height: 25px;
   text-align: center;
+  border-radius: 10px;
+  border: 1px solid ${(props) => props.theme.borderColor};
 `;
 
 function ItemNumControl({ number, setNumber }: INumber) {

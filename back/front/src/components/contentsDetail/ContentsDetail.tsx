@@ -188,14 +188,14 @@ interface IPropsConDetail {
 function ContentsDetail() {
   const { id } = useParams();
   const { state } = useLocation() as IPropsConDetail;
-  const [liked, setLiked] = useState<number>(1);
+  const [liked, setLiked] = useState<number>(state?.liked === 1 ? 1 : 0);
   const { data } = useQuery<ContentsDetailComponent>(SELECT_CONTENTS, {
     variables: {
       selectContentsId: Number(id),
       selectCommentId: Number(id),
     },
   });
-  console.log("liked", state.liked);
+  console.log("liked", liked);
   const userCode = Number(data?.nowUser.map((ele) => ele.user_code));
   const [postComments] = useMutation(POST_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
