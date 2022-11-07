@@ -43,7 +43,7 @@ const typeDefs = `#graphql
     cTitle : String!
     cContent : String!
     cDate : String!
-    cLike : Int!
+    cLike : Int
     comment : String
     kakao_nickname : String
   }
@@ -72,6 +72,7 @@ const typeDefs = `#graphql
     sPrice: Int
     bCount:Int
     slideImg: [String]
+    cartId: Int
   }
   type LikeContents {
     lId : Int,
@@ -105,9 +106,11 @@ const typeDefs = `#graphql
     logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
     logOutUser:User
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
-    addCart(sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
+    addCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
-    countLike(cId:Int! cLike:Int!) : Contents
+    countLike(cId:Int! cLike:Int) : Contents
+    updateBCount(cartId:Int, bCount:Int): BuyItem
+    deleteCartItem(cartId:Int): BuyItem
   }
     scalar Date
 
@@ -163,8 +166,9 @@ const resolvers = {
         buyItems: (root, { bId, sId, user_code, bCount }) => {
             return buyItem(bId, sId, user_code, bCount);
         },
-        addCart: (root, { sId, sName, sPrice, bCount, slideImg }) => {
+        addCart: (root, { cartId, sId, sName, sPrice, bCount, slideImg }) => {
             const ItemId = {
+                cartId,
                 sId,
                 sName,
                 sPrice,
@@ -179,6 +183,17 @@ const resolvers = {
         },
         countLike: (root, { cId, cLike }) => {
             return countLike(cId, cLike);
+        },
+        updateBCount: (root, { cartId, bCount }) => {
+            cart[cartId - 1].bCount = bCount;
+            return cart;
+        },
+        deleteCartItem: (root, { cartId }) => {
+            const findCart = cart.find((cart) => cart.cartId === cartId);
+            if (!findCart)
+                return false;
+            cart = cart.filter((cart) => cart.cartId !== cartId);
+            return true;
         },
     },
 };
