@@ -103,6 +103,7 @@ export interface CartComponent {
   cartList: [BuyItem];
   allUserBuyItemList: [BuyItem];
   nowUser: [User];
+  checkCartList: [BuyItem];
 }
 export interface BuyModalComponent {
   selectItem: [Item];

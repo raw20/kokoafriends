@@ -25,6 +25,14 @@ const GET_CART = gql`
     nowUser {
       user_code
     }
+    checkCartList {
+      sName
+      sId
+      sPrice
+      bCount
+      slideImg
+      cartId
+    }
   }
 `;
 const UPDATE_COUNT = gql`
@@ -39,6 +47,34 @@ const BUY_ITEM = gql`
   mutation BuyItems($bId: Int!, $sId: Int!, $userCode: Int!, $bCount: Int!) {
     buyItems(bId: $bId, sId: $sId, user_code: $userCode, bCount: $bCount) {
       bId
+    }
+  }
+`;
+const CHECK_ITEM = gql`
+  mutation CheckedAddCart(
+    $cartId: Int!
+    $sId: Int!
+    $sName: String!
+    $sPrice: Int!
+    $bCount: Int!
+    $slideImg: [String]!
+  ) {
+    checkedAddCart(
+      cartId: $cartId
+      sId: $sId
+      sName: $sName
+      sPrice: $sPrice
+      bCount: $bCount
+      slideImg: $slideImg
+    ) {
+      cartId
+    }
+  }
+`;
+const UNCHECK_ITEM = gql`
+  mutation CheckDeleteCart($cartId: Int!) {
+    checkDeleteCart(cartId: $cartId) {
+      cartId
     }
   }
 `;
@@ -268,12 +304,18 @@ function Cart() {
   const [buyItems] = useMutation(BUY_ITEM, {
     refetchQueries: [{ query: GET_CART }, "CartList"],
   });
+  const [checkedAddCart] = useMutation(CHECK_ITEM, {
+    refetchQueries: [{ query: GET_CART }, "CartList"],
+  });
+  const [checkDeleteCart] = useMutation(UNCHECK_ITEM, {
+    refetchQueries: [{ query: GET_CART }, "CartList"],
+  });
   const [deleteCartItem] = useMutation(DELETE_CART, {
     refetchQueries: [{ query: GET_CART }, "CartList"],
   });
   const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
   const ItemPrice = data
-    ? data?.cartList.map((cart) => cart.sPrice * cart.bCount)
+    ? data?.checkCartList.map((cart) => cart.sPrice * cart.bCount)
     : undefined;
   const sumPrice = ItemPrice?.reduce((a: number, b: number) => a + b, 0);
   function plusNumber(id: number, count: number) {
@@ -312,8 +354,33 @@ function Cart() {
       },
     });
   }
-  function checkHandler(e: any) {
-    console.log(e.target.id);
+  function checkHandler(
+    e: any,
+    cartId: number,
+    sId: number,
+    name: string,
+    price: number,
+    count: number,
+    slideImg: string
+  ) {
+    if (e.target.checked === true) {
+      checkedAddCart({
+        variables: {
+          cartId: cartId,
+          sId: sId,
+          sName: name,
+          sPrice: price,
+          bCount: count,
+          slideImg: slideImg,
+        },
+      });
+    } else if (e.target.checked === false) {
+      checkDeleteCart({
+        variables: {
+          cartId: cartId,
+        },
+      });
+    }
   }
   function buyItem() {
     for (let i = 0; i < Number(data?.cartList.length); i++) {
@@ -354,7 +421,9 @@ function Cart() {
                         <DeliveryFeeText>
                           {sumPrice >= 30000 ? "무료배송" : 30000 - sumPrice}
                         </DeliveryFeeText>
-                        <SecondMediumText>원 추가시 무료배송</SecondMediumText>
+                        <SecondMediumText>
+                          {sumPrice >= 30000 ? null : "추가시 무료배송"}
+                        </SecondMediumText>
                       </>
                     ) : null}
                   </DeliveryFeeTextBox>
@@ -371,7 +440,7 @@ function Cart() {
                 <CheckTable>
                   <CheckLeft>
                     <CheckBox type="checkbox" />
-                    <MediumText>총 0개</MediumText>
+                    <MediumText>총 {data?.checkCartList.length}개</MediumText>
                   </CheckLeft>
                   <CheckRight>
                     <SmallText>선택삭제</SmallText>
@@ -382,10 +451,19 @@ function Cart() {
                     <CartItemBox key={index}>
                       <BoxLeft>
                         <CheckBox
-                          id={String(ele.cartId)}
                           type="checkbox"
-                          onChange={(e) => checkHandler(e)}
-                          checked
+                          onChange={(e) =>
+                            checkHandler(
+                              e,
+                              ele.cartId,
+                              ele.sId,
+                              String(ele.sName),
+                              ele.sPrice,
+                              ele.bCount,
+                              ele.slideImg[0]
+                            )
+                          }
+                          defaultChecked
                         />
                         <Image src={`/img/product/${ele?.slideImg}`} />
                       </BoxLeft>
@@ -404,6 +482,7 @@ function Cart() {
                             onChange={(event) =>
                               inputOnchange(ele.cartId, event)
                             }
+                            checked
                           />
                           <Control
                             onClick={() => plusNumber(ele.cartId, ele.bCount)}
