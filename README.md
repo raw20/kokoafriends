@@ -43,7 +43,7 @@
 - Sourcetree
 - GitHub
 
-## 📋 성능 테스팅 도구
+## 성능 테스팅 도구
 
 - Postman
 
@@ -110,6 +110,9 @@
 #### Specification
 
 - GraphQL
+
+## 📋 카카오 로그인 API 문서
+[카카오 로그인 API](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
 
 ## 📋 주요 키워드
 
