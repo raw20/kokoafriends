@@ -12,7 +12,7 @@ import {
   postComment,
 } from "./db/comment.js";
 import { contents, countLike, getContentsId } from "./db/contents.js";
-import { getItemId, item } from "./db/Item.js";
+import {getItemId, item, view} from "./db/Item.js";
 import { clickLiked, likeContents } from "./db/likeContents.js";
 import {
   deleteReview,
@@ -126,6 +126,7 @@ const typeDefs = `#graphql
     countLike(cId:Int! cLike:Int) : Contents
     updateBCount(cartId:Int, bCount:Int): BuyItem
     deleteCartItem(cartId:Int): BuyItem
+    view(id:Int) : Item
   }
     scalar Date
 
@@ -151,6 +152,9 @@ const resolvers = {
   },
 
   Mutation: {
+    view (root: any, { id }) {
+      return view(id);
+},
     postReviews: (root: any, { rId, sId, user_code, rReview }) => {
       return postReview(rId, sId, user_code, rReview);
     },
