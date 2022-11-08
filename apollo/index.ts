@@ -24,6 +24,7 @@ import { user } from "./db/user.js";
 
 let nowUser = [];
 let cart = [];
+let checkCart = [];
 const typeDefs = `#graphql
   type Item {
     sId: Int
@@ -108,6 +109,7 @@ const typeDefs = `#graphql
     selectComment (id:Int!) : [Comment]
     nowUser : [User]
     cartList : [BuyItem]
+    checkCartList : [BuyItem]
     allUserBuyItemList : [BuyItem]
     selectUserBuyItemList (user_code:Int!) : [BuyItem]
     likeContents: [LikeContents]
@@ -122,6 +124,8 @@ const typeDefs = `#graphql
     logOutUser:User
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
     addCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
+    checkedAddCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!) : BuyItem
+    checkDeleteCart(cartId:Int) : BuyItem
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
     countLike(cId:Int! cLike:Int) : Contents
     updateBCount(cartId:Int, bCount:Int): BuyItem
@@ -140,6 +144,7 @@ const resolvers = {
     user: () => user(),
     nowUser: () => nowUser,
     cartList: () => cart,
+    checkCartList: () => checkCart,
     selectItem: (root: any, { id }) => getItemId(id),
     selectContents: (root: any, { id }) => getContentsId(id),
     review: () => review(),
@@ -209,7 +214,30 @@ const resolvers = {
         slideImg,
       };
       cart.push(ItemId);
+      checkCart.push(ItemId);
       return ItemId;
+    },
+    checkedAddCart: (
+      root: any,
+      { cartId, sId, sName, sPrice, bCount, slideImg }
+    ) => {
+      const ItemId = {
+        cartId,
+        sId,
+        sName,
+        sPrice,
+        bCount,
+        slideImg,
+      };
+      checkCart.push(ItemId);
+      return ItemId;
+    },
+    checkDeleteCart: (root: any, { cartId }) => {
+      const findCart = checkCart.find((cart) => cart.cartId === cartId);
+      if (!findCart) return false;
+      if (cart.length === 0) checkCart = [];
+      checkCart = checkCart.filter((cart) => cart.cartId !== cartId);
+      return true;
     },
     clickLiked: (root: any, { lId, user_code, cId, like_check }) => {
       return clickLiked(lId, user_code, cId, like_check);
@@ -225,6 +253,7 @@ const resolvers = {
       const findCart = cart.find((cart) => cart.cartId === cartId);
       if (!findCart) return false;
       cart = cart.filter((cart) => cart.cartId !== cartId);
+      checkCart = cart;
       return true;
     },
   },
