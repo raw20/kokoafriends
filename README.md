@@ -36,7 +36,7 @@
 **비회원일시 - 로그인창 보내기**
 
 ## 개발환경
-
+- kakao login api
 - IntelliJ
 - Visual Studio Code
 - HeidiSql
@@ -47,11 +47,6 @@
 
 - Postman
 
-## 📋 로그 분석 도구
-
-## 🏭 시스템 구조
-
-## 📋 사용 기술
 
 ### 백엔드
 
@@ -69,6 +64,18 @@
 
 - Oauth
 
+-thymeleaf
+
+- lombok
+
+- devtools
+
+- mysql-connector-java
+
+- gson
+
+- springsecurity5
+
 #### Build tool
 
 - Gradle
@@ -76,6 +83,9 @@
 #### Database
 
 - Mysql
+
+- RDS
+
 
 ### 프론트엔드
 
