@@ -66,12 +66,71 @@ const Title = styled.h1`
   text-align: center;
   font-weight: bolder;
 `;
+const DeliveryFeeBox = styled.div`
+  width: 100%;
+  margin-bottom: 1rem;
+`;
+const DeliveryFeeTextBox = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  margin-bottom: 1rem;
+`;
+
+const DeliveryFeeBar = styled.div`
+  width: 100%;
+  height: 20px;
+  background-color: ${(props) => props.theme.secondBorderColor};
+  border-radius: 5px;
+`;
+const DeliveryFeeBarFull = styled.div<{ priceSize: number }>`
+  width: ${(props) =>
+    props.priceSize >= 30000 ? 100 : props.priceSize / 300}%;
+  background-color: ${(props) => props.theme.cartColor};
+  color: ${(props) => props.theme.cartColor};
+  border-radius: 5px;
+  display: flex;
+  justify-content: start;
+  animation: blink 0.6s ease-in-out infinite alternate;
+
+  @keyframes blink {
+    0% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+`;
+const CheckTable = styled.div`
+  width: 100%;
+  display: flex;
+  margin-bottom: 1rem;
+  justify-content: space-between;
+`;
+const CheckLeft = styled.div`
+  width: 50%;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+`;
+const CheckRight = styled.div`
+  width: 50%;
+`;
+const CheckBox = styled.input`
+  width: 25px;
+  height: 25px;
+  background-color: ${(props) => props.theme.secondBorderColor};
+  border-radius: 50%;
+  margin-right: 1rem;
+`;
 const CartListTable = styled.div`
   width: 100%;
   height: auto;
-  background-color: ${(props) => props.theme.borderColor};
-  border-top: 5px solid ${(props) => props.theme.borderColor};
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
+  background-color: ${(props) => props.theme.secondBorderColor};
+  border-top: 5px solid ${(props) => props.theme.secondBorderColor};
+  border-bottom: 1px solid ${(props) => props.theme.secondBorderColor};
 `;
 const CartItemBox = styled.div`
   width: 100%;
@@ -80,39 +139,53 @@ const CartItemBox = styled.div`
   background-color: #fff;
 `;
 const BoxLeft = styled.div`
-  width: 200px;
+  width: 250px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 const Image = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  margin: 1rem 0;
+  margin: 1rem 3rem 1rem 0;
   border: 1px solid ${(props) => props.theme.borderColor};
 `;
 const BoxCenter = styled.div`
-  width: 500px;
+  width: 450px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: left;
 `;
 const LargeText = styled.p`
   width: 100%;
-  text-align: left;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: 1rem;
 `;
 const MediumText = styled.p`
   width: 100%;
   font-size: 1.1rem;
-  margin-top: 1rem;
-  text-align: left;
   font-weight: bold;
+`;
+const SecondMediumText = styled.p`
+  font-size: 1.1rem;
+  font-weight: bold;
+`;
+const DeliveryFeeText = styled(SecondMediumText)`
+  color: ${(props) => props.theme.cartColor};
+`;
+const SmallText = styled.p`
+  width: 100%;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  text-align: right;
+  color: ${(props) => props.theme.secondColor};
+  cursor: pointer;
 `;
 const BoxRight = styled.div`
   width: 100px;
@@ -130,7 +203,7 @@ const BuyButton = styled.div`
   width: 100%;
   height: 50px;
   margin-top: 1.5rem;
-  background-color: ${(props) => props.theme.accentColor};
+  background-color: ${(props) => props.theme.cartColor};
   color: ${(props) => props.theme.bgColor};
   font-size: 1.4rem;
   display: flex;
@@ -168,6 +241,23 @@ const Delete = styled(MdDeleteForever)`
   cursor: pointer;
   color: ${(props) => props.theme.accentColor};
 `;
+
+const ReceiptBox = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 1.5rem 1rem 0;
+`;
+const ReceiptText = styled(LargeText)`
+  font-weight: 600;
+`;
+const ReceiptLeft = styled.div`
+  width: 50%;
+  text-align: left;
+`;
+const ReceiptRight = styled.div`
+  width: 50%;
+  text-align: right;
+`;
 function Cart() {
   const token: string = window.localStorage.getItem("token") as string;
   const navigate = useNavigate();
@@ -185,7 +275,7 @@ function Cart() {
   const ItemPrice = data
     ? data?.cartList.map((cart) => cart.sPrice * cart.bCount)
     : undefined;
-  const SumPrice = ItemPrice?.reduce((a: number, b: number) => a + b, 0);
+  const sumPrice = ItemPrice?.reduce((a: number, b: number) => a + b, 0);
   function plusNumber(id: number, count: number) {
     updateBCount({
       variables: {
@@ -222,6 +312,9 @@ function Cart() {
       },
     });
   }
+  function checkHandler(e: any) {
+    console.log(e.target.id);
+  }
   function buyItem() {
     for (let i = 0; i < Number(data?.cartList.length); i++) {
       const sId = data ? data?.cartList.map((cart) => cart.sId) : undefined;
@@ -254,10 +347,46 @@ function Cart() {
               <EmptyCart />
             ) : (
               <>
+                <DeliveryFeeBox>
+                  <DeliveryFeeTextBox>
+                    {sumPrice ? (
+                      <>
+                        <DeliveryFeeText>
+                          {sumPrice >= 30000 ? "무료배송" : 30000 - sumPrice}
+                        </DeliveryFeeText>
+                        <SecondMediumText>원 추가시 무료배송</SecondMediumText>
+                      </>
+                    ) : null}
+                  </DeliveryFeeTextBox>
+                  <DeliveryFeeBar>
+                    {sumPrice ? (
+                      <>
+                        <DeliveryFeeBarFull priceSize={Number(sumPrice)}>
+                          1
+                        </DeliveryFeeBarFull>
+                      </>
+                    ) : null}
+                  </DeliveryFeeBar>
+                </DeliveryFeeBox>
+                <CheckTable>
+                  <CheckLeft>
+                    <CheckBox type="checkbox" />
+                    <MediumText>총 0개</MediumText>
+                  </CheckLeft>
+                  <CheckRight>
+                    <SmallText>선택삭제</SmallText>
+                  </CheckRight>
+                </CheckTable>
                 <CartListTable>
                   {data?.cartList.map((ele, index) => (
                     <CartItemBox key={index}>
                       <BoxLeft>
+                        <CheckBox
+                          id={String(ele.cartId)}
+                          type="checkbox"
+                          onChange={(e) => checkHandler(e)}
+                          checked
+                        />
                         <Image src={`/img/product/${ele?.slideImg}`} />
                       </BoxLeft>
                       <BoxCenter>
@@ -289,10 +418,35 @@ function Cart() {
                     </CartItemBox>
                   ))}
                 </CartListTable>
+                <ReceiptBox>
+                  <ReceiptLeft>
+                    <LargeText>상품금액</LargeText>
+                    <LargeText>배송비</LargeText>
+                    <ReceiptText>총 결제금액</ReceiptText>
+                  </ReceiptLeft>
+                  <ReceiptRight>
+                    <LargeText> {sumPrice ? sumPrice : null}원</LargeText>
+                    {sumPrice ? (
+                      <>
+                        <LargeText>
+                          {sumPrice >= 30000 ? "무료" : "3000원"}
+                        </LargeText>
+                        <ReceiptText>
+                          {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
+                        </ReceiptText>
+                      </>
+                    ) : null}
+                  </ReceiptRight>
+                </ReceiptBox>
                 <BuyTable>
-                  <BuyButton onClick={() => buyItem()}>
-                    {SumPrice ? SumPrice : null}원 주문하기
-                  </BuyButton>
+                  {sumPrice ? (
+                    <>
+                      <BuyButton onClick={() => buyItem()}>
+                        {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
+                        주문하기
+                      </BuyButton>
+                    </>
+                  ) : null}
                 </BuyTable>
               </>
             )}
