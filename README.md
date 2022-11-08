@@ -111,6 +111,10 @@
 
 - GraphQL
 
+## Diagram
+![카카오 로그인 api 다이어그램](https://user-images.githubusercontent.com/81221555/200505646-60d22ea4-5d3a-431c-9f6e-c2351fe2d28e.jpg)
+
+
 ## ERD
 ![image](https://user-images.githubusercontent.com/81221555/200505038-4bdcbeb7-5471-4b28-be93-4ddef6bea822.png)
 
