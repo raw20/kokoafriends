@@ -15,6 +15,7 @@ const GET_CART = gql`
       bCount
       slideImg
       cartId
+      check
     }
     allUserBuyItemList {
       bId
@@ -25,20 +26,11 @@ const GET_CART = gql`
     nowUser {
       user_code
     }
-    checkCartList {
-      sName
-      sId
-      sPrice
-      bCount
-      slideImg
-      cartId
-    }
   }
 `;
 const UPDATE_COUNT = gql`
-  mutation UpdateBCount($cartId: Int, $bCount: Int) {
-    updateBCount(cartId: $cartId, bCount: $bCount) {
-      cartId
+  mutation UpdateBCount($index: Int!, $bCount: Int) {
+    updateBCount(index: $index, bCount: $bCount) {
       bCount
     }
   }
@@ -51,29 +43,15 @@ const BUY_ITEM = gql`
   }
 `;
 const CHECK_ITEM = gql`
-  mutation CheckedAddCart(
-    $cartId: Int!
-    $sId: Int!
-    $sName: String!
-    $sPrice: Int!
-    $bCount: Int!
-    $slideImg: [String]!
-  ) {
-    checkedAddCart(
-      cartId: $cartId
-      sId: $sId
-      sName: $sName
-      sPrice: $sPrice
-      bCount: $bCount
-      slideImg: $slideImg
-    ) {
+  mutation CheckedAddCart($index: Int!) {
+    checkedAddCart(index: $index) {
       cartId
     }
   }
 `;
 const UNCHECK_ITEM = gql`
-  mutation CheckDeleteCart($cartId: Int!) {
-    checkDeleteCart(cartId: $cartId) {
+  mutation CheckDeleteCart($index: Int!) {
+    checkDeleteCart(index: $index) {
       cartId
     }
   }
@@ -247,6 +225,9 @@ const BuyButton = styled.div`
   align-items: center;
   cursor: pointer;
 `;
+const DefaultBuyButton = styled(BuyButton)`
+  background-color: ${(props) => props.theme.borderColor};
+`;
 const NumControl = styled.div`
   width: 100%;
   display: flex;
@@ -314,35 +295,36 @@ function Cart() {
     refetchQueries: [{ query: GET_CART }, "CartList"],
   });
   const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
-  const ItemPrice = data
-    ? data?.checkCartList.map((cart) => cart.sPrice * cart.bCount)
+  const trueCart = data?.cartList.filter((cart) => cart.check === true);
+  const ItemPrice = trueCart
+    ? trueCart.map((cart) => cart.sPrice * cart.bCount)
     : undefined;
   const sumPrice = ItemPrice?.reduce((a: number, b: number) => a + b, 0);
-  function plusNumber(id: number, count: number) {
+  function plusNumber(index: number, count: number) {
     updateBCount({
       variables: {
-        cartId: Number(id),
+        index: index,
         bCount: count + 1,
       },
     });
   }
-  function minusNumber(id: number, count: number) {
+  function minusNumber(index: number, count: number) {
     if (count > 1) {
       updateBCount({
         variables: {
-          cartId: Number(id),
+          index: index,
           bCount: count - 1,
         },
       });
     }
   }
-  function inputOnchange(id: number, event: any) {
+  function inputOnchange(index: number, event: any) {
     if (event.target.value < 1) {
       event.target.value = 1;
     }
     updateBCount({
       variables: {
-        cartId: Number(id),
+        index: index,
         bCount: Number(event.target.value),
       },
     });
@@ -354,30 +336,27 @@ function Cart() {
       },
     });
   }
-  function checkHandler(
-    e: any,
-    cartId: number,
-    sId: number,
-    name: string,
-    price: number,
-    count: number,
-    slideImg: string
-  ) {
+  function checkHandler(e: any, index: number) {
     if (e.target.checked === true) {
       checkedAddCart({
         variables: {
-          cartId: cartId,
-          sId: sId,
-          sName: name,
-          sPrice: price,
-          bCount: count,
-          slideImg: slideImg,
+          index: index,
         },
       });
     } else if (e.target.checked === false) {
       checkDeleteCart({
         variables: {
-          cartId: cartId,
+          index: index,
+        },
+      });
+    }
+  }
+  function selectDeleteItem() {
+    const cartIndex = trueCart ? trueCart?.map((ele) => ele.cartId) : undefined;
+    for (let i = 0; i < Number(cartIndex?.length); i++) {
+      deleteCartItem({
+        variables: {
+          cartId: cartIndex ? Number(cartIndex[i]) : 0,
         },
       });
     }
@@ -402,6 +381,7 @@ function Cart() {
     alert("구매를 완료하였습니다.");
     navigate("/mypage");
   }
+
   return (
     <>
       {!token ? (
@@ -422,10 +402,16 @@ function Cart() {
                           {sumPrice >= 30000 ? "무료배송" : 30000 - sumPrice}
                         </DeliveryFeeText>
                         <SecondMediumText>
-                          {sumPrice >= 30000 ? null : "추가시 무료배송"}
+                          {sumPrice >= 30000 ? null : "원 추가시 무료배송"}
                         </SecondMediumText>
                       </>
-                    ) : null}
+                    ) : (
+                      <>
+                        <SecondMediumText>
+                          30000원 추가시 무료배송
+                        </SecondMediumText>
+                      </>
+                    )}
                   </DeliveryFeeTextBox>
                   <DeliveryFeeBar>
                     {sumPrice ? (
@@ -440,29 +426,23 @@ function Cart() {
                 <CheckTable>
                   <CheckLeft>
                     <CheckBox type="checkbox" />
-                    <MediumText>총 {data?.checkCartList.length}개</MediumText>
+                    <MediumText>
+                      총 {trueCart ? trueCart.length : 0}개
+                    </MediumText>
                   </CheckLeft>
                   <CheckRight>
-                    <SmallText>선택삭제</SmallText>
+                    <SmallText onClick={() => selectDeleteItem()}>
+                      선택삭제
+                    </SmallText>
                   </CheckRight>
                 </CheckTable>
                 <CartListTable>
                   {data?.cartList.map((ele, index) => (
-                    <CartItemBox key={index}>
+                    <CartItemBox key={ele.cartId}>
                       <BoxLeft>
                         <CheckBox
                           type="checkbox"
-                          onChange={(e) =>
-                            checkHandler(
-                              e,
-                              ele.cartId,
-                              ele.sId,
-                              String(ele.sName),
-                              ele.sPrice,
-                              ele.bCount,
-                              ele.slideImg[0]
-                            )
-                          }
+                          onChange={(e) => checkHandler(e, index)}
                           defaultChecked
                         />
                         <Image src={`/img/product/${ele?.slideImg}`} />
@@ -472,20 +452,17 @@ function Cart() {
                         <MediumText>{ele.sPrice * ele.bCount}원</MediumText>
                         <NumControl>
                           <Control
-                            onClick={() => minusNumber(ele.cartId, ele.bCount)}
+                            onClick={() => minusNumber(index, ele.bCount)}
                           >
                             -
                           </Control>
                           <Input
                             type="number"
                             value={ele.bCount}
-                            onChange={(event) =>
-                              inputOnchange(ele.cartId, event)
-                            }
-                            checked
+                            onChange={(event) => inputOnchange(index, event)}
                           />
                           <Control
-                            onClick={() => plusNumber(ele.cartId, ele.bCount)}
+                            onClick={() => plusNumber(index, ele.bCount)}
                           >
                             +
                           </Control>
@@ -504,7 +481,7 @@ function Cart() {
                     <ReceiptText>총 결제금액</ReceiptText>
                   </ReceiptLeft>
                   <ReceiptRight>
-                    <LargeText> {sumPrice ? sumPrice : null}원</LargeText>
+                    <LargeText> {sumPrice ? sumPrice : 0}원</LargeText>
                     {sumPrice ? (
                       <>
                         <LargeText>
@@ -514,7 +491,12 @@ function Cart() {
                           {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
                         </ReceiptText>
                       </>
-                    ) : null}
+                    ) : (
+                      <>
+                        <LargeText>3000원</LargeText>
+                        <ReceiptText>0원</ReceiptText>
+                      </>
+                    )}
                   </ReceiptRight>
                 </ReceiptBox>
                 <BuyTable>
@@ -525,7 +507,13 @@ function Cart() {
                         주문하기
                       </BuyButton>
                     </>
-                  ) : null}
+                  ) : (
+                    <>
+                      <DefaultBuyButton onClick={() => buyItem()}>
+                        주문하기
+                      </DefaultBuyButton>
+                    </>
+                  )}
                 </BuyTable>
               </>
             )}
