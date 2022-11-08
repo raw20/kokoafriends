@@ -4,7 +4,6 @@ import { ContentsComponent } from "../../../interface/IDBdataType";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 const GET_CONTENTS = gql`
   query Contents {
@@ -182,10 +181,12 @@ export const CommentBox = styled(Link)`
 function Contents() {
   const token: string = window.localStorage.getItem("token") as string;
   const { data } = useQuery<ContentsComponent>(GET_CONTENTS);
-  const [liked, setLiked] = useState<number>(1);
   const userCode = Number(data?.nowUser.map((ele) => ele.user_code));
   const userCodeMatchLikeContents = data
     ? data.likeContents.filter((ele) => ele.user_code === userCode)
+    : undefined;
+  const contents = userCodeMatchLikeContents
+    ? userCodeMatchLikeContents.map((ele) => ele.like_check)
     : undefined;
   const [clickLiked] = useMutation(CLICK_LIKE, {
     refetchQueries: [{ query: GET_CONTENTS }, "Contents"],
@@ -193,31 +194,37 @@ function Contents() {
   const [countLike] = useMutation(COUNT_LIKE, {
     refetchQueries: [{ query: GET_CONTENTS }, "Contents"],
   });
-  console.log(liked);
   function likeHandler(id: number, index: number) {
     const lid = Number(`${userCode}${id}`);
     const contentsLike = Number(data?.contents[index].cLike);
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      setLiked(liked === 1 ? 0 : 1);
-      clickLiked({
-        variables: {
-          lId: lid,
-          userCode: userCode,
-          cId: id,
-          likeCheck: Number(liked),
-        },
-      });
       if (userCodeMatchLikeContents) {
-        if (userCodeMatchLikeContents[index].like_check === 0) {
+        if (Number(contents?.[index]) !== 1) {
+          clickLiked({
+            variables: {
+              lId: lid,
+              userCode: userCode,
+              cId: id,
+              likeCheck: 1,
+            },
+          });
           countLike({
             variables: {
               cId: id,
               cLike: contentsLike + 1,
             },
           });
-        } else if (userCodeMatchLikeContents[index].like_check === 1) {
+        } else if (Number(contents?.[index]) !== 0) {
+          clickLiked({
+            variables: {
+              lId: lid,
+              userCode: userCode,
+              cId: id,
+              likeCheck: 0,
+            },
+          });
           countLike({
             variables: {
               cId: id,
@@ -269,10 +276,7 @@ function Contents() {
                 <UserName>{data?.comments[index].kakao_nickname}</UserName>
                 <SmallText>{data?.comments[index].comment}</SmallText>
               </Comment>
-              <CommentBox
-                to={`/contentsDetail/${item.cId}`}
-                state={{ liked: liked }}
-              >
+              <CommentBox to={`/contentsDetail/${item.cId}`}>
                 댓글을 남겨주세요.
               </CommentBox>
             </BottomBox>

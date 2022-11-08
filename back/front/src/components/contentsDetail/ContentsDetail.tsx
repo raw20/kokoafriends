@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
   Wrap,
@@ -23,7 +23,7 @@ import {
   RegComment,
 } from "../../pages/mainMenu/contents/Contents";
 import { KAKAO_AUTH_URL } from "../../auth/OAuth";
-import { useState, SetStateAction, Dispatch } from "react";
+import { useState } from "react";
 import { ContentsDetailComponent } from "../../interface/IDBdataType";
 
 const SELECT_CONTENTS = gql`
@@ -180,22 +180,15 @@ const DeleteButton = styled.span`
   border-radius: 7px;
   cursor: pointer;
 `;
-interface IPropsConDetail {
-  state: {
-    liked: number;
-  };
-}
+
 function ContentsDetail() {
   const { id } = useParams();
-  const { state } = useLocation() as IPropsConDetail;
-  const [liked, setLiked] = useState<number>(state?.liked === 1 ? 1 : 0);
   const { data } = useQuery<ContentsDetailComponent>(SELECT_CONTENTS, {
     variables: {
       selectContentsId: Number(id),
       selectCommentId: Number(id),
     },
   });
-  console.log("liked", liked);
   const userCode = Number(data?.nowUser.map((ele) => ele.user_code));
   const [postComments] = useMutation(POST_COMMENT, {
     refetchQueries: [{ query: SELECT_CONTENTS }, "SelectContents"],
@@ -219,30 +212,40 @@ function ContentsDetail() {
         (ele) => ele.user_code === userCode && ele.cId === Number(id)
       )
     : undefined;
+  const likedCheck = userCodeMatchLikeContents
+    ? userCodeMatchLikeContents.map((ele) => ele.like_check)
+    : undefined;
   function likeHandler(id: number) {
     const lid = Number(`${userCode}${id}`);
     const contentsLike = Number(data?.selectContents[0].cLike);
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      setLiked(liked === 1 ? 0 : 1);
-      clickLiked({
-        variables: {
-          lId: lid,
-          userCode: userCode,
-          cId: id,
-          likeCheck: Number(liked),
-        },
-      });
       if (userCodeMatchLikeContents) {
-        if (userCodeMatchLikeContents[0]?.like_check === 0) {
+        if (Number(userCodeMatchLikeContents[0]?.like_check) !== 1) {
+          clickLiked({
+            variables: {
+              lId: lid,
+              userCode: userCode,
+              cId: id,
+              likeCheck: 1,
+            },
+          });
           countLike({
             variables: {
               cId: id,
               cLike: contentsLike + 1,
             },
           });
-        } else if (userCodeMatchLikeContents[0]?.like_check === 1) {
+        } else if (Number(userCodeMatchLikeContents[0]?.like_check) !== 0) {
+          clickLiked({
+            variables: {
+              lId: lid,
+              userCode: userCode,
+              cId: id,
+              likeCheck: 0,
+            },
+          });
           countLike({
             variables: {
               cId: id,
@@ -293,7 +296,7 @@ function ContentsDetail() {
               <Image src={`/img/contents/${data?.selectContents[0].cImage}`} />
             </ImgBox>
             <IconBox>
-              {userCodeMatchLikeContents?.[0].like_check !== 1 ? (
+              {Number(likedCheck) !== 1 ? (
                 <HeartEmpty
                   onClick={() =>
                     likeHandler(Number(data?.selectContents[0].cId))

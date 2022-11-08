@@ -1,9 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { AllItem } from "../../../interface/IDBdataType";
 const BEST_ITEM = gql`
-  query {
+  query Item {
     item {
       sId
       sName
@@ -11,6 +11,13 @@ const BEST_ITEM = gql`
       slideImg
       sView
       sCategory
+    }
+  }
+`;
+const VIEW_COUNT = gql`
+  mutation ViewCount($viewCountId: Int) {
+    viewCount(id: $viewCountId) {
+      sId
     }
   }
 `;
@@ -108,24 +115,18 @@ export const ItemPrice = styled.h1`
   margin: 1rem 0;
 `;
 function BestProductItem() {
-  const {
-    data,
-    client: { cache },
-  } = useQuery<AllItem>(BEST_ITEM);
+  const { data } = useQuery<AllItem>(BEST_ITEM);
+  const [viewCount] = useMutation(VIEW_COUNT, {
+    refetchQueries: [{ query: BEST_ITEM }, "Item"],
+  });
   const bestItem = data?.item
     .map((ele) => ele)
     .sort((a, b) => b.sView - a.sView);
 
-  function viewCount(id: number, view: number) {
-    cache.writeFragment({
-      id: `Item:${Number(id)}`,
-      fragment: gql`
-        fragment ItemFragment on Item {
-          view
-        }
-      `,
-      data: {
-        view: (view += 1),
+  function viewCountHandler(id: number) {
+    viewCount({
+      variables: {
+        viewCountId: Number(id),
       },
     });
   }
@@ -138,7 +139,7 @@ function BestProductItem() {
             index < 6 ? (
               <ItemList
                 onClick={() => {
-                  viewCount(item?.sId, item?.sView);
+                  viewCountHandler(item?.sId);
                 }}
                 to={`/bestProduct/${item?.sId}`}
                 key={item?.sId}

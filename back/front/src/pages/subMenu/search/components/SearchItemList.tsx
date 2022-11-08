@@ -1,6 +1,6 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
-import { AllItem, Item } from "../../../../interface/IDBdataType";
+import { Item } from "../../../../interface/IDBdataType";
 import {
   Inner,
   ItemBox,
@@ -13,7 +13,7 @@ import {
 } from "../../../mainMenu/best/BestProductItem";
 
 const SEARCH_RESULT_ITEM = gql`
-  query {
+  query Item {
     item {
       sId
       sName
@@ -21,6 +21,13 @@ const SEARCH_RESULT_ITEM = gql`
       slideImg
       sView
       sCategory
+    }
+  }
+`;
+const VIEW_COUNT = gql`
+  mutation ViewCount($viewCountId: Int) {
+    viewCount(id: $viewCountId) {
+      sId
     }
   }
 `;
@@ -37,20 +44,13 @@ const Text = styled.h1`
 `;
 
 function SearchItemList({ searchData }: { searchData: Item[] }) {
-  const {
-    client: { cache },
-  } = useQuery<AllItem>(SEARCH_RESULT_ITEM);
-
-  function viewCount(id: number, view: number) {
-    cache.writeFragment({
-      id: `Item:${Number(id)}`,
-      fragment: gql`
-        fragment ItemFragment on Item {
-          view
-        }
-      `,
-      data: {
-        view: (view += 1),
+  const [viewCount] = useMutation(VIEW_COUNT, {
+    refetchQueries: [{ query: SEARCH_RESULT_ITEM }, "Item"],
+  });
+  function viewCountHandler(id: number) {
+    viewCount({
+      variables: {
+        viewCountId: Number(id),
       },
     });
   }
@@ -66,7 +66,7 @@ function SearchItemList({ searchData }: { searchData: Item[] }) {
             searchData?.map((item) => (
               <ItemList
                 onClick={() => {
-                  viewCount(item?.sId, item?.sView);
+                  viewCountHandler(item?.sId);
                 }}
                 to={`/bestProduct/${item?.sId}`}
                 key={item?.sId}

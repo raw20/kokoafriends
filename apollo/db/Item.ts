@@ -17,3 +17,9 @@ export const getItemId = async (id: number) => {
   const [rows] = await pool1.query(`select * from shop where sId=${id}`);
   return rows;
 };
+export const viewCount = async (id: number) => {
+  const [rows] = await pool1.query(
+    `update shop set sView = sView + 1 where sId = ${id}`
+  );
+  return rows;
+};

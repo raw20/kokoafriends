@@ -12,7 +12,7 @@ import {
   postComment,
 } from "./db/comment.js";
 import { contents, countLike, getContentsId } from "./db/contents.js";
-import { getItemId, item } from "./db/Item.js";
+import { getItemId, item, viewCount } from "./db/Item.js";
 import { clickLiked, likeContents } from "./db/likeContents.js";
 import {
   deleteReview,
@@ -26,13 +26,13 @@ let nowUser = [];
 let cart = [];
 const typeDefs = `#graphql
   type Item {
-    sId: Int!
+    sId: Int
     sName: String!
     sTitle: String!
     sContents: String!
     sPrice: Int!
     sLike: Int!
-    sView: Int!
+    sView: Int
     sHalf_title:String!
     sCategory:String!
     slideImg: [String]!
@@ -126,6 +126,7 @@ const typeDefs = `#graphql
     countLike(cId:Int! cLike:Int) : Contents
     updateBCount(cartId:Int, bCount:Int): BuyItem
     deleteCartItem(cartId:Int): BuyItem
+    viewCount(id:Int) : Item
   }
     scalar Date
 
@@ -194,6 +195,9 @@ const resolvers = {
     logOutUser: () => (nowUser = []),
     buyItems: (root: any, { bId, sId, user_code, bCount }) => {
       return buyItem(bId, sId, user_code, bCount);
+    },
+    viewCount(root: any, { id }) {
+      return viewCount(id);
     },
     addCart: (root: any, { cartId, sId, sName, sPrice, bCount, slideImg }) => {
       const ItemId = {
