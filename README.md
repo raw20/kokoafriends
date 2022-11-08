@@ -86,8 +86,6 @@
 
 - RDS
 
-## ERD
-![image](https://user-images.githubusercontent.com/81221555/200505038-4bdcbeb7-5471-4b28-be93-4ddef6bea822.png)
 
 ### 프론트엔드
 
@@ -112,6 +110,10 @@
 #### Specification
 
 - GraphQL
+
+## ERD
+![image](https://user-images.githubusercontent.com/81221555/200505038-4bdcbeb7-5471-4b28-be93-4ddef6bea822.png)
+
 
 ## 📋 카카오 로그인 API 문서
 - [카카오 로그인 API](https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api)
