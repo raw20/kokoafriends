@@ -35,7 +35,7 @@
 
 **비회원일시 - 로그인창 보내기**
 
-##🔹 개발환경
+## 🔹 개발환경
 - kakao login api
 - IntelliJ
 - Visual Studio Code
@@ -43,7 +43,7 @@
 - Sourcetree
 - GitHub
 
-##🔹 성능 테스팅 도구
+## 🔹 성능 테스팅 도구
 
 - Postman
 
