@@ -58,7 +58,13 @@ const MY_PROFILE = gql`
     }
   }
 `;
-
+const VIEW_COUNT = gql`
+  mutation ViewCount($viewCountId: Int) {
+    viewCount(id: $viewCountId) {
+      sId
+    }
+  }
+`;
 const Main = styled.div`
   width: 100%;
   height: auto;
@@ -208,9 +214,21 @@ function Home() {
   const [logInUser] = useMutation(MY_PROFILE, {
     refetchQueries: [{ query: ALL_ITEM }, "Item"],
   });
+  const [viewCount] = useMutation(VIEW_COUNT, {
+    refetchQueries: [{ query: ALL_ITEM }, "Item"],
+  });
   const newItem = data?.item.filter((ele) => ele.sId > data?.item.length - 4);
   const mainBannerItem = data?.item.filter((ele) => ele.sId < 6);
   const token: string = window.localStorage.getItem("token") as string;
+
+  function viewCountHandler(id: number) {
+    viewCount({
+      variables: {
+        viewCountId: Number(id),
+      },
+    });
+  }
+
   useEffect(() => {
     (async () => {
       try {
@@ -246,6 +264,9 @@ function Home() {
               <BannerImgContentsArea
                 to={`/bestProduct/${ele?.sId}`}
                 key={ele?.sId}
+                onClick={() => {
+                  viewCountHandler(ele?.sId);
+                }}
               >
                 <BannerImg
                   src={`/img/product/${ele?.mainBottomImg[0]}`}
@@ -274,7 +295,13 @@ function Home() {
                 <NewItemTitle>새로나온 친구들</NewItemTitle>
                 <ItemImgSlider {...settings}>
                   {newItem?.map((item, index) => (
-                    <ItemList to={`/bestProduct/${item?.sId}`} key={index}>
+                    <ItemList
+                      to={`/bestProduct/${item?.sId}`}
+                      key={index}
+                      onClick={() => {
+                        viewCountHandler(item?.sId);
+                      }}
+                    >
                       <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
                       <ItemName> {item?.sName}</ItemName>
                       <ItemPrice>{item?.sPrice}원</ItemPrice>
