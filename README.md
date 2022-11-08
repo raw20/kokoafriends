@@ -86,6 +86,8 @@
 
 - RDS
 
+#### ERD
+![image](https://user-images.githubusercontent.com/81221555/200504612-a82be37a-a128-4baf-b560-c13d1536a9a4.png)
 
 ### 프론트엔드
 
