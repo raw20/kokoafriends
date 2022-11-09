@@ -5,6 +5,7 @@ import { CartComponent } from "../../../interface/IDBdataType";
 import { useNavigate } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import EmptyCart from "./components/EmptyCart";
+import Loading from "../../../components/loading/Loading";
 
 const GET_CART = gql`
   query CartList {
@@ -278,7 +279,7 @@ const ReceiptRight = styled.div`
 function Cart() {
   const token: string = window.localStorage.getItem("token") as string;
   const navigate = useNavigate();
-  const { data } = useQuery<CartComponent>(GET_CART);
+  const { data, loading } = useQuery<CartComponent>(GET_CART);
   const [updateBCount] = useMutation(UPDATE_COUNT, {
     refetchQueries: [{ query: GET_CART }, "CartList"],
   });
@@ -406,139 +407,151 @@ function Cart() {
         <Login />
       ) : (
         <Wrap>
-          <Inner>
-            <Title>장바구니</Title>
-            {Number(data?.cartList.length) === 0 ? (
-              <EmptyCart />
-            ) : (
-              <>
-                <DeliveryFeeBox>
-                  <DeliveryFeeTextBox>
-                    {sumPrice ? (
-                      <>
-                        <DeliveryFeeText>
-                          {sumPrice >= 30000 ? "무료배송" : 30000 - sumPrice}
-                        </DeliveryFeeText>
-                        <SecondMediumText>
-                          {sumPrice >= 30000 ? null : "원 추가시 무료배송"}
-                        </SecondMediumText>
-                      </>
-                    ) : (
-                      <>
-                        <SecondMediumText>
-                          30000원 추가시 무료배송
-                        </SecondMediumText>
-                      </>
-                    )}
-                  </DeliveryFeeTextBox>
-                  <DeliveryFeeBar>
-                    {sumPrice ? (
-                      <>
-                        <DeliveryFeeBarFull priceSize={Number(sumPrice)}>
-                          1
-                        </DeliveryFeeBarFull>
-                      </>
-                    ) : null}
-                  </DeliveryFeeBar>
-                </DeliveryFeeBox>
-                <CheckTable>
-                  <CheckLeft>
-                    <CheckBox
-                      type="checkbox"
-                      onChange={(e) => allCheckHandler(e)}
-                    />
-                    <MediumText>
-                      총 {trueCart ? trueCart.length : 0}개
-                    </MediumText>
-                  </CheckLeft>
-                  <CheckRight>
-                    <SmallText onClick={() => selectDeleteItem()}>
-                      선택삭제
-                    </SmallText>
-                  </CheckRight>
-                </CheckTable>
-                <CartListTable>
-                  {data?.cartList.map((ele, index) => (
-                    <CartItemBox key={ele.cartId}>
-                      <BoxLeft>
+          {loading ? (
+            <>
+              <Loading />
+            </>
+          ) : (
+            <>
+              <Inner>
+                <Title>장바구니</Title>
+                {Number(data?.cartList.length) === 0 ? (
+                  <EmptyCart />
+                ) : (
+                  <>
+                    <DeliveryFeeBox>
+                      <DeliveryFeeTextBox>
+                        {sumPrice ? (
+                          <>
+                            <DeliveryFeeText>
+                              {sumPrice >= 30000
+                                ? "무료배송"
+                                : 30000 - sumPrice}
+                            </DeliveryFeeText>
+                            <SecondMediumText>
+                              {sumPrice >= 30000 ? null : "원 추가시 무료배송"}
+                            </SecondMediumText>
+                          </>
+                        ) : (
+                          <>
+                            <SecondMediumText>
+                              30000원 추가시 무료배송
+                            </SecondMediumText>
+                          </>
+                        )}
+                      </DeliveryFeeTextBox>
+                      <DeliveryFeeBar>
+                        {sumPrice ? (
+                          <>
+                            <DeliveryFeeBarFull priceSize={Number(sumPrice)}>
+                              1
+                            </DeliveryFeeBarFull>
+                          </>
+                        ) : null}
+                      </DeliveryFeeBar>
+                    </DeliveryFeeBox>
+                    <CheckTable>
+                      <CheckLeft>
                         <CheckBox
                           type="checkbox"
-                          onChange={(e) => checkHandler(e, index)}
-                          checked={ele.check ? true : false}
+                          onChange={(e) => allCheckHandler(e)}
                         />
-                        <Image src={`/img/product/${ele?.slideImg}`} />
-                      </BoxLeft>
-                      <BoxCenter>
-                        <LargeText>{ele.sName}</LargeText>
-                        <MediumText>{ele.sPrice * ele.bCount}원</MediumText>
-                        <NumControl>
-                          <Control
-                            onClick={() => minusNumber(index, ele.bCount)}
-                          >
-                            -
-                          </Control>
-                          <Input
-                            type="number"
-                            value={ele.bCount}
-                            onChange={(event) => inputOnchange(index, event)}
-                          />
-                          <Control
-                            onClick={() => plusNumber(index, ele.bCount)}
-                          >
-                            +
-                          </Control>
-                        </NumControl>
-                      </BoxCenter>
-                      <BoxRight>
-                        <Delete onClick={() => deleteItem(ele.cartId)} />
-                      </BoxRight>
-                    </CartItemBox>
-                  ))}
-                </CartListTable>
-                <ReceiptBox>
-                  <ReceiptLeft>
-                    <LargeText>상품금액</LargeText>
-                    <LargeText>배송비</LargeText>
-                    <ReceiptText>총 결제금액</ReceiptText>
-                  </ReceiptLeft>
-                  <ReceiptRight>
-                    <LargeText> {sumPrice ? sumPrice : 0}원</LargeText>
-                    {sumPrice ? (
-                      <>
-                        <LargeText>
-                          {sumPrice >= 30000 ? "무료" : "3000원"}
-                        </LargeText>
-                        <ReceiptText>
-                          {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
-                        </ReceiptText>
-                      </>
-                    ) : (
-                      <>
-                        <LargeText>3000원</LargeText>
-                        <ReceiptText>0원</ReceiptText>
-                      </>
-                    )}
-                  </ReceiptRight>
-                </ReceiptBox>
-                <BuyTable>
-                  {sumPrice ? (
-                    <>
-                      <BuyButton onClick={() => buyItem()}>
-                        {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
-                        주문하기
-                      </BuyButton>
-                    </>
-                  ) : (
-                    <>
-                      <DefaultBuyButton onClick={() => buyItem()}>
-                        주문하기
-                      </DefaultBuyButton>
-                    </>
-                  )}
-                </BuyTable>
-              </>
-            )}
-          </Inner>
+                        <MediumText>
+                          총 {trueCart ? trueCart.length : 0}개
+                        </MediumText>
+                      </CheckLeft>
+                      <CheckRight>
+                        <SmallText onClick={() => selectDeleteItem()}>
+                          선택삭제
+                        </SmallText>
+                      </CheckRight>
+                    </CheckTable>
+                    <CartListTable>
+                      {data?.cartList.map((ele, index) => (
+                        <CartItemBox key={ele.cartId}>
+                          <BoxLeft>
+                            <CheckBox
+                              type="checkbox"
+                              onChange={(e) => checkHandler(e, index)}
+                              checked={ele.check ? true : false}
+                            />
+                            <Image src={`/img/product/${ele?.slideImg}`} />
+                          </BoxLeft>
+                          <BoxCenter>
+                            <LargeText>{ele.sName}</LargeText>
+                            <MediumText>{ele.sPrice * ele.bCount}원</MediumText>
+                            <NumControl>
+                              <Control
+                                onClick={() => minusNumber(index, ele.bCount)}
+                              >
+                                -
+                              </Control>
+                              <Input
+                                type="number"
+                                value={ele.bCount}
+                                onChange={(event) =>
+                                  inputOnchange(index, event)
+                                }
+                              />
+                              <Control
+                                onClick={() => plusNumber(index, ele.bCount)}
+                              >
+                                +
+                              </Control>
+                            </NumControl>
+                          </BoxCenter>
+                          <BoxRight>
+                            <Delete onClick={() => deleteItem(ele.cartId)} />
+                          </BoxRight>
+                        </CartItemBox>
+                      ))}
+                    </CartListTable>
+                    <ReceiptBox>
+                      <ReceiptLeft>
+                        <LargeText>상품금액</LargeText>
+                        <LargeText>배송비</LargeText>
+                        <ReceiptText>총 결제금액</ReceiptText>
+                      </ReceiptLeft>
+                      <ReceiptRight>
+                        <LargeText> {sumPrice ? sumPrice : 0}원</LargeText>
+                        {sumPrice ? (
+                          <>
+                            <LargeText>
+                              {sumPrice >= 30000 ? "무료" : "3000원"}
+                            </LargeText>
+                            <ReceiptText>
+                              {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
+                            </ReceiptText>
+                          </>
+                        ) : (
+                          <>
+                            <LargeText>3000원</LargeText>
+                            <ReceiptText>0원</ReceiptText>
+                          </>
+                        )}
+                      </ReceiptRight>
+                    </ReceiptBox>
+                    <BuyTable>
+                      {sumPrice ? (
+                        <>
+                          <BuyButton onClick={() => buyItem()}>
+                            {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
+                            주문하기
+                          </BuyButton>
+                        </>
+                      ) : (
+                        <>
+                          <DefaultBuyButton onClick={() => buyItem()}>
+                            주문하기
+                          </DefaultBuyButton>
+                        </>
+                      )}
+                    </BuyTable>
+                  </>
+                )}
+              </Inner>
+            </>
+          )}
         </Wrap>
       )}
     </>

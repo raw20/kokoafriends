@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Loading from "../../../components/loading/Loading";
 import { AllItem } from "../../../interface/IDBdataType";
 const BEST_ITEM = gql`
   query Item {
@@ -115,7 +116,7 @@ export const ItemPrice = styled.h1`
   margin: 1rem 0;
 `;
 function BestProductItem() {
-  const { data } = useQuery<AllItem>(BEST_ITEM);
+  const { data, loading } = useQuery<AllItem>(BEST_ITEM);
   const [viewCount] = useMutation(VIEW_COUNT, {
     refetchQueries: [{ query: BEST_ITEM }, "Item"],
   });
@@ -132,33 +133,41 @@ function BestProductItem() {
   }
   return (
     <Wrap>
-      <Title>지금 인기있는😍</Title>
-      <Inner>
-        <ItemListInner>
-          {bestItem?.map((item, index) =>
-            index < 6 ? (
-              <ItemList
-                onClick={() => {
-                  viewCountHandler(item?.sId);
-                }}
-                to={`/bestProduct/${item?.sId}`}
-                key={item?.sId}
-              >
-                <ItemBox>
-                  <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-                  {index < 3 ? (
-                    <ItemLank>{index + 1}</ItemLank>
-                  ) : (
-                    <ItemBestLank>{index + 1}</ItemBestLank>
-                  )}
-                  <ItemName> {item?.sName}</ItemName>
-                  <ItemPrice>{item?.sPrice}원</ItemPrice>
-                </ItemBox>
-              </ItemList>
-            ) : null
-          )}
-        </ItemListInner>
-      </Inner>
+      {loading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <Title>지금 인기있는😍</Title>
+          <Inner>
+            <ItemListInner>
+              {bestItem?.map((item, index) =>
+                index < 6 ? (
+                  <ItemList
+                    onClick={() => {
+                      viewCountHandler(item?.sId);
+                    }}
+                    to={`/bestProduct/${item?.sId}`}
+                    key={item?.sId}
+                  >
+                    <ItemBox>
+                      <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
+                      {index < 3 ? (
+                        <ItemLank>{index + 1}</ItemLank>
+                      ) : (
+                        <ItemBestLank>{index + 1}</ItemBestLank>
+                      )}
+                      <ItemName> {item?.sName}</ItemName>
+                      <ItemPrice>{item?.sPrice}원</ItemPrice>
+                    </ItemBox>
+                  </ItemList>
+                ) : null
+              )}
+            </ItemListInner>
+          </Inner>
+        </>
+      )}
     </Wrap>
   );
 }

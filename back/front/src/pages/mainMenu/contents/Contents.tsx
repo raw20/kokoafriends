@@ -4,6 +4,7 @@ import { ContentsComponent } from "../../../interface/IDBdataType";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Loading from "../../../components/loading/Loading";
 
 const GET_CONTENTS = gql`
   query Contents {
@@ -180,7 +181,7 @@ export const CommentBox = styled(Link)`
 `;
 function Contents() {
   const token: string = window.localStorage.getItem("token") as string;
-  const { data } = useQuery<ContentsComponent>(GET_CONTENTS);
+  const { data, loading } = useQuery<ContentsComponent>(GET_CONTENTS);
   const userCode = Number(data?.nowUser.map((ele) => ele.user_code));
   const userCodeMatchLikeContents = data
     ? data.likeContents.filter((ele) => ele.user_code === userCode)
@@ -238,51 +239,61 @@ function Contents() {
 
   return (
     <Wrap>
-      <Inner>
-        {data?.contents.map((item, index) => (
-          <ContentsBox key={item.cId}>
-            <HeaderBox>
-              <ProfileImage src={`/img/search/${item.cProfileImg}.jpg`} />
-              <TextBox>
-                <LargeText>{item.cWriter}</LargeText>
-                <SmallText>{item.cDate}</SmallText>
-              </TextBox>
-            </HeaderBox>
-            <MainBox>
-              <ImgBox>
-                <Image src={`/img/contents/${item.cImage}`} />
-              </ImgBox>
-              <IconBox>
-                {userCodeMatchLikeContents?.[index]?.like_check !== 1 ? (
-                  <HeartEmpty onClick={() => likeHandler(item.cId, index)} />
-                ) : (
-                  <HeartFull onClick={() => likeHandler(item.cId, index)} />
-                )}
-                <RegComment />
-              </IconBox>
-              <TextBox>
-                <EmpText>좋아요 {item.cLike}명</EmpText>
-                {item.cTitle.split("\n").map((text, index) => (
-                  <TitleText key={index}>{text}</TitleText>
-                ))}
-                {item.cContent.split("\n").map((text, index) => (
-                  <SmallText key={index}>{text}</SmallText>
-                ))}
-              </TextBox>
-            </MainBox>
-            <BottomBox>
-              <SmallText>댓글{index}개</SmallText>
-              <Comment>
-                <UserName>{data?.comments[index].kakao_nickname}</UserName>
-                <SmallText>{data?.comments[index].comment}</SmallText>
-              </Comment>
-              <CommentBox to={`/contentsDetail/${item.cId}`}>
-                댓글을 남겨주세요.
-              </CommentBox>
-            </BottomBox>
-          </ContentsBox>
-        ))}
-      </Inner>
+      {loading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <Inner>
+            {data?.contents.map((item, index) => (
+              <ContentsBox key={item.cId}>
+                <HeaderBox>
+                  <ProfileImage src={`/img/search/${item.cProfileImg}.jpg`} />
+                  <TextBox>
+                    <LargeText>{item.cWriter}</LargeText>
+                    <SmallText>{item.cDate}</SmallText>
+                  </TextBox>
+                </HeaderBox>
+                <MainBox>
+                  <ImgBox>
+                    <Image src={`/img/contents/${item.cImage}`} />
+                  </ImgBox>
+                  <IconBox>
+                    {userCodeMatchLikeContents?.[index]?.like_check !== 1 ? (
+                      <HeartEmpty
+                        onClick={() => likeHandler(item.cId, index)}
+                      />
+                    ) : (
+                      <HeartFull onClick={() => likeHandler(item.cId, index)} />
+                    )}
+                    <RegComment />
+                  </IconBox>
+                  <TextBox>
+                    <EmpText>좋아요 {item.cLike}명</EmpText>
+                    {item.cTitle.split("\n").map((text, index) => (
+                      <TitleText key={index}>{text}</TitleText>
+                    ))}
+                    {item.cContent.split("\n").map((text, index) => (
+                      <SmallText key={index}>{text}</SmallText>
+                    ))}
+                  </TextBox>
+                </MainBox>
+                <BottomBox>
+                  <SmallText>댓글{index}개</SmallText>
+                  <Comment>
+                    <UserName>{data?.comments[index].kakao_nickname}</UserName>
+                    <SmallText>{data?.comments[index].comment}</SmallText>
+                  </Comment>
+                  <CommentBox to={`/contentsDetail/${item.cId}`}>
+                    댓글을 남겨주세요.
+                  </CommentBox>
+                </BottomBox>
+              </ContentsBox>
+            ))}
+          </Inner>
+        </>
+      )}
     </Wrap>
   );
 }

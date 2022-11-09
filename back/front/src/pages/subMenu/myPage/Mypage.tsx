@@ -3,6 +3,7 @@ import Login from "../login/Login";
 import { gql, useQuery } from "@apollo/client";
 import RecentBuyList from "./components/RecentBuyList";
 import { MyProfile } from "../../../interface/IDBdataType";
+import Loading from "../../../components/loading/Loading";
 
 const NOW_USER = gql`
   query NowUser {
@@ -70,7 +71,7 @@ const UserLargeText = styled.p`
 
 function Mypage() {
   const token: string = window.localStorage.getItem("token") as string;
-  const { data } = useQuery<MyProfile>(NOW_USER);
+  const { data, loading } = useQuery<MyProfile>(NOW_USER);
   const userCode = Number(data?.nowUser.map((user) => user.user_code));
 
   return (
@@ -79,27 +80,35 @@ function Mypage() {
         <Login />
       ) : (
         <Wrap>
-          <Container>
-            {data?.nowUser.map((user) => (
-              <UserBox key={user.user_code}>
-                <Inner>
-                  <ChildBox>
-                    <LargeText>회원정보</LargeText>
-                  </ChildBox>
-                  <ChildBox>
-                    <UserImg src={user.kakao_profile_img} />
-                  </ChildBox>
-                  <ChildBox>
-                    <UserLargeText>{user.kakao_nickname}</UserLargeText>
-                  </ChildBox>
-                  <ChildBox>
-                    <UserSmallText>{user.kakao_email}</UserSmallText>
-                  </ChildBox>
-                </Inner>
-              </UserBox>
-            ))}
-            <RecentBuyList userCode={userCode} />
-          </Container>
+          {loading ? (
+            <>
+              <Loading />
+            </>
+          ) : (
+            <>
+              <Container>
+                {data?.nowUser.map((user) => (
+                  <UserBox key={user.user_code}>
+                    <Inner>
+                      <ChildBox>
+                        <LargeText>회원정보</LargeText>
+                      </ChildBox>
+                      <ChildBox>
+                        <UserImg src={user.kakao_profile_img} />
+                      </ChildBox>
+                      <ChildBox>
+                        <UserLargeText>{user.kakao_nickname}</UserLargeText>
+                      </ChildBox>
+                      <ChildBox>
+                        <UserSmallText>{user.kakao_email}</UserSmallText>
+                      </ChildBox>
+                    </Inner>
+                  </UserBox>
+                ))}
+                <RecentBuyList userCode={userCode} />
+              </Container>
+            </>
+          )}
         </Wrap>
       )}
     </>

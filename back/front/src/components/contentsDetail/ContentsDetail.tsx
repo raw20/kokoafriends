@@ -25,6 +25,7 @@ import {
 import { KAKAO_AUTH_URL } from "../../auth/OAuth";
 import { useState } from "react";
 import { ContentsDetailComponent } from "../../interface/IDBdataType";
+import Loading from "../loading/Loading";
 
 const SELECT_CONTENTS = gql`
   query SelectContents($selectContentsId: Int!, $selectCommentId: Int!) {
@@ -183,7 +184,7 @@ const DeleteButton = styled.span`
 
 function ContentsDetail() {
   const { id } = useParams();
-  const { data } = useQuery<ContentsDetailComponent>(SELECT_CONTENTS, {
+  const { data, loading } = useQuery<ContentsDetailComponent>(SELECT_CONTENTS, {
     variables: {
       selectContentsId: Number(id),
       selectCommentId: Number(id),
@@ -280,87 +281,97 @@ function ContentsDetail() {
   const token = window.localStorage.getItem("token");
   return (
     <Wrap>
-      <Inner>
-        <ContentsBox key={data?.selectContents[0].cId}>
-          <HeaderBox>
-            <ProfileImage
-              src={`/img/search/${data?.selectContents[0].cProfileImg}.jpg`}
-            />
-            <TextBox>
-              <LargeText>{data?.selectContents[0].cWriter}</LargeText>
-              <SmallText>{data?.selectContents[0].cDate}</SmallText>
-            </TextBox>
-          </HeaderBox>
-          <MainBox>
-            <ImgBox>
-              <Image src={`/img/contents/${data?.selectContents[0].cImage}`} />
-            </ImgBox>
-            <IconBox>
-              {Number(likedCheck) !== 1 ? (
-                <HeartEmpty
-                  onClick={() =>
-                    likeHandler(Number(data?.selectContents[0].cId))
-                  }
+      {loading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <Inner>
+            <ContentsBox key={data?.selectContents[0].cId}>
+              <HeaderBox>
+                <ProfileImage
+                  src={`/img/search/${data?.selectContents[0].cProfileImg}.jpg`}
                 />
-              ) : (
-                <HeartFull
-                  onClick={() =>
-                    likeHandler(Number(data?.selectContents[0].cId))
-                  }
-                />
-              )}
-              <RegComment />
-            </IconBox>
-            <TextBox>
-              <EmpText>좋아요 {data?.selectContents[0].cLike}명</EmpText>
-              {data?.selectContents[0].cTitle
-                .split("\n")
-                .map((text: string, index: any) => (
-                  <TitleText key={index}>{text}</TitleText>
+                <TextBox>
+                  <LargeText>{data?.selectContents[0].cWriter}</LargeText>
+                  <SmallText>{data?.selectContents[0].cDate}</SmallText>
+                </TextBox>
+              </HeaderBox>
+              <MainBox>
+                <ImgBox>
+                  <Image
+                    src={`/img/contents/${data?.selectContents[0].cImage}`}
+                  />
+                </ImgBox>
+                <IconBox>
+                  {Number(likedCheck) !== 1 ? (
+                    <HeartEmpty
+                      onClick={() =>
+                        likeHandler(Number(data?.selectContents[0].cId))
+                      }
+                    />
+                  ) : (
+                    <HeartFull
+                      onClick={() =>
+                        likeHandler(Number(data?.selectContents[0].cId))
+                      }
+                    />
+                  )}
+                  <RegComment />
+                </IconBox>
+                <TextBox>
+                  <EmpText>좋아요 {data?.selectContents[0].cLike}명</EmpText>
+                  {data?.selectContents[0].cTitle
+                    .split("\n")
+                    .map((text: string, index: any) => (
+                      <TitleText key={index}>{text}</TitleText>
+                    ))}
+                  {data?.selectContents[0].cContent
+                    .split("\n")
+                    .map((text: string, index: any) => (
+                      <SmallText key={index}>{text}</SmallText>
+                    ))}
+                </TextBox>
+              </MainBox>
+              <BottomBox>
+                {!token ? (
+                  <CommentBox href={KAKAO_AUTH_URL}>
+                    로그인 후 이용해주세요..
+                  </CommentBox>
+                ) : (
+                  <CommentInput
+                    onChange={({ target: { value } }) => setComment(value)}
+                    onKeyUp={(e) => enterSubmit(e)}
+                    placeholder="댓글을 입력해보세요."
+                    value={comment}
+                  />
+                )}
+              </BottomBox>
+              <ChatBox>
+                {data?.selectComment.map((ele) => (
+                  <Chat key={ele.tId}>
+                    <ChatTop>
+                      <UserName>{ele.kakao_nickname}</UserName>
+                      {ele.user_code === userCode && token ? (
+                        <DeleteButton
+                          onClick={() => {
+                            deleteHandler(ele.tId);
+                          }}
+                        >
+                          삭제
+                        </DeleteButton>
+                      ) : null}
+                    </ChatTop>
+                    <Message>{ele.comment}</Message>
+                    <SmallText>{ele.co_date.substring(10, -1)}</SmallText>
+                  </Chat>
                 ))}
-              {data?.selectContents[0].cContent
-                .split("\n")
-                .map((text: string, index: any) => (
-                  <SmallText key={index}>{text}</SmallText>
-                ))}
-            </TextBox>
-          </MainBox>
-          <BottomBox>
-            {!token ? (
-              <CommentBox href={KAKAO_AUTH_URL}>
-                로그인 후 이용해주세요..
-              </CommentBox>
-            ) : (
-              <CommentInput
-                onChange={({ target: { value } }) => setComment(value)}
-                onKeyUp={(e) => enterSubmit(e)}
-                placeholder="댓글을 입력해보세요."
-                value={comment}
-              />
-            )}
-          </BottomBox>
-          <ChatBox>
-            {data?.selectComment.map((ele) => (
-              <Chat key={ele.tId}>
-                <ChatTop>
-                  <UserName>{ele.kakao_nickname}</UserName>
-                  {ele.user_code === userCode && token ? (
-                    <DeleteButton
-                      onClick={() => {
-                        deleteHandler(ele.tId);
-                      }}
-                    >
-                      삭제
-                    </DeleteButton>
-                  ) : null}
-                </ChatTop>
-                <Message>{ele.comment}</Message>
-                <SmallText>{ele.co_date.substring(10, -1)}</SmallText>
-              </Chat>
-            ))}
-          </ChatBox>
-        </ContentsBox>
-      </Inner>
+              </ChatBox>
+            </ContentsBox>
+          </Inner>
+        </>
+      )}
     </Wrap>
   );
 }

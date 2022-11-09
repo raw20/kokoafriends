@@ -10,6 +10,7 @@ import BuyModal from "./BuyModal";
 import { ItemDetailComponent } from "../../interface/IDBdataType";
 import Reviews from "./Reviews";
 import { BsCart4 } from "react-icons/bs";
+import Loading from "../loading/Loading";
 
 const CustomModalStyles = {
   content: {
@@ -170,7 +171,7 @@ export const BuyButton = styled.div`
 
 function ItemDetail() {
   const { id } = useParams();
-  const { data } = useQuery<ItemDetailComponent>(GET_ITEM, {
+  const { data, loading } = useQuery<ItemDetailComponent>(GET_ITEM, {
     variables: {
       selectItemId: Number(id),
     },
@@ -207,77 +208,89 @@ function ItemDetail() {
   }
   return (
     <Wrap>
-      <Inner>
-        <ItemImgSlider {...settings}>
-          {data?.selectItem[0].slideImg.map((item: string, index: number) => (
-            <ItemSlideImg key={index} src={`/img/product/${item}`} />
-          ))}
-        </ItemImgSlider>
-        <ItemImformationTop>
-          <ItemName>{data?.selectItem[0].sName}</ItemName>
-          <BsCart
-            onClick={() =>
-              addCartHandler(
-                String(data?.selectItem[0].sName),
-                Number(data?.selectItem[0].sPrice),
-                String(data?.selectItem[0].slideImg[0])
-              )
-            }
-          />
-        </ItemImformationTop>
-        <ItemImformationBottom>
-          <Itemtext>{data?.selectItem[0].sPrice}원</Itemtext>
-          <ItemViews>{data?.selectItem[0].sView}번 조회되었습니다.</ItemViews>
-        </ItemImformationBottom>
-        <BuyButtonArea>
-          <ItemContents>
-            {data?.selectItem[0].sHalf_title
-              .split("\n")
-              .map((line: string, index: number) => (
-                <Itemtitle key={index}>
-                  {line}
-                  <br />
-                </Itemtitle>
-              ))}
-            {data?.selectItem[0].sContents
-              .split("\n")
-              .map((line: string, index: number) => (
-                <Itemtext key={index}>
-                  {line}
-                  <br />
-                </Itemtext>
-              ))}
-            {data?.selectItem[0].mainTopImg.map(
-              (img: string, index: number) => (
-                <ItemImg key={index} src={`/img/product/${img}`} />
-              )
-            )}
-            <Itemtext>이렇게 귀여운 카카오프렌즈샵 제품입니다.</Itemtext>
-            {data?.selectItem[0].mainMidImg.map(
-              (img: string, index: number) => (
-                <ItemImg key={index} src={`/img/product/${img}`} />
-              )
-            )}
-            <Itemtext>지금 당장 카카오프렌즈를 만나보세요.</Itemtext>
-            {data?.selectItem[0].mainBottomImg.map(
-              (img: string, index: number) => (
-                <ItemImg key={index} src={`/img/product/${img}`} />
-              )
-            )}
-            <Itemtitle>구성품</Itemtitle>
-            <Itemtext>건진지 외 필요한거 여러개</Itemtext>
-          </ItemContents>
-          <Reviews userCode={userCode} />
-          <BuyButton onClick={() => openModal()}>구매하기</BuyButton>
-          <Modal
-            isOpen={modalOpen}
-            onRequestClose={() => closeModal()}
-            style={CustomModalStyles}
-          >
-            <BuyModal userCode={userCode} />
-          </Modal>
-        </BuyButtonArea>
-      </Inner>
+      {loading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <Inner>
+            <ItemImgSlider {...settings}>
+              {data?.selectItem[0].slideImg.map(
+                (item: string, index: number) => (
+                  <ItemSlideImg key={index} src={`/img/product/${item}`} />
+                )
+              )}
+            </ItemImgSlider>
+            <ItemImformationTop>
+              <ItemName>{data?.selectItem[0].sName}</ItemName>
+              <BsCart
+                onClick={() =>
+                  addCartHandler(
+                    String(data?.selectItem[0].sName),
+                    Number(data?.selectItem[0].sPrice),
+                    String(data?.selectItem[0].slideImg[0])
+                  )
+                }
+              />
+            </ItemImformationTop>
+            <ItemImformationBottom>
+              <Itemtext>{data?.selectItem[0].sPrice}원</Itemtext>
+              <ItemViews>
+                {data?.selectItem[0].sView}번 조회되었습니다.
+              </ItemViews>
+            </ItemImformationBottom>
+            <BuyButtonArea>
+              <ItemContents>
+                {data?.selectItem[0].sHalf_title
+                  .split("\n")
+                  .map((line: string, index: number) => (
+                    <Itemtitle key={index}>
+                      {line}
+                      <br />
+                    </Itemtitle>
+                  ))}
+                {data?.selectItem[0].sContents
+                  .split("\n")
+                  .map((line: string, index: number) => (
+                    <Itemtext key={index}>
+                      {line}
+                      <br />
+                    </Itemtext>
+                  ))}
+                {data?.selectItem[0].mainTopImg.map(
+                  (img: string, index: number) => (
+                    <ItemImg key={index} src={`/img/product/${img}`} />
+                  )
+                )}
+                <Itemtext>이렇게 귀여운 카카오프렌즈샵 제품입니다.</Itemtext>
+                {data?.selectItem[0].mainMidImg.map(
+                  (img: string, index: number) => (
+                    <ItemImg key={index} src={`/img/product/${img}`} />
+                  )
+                )}
+                <Itemtext>지금 당장 카카오프렌즈를 만나보세요.</Itemtext>
+                {data?.selectItem[0].mainBottomImg.map(
+                  (img: string, index: number) => (
+                    <ItemImg key={index} src={`/img/product/${img}`} />
+                  )
+                )}
+                <Itemtitle>구성품</Itemtitle>
+                <Itemtext>건진지 외 필요한거 여러개</Itemtext>
+              </ItemContents>
+              <Reviews userCode={userCode} />
+              <BuyButton onClick={() => openModal()}>구매하기</BuyButton>
+              <Modal
+                isOpen={modalOpen}
+                onRequestClose={() => closeModal()}
+                style={CustomModalStyles}
+              >
+                <BuyModal userCode={userCode} />
+              </Modal>
+            </BuyButtonArea>
+          </Inner>
+        </>
+      )}
     </Wrap>
   );
 }

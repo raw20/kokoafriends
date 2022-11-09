@@ -4,6 +4,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useState } from "react";
 import SearchItemList from "./components/SearchItemList";
 import { SearchItem, Item } from "../../../interface/IDBdataType";
+import Loading from "../../../components/loading/Loading";
 
 const SEARCH_ITEM = gql`
   query {
@@ -141,7 +142,7 @@ const Refresh = styled(MdCached)`
 function Search() {
   const [searchData, setSearchData] = useState<Item[]>([]);
   const [input, setInput] = useState("");
-  const { data } = useQuery<SearchItem>(SEARCH_ITEM);
+  const { data, loading } = useQuery<SearchItem>(SEARCH_ITEM);
   const category = ["전체", "생활", "디지털", "문구"];
   function getSearchInput(e: any) {
     e.preventDefault();
@@ -179,50 +180,58 @@ function Search() {
   }
   return (
     <Wrap>
-      <Inner>
-        <Top>
-          <SearchBar>
-            <SearchIcon />
-            <Input type="text" onChange={(e) => getSearchInput(e)} />
-            <Refresh onClick={(e) => refresh(e)} />
-          </SearchBar>
-        </Top>
-        {input !== "" ? (
-          <SearchItemList searchData={searchData} />
-        ) : (
-          <>
-            <Middle>
-              <List>
-                <CharacterInner>
-                  <SearchLion onClick={(e) => getSeletedImg(e)}>
-                    라이언
-                  </SearchLion>
-                  <Text>라이언</Text>
-                </CharacterInner>
-                <CharacterInner>
-                  <SearchChoonsik onClick={(e) => getSeletedImg(e)}>
-                    춘식이
-                  </SearchChoonsik>
-                  <Text>춘식이</Text>
-                </CharacterInner>
-              </List>
-            </Middle>
-            <Bottom>
-              <Title>카테고리</Title>
-              <TextBox>
-                {category.map((item, index) => (
-                  <CategoryButton
-                    key={index}
-                    onClick={(e) => getSeletedCategory(e)}
-                  >
-                    {item}
-                  </CategoryButton>
-                ))}
-              </TextBox>
-            </Bottom>
-          </>
-        )}
-      </Inner>
+      {loading ? (
+        <>
+          <Loading />
+        </>
+      ) : (
+        <>
+          <Inner>
+            <Top>
+              <SearchBar>
+                <SearchIcon />
+                <Input type="text" onChange={(e) => getSearchInput(e)} />
+                <Refresh onClick={(e) => refresh(e)} />
+              </SearchBar>
+            </Top>
+            {input !== "" ? (
+              <SearchItemList searchData={searchData} />
+            ) : (
+              <>
+                <Middle>
+                  <List>
+                    <CharacterInner>
+                      <SearchLion onClick={(e) => getSeletedImg(e)}>
+                        라이언
+                      </SearchLion>
+                      <Text>라이언</Text>
+                    </CharacterInner>
+                    <CharacterInner>
+                      <SearchChoonsik onClick={(e) => getSeletedImg(e)}>
+                        춘식이
+                      </SearchChoonsik>
+                      <Text>춘식이</Text>
+                    </CharacterInner>
+                  </List>
+                </Middle>
+                <Bottom>
+                  <Title>카테고리</Title>
+                  <TextBox>
+                    {category.map((item, index) => (
+                      <CategoryButton
+                        key={index}
+                        onClick={(e) => getSeletedCategory(e)}
+                      >
+                        {item}
+                      </CategoryButton>
+                    ))}
+                  </TextBox>
+                </Bottom>
+              </>
+            )}
+          </Inner>
+        </>
+      )}
     </Wrap>
   );
 }

@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { BASE_URL } from "../../../auth/OAuth";
 import Footer from "../../../components/footer/Footer";
 import ScrollTopButton from "../../../components/scrollTopButton/ScrollTopButton";
+import Loading from "../../../components/loading/Loading";
 
 const ALL_ITEM = gql`
   query Item {
@@ -213,7 +214,7 @@ const settings = {
 
 function Home() {
   const state = useLocation();
-  const { data } = useQuery<AllItem>(ALL_ITEM);
+  const { data, loading } = useQuery<AllItem>(ALL_ITEM);
   const [logInUser] = useMutation(MY_PROFILE, {
     refetchQueries: [{ query: ALL_ITEM }, "Item"],
   });
@@ -261,60 +262,66 @@ function Home() {
     <>
       <Header />
       {state.pathname === "/" ? (
-        <Main>
-          <Banner>
-            {mainBannerItem?.map((ele) => (
-              <BannerImgContentsArea
-                to={`/bestProduct/${ele?.sId}`}
-                key={ele?.sId}
-                onClick={() => {
-                  viewCountHandler(ele?.sId);
-                }}
-              >
-                <BannerImg
-                  src={`/img/product/${ele?.mainBottomImg[0]}`}
-                  alt={ele?.sTitle}
-                />
-                <ImgText>
-                  {ele?.sTitle.split("\n").map((line, index: any) => (
-                    <Title key={index}>
-                      {line}
-                      <br />
-                    </Title>
-                  ))}
-                  {ele?.sContents.split("\n").map((line, index: any) => (
-                    <Contents key={index}>
-                      {line}
-                      <br />
-                    </Contents>
-                  ))}
-                </ImgText>
-              </BannerImgContentsArea>
-            ))}
-          </Banner>
-          <NewItemWrap>
-            <NewItem>
-              <NewItemInner>
-                <NewItemTitle>새로나온 친구들</NewItemTitle>
-                <ItemImgSlider {...settings}>
-                  {newItem?.map((item, index) => (
-                    <ItemList
-                      to={`/bestProduct/${item?.sId}`}
-                      key={index}
-                      onClick={() => {
-                        viewCountHandler(item?.sId);
-                      }}
-                    >
-                      <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
-                      <ItemName> {item?.sName}</ItemName>
-                      <ItemPrice>{item?.sPrice}원</ItemPrice>
-                    </ItemList>
-                  ))}
-                </ItemImgSlider>
-              </NewItemInner>
-            </NewItem>
-          </NewItemWrap>
-        </Main>
+        loading ? (
+          <>
+            <Loading />
+          </>
+        ) : (
+          <Main>
+            <Banner>
+              {mainBannerItem?.map((ele) => (
+                <BannerImgContentsArea
+                  to={`/bestProduct/${ele?.sId}`}
+                  key={ele?.sId}
+                  onClick={() => {
+                    viewCountHandler(ele?.sId);
+                  }}
+                >
+                  <BannerImg
+                    src={`/img/product/${ele?.mainBottomImg[0]}`}
+                    alt={ele?.sTitle}
+                  />
+                  <ImgText>
+                    {ele?.sTitle.split("\n").map((line, index: any) => (
+                      <Title key={index}>
+                        {line}
+                        <br />
+                      </Title>
+                    ))}
+                    {ele?.sContents.split("\n").map((line, index: any) => (
+                      <Contents key={index}>
+                        {line}
+                        <br />
+                      </Contents>
+                    ))}
+                  </ImgText>
+                </BannerImgContentsArea>
+              ))}
+            </Banner>
+            <NewItemWrap>
+              <NewItem>
+                <NewItemInner>
+                  <NewItemTitle>새로나온 친구들</NewItemTitle>
+                  <ItemImgSlider {...settings}>
+                    {newItem?.map((item, index) => (
+                      <ItemList
+                        to={`/bestProduct/${item?.sId}`}
+                        key={index}
+                        onClick={() => {
+                          viewCountHandler(item?.sId);
+                        }}
+                      >
+                        <ItemImg src={`/img/product/${item?.slideImg[0]}`} />
+                        <ItemName> {item?.sName}</ItemName>
+                        <ItemPrice>{item?.sPrice}원</ItemPrice>
+                      </ItemList>
+                    ))}
+                  </ItemImgSlider>
+                </NewItemInner>
+              </NewItem>
+            </NewItemWrap>
+          </Main>
+        )
       ) : (
         <Outlet />
       )}
