@@ -56,6 +56,7 @@ const ADD_CART = gql`
     $sPrice: Int!
     $bCount: Int!
     $slideImg: [String]!
+    $check: Boolean!
   ) {
     addCart(
       cartId: $cartId
@@ -64,12 +65,14 @@ const ADD_CART = gql`
       sPrice: $sPrice
       bCount: $bCount
       slideImg: $slideImg
+      check: $check
     ) {
       sId
       sName
       sPrice
       bCount
       slideImg
+      check
     }
   }
 `;
@@ -184,16 +187,20 @@ function ItemDetail() {
     setModalOpen(false);
   }
   const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
-  const cartIndex = Number(data?.cartList.length);
+  const getIndex = String(new Date().getTime());
+  const cartIndex = Number(
+    `${id}${userCode}${getIndex.substring(getIndex.length - 3)}`
+  );
   function addCartHandler(name: string, price: number, slideImg: string) {
     addCart({
       variables: {
-        cartId: cartIndex + 1,
+        cartId: Number(cartIndex),
         sId: Number(id),
         sName: name,
         sPrice: price,
         bCount: 1,
         slideImg: slideImg,
+        check: true,
       },
     });
     alert(`${name}이(가) 장바구니에 담겼습니다.`);

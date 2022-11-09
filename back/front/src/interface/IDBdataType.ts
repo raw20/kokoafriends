@@ -66,11 +66,22 @@ export interface BuyItem {
   sId: number;
   user_code: number;
   bDate: string;
-  sName: String;
+  sName: string;
+  sPrice: number;
+  bCount: number;
+  slideImg: [string];
+}
+export interface CartList {
+  bId: number;
+  sId: number;
+  user_code: number;
+  bDate: string;
+  sName: string;
   sPrice: number;
   bCount: number;
   slideImg: [string];
   cartId: number;
+  check: boolean;
 }
 export interface LikeContents {
   lId: number;
@@ -84,7 +95,7 @@ export interface MyProfile {
 export interface ItemDetailComponent {
   selectItem: [Item];
   nowUser: [User];
-  cartList: [BuyItem];
+  cartList: [CartList];
 }
 export interface ContentsComponent {
   contents: [Contents];
@@ -100,10 +111,9 @@ export interface ContentsDetailComponent {
   nowUser: [User];
 }
 export interface CartComponent {
-  cartList: [BuyItem];
+  cartList: [CartList];
   allUserBuyItemList: [BuyItem];
   nowUser: [User];
-  checkCartList: [BuyItem];
 }
 export interface BuyModalComponent {
   selectItem: [Item];
