@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { BASE_URL } from "../../../auth/OAuth";
 import Footer from "../../../components/footer/Footer";
+import ScrollTopButton from "../../../components/scrollTopButton/ScrollTopButton";
 
 const ALL_ITEM = gql`
   query Item {
@@ -69,6 +70,7 @@ const Main = styled.div`
   width: 100%;
   height: auto;
 `;
+
 const Banner = styled.div`
   width: 50%;
   height: auto;
@@ -198,6 +200,7 @@ const ItemImgSlider = styled(Slider)`
     border-radius: 50%;
   }
 `;
+
 const settings = {
   dots: true,
   className: "center",
@@ -315,6 +318,7 @@ function Home() {
       ) : (
         <Outlet />
       )}
+      <ScrollTopButton />
       <Footer />
     </>
   );
