@@ -336,6 +336,24 @@ function Cart() {
       },
     });
   }
+  function allCheckHandler(e: any) {
+    const index = Number(data?.cartList.length);
+    for (let i = 0; i < index; i++) {
+      if (e.target.checked === true) {
+        checkedAddCart({
+          variables: {
+            index: i,
+          },
+        });
+      } else if (e.target.checked === false) {
+        checkDeleteCart({
+          variables: {
+            index: i,
+          },
+        });
+      }
+    }
+  }
   function checkHandler(e: any, index: number) {
     if (e.target.checked === true) {
       checkedAddCart({
@@ -425,7 +443,10 @@ function Cart() {
                 </DeliveryFeeBox>
                 <CheckTable>
                   <CheckLeft>
-                    <CheckBox type="checkbox" />
+                    <CheckBox
+                      type="checkbox"
+                      onChange={(e) => allCheckHandler(e)}
+                    />
                     <MediumText>
                       총 {trueCart ? trueCart.length : 0}개
                     </MediumText>
@@ -443,7 +464,7 @@ function Cart() {
                         <CheckBox
                           type="checkbox"
                           onChange={(e) => checkHandler(e, index)}
-                          defaultChecked
+                          checked={ele.check ? true : false}
                         />
                         <Image src={`/img/product/${ele?.slideImg}`} />
                       </BoxLeft>
