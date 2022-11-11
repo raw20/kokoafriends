@@ -70,19 +70,24 @@ export const Inner = styled.div`
   width: 60%;
   height: auto;
   margin: 0 auto;
-  border-left: 1px solid #f3eaea;
-  border-right: 1px solid #f3eaea; ;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    margin: 0;
+  }
 `;
 export const ContentsBox = styled.div`
   width: 60%;
   height: auto;
   margin: 0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width: 80%;
+  }
 `;
 export const HeaderBox = styled.div`
   width: 100%;
   height: auto;
   display: flex;
-  margin: 1.2rem auto;
+  margin: 1.2rem 0;
   justify-content: center;
   align-items: center;
 `;

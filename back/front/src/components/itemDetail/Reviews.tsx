@@ -113,6 +113,9 @@ const ReviewRate = styled(ReviewWriter)``;
 const UserName = styled.p`
   font-size: 1.5rem;
   font-weight: 700;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.1rem;
+  }
 `;
 const ReViewContent = styled.div`
   width: 100%;
@@ -121,19 +124,31 @@ const ReViewContent = styled.div`
 `;
 const NormalText = styled.p`
   font-size: 2.1rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.3rem;
+  }
 `;
 const SubNormalText = styled.p`
   font-family: "Noto Sans KR", sans-serif;
   font-size: 1.2rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1rem;
+  }
 `;
 const UserReview = styled.p`
   font-size: 1.2rem;
   font-weight: 500;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1rem;
+  }
 `;
 const ReviewDate = styled.p`
   font-size: 1rem;
   font-weight: 500;
   color: ${(props) => props.theme.secondColor};
+  @media ${(props) => props.theme.mobile} {
+    font-size: 0.8rem;
+  }
 `;
 const DeleteButton = styled.span`
   width: 35px;

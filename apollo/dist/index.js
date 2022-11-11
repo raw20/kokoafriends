@@ -3,7 +3,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { allUserBuyItemList, buyItem, selectUserBuyItemList, } from "./db/buyItem.js";
 import { comments, deleteComment, getContentsComment, postComment, } from "./db/comment.js";
 import { contents, countLike, getContentsId } from "./db/contents.js";
-import { getItemId, item } from "./db/Item.js";
+import { getItemId, item, viewCount } from "./db/Item.js";
 import { clickLiked, likeContents } from "./db/likeContents.js";
 import { deleteReview, getItemReview, postReview, review, } from "./db/review.js";
 import { user } from "./db/user.js";
@@ -11,13 +11,13 @@ let nowUser = [];
 let cart = [];
 const typeDefs = `#graphql
   type Item {
-    sId: Int!
+    sId: Int
     sName: String!
     sTitle: String!
     sContents: String!
     sPrice: Int!
     sLike: Int!
-    sView: Int!
+    sView: Int
     sHalf_title:String!
     sCategory:String!
     slideImg: [String]!
@@ -43,7 +43,7 @@ const typeDefs = `#graphql
     cTitle : String!
     cContent : String!
     cDate : String!
-    cLike : Int!
+    cLike : Int
     comment : String
     kakao_nickname : String
   }
@@ -73,6 +73,18 @@ const typeDefs = `#graphql
     bCount:Int
     slideImg: [String]
   }
+  type CartList {
+    bId: Int
+    sId : Int
+    user_code: Int
+    bDate : Date
+    sName: String
+    sPrice: Int
+    bCount:Int
+    slideImg: [String]
+    cartId: Int
+    check: Boolean
+  }
   type LikeContents {
     lId : Int,
     user_code : Int,
@@ -91,7 +103,7 @@ const typeDefs = `#graphql
     selectReview (id:Int!) : [Review]
     selectComment (id:Int!) : [Comment]
     nowUser : [User]
-    cartList : [BuyItem]
+    cartList : [CartList]
     allUserBuyItemList : [BuyItem]
     selectUserBuyItemList (user_code:Int!) : [BuyItem]
     likeContents: [LikeContents]
@@ -105,9 +117,14 @@ const typeDefs = `#graphql
     logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
     logOutUser:User
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
-    addCart(sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
+    addCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!,check:Boolean!): CartList 
+    checkedAddCart(index:Int!) : CartList
+    checkDeleteCart(index:Int!) : CartList
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
-    countLike(cId:Int! cLike:Int!) : Contents
+    countLike(cId:Int! cLike:Int) : Contents
+    updateBCount(index:Int!, bCount:Int): CartList
+    deleteCartItem(cartId:Int): CartList
+    viewCount(id:Int) : Item
   }
     scalar Date
 
@@ -163,22 +180,46 @@ const resolvers = {
         buyItems: (root, { bId, sId, user_code, bCount }) => {
             return buyItem(bId, sId, user_code, bCount);
         },
-        addCart: (root, { sId, sName, sPrice, bCount, slideImg }) => {
+        viewCount(root, { id }) {
+            return viewCount(id);
+        },
+        addCart: (root, { cartId, sId, sName, sPrice, bCount, slideImg, check }) => {
             const ItemId = {
+                cartId,
                 sId,
                 sName,
                 sPrice,
                 bCount,
                 slideImg,
+                check,
             };
             cart.push(ItemId);
             return ItemId;
+        },
+        checkedAddCart: (root, { index }) => {
+            cart[index].check = true;
+            return cart;
+        },
+        checkDeleteCart: (root, { index }) => {
+            cart[index].check = false;
+            return cart;
         },
         clickLiked: (root, { lId, user_code, cId, like_check }) => {
             return clickLiked(lId, user_code, cId, like_check);
         },
         countLike: (root, { cId, cLike }) => {
             return countLike(cId, cLike);
+        },
+        updateBCount: (root, { index, bCount }) => {
+            cart[index].bCount = bCount;
+            return cart;
+        },
+        deleteCartItem: (root, { cartId }) => {
+            const findCart = cart.find((cart) => cart.cartId === cartId);
+            if (!findCart)
+                return false;
+            cart = cart.filter((cart) => cart.cartId !== cartId);
+            return true;
         },
     },
 };

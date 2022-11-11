@@ -31,12 +31,21 @@ const ChildBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 const CartBox = styled.div`
   width: 100%;
   height: auto;
   border: 1px solid #f3eaea;
+  @media ${(props) => props.theme.mobile} {
+    width: 90%;
+    margin: 1rem auto;
+    border: none;
+  }
 `;
 const LargeText = styled.p`
   width: 100%;
@@ -46,6 +55,9 @@ const LargeText = styled.p`
   padding: 1rem 0;
   border-radius: 10px;
   color: ${(props) => props.theme.seconetTextColor};
+  @media ${(props) => props.theme.mobile} {
+    padding: 0;
+  }
 `;
 const SubLargeText = styled.p`
   width: 200px;
@@ -55,11 +67,18 @@ const SubLargeText = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   color: ${(props) => props.theme.seconetTextColor};
+  @media ${(props) => props.theme.mobile} {
+    width: 100px;
+  }
 `;
+
 const SmallText = styled.p`
   width: 200px;
   font-size: 1rem;
   font-weight: 500;
+  @media ${(props) => props.theme.mobile} {
+    width: 100px;
+  }
 `;
 const SubSmallText = styled(SmallText)`
   margin-top: 1rem;
@@ -73,18 +92,29 @@ const ListBox = styled(Link)`
   border-radius: 10px;
   margin-top: 1rem;
   display: flex;
+  @media ${(props) => props.theme.mobile} {
+    padding: 0;
+  }
 `;
 const ItemImage = styled.div`
   width: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    width: 50%;
+    margin: 1rem;
+  }
 `;
 const Image = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
   border: 1px solid ${(props) => props.theme.borderColor};
+  @media ${(props) => props.theme.mobile} {
+    width: 90px;
+    height: 90px;
+  }
 `;
 const ImformBox = styled.div`
   width: 100%;
@@ -98,6 +128,9 @@ const PriceBox = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 function RecentBuyList({ userCode }: IRecentBuyListProps) {
   const { data } = useQuery<RecentBIComponent>(GET_DATA, {

@@ -92,23 +92,53 @@ const Wrap = styled.div`
   padding: 1.2rem 7.5rem;
   box-sizing: border-box;
   justify-content: center;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    padding: 1.2rem 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    padding: 0;
+  }
 `;
 const Inner = styled.div`
   width: 50%;
   margin: 0 auto;
+  @media ${(props) => props.theme.tablet} {
+    width: 70%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 95%;
+    margin: 0 auto;
+  }
 `;
 
 const ItemImgSlider = styled(Slider)`
   width: 100%;
-  height: auto;
-  .slick-list {
+  box-sizing: border-box;
+  @media ${(props) => props.theme.tablet} {
     width: 100%;
-    margin: 1rem auto;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    margin-right: 1rem;
+  }
+  .slick-arrow {
+    background-color: ${(props) => props.theme.borderColor};
+    border-radius: 50%;
   }
 `;
 const ItemSlideImg = styled.img`
   width: 620px;
   height: 620px;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 90%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 70%;
+    height: 70%;
+  }
 `;
 const ItemImformationTop = styled.div`
   width: 100%;
@@ -126,17 +156,30 @@ export const Itemtitle = styled.h1`
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.6rem;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.1rem;
+  }
 `;
 const ItemName = styled(Itemtitle)`
   font-size: 2.1rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.4rem;
+  }
 `;
 export const Itemtext = styled.p`
   font-size: 1.6rem;
   font-weight: 500;
   margin-top: 1rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.1rem;
+  }
 `;
 const ItemViews = styled(Itemtext)`
   font-size: 1.2rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1rem;
+  }
 `;
 const ItemContents = styled.div`
   width: 100%;
@@ -154,6 +197,9 @@ const BuyButtonArea = styled.div`
 const BsCart = styled(BsCart4)`
   font-size: 2rem;
   cursor: pointer;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.4rem;
+  }
 `;
 export const BuyButton = styled.div`
   width: 100%;

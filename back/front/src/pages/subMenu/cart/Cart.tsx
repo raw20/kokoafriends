@@ -74,6 +74,10 @@ const Inner = styled.div`
   height: auto;
   margin: 0 auto;
   flex-direction: column;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    margin: 0;
+  }
 `;
 const Title = styled.h1`
   margin: 1.5rem 0;

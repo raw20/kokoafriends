@@ -70,6 +70,9 @@ const VIEW_COUNT = gql`
 const Main = styled.div`
   width: 100%;
   height: auto;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 
 const Banner = styled.div`
@@ -80,7 +83,8 @@ const Banner = styled.div`
     width: 70%;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
+    width: 95%;
+    margin: 0 auto;
   }
 `;
 const BannerImgContentsArea = styled(Link)`
@@ -104,6 +108,10 @@ const ImgText = styled.div`
   bottom: 0;
   left: 0;
   font-family: "Noto Sans KR", sans-serif;
+  @media ${(props) => props.theme.mobile} {
+    padding: 0;
+    margin: 0 0 5rem 0;
+  }
 `;
 const Title = styled.h1`
   width: 100%;
@@ -178,6 +186,7 @@ const ItemImg = styled.img`
 const ItemImgSlider = styled(Slider)`
   width: 100%;
   height: auto;
+
   @media ${(props) => props.theme.tablet} {
     width: 100%;
   }

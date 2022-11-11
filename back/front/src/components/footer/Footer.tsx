@@ -13,17 +13,27 @@ const Inner = styled.div`
   width: 30%;
   height: auto;
   margin: 0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 const FooterDiv = styled.div`
   width: 100%;
   padding-top: 2rem;
   display: flex;
+  @media ${(props) => props.theme.mobile} {
+    width: 80%;
+    margin: 0 auto;
+  }
 `;
 const Text = styled.p`
   width: 200px;
   font-size: 1rem;
   font-weight: 300;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 0.5rem;
+  }
 `;
 function Footer() {
   return (

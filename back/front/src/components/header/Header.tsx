@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { useState } from "react";
 import {
+  MdMenu,
   MdLogin,
   MdLogout,
   MdManageAccounts,
@@ -9,10 +11,13 @@ import {
 import { KAKAO_AUTH_URL, KAKAO_LOGOUT_URL } from "../../auth/OAuth";
 import { Link, useMatch } from "react-router-dom";
 
-const Wrap = styled.div`
+const Wrap = styled.div<{ open: boolean }>`
   width: 100%;
   height: 80px;
   border-bottom: 2px solid ${(props) => props.theme.accentColor};
+  @media ${(props) => props.theme.mobile} {
+    height: ${(props) => (props.open ? "140px" : "80px")};
+  }
 `;
 const Inner = styled.div`
   width: 80%;
@@ -22,6 +27,7 @@ const Inner = styled.div`
   align-items: center;
   @media ${(props) => props.theme.mobile} {
     width: 100%;
+    margin: 0;
   }
 `;
 const Left = styled.div`
@@ -39,12 +45,14 @@ const Logo = styled.div`
   line-height: 31px;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: ${(props) => props.theme.accentColor};
   color: #fff;
   border-radius: 10px;
   text-align: center;
   @media ${(props) => props.theme.mobile} {
-    width: 100px;
+    width: 90px;
+    height: 25px;
     font-size: 0.5rem;
   }
 `;
@@ -69,36 +77,53 @@ const GnbLi = styled.li<{ isActive: boolean }>`
     props.isActive ? "4px solid" + props.theme.accentColor : "none"};
 
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
+    width: 55px;
     font-size: 1rem;
+    margin-right: 1rem;
+    border-bottom: none;
   }
 `;
-const UtilUl = styled.div`
+const UtilUl = styled.div<{ open: boolean }>`
   width: 100%;
-  display: flex;
   font-size: 2.2rem;
+  display: flex;
   justify-content: center;
+  @media ${(props) => props.theme.tablet} {
+    font-size: 1.5rem;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    font-size: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+    display: ${(props) => (props.open ? "block" : "none")};
+  }
   .util-icon {
     margin-right: 1rem;
     &:hover {
       transform: scale(120%);
     }
-    @media ${(props) => props.theme.mobile} {
-      width: 100%;
-      font-size: 1.5rem;
-      margin-right: 0;
-    }
   }
 `;
-
+const TabMenu = styled(MdMenu)`
+  font-size: 2.2rem;
+  display: none;
+  cursor: pointer;
+  @media ${(props) => props.theme.mobile} {
+    display: block;
+  }
+`;
 function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
   const token: string = window.localStorage.getItem("token") as string;
-
+  const [open, setOpen] = useState<boolean>(false);
+  function openHandler() {
+    setOpen(!open);
+  }
   return (
-    <Wrap>
+    <Wrap open={open}>
       <Inner>
         <Left>
           <Link to="/">
@@ -119,7 +144,7 @@ function Header() {
           </GnbUl>
         </Middle>
         <Right>
-          <UtilUl>
+          <UtilUl open={open}>
             {!token ? (
               <a href={KAKAO_AUTH_URL}>
                 <MdLogin className="util-icon" title="로그인" />
@@ -139,6 +164,7 @@ function Header() {
               <MdOutlineSearch className="util-icon" title="검색" />
             </Link>
           </UtilUl>
+          <TabMenu onClick={() => openHandler()} />
         </Right>
       </Inner>
     </Wrap>

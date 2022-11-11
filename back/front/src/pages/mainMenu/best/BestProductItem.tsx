@@ -28,6 +28,9 @@ const Title = styled.h1`
   font-size: 1.7rem;
   font-weight: bold;
   word-spacing: -0.5rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.2rem;
+  }
 `;
 export const Wrap = styled.div`
   width: 100%;
@@ -39,6 +42,9 @@ export const Inner = styled.div`
   margin: 1.5rem auto;
   box-sizing: border-box;
   flex-wrap: wrap;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 export const ItemListInner = styled.div`
   width: 100%;
@@ -48,6 +54,10 @@ export const ItemListInner = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  @media ${(props) => props.theme.mobile} {
+    grid-template-columns: 200px 200px;
+    grid-template-rows: 250px 250px;
+  }
 `;
 export const ItemList = styled(Link)`
   width: 80%;
@@ -79,6 +89,10 @@ export const ItemImg = styled.img`
   border: 2px solid ${(props) => props.theme.borderColor};
   margin-bottom: 1rem;
   border-radius: 10px;
+  @media ${(props) => props.theme.mobile} {
+    width: 180px;
+    height: 180px;
+  }
 `;
 const ItemLank = styled.span`
   width: 25px;
@@ -93,6 +107,10 @@ const ItemLank = styled.span`
   border-radius: 5px;
   top: 3%;
   left: 3%;
+  @media ${(props) => props.theme.mobile} {
+    width: 20px;
+    height: 20px;
+  }
 `;
 const ItemBestLank = styled(ItemLank)`
   background-color: ${(props) => props.theme.secondColor};
@@ -106,6 +124,9 @@ export const ItemName = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   color: ${(props) => props.theme.secondColor};
+  @media ${(props) => props.theme.mobile} {
+    font-size: 0.7rem;
+  }
 `;
 export const ItemPrice = styled.h1`
   width: 100%;
@@ -114,6 +135,10 @@ export const ItemPrice = styled.h1`
   display: flex;
   color: ${(props) => props.theme.accentColor};
   margin: 1rem 0;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 0.7rem;
+    margin: 0;
+  }
 `;
 function BestProductItem() {
   const { data, loading } = useQuery<AllItem>(BEST_ITEM);

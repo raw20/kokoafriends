@@ -29,12 +29,21 @@ const Inner = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
   justify-content: center;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    margin: 0;
+  }
 `;
 const Top = styled.div`
   width: 50%;
   height: auto;
   margin: 0 auto;
   padding: 1.2rem 2.5rem;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0;
+  }
 `;
 const SearchBar = styled.span`
   width: 100%;
@@ -45,6 +54,10 @@ const SearchBar = styled.span`
   align-items: center;
   border-radius: 15px;
   margin: 0 auto;
+  @media ${(props) => props.theme.mobile} {
+    width: 80%;
+    margin: 0 auto;
+  }
 `;
 const Input = styled.input`
   width: 80%;
@@ -83,6 +96,10 @@ const SearchLion = styled.span`
   &:hover {
     background: url("/img/search/lion_on.png") no-repeat center/cover;
   }
+  @media ${(props) => props.theme.mobile} {
+    width: 50%;
+    height: 50%;
+  }
 `;
 const SearchChoonsik = styled(SearchLion)`
   background: url("/img/search/choonsik.jpg") no-repeat center/cover;
@@ -99,7 +116,6 @@ const Text = styled.span`
   font-weight: 700;
 `;
 const Bottom = styled(Top)`
-  border-bottom: none;
   margin: 1rem auto;
   padding: 0;
 `;
@@ -113,6 +129,12 @@ const TextBox = styled.div`
   height: auto;
   display: flex;
   justify-content: start;
+  @media ${(props) => props.theme.tablet} {
+    flex-direction: column;
+  }
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+  }
 `;
 const CategoryButton = styled.span`
   width: 100px;
@@ -129,6 +151,13 @@ const CategoryButton = styled.span`
   &:hover {
     background-color: ${(props) => props.theme.accentColor};
     color: ${(props) => props.theme.bgColor};
+  }
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 80%;
+    margin: 1rem auto;
   }
 `;
 const SearchIcon = styled(MdOutlineSearch)`
