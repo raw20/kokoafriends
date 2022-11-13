@@ -285,10 +285,29 @@ function Contents() {
                   </TextBox>
                 </MainBox>
                 <BottomBox>
-                  <SmallText>댓글{index}개</SmallText>
+                  <SmallText>
+                    댓글
+                    {Number(
+                      data.comments.filter((ele) => ele.cId === index + 1)
+                        .length
+                    )}
+                    개
+                  </SmallText>
                   <Comment>
-                    <UserName>{data?.comments[index].kakao_nickname}</UserName>
-                    <SmallText>{data?.comments[index].comment}</SmallText>
+                    <UserName>
+                      {
+                        data.comments.filter(
+                          (ele) => ele.cId === index + 1
+                        )?.[0].kakao_nickname
+                      }
+                    </UserName>
+                    <SmallText>
+                      {
+                        data.comments.filter(
+                          (ele) => ele.cId === index + 1
+                        )?.[0].comment
+                      }
+                    </SmallText>
                   </Comment>
                   <CommentBox to={`/contentsDetail/${item.cId}`}>
                     댓글을 남겨주세요.
