@@ -120,8 +120,8 @@ const Title = styled.h1`
   font-size: 2.2rem;
   font-weight: bold;
   color: ${(props) => props.theme.bgColor};
-  @media ${(props) => props.theme.tablet} {
-    font-size: 1.5rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1.2rem;
   }
 `;
 const Contents = styled.p`
@@ -132,9 +132,9 @@ const Contents = styled.p`
   color: ${(props) => props.theme.bgColor};
   font-weight: 600;
   margin-top: 15px;
-  @media ${(props) => props.theme.tablet} {
-    width: 100%;
-    font-size: 1.2rem;
+  @media ${(props) => props.theme.mobile} {
+    font-size: 0.8rem;
+    font-weight: 300;
   }
 `;
 const NewItemWrap = styled.div`

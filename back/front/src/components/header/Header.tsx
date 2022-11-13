@@ -16,8 +16,9 @@ const Wrap = styled.div<{ open: boolean }>`
   height: 80px;
   border-bottom: 2px solid ${(props) => props.theme.accentColor};
   @media ${(props) => props.theme.mobile} {
-    height: ${(props) => (props.open ? "140px" : "80px")};
+    position: relative;
     transition: all 0.5s;
+    height: ${(props) => (props.open ? "100px" : "80px")};
   }
 `;
 const Inner = styled.div`
@@ -26,10 +27,6 @@ const Inner = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    margin: 0;
-  }
 `;
 const Left = styled.div`
   width: 100%;
@@ -39,7 +36,19 @@ const Left = styled.div`
   align-items: center;
 `;
 const Middle = styled(Left)``;
-const Right = styled(Left)``;
+const Right = styled(Left)<{ open: boolean }>`
+  @media ${(props) => props.theme.mobile} {
+    width: 40%;
+    height: 30px;
+    display: ${(props) => (props.open ? "flex" : "none")};
+    position: absolute;
+    top: 60%;
+    right: 8%;
+    margin: 0 auto;
+    border: 1px solid ${(props) => props.theme.borderColor};
+    border-radius: 10px;
+  }
+`;
 const Logo = styled.div`
   width: 180px;
   height: 31px;
@@ -84,7 +93,7 @@ const GnbLi = styled.li<{ isActive: boolean }>`
     border-bottom: none;
   }
 `;
-const UtilUl = styled.div<{ open: boolean }>`
+const UtilUl = styled.div`
   width: 100%;
   font-size: 2.2rem;
   display: flex;
@@ -93,26 +102,30 @@ const UtilUl = styled.div<{ open: boolean }>`
     font-size: 1.5rem;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
     font-size: 1.5rem;
-    flex-direction: column;
-    align-items: center;
-    display: ${(props) => (props.open ? "block" : "none")};
   }
   .util-icon {
     margin-right: 1rem;
     &:hover {
       transform: scale(120%);
     }
+    @media ${(props) => props.theme.mobile} {
+      margin: 0 0.3rem;
+    }
+  }
+`;
+const Tab = styled.div`
+  width: 100%;
+  display: none;
+  @media ${(props) => props.theme.mobile} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 const TabMenu = styled(MdMenu)`
   font-size: 2.2rem;
-  display: none;
   cursor: pointer;
-  @media ${(props) => props.theme.mobile} {
-    display: block;
-  }
 `;
 function Header() {
   const homeMatch = useMatch("/");
@@ -144,8 +157,8 @@ function Header() {
             </Link>
           </GnbUl>
         </Middle>
-        <Right>
-          <UtilUl open={open}>
+        <Right open={open}>
+          <UtilUl>
             {!token ? (
               <a href={KAKAO_AUTH_URL}>
                 <MdLogin className="util-icon" title="로그인" />
@@ -165,8 +178,10 @@ function Header() {
               <MdOutlineSearch className="util-icon" title="검색" />
             </Link>
           </UtilUl>
-          <TabMenu onClick={() => openHandler()} />
         </Right>
+        <Tab>
+          <TabMenu onClick={() => openHandler()} />
+        </Tab>
       </Inner>
     </Wrap>
   );

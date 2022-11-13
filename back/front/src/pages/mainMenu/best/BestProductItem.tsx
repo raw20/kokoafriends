@@ -90,8 +90,8 @@ export const ItemImg = styled.img`
   margin-bottom: 1rem;
   border-radius: 10px;
   @media ${(props) => props.theme.mobile} {
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
   }
 `;
 const ItemLank = styled.span`
@@ -110,6 +110,8 @@ const ItemLank = styled.span`
   @media ${(props) => props.theme.mobile} {
     width: 20px;
     height: 20px;
+    top: 5%;
+    left: 5%;
   }
 `;
 const ItemBestLank = styled(ItemLank)`
