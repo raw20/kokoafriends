@@ -76,7 +76,6 @@ const FalseReviewButton = styled.span`
   font-size: 0.9rem;
   color: ${(props) => props.theme.bgColor};
   font-family: "Noto Sans KR", sans-serif;
-  padding-left: 1rem;
 `;
 const WriteReviewButton = styled.input`
   width: 100%;
@@ -90,7 +89,6 @@ const WriteReviewButton = styled.input`
   font-size: 0.9rem;
   color: ${(props) => props.theme.bgColor};
   font-family: "Noto Sans KR", sans-serif;
-  padding-left: 1rem;
 `;
 const ItemReviewList = styled.div`
   width: 100%;

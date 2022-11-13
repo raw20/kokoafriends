@@ -75,8 +75,8 @@ const Inner = styled.div`
   margin: 0 auto;
   flex-direction: column;
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    margin: 0;
+    width: 350px;
+    margin: 0 auto;
   }
 `;
 const Title = styled.h1`
@@ -162,6 +162,9 @@ const BoxLeft = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    width: 100px;
+  }
 `;
 const Image = styled.img`
   width: 150px;
@@ -169,6 +172,10 @@ const Image = styled.img`
   border-radius: 50%;
   margin: 1rem 3rem 1rem 0;
   border: 1px solid ${(props) => props.theme.borderColor};
+  @media ${(props) => props.theme.mobile} {
+    width: 50px;
+    height: 50px;
+  }
 `;
 const BoxCenter = styled.div`
   width: 450px;
@@ -177,6 +184,9 @@ const BoxCenter = styled.div`
   justify-content: center;
   align-items: center;
   text-align: left;
+  @media ${(props) => props.theme.mobile} {
+    width: 200px;
+  }
 `;
 const LargeText = styled.p`
   width: 100%;
@@ -268,6 +278,10 @@ const ReceiptBox = styled.div`
   width: 100%;
   display: flex;
   padding: 1.5rem 1rem 0;
+  @media ${(props) => props.theme.mobile} {
+    margin: 1rem 0;
+    padding: 0;
+  }
 `;
 const ReceiptText = styled(LargeText)`
   font-weight: 600;

@@ -109,7 +109,6 @@ const Inner = styled.div`
   }
   @media ${(props) => props.theme.mobile} {
     width: 95%;
-    margin: 0 auto;
   }
 `;
 
@@ -120,8 +119,8 @@ const ItemImgSlider = styled(Slider)`
     width: 100%;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    margin-right: 1rem;
+    width: 80%;
+    margin: 1rem auto;
   }
   .slick-arrow {
     background-color: ${(props) => props.theme.borderColor};
@@ -143,7 +142,7 @@ const ItemSlideImg = styled.img`
 const ItemImformationTop = styled.div`
   width: 100%;
   height: auto;
-  margin: 4.5rem auto 0;
+  margin-top: 3.5rem;
   display: flex;
   justify-content: space-between;
 `;

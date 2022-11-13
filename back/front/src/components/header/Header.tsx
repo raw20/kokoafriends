@@ -17,6 +17,7 @@ const Wrap = styled.div<{ open: boolean }>`
   border-bottom: 2px solid ${(props) => props.theme.accentColor};
   @media ${(props) => props.theme.mobile} {
     height: ${(props) => (props.open ? "140px" : "80px")};
+    transition: all 0.5s;
   }
 `;
 const Inner = styled.div`
