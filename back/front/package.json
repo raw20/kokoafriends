@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:8080",
+  "proxy": "http://3.39.166.0:8080/",
   "name": "front",
   "version": "0.1.0",
   "private": true,
@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false npx react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "nodemon apolloServer.ts"
