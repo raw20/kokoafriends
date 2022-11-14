@@ -10,6 +10,15 @@ import { user } from "./db/user.js";
 let nowUser = [];
 let cart = [];
 const typeDefs = `#graphql
+  type User{
+    user_code : Int
+    kakao_id : String
+    kakao_profile_img : String
+    kakao_nickname : String
+    kakao_email : String
+    user_role : String
+    create_time : Date
+  }
   type Item {
     sId: Int
     sName: String!
@@ -25,15 +34,7 @@ const typeDefs = `#graphql
     mainMidImg: [String]!
     mainBottomImg: [String]!
   }
-  type User{
-    user_code : Int
-    kakao_id : String
-    kakao_profile_img : String
-    kakao_nickname : String
-    kakao_email : String
-    user_role : String
-    create_time : Date
-  }
+
 
   type Contents {
     cId : Int!
@@ -72,7 +73,18 @@ const typeDefs = `#graphql
     sPrice: Int
     bCount:Int
     slideImg: [String]
+  }
+  type CartList {
+    bId: Int
+    sId : Int
+    user_code: Int
+    bDate : Date
+    sName: String
+    sPrice: Int
+    bCount:Int
+    slideImg: [String]
     cartId: Int
+    check: Boolean
   }
   type LikeContents {
     lId : Int,
@@ -92,7 +104,7 @@ const typeDefs = `#graphql
     selectReview (id:Int!) : [Review]
     selectComment (id:Int!) : [Comment]
     nowUser : [User]
-    cartList : [BuyItem]
+    cartList : [CartList]
     allUserBuyItemList : [BuyItem]
     selectUserBuyItemList (user_code:Int!) : [BuyItem]
     likeContents: [LikeContents]
@@ -106,11 +118,13 @@ const typeDefs = `#graphql
     logInUser(user_code:Int!,kakao_id:String!,kakao_profile_img:String,kakao_nickname:String!, kakao_email:String!,user_role:String!,create_time:Date) : User
     logOutUser:User
     buyItems(bId:Int! sId:Int!, user_code:Int!,bCount:Int!) : BuyItem
-    addCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!): BuyItem 
+    addCart(cartId:Int!,sId:Int!,sName: String!,sPrice: Int!, bCount:Int!, slideImg: [String]!,check:Boolean!): CartList 
+    checkedAddCart(index:Int!) : CartList
+    checkDeleteCart(index:Int!) : CartList
     clickLiked(lId:Int! user_code:Int! cId:Int! like_check:Int) : LikeContents
     countLike(cId:Int! cLike:Int) : Contents
-    updateBCount(cartId:Int, bCount:Int): BuyItem
-    deleteCartItem(cartId:Int): BuyItem
+    updateBCount(index:Int!, bCount:Int): CartList
+    deleteCartItem(cartId:Int): CartList
     viewCount(id:Int) : Item
   }
     scalar Date
@@ -170,7 +184,7 @@ const resolvers = {
         viewCount(root, { id }) {
             return viewCount(id);
         },
-        addCart: (root, { cartId, sId, sName, sPrice, bCount, slideImg }) => {
+        addCart: (root, { cartId, sId, sName, sPrice, bCount, slideImg, check }) => {
             const ItemId = {
                 cartId,
                 sId,
@@ -178,9 +192,18 @@ const resolvers = {
                 sPrice,
                 bCount,
                 slideImg,
+                check,
             };
             cart.push(ItemId);
             return ItemId;
+        },
+        checkedAddCart: (root, { index }) => {
+            cart[index].check = true;
+            return cart;
+        },
+        checkDeleteCart: (root, { index }) => {
+            cart[index].check = false;
+            return cart;
         },
         clickLiked: (root, { lId, user_code, cId, like_check }) => {
             return clickLiked(lId, user_code, cId, like_check);
@@ -188,8 +211,8 @@ const resolvers = {
         countLike: (root, { cId, cLike }) => {
             return countLike(cId, cLike);
         },
-        updateBCount: (root, { cartId, bCount }) => {
-            cart[cartId - 1].bCount = bCount;
+        updateBCount: (root, { index, bCount }) => {
+            cart[index].bCount = bCount;
             return cart;
         },
         deleteCartItem: (root, { cartId }) => {

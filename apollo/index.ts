@@ -25,6 +25,15 @@ import { user } from "./db/user.js";
 let nowUser = [];
 let cart = [];
 const typeDefs = `#graphql
+  type User{
+    user_code : Int
+    kakao_id : String
+    kakao_profile_img : String
+    kakao_nickname : String
+    kakao_email : String
+    user_role : String
+    create_time : Date
+  }
   type Item {
     sId: Int
     sName: String!
@@ -40,15 +49,7 @@ const typeDefs = `#graphql
     mainMidImg: [String]!
     mainBottomImg: [String]!
   }
-  type User{
-    user_code : Int
-    kakao_id : String
-    kakao_profile_img : String
-    kakao_nickname : String
-    kakao_email : String
-    user_role : String
-    create_time : Date
-  }
+
 
   type Contents {
     cId : Int!
