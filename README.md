@@ -129,3 +129,6 @@
 ## 📋 주요 키워드
 
 - git repository 다운로드 후 로컬환경에서 서버 실행 테스트 및 유저 데이터 검수 작업<박민규>
+
+- Web Server 구성
+AWS EC2의 아마존 Liunx2 기반 위에 Spring의 파일을 jar로 배포 및 React와 Apollo 서버 실행
