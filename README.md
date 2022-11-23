@@ -133,7 +133,7 @@
 - Web Server 구성
 AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 React와 Apollo 서버 실행 <박민규>
 
-## 설치
+## 📋 설치
 
 ### Apollo-Server
 ```sh
