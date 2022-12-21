@@ -136,7 +136,7 @@ AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 
 ## 📋 실제 화면
 
 ### 메인화면
-<img src="https://user-images.githubusercontent.com/62588402/208840232-8ab7433d-b41e-4581-89da-8a2e6b9b0944.jpeg" width="200" height="400"/>
+<img src="https://user-images.githubusercontent.com/62588402/208840232-8ab7433d-b41e-4581-89da-8a2e6b9b0944.jpeg" width="1200" height="400"/>
 
 
 
