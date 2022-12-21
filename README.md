@@ -186,7 +186,7 @@ AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 
 ### 검색기능
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/62588402/208843068-e2bae7c2-dc92-4f75-91c8-7a90c343cb34.jpeg" width="450" height="600"/>
+<img src="https://user-images.githubusercontent.com/62588402/208843068-e2bae7c2-dc92-4f75-91c8-7a90c343cb34.jpeg" width="350" height="500"/>
 </p>
 
 ### 모바일 반응형 버젼
@@ -199,6 +199,6 @@ AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 
 ### 비로그인시 로그인이 필요한 페이지 접근시
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/62588402/208843723-3db65b2d-eae2-4d32-af2b-17e5b9e16ddc.jpeg" width="450" height="600"/>
+<img src="https://user-images.githubusercontent.com/62588402/208843723-3db65b2d-eae2-4d32-af2b-17e5b9e16ddc.jpeg" width="350" height="500"/>
 </p>
 
