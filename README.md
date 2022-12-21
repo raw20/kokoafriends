@@ -136,20 +136,69 @@ AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 
 ## 📋 실제 화면
 
 ### 메인화면
-<img src="https://user-images.githubusercontent.com/62588402/208840232-8ab7433d-b41e-4581-89da-8a2e6b9b0944.jpeg" width="1200" height="400"/>
-
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208840232-8ab7433d-b41e-4581-89da-8a2e6b9b0944.jpeg" width="800" height="500"/>
+</p>
 
 
 ### 베스트 상품
 
-![image38](https://user-images.githubusercontent.com/62588402/208840373-0fec2a5d-297b-41f5-bc2c-eb1338f047c1.jpeg)
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208840373-0fec2a5d-297b-41f5-bc2c-eb1338f047c1.jpeg" width="450" height="600"/>
+</p>
+
 
 ### 상품 상세페이지
 
+#### 1. 상품 이미지 슬라이드
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208841917-a4ffdd20-26e7-44ed-9206-e03c35a7faf8.jpeg" width="450" height="600"/>
+</p>
 
+#### 2. 상품 설명
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208842065-38df2c9c-30cb-4673-b296-36a3ae63c1ab.jpeg" width="450" height="600"/>
+</p>
 
-### Mypage.tsx
+#### 3. 리뷰 등록
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208842323-abd3b1c3-a997-4b79-8a9e-b42161941aae.jpeg" width="450" height="600"/>
+</p>
 
-![image46](https://user-images.githubusercontent.com/62588402/208840603-eb1fec18-db89-47a9-b5e1-13d15d56765c.jpeg)
+### 마이페이지
 
-### 
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208840603-eb1fec18-db89-47a9-b5e1-13d15d56765c.jpeg" width="800" height="500"/>
+</p>
+
+### 콘텐츠
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208842774-8e6cc549-0f55-4df0-a745-ba24d2aaea33.jpeg" width="450" height="600"/>
+</p>
+
+### 장바구니
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208842978-41e16f89-f642-4ed6-9f40-c78289563213.jpeg" width="450" height="600"/>
+</p>
+
+### 검색기능
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208843068-e2bae7c2-dc92-4f75-91c8-7a90c343cb34.jpeg" width="450" height="600"/>
+</p>
+
+### 모바일 반응형 버젼
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208843188-4f541c52-6da0-4e9c-a306-1425b8edc81b.jpeg" width="280" height="400"/>
+<img src="https://user-images.githubusercontent.com/62588402/208843374-f716ea63-9f46-4475-b8fe-5a03cd7f7658.jpeg" width="280" height="400"/>
+</p>
+
+### 비로그인시 로그인이 필요한 페이지 접근시
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62588402/208843723-3db65b2d-eae2-4d32-af2b-17e5b9e16ddc.jpeg" width="450" height="600"/>
+</p>
+
