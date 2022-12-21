@@ -133,19 +133,22 @@
 - Web Server 구성
 AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 React와 Apollo 서버 실행 <박민규>
 
-## 📋 설치
+## 📋 실제 화면
 
-### Apollo-Server
-```sh
-  cd apollo
-  npm install
-  npm start
-```
-### React
-```sh
-  cd back
-  cd front
-  npm install
-  npm start
-```
-참고사항 : AWS, EC2, RDS 는 개인 아이디로 ip 생성 후 접속
+### 메인화면
+
+![image25](https://user-images.githubusercontent.com/62588402/208840232-8ab7433d-b41e-4581-89da-8a2e6b9b0944.jpeg)
+
+### 베스트 상품
+
+![image38](https://user-images.githubusercontent.com/62588402/208840373-0fec2a5d-297b-41f5-bc2c-eb1338f047c1.jpeg)
+
+### 상품 상세페이지
+
+
+
+### Mypage.tsx
+
+![image46](https://user-images.githubusercontent.com/62588402/208840603-eb1fec18-db89-47a9-b5e1-13d15d56765c.jpeg)
+
+### 
