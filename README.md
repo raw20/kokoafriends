@@ -131,13 +131,16 @@
 - git repository 다운로드 후 로컬환경에서 서버 실행 테스트 및 유저 데이터 검수 작업<박민규>
 
 - Web Server 구성
-AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 React와 Apollo 서버 실행 <박민규>
+
+  AWS EC2의 아마존 Ubuntu 기반 위에 Spring의 파일을 jar로 배포 및 React와 Apollo 서버 실행 <박민규>
 
 - GraphQL
-하나의 엔드포인트만을 사용하여 요청하는 쿼리에따라 다른 응답을 반환할 수 있도록 설정
+
+  하나의 엔드포인트만을 사용하여 요청하는 쿼리에따라 다른 응답을 반환할 수 있도록 설정 <정찬욱>
 
 - Apollo-Cient
-state 관리를 위해 사용
+
+  state 관리를 위해 사용 <정찬욱>
 
 ## 📋 실제 화면
 
