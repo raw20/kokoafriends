@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import KaKaoRedirect from "../auth/KaKaoRedirect";
-import Home from "../pages/mainMenu/home/Home";
-import Contents from "../pages/mainMenu/contents/Contents";
-import BestProductItem from "../pages/mainMenu/best/BestProductItem";
-import Search from "../pages/subMenu/search/Search";
-import ItemDetail from "../components/itemDetail/ItemDetail";
-import Mypage from "../pages/subMenu/myPage/Mypage";
-import Cart from "../pages/subMenu/cart/Cart";
+import Home from "../pages/Main/Home/Home";
+import Contents from "../pages/Main/Contents/Contents";
+import BestProducts from "../pages/Main/Best/BestProducts";
+import Search from "../pages/Sub/Search/Search";
+import Product from "../pages/Main/Best/Product";
+import Mypage from "../pages/Sub/Mypage/Mypage";
+import Cart from "../pages/Sub/Cart/Cart";
 import KaKaoLogout from "../auth/KaKaoLogout";
-import ContentsDetail from "../components/contentsDetail/ContentsDetail";
+import ContentsDetail from "../pages/Main/Contents/Content";
 
 function Router() {
   return (
@@ -16,10 +16,10 @@ function Router() {
       <Routes>
         <Route path="/" element={<Home />}>
           {/* main menu */}
-          <Route path="/best" element={<BestProductItem />} />
+          <Route path="/best" element={<BestProducts />} />
           <Route path="/contents" element={<Contents />} />
           <Route path="/contentsDetail/:id" element={<ContentsDetail />} />
-          <Route path="/bestProduct/:id" element={<ItemDetail />} />
+          <Route path="/product/:id" element={<Product />} />
           {/* util menu */}
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/cart" element={<Cart />} />

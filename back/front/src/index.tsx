@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { theme } from "./theme";
+import { theme } from "./styles/theme";
 import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/client";
 import client from "./client";
