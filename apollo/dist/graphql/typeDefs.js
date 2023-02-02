@@ -49,10 +49,10 @@ export const typeDefs = `#graphql
 
   type Query {
     products : [Products]!
-    product(id:Int!) : Products!
+    product(id:Int!) : [Products]!
     user : [User]
-    reviews : [Review]
-    review (id:Int!) : [Review]
+    reviews : [Reviews]
+    review (id:Int!) : [Reviews]
     cart : [Cart]
   }
   scalar Date

@@ -27,13 +27,13 @@ const Text = styled.span`
   font-weight: 500;
   text-align: center;
   margin-top: 1.3rem;
-  color: ${(props) => props.theme.seconetTextColor};
+  color: ${(props) => props.theme.secondTextColor};
 `;
 const Button = styled(Link)`
   width: 250px;
   height: 40px;
   color: ${(props) => props.theme.bgColor};
-  background-color: ${(props) => props.theme.seconetTextColor};
+  background-color: ${(props) => props.theme.secondTextColor};
   border-radius: 25px;
   display: flex;
   justify-content: center;

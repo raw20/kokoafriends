@@ -32,7 +32,6 @@ interface IHomeChildComponentProps {
 
 function BannerSlide({ data, countView }: IHomeChildComponentProps) {
   const bannerProducts = data?.products.filter((product) => product.sId < 6);
-
   function countViewHandler(id: number) {
     countView({
       variables: {
@@ -45,7 +44,7 @@ function BannerSlide({ data, countView }: IHomeChildComponentProps) {
       <BannerContainer>
         {bannerProducts?.map((product) => (
           <BannerImageBox
-            to={`/bestProduct/${product?.sId}`}
+            to={`/product/${product?.sId}`}
             key={product?.sId}
             onClick={() => {
               countViewHandler(product?.sId);

@@ -44,32 +44,7 @@ const Top = styled.div`
     padding: 0;
   }
 `;
-const SearchBar = styled.span`
-  width: 100%;
-  height: 30px;
-  background-color: #dfd8d7;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  border-radius: 15px;
-  margin: 0 auto;
-  @media ${(props) => props.theme.mobile} {
-    width: 80%;
-    margin: 0 auto;
-  }
-`;
-const Input = styled.input`
-  width: 80%;
-  height: 30px;
-  display: flex;
-  background-color: #dfd8d7;
-  align-items: center;
-  border: none;
-  :focus {
-    outline: none;
-  }
-  box-sizing: border-box;
-`;
+
 const Middle = styled(Top)``;
 
 const List = styled.div`
@@ -141,14 +116,14 @@ const CategoryButton = styled.span`
   border-radius: 15px;
   font-size: 1.1rem;
   font-weight: 500;
-  border: 1px solid ${(props) => props.theme.accentColor};
+  border: 1px solid ${(props) => props.theme.jaygColor};
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 1rem auto;
   cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.theme.accentColor};
+    background-color: ${(props) => props.theme.jaygColor};
     color: ${(props) => props.theme.bgColor};
   }
   @media ${(props) => props.theme.tablet} {

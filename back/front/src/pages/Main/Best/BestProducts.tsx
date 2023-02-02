@@ -35,8 +35,9 @@ function BestProducts() {
   if (loading) return <Loading />;
   return (
     <BestProductsContainer>
-      <PrimaryTitle>지금 인기있는😍</PrimaryTitle>
       <PrimaryComponentsInner>
+        <PrimaryTitle>지금 인기있는😍</PrimaryTitle>
+
         <ProductsBox>
           {bestProducts?.map((product, index) =>
             index < 6 ? (
@@ -44,7 +45,7 @@ function BestProducts() {
                 onClick={() => {
                   viewCountHandler(product?.sId);
                 }}
-                to={`/bestProduct/${product?.sId}`}
+                to={`/Product/${product?.sId}`}
                 key={product?.sId}
               >
                 <ProductImageBox>

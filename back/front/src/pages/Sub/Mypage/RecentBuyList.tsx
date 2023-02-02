@@ -53,7 +53,7 @@ const LargeText = styled.p`
   text-align: flex-start;
   padding: 1rem 0;
   border-radius: 10px;
-  color: ${(props) => props.theme.seconetTextColor};
+  color: ${(props) => props.theme.secondTextColor};
   @media ${(props) => props.theme.mobile} {
     padding: 0;
   }
@@ -65,7 +65,7 @@ const SubLargeText = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${(props) => props.theme.seconetTextColor};
+  color: ${(props) => props.theme.secondTextColor};
   @media ${(props) => props.theme.mobile} {
     width: 100px;
   }

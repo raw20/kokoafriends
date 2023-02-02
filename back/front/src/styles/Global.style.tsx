@@ -42,7 +42,7 @@ body {
   line-height: 1;
   background-color:  ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
-  font-family: 'Jua', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 menu, ol, ul {
   list-style: none;

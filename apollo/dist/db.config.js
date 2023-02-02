@@ -1,6 +1,6 @@
 import mysql from "promise-mysql";
 export const dbConfig = {
-    host: "shop.ctwrry2uqbnz.ap-northeast-2.rds.amazonaws.com",
+    host: "database-1.cd6uosjs1jca.ap-northeast-2.rds.amazonaws.com",
     user: "admin",
     password: "12345678",
     database: "chauk",

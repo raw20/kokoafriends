@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,20 +14,23 @@ import NewProjuctsSlide from "./NewProjuctsSlide";
 //const token: string = window.localStorage.getItem("token") as string;
 
 function Home() {
+  const state = useLocation();
   const { data, loading } = useGetProducts();
   const countView = useCountView();
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <>
       <Header />
-      <MainContainer>
-        <BannerSlide data={data} countView={countView} />
-        <NewProjuctsSlide data={data} countView={countView} />
-      </MainContainer>
-      <Outlet />
+      {state.pathname === "/" ? (
+        <MainContainer>
+          <BannerSlide data={data} countView={countView} />
+          <NewProjuctsSlide data={data} countView={countView} />
+        </MainContainer>
+      ) : (
+        <Outlet />
+      )}
+
       <ScrollTopButton />
       <Footer />
     </>

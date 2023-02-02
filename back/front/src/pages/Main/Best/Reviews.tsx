@@ -93,7 +93,7 @@ const WriteReviewButton = styled.input`
 const ItemReviewList = styled.div`
   width: 100%;
   height: auto;
-  border-top: 1px solid ${(props) => props.theme.accentColor};
+  border-top: 1px solid ${(props) => props.theme.jaygColor};
 `;
 const ReviewBox = styled.div`
   width: 100%;
@@ -162,7 +162,7 @@ const DeleteButton = styled.span`
 export const BuyButton = styled.div`
   width: 100%;
   height: 50px;
-  background-color: ${(props) => props.theme.accentColor};
+  background-color: ${(props) => props.theme.jaygColor};
   color: ${(props) => props.theme.bgColor};
   font-size: 1.4rem;
   position: sticky;

@@ -31,7 +31,7 @@ const Button = styled.span`
   width: 250px;
   height: 40px;
   color: ${(props) => props.theme.bgColor};
-  background-color: ${(props) => props.theme.accentColor};
+  background-color: ${(props) => props.theme.jaygColor};
   border-radius: 25px;
   display: flex;
   justify-content: center;

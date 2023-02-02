@@ -49,7 +49,7 @@ export const typeDefs = `#graphql
 
   type Query {
     products : [Products]!
-    product(id:Int!) : Products!
+    product(id:Int!) : [Products]!
     user : [User]
     reviews : [Reviews]
     review (id:Int!) : [Reviews]

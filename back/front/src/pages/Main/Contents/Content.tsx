@@ -148,7 +148,7 @@ export const CommentInput = styled.input`
 const ChatBox = styled.div`
   width: 100%;
   height: auto;
-  border-top: 1px solid ${(props) => props.theme.accentColor};
+  border-top: 1px solid ${(props) => props.theme.jaygColor};
 `;
 const Chat = styled.div`
   width: 100%;

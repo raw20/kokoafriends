@@ -5,12 +5,14 @@ declare module "styled-components" {
     textColor: string;
     bgColor: string;
     secondColor: string;
-    seconetTextColor: string;
-    accentColor: string;
+    secondTextColor: string;
+    jaygColor: string;
     boxColor: string;
     borderColor: string;
-    secondBorderColor: string;
-    cartColor: string;
+    muziColor: string;
+    apeachColor: string;
+    conColor: string;
+    ryanColor: string;
     mobile: string;
     tablet: string;
     desktop: string;

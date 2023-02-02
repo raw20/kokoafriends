@@ -23,7 +23,7 @@ export const SecondTitle = styled.h1`
   font-size: 1.4rem;
   font-weight: bold;
   display: flex;
-  color: ${(props) => props.theme.accentColor};
+  color: ${(props) => props.theme.textColor};
   margin: 1rem 0;
   @media ${(props) => props.theme.mobile} {
     font-size: 0.7rem;
@@ -39,7 +39,7 @@ export const SecondContent = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: ${(props) => props.theme.secondColor};
+  color: ${(props) => props.theme.secondTextColor};
   @media ${(props) => props.theme.mobile} {
     font-size: 0.7rem;
   }
@@ -51,7 +51,7 @@ export const SecondRank = styled.span`
   justify-content: center;
   align-items: center;
   font-size: 0.8rem;
-  background-color: ${(props) => props.theme.accentColor};
+  background-color: ${(props) => props.theme.jaygColor};
   color: ${(props) => props.theme.bgColor};
   position: absolute;
   border-radius: 5px;
@@ -105,7 +105,7 @@ export const SecondComponentsInner = styled.div`
 export const BuyButton = styled.div`
   width: 100%;
   height: 50px;
-  background-color: ${(props) => props.theme.accentColor};
+  background-color: ${(props) => props.theme.jaygColor};
   color: ${(props) => props.theme.bgColor};
   font-size: 1.4rem;
   position: sticky;

@@ -99,14 +99,14 @@ const DeliveryFeeTextBox = styled.div`
 const DeliveryFeeBar = styled.div`
   width: 100%;
   height: 20px;
-  background-color: ${(props) => props.theme.secondBorderColor};
+  background-color: ${(props) => props.theme.muziColor};
   border-radius: 5px;
 `;
 const DeliveryFeeBarFull = styled.div<{ priceSize: number }>`
   width: ${(props) =>
     props.priceSize >= 30000 ? 100 : props.priceSize / 300}%;
-  background-color: ${(props) => props.theme.cartColor};
-  color: ${(props) => props.theme.cartColor};
+  background-color: ${(props) => props.theme.apeachColor};
+  color: ${(props) => props.theme.apeachColor};
   border-radius: 5px;
   display: flex;
   justify-content: start;
@@ -140,16 +140,16 @@ const CheckRight = styled.div`
 const CheckBox = styled.input`
   width: 25px;
   height: 25px;
-  background-color: ${(props) => props.theme.secondBorderColor};
+  background-color: ${(props) => props.theme.muziColor};
   border-radius: 50%;
   margin-right: 1rem;
 `;
 const CartListTable = styled.div`
   width: 100%;
   height: auto;
-  background-color: ${(props) => props.theme.secondBorderColor};
-  border-top: 5px solid ${(props) => props.theme.secondBorderColor};
-  border-bottom: 1px solid ${(props) => props.theme.secondBorderColor};
+  background-color: ${(props) => props.theme.muziColor};
+  border-top: 5px solid ${(props) => props.theme.muziColor};
+  border-bottom: 1px solid ${(props) => props.theme.muziColor};
 `;
 const CartItemBox = styled.div`
   width: 100%;
@@ -206,7 +206,7 @@ const SecondMediumText = styled.p`
   font-weight: bold;
 `;
 const DeliveryFeeText = styled(SecondMediumText)`
-  color: ${(props) => props.theme.cartColor};
+  color: ${(props) => props.theme.apeachColor};
 `;
 const SmallText = styled.p`
   width: 100%;
@@ -232,7 +232,7 @@ const BuyButton = styled.div`
   width: 100%;
   height: 50px;
   margin-top: 1.5rem;
-  background-color: ${(props) => props.theme.cartColor};
+  background-color: ${(props) => props.theme.apeachColor};
   color: ${(props) => props.theme.bgColor};
   font-size: 1.4rem;
   display: flex;
@@ -271,7 +271,7 @@ const Input = styled.input`
 const Delete = styled(MdDeleteForever)`
   font-size: 2rem;
   cursor: pointer;
-  color: ${(props) => props.theme.accentColor};
+  color: ${(props) => props.theme.jaygColor};
 `;
 
 const ReceiptBox = styled.div`
