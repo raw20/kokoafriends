@@ -8,6 +8,7 @@ import useCountView from "./hooks/mutations/useCountView";
 import { MainContainer } from "./styles/Home.style";
 import BannerSlide from "./BannerSlide";
 import NewProjuctsSlide from "./NewProjuctsSlide";
+import Category from "./Category";
 
 //const token: string = window.localStorage.getItem("token") as string;
 
@@ -23,6 +24,7 @@ function Home() {
       {state.pathname === "/" ? (
         <MainContainer>
           <BannerSlide data={data} countView={countView} />
+          <Category />
           <NewProjuctsSlide data={data} countView={countView} />
         </MainContainer>
       ) : (
