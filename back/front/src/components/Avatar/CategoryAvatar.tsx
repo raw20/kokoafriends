@@ -6,7 +6,7 @@ import { Category } from "../../types/Category.interface";
 
 function CategoryAvatar() {
   const [categories, setCategory] = useState<Category[]>([]);
-  const categoryData = require("../../asset/json/category.json");
+  const categoryData = "/json/category.json";
 
   useEffect(() => {
     (async () => {
