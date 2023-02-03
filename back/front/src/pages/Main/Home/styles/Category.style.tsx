@@ -14,3 +14,7 @@ export const CategoryBox = styled.div`
   width: 100%;
   height: auto;
 `;
+export const CategoryAvatarBox = styled.div`
+  width: 100%;
+  height: auto;
+`;

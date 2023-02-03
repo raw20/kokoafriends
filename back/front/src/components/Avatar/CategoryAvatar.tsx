@@ -3,6 +3,8 @@ import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import { useEffect, useState } from "react";
 import { Category } from "../../types/Category.interface";
+import Typography from "@mui/material/Typography";
+import { CategoryAvatarBox } from "../../pages/Main/Home/styles/Category.style";
 
 function CategoryAvatar() {
   const [categories, setCategory] = useState<Category[]>([]);
@@ -16,16 +18,20 @@ function CategoryAvatar() {
     })();
   }, []);
 
-  console.log(categories);
   return (
     <Box sx={{ flexGrow: 0 }}>
       {categories.map((category) => (
-        <IconButton sx={{ p: 0 }}>
-          <Avatar
-            alt={category.name}
-            src={`../../asset/image/category/${category.img}`}
-            sx={{ width: 76, height: 76 }}
-          />
+        <IconButton sx={{ p: 0, mr: 2 }} key={category.id}>
+          <CategoryAvatarBox>
+            <Avatar
+              alt={category.name}
+              src={require(`../../asset/image/category/${category.img}`)}
+              sx={{ width: 76, height: 76 }}
+            />
+            <Typography variant="subtitle2" gutterBottom>
+              {category.name}
+            </Typography>
+          </CategoryAvatarBox>
         </IconButton>
       ))}
     </Box>
