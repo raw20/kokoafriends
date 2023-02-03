@@ -18,7 +18,7 @@ import {
   SliderImage,
   SubInfoContainer,
   TopMainInfoContainer,
-} from "./Best.style";
+} from "./styles/Best.style";
 import {
   BuyButton,
   PrimaryContent,

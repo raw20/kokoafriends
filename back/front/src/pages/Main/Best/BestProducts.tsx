@@ -13,7 +13,7 @@ import {
   ProductImageBox,
   ProductLink,
   ProductsBox,
-} from "./Best.style";
+} from "./styles/Best.style";
 import useCountView from "./hooks/mutations/useCountView";
 import useGetProducts from "./hooks/queries/useGetProducts";
 

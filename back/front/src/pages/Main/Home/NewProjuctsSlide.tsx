@@ -12,7 +12,7 @@ import {
   NewProductImage,
   NewProductImageBox,
   NewProductImageSlider,
-} from "./Home.style";
+} from "./styles/NewProductSlice.style";
 import { Products } from "../../../types/Products.interface";
 import {
   PrimaryTitle,

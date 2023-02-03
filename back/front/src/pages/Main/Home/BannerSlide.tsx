@@ -14,7 +14,7 @@ import {
   BannerImageBox,
   BannerTextBox,
   BannerTitle,
-} from "./Home.style";
+} from "./styles/BannerSlide.style";
 
 interface IHomeChildComponentProps {
   data: Products | undefined;

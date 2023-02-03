@@ -7,7 +7,7 @@ import ScrollTopButton from "../../../components/Button/ScrollTopButton";
 import Loading from "../../../components/Loading/Loading";
 import useGetProducts from "./hooks/queries/useGetProducts";
 import useCountView from "./hooks/mutations/useCountView";
-import { MainContainer } from "./Home.style";
+import { MainContainer } from "./styles/Home.style";
 import BannerSlide from "./BannerSlide";
 import NewProjuctsSlide from "./NewProjuctsSlide";
 
