@@ -39,7 +39,9 @@ function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
               }}
             >
               <NewProductImageBoxInner>
-                <NewProductImage src={`/img/product/${product?.slideImg[0]}`} />
+                <NewProductImage
+                  src={require(`../../../asset/image/product/${product?.slideImg[0]}`)}
+                />
                 <SecondContent> {product?.sName}</SecondContent>
                 <SecondTitle>{product?.sPrice}원</SecondTitle>
               </NewProductImageBoxInner>

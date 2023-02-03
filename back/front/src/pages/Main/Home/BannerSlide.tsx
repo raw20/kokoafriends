@@ -32,7 +32,7 @@ function BannerSlide({ data, countView }: IHomeChildComponentProps) {
                 }}
               >
                 <BannerImage
-                  src={`/img/product/${product?.mainBottomImg[0]}`}
+                  src={require(`../../../asset/image/product/${product?.mainBottomImg[0]}`)}
                   alt={product?.sTitle}
                 />
                 <Carousel.Caption>

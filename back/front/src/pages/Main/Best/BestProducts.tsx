@@ -49,7 +49,9 @@ function BestProducts() {
                 key={product?.sId}
               >
                 <ProductImageBox>
-                  <PrimaryImage src={`/img/product/${product?.slideImg[0]}`} />
+                  <PrimaryImage
+                    src={require(`../../../asset/image/product/${product?.slideImg[0]}`)}
+                  />
                   {index < 3 ? (
                     <SecondRank>{index + 1}</SecondRank>
                   ) : (
