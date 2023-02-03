@@ -1,7 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../../components/Header/Header";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Footer from "../../../components/Footer/Footer";
 import ScrollTopButton from "../../../components/Button/ScrollTopButton";
 import Loading from "../../../components/Loading/Loading";

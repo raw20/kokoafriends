@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Slider from "react-slick";
 import { BannerContainer } from "./BannerSlide.style";
 
 export const NewProductContainer = styled.div`
-  width: 50%;
+  width: 70%;
   margin: 0 auto;
   @media ${(props) => props.theme.tablet} {
     width: 70%;
@@ -22,20 +21,27 @@ export const NewItemInner = styled.div`
 `;
 
 export const NewProductImageBox = styled(Link)`
-  width: 40%;
+  width: 30%;
   height: auto;
   display: flex;
   justify-content: center;
-  flex-direction: column;
   align-items: flex-start;
+  margin-top: 1rem;
 
   &:hover {
     opacity: 0.7;
   }
 `;
+export const NewProductImageBoxInner = styled.div`
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+`;
 export const NewProductImage = styled.img`
-  width: 270px;
-  height: 270px;
+  width: 240px;
+  height: 240px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  border-radius: 20px;
 
   @media ${(props) => props.theme.tablet} {
     width: 100%;
@@ -46,9 +52,10 @@ export const NewProductImage = styled.img`
   }
 `;
 
-export const NewProductImageSlider = styled(Slider)`
+export const NewProductImageSlider = styled.div`
   width: 100%;
   height: auto;
+  display: flex;
 
   @media ${(props) => props.theme.tablet} {
     width: 100%;

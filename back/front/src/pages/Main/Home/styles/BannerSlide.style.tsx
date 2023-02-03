@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const BannerContainer = styled.div`
-  width: 50%;
+  width: 70%;
   height: auto;
-  margin: 1.5rem auto;
+  margin: 0 auto;
   @media ${(props) => props.theme.tablet} {
     width: 70%;
   }
@@ -20,9 +20,8 @@ export const BannerImageBox = styled(Link)`
 `;
 export const BannerImage = styled.img`
   width: 100%;
-  height: 30%;
+  height: 75vh;
   margin-bottom: 1rem;
-  border-radius: 20px;
   position: relative;
 `;
 export const BannerTextBox = styled.div`

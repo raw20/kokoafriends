@@ -1,6 +1,4 @@
 import { useParams } from "react-router-dom";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import Modal from "react-modal";
 import BuyModal from "../../../components/Modal/BuyModal";
@@ -40,16 +38,6 @@ const CustomModalStyles = {
   },
 };
 
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 1000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 2000,
-};
-
 function Product() {
   const { id } = useParams();
   const { data, loading } = useGetProductById(id);
@@ -86,11 +74,11 @@ function Product() {
   return (
     <ProductContainer>
       <SecondComponentsInner>
-        <ProductImageSlider {...settings}>
+        {/*  <ProductImageSlider {...settings}>
           {data?.Product.slideImg.map((item: string, index: number) => (
             <SliderImage key={index} src={`/img/product/${item}`} />
           ))}
-        </ProductImageSlider>
+        </ProductImageSlider> */}
         <TopMainInfoContainer>
           <SecondTitle>{data?.Product.sName}</SecondTitle>
           <BsCart

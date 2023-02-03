@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
-import Slider from "react-slick";
 
 export const BestProductsContainer = styled.div`
   width: 100%;
@@ -60,7 +59,7 @@ export const ProductContainer = styled.div`
   }
 `;
 
-export const ProductImageSlider = styled(Slider)`
+export const ProductImageSlider = styled.div`
   width: 100%;
   box-sizing: border-box;
   @media ${(props) => props.theme.tablet} {
