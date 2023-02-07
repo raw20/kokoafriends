@@ -1,25 +1,28 @@
 import styled from "styled-components";
 import { MdMenu } from "react-icons/md";
 
-export const HeaderContainer = styled.div<{ open: boolean }>`
+export const HeaderContainer = styled.div`
   width: 100%;
-  height: 180px;
+  height: 160px;
   border-bottom: 2px solid ${(props) => props.theme.ryanColor};
   @media ${(props) => props.theme.mobile} {
     position: relative;
     transition: all 0.5s;
-    height: ${(props) => (props.open ? "100px" : "80px")};
   }
 `;
 export const HeaderInner = styled.div`
   width: 100%;
-  height: 178px;
+  height: 99px;
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
+export const NavInner = styled(HeaderInner)`
+  height: 60px;
+`;
 export const HeaderStart = styled.div`
   width: 80%;
+  height: auto;
   display: flex;
   margin: 0 auto;
   justify-content: center;
@@ -27,34 +30,30 @@ export const HeaderStart = styled.div`
 `;
 export const HeaderCenter = styled(HeaderStart)`
   flex-direction: column;
-  height: 178px;
 `;
-export const HeaderEnd = styled(HeaderStart)<{ open: boolean }>`
+export const HeaderEnd = styled(HeaderStart)`
   @media ${(props) => props.theme.mobile} {
-    width: 40%;
-    height: 30px;
-    display: ${(props) => (props.open ? "flex" : "none")};
-    position: absolute;
-    top: 60%;
-    right: 8%;
-    margin: 0 auto;
-    border: 1px solid ${(props) => props.theme.borderColor};
-    border-radius: 10px;
   }
 `;
-export const Logo = styled.img`
-  width: 50%;
-  height: 50%;
+export const LogoWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+`;
+export const LogoImage = styled.img`
+  width: 40%;
+  height: 40%;
 `;
 export const SearchBarWrapper = styled.div`
   width: 100%;
-  height: 89px;
+  height: auto;
   display: flex;
   align-items: center;
 `;
 export const GlobalNavBarWrapper = styled.ul`
   width: 100%;
-  height: 89px;
+  height: 59px;
   display: flex;
   justify-content: center;
 `;

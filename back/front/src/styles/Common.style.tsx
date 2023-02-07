@@ -32,8 +32,8 @@ export const SecondTitle = styled.h1`
 `;
 
 export const SecondContent = styled.p`
-  width: 100%;
-  font-size: 1.3rem;
+  width: 80%;
+  font-size: 1.2rem;
   font-weight: 700;
   text-align: start;
   overflow: hidden;

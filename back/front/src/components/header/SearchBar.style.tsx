@@ -23,7 +23,7 @@ export const SearchIcon = styled(MdOutlineSearch)`
 
 export const SearchInput = styled.input`
   width: 80%;
-  height: 40px;
+  height: auto;
   display: flex;
   background-color: ${(props) => props.theme.bgColor};
   align-items: center;

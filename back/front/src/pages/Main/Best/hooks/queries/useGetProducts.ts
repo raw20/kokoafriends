@@ -3,9 +3,9 @@ import { Products } from "../../../../../types/Products.interface";
 import { PRODUCTS } from "../../graphql/schema";
 
 function useGetProducts() {
-  const { data, loading } = useQuery<Products>(PRODUCTS);
+  const { data: products, loading } = useQuery<Products>(PRODUCTS);
 
-  return { data, loading };
+  return { products, loading };
 }
 
 export default useGetProducts;

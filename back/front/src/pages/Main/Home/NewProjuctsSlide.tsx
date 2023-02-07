@@ -1,48 +1,18 @@
 import React from "react";
 import {
-  ApolloCache,
-  DefaultContext,
-  FetchResult,
-  MutationFunctionOptions,
-  OperationVariables,
-} from "@apollo/client";
-import {
   NewProductBox,
   NewProductContainer,
   NewProductImage,
   NewProductImageBox,
+  NewProductImageBoxInner,
   NewProductImageSlider,
-} from "./Home.style";
-import { Products } from "../../../types/Products.interface";
+} from "./styles/NewProductSlice.style";
 import {
   PrimaryTitle,
   SecondContent,
   SecondTitle,
 } from "../../../styles/Common.style";
-
-const settings = {
-  dots: true,
-  className: "center",
-  centerMode: true,
-  infinite: true,
-  centerPadding: "3rem",
-  slidesToShow: 3,
-  speed: 500,
-};
-
-interface IHomeChildComponentProps {
-  data: Products | undefined;
-  countView: (
-    options?:
-      | MutationFunctionOptions<
-          any,
-          OperationVariables,
-          DefaultContext,
-          ApolloCache<any>
-        >
-      | undefined
-  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
-}
+import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 
 function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
   const newProducts = data?.products.filter(
@@ -59,7 +29,7 @@ function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
     <NewProductContainer>
       <NewProductBox>
         <PrimaryTitle>새로나온 친구들</PrimaryTitle>
-        <NewProductImageSlider {...settings}>
+        <NewProductImageSlider>
           {newProducts?.map((product, index) => (
             <NewProductImageBox
               to={`/bestProduct/${product?.sId}`}
@@ -68,9 +38,13 @@ function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
                 countViewHandler(product?.sId);
               }}
             >
-              <NewProductImage src={`/img/product/${product?.slideImg[0]}`} />
-              <SecondContent> {product?.sName}</SecondContent>
-              <SecondTitle>{product?.sPrice}원</SecondTitle>
+              <NewProductImageBoxInner>
+                <NewProductImage
+                  src={require(`../../../asset/image/product/${product?.slideImg[0]}`)}
+                />
+                <SecondContent> {product?.sName}</SecondContent>
+                <SecondTitle>{product?.sPrice}원</SecondTitle>
+              </NewProductImageBoxInner>
             </NewProductImageBox>
           ))}
         </NewProductImageSlider>

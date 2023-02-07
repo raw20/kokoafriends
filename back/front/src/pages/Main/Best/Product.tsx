@@ -1,6 +1,4 @@
 import { useParams } from "react-router-dom";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useState } from "react";
 import Modal from "react-modal";
 import BuyModal from "../../../components/Modal/BuyModal";
@@ -13,12 +11,10 @@ import {
   BsCart,
   ProductContainer,
   ProductImage,
-  ProductImageSlider,
   ShowButtonArea,
-  SliderImage,
   SubInfoContainer,
   TopMainInfoContainer,
-} from "./Best.style";
+} from "./styles/BestProducts.style";
 import {
   BuyButton,
   PrimaryContent,
@@ -40,19 +36,9 @@ const CustomModalStyles = {
   },
 };
 
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 1000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 2000,
-};
-
 function Product() {
   const { id } = useParams();
-  const { data, loading } = useGetProductById(id);
+  const { product, loading } = useGetProductById(id);
   const addCart = useAddCart();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   function openModal() {
@@ -86,30 +72,32 @@ function Product() {
   return (
     <ProductContainer>
       <SecondComponentsInner>
-        <ProductImageSlider {...settings}>
+        {/*  <ProductImageSlider {...settings}>
           {data?.Product.slideImg.map((item: string, index: number) => (
             <SliderImage key={index} src={`/img/product/${item}`} />
           ))}
-        </ProductImageSlider>
+        </ProductImageSlider> */}
         <TopMainInfoContainer>
-          <SecondTitle>{data?.Product.sName}</SecondTitle>
+          <SecondTitle>{product?.Product.sName}</SecondTitle>
           <BsCart
             onClick={() =>
               addCartHandler(
-                String(data?.Product.sName),
-                Number(data?.Product.sPrice),
-                String(data?.Product.slideImg[0])
+                String(product?.Product.sName),
+                Number(product?.Product.sPrice),
+                String(product?.Product.slideImg[0])
               )
             }
           />
         </TopMainInfoContainer>
         <BottomMainInfoContainer>
-          <SecondTitle>{data?.Product.sPrice}원</SecondTitle>
-          <SecondContent>{data?.Product.sView}번 조회되었습니다.</SecondContent>
+          <SecondTitle>{product?.Product.sPrice}원</SecondTitle>
+          <SecondContent>
+            {product?.Product.sView}번 조회되었습니다.
+          </SecondContent>
         </BottomMainInfoContainer>
         <ShowButtonArea>
           <SubInfoContainer>
-            {data?.Product.sHalf_title
+            {product?.Product.sHalf_title
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryTitle key={index}>
@@ -117,7 +105,7 @@ function Product() {
                   <br />
                 </PrimaryTitle>
               ))}
-            {data?.Product.sContents
+            {product?.Product.sContents
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryContent key={index}>
@@ -125,21 +113,23 @@ function Product() {
                   <br />
                 </PrimaryContent>
               ))}
-            {data?.Product.mainTopImg.map((img: string, index: number) => (
+            {product?.Product.mainTopImg.map((img: string, index: number) => (
               <ProductImage key={index} src={`/img/product/${img}`} />
             ))}
             <PrimaryContent>
               이렇게 귀여운 카카오프렌즈샵 제품입니다.
             </PrimaryContent>
-            {data?.Product.mainMidImg.map((img: string, index: number) => (
+            {product?.Product.mainMidImg.map((img: string, index: number) => (
               <ProductImage key={index} src={`/img/product/${img}`} />
             ))}
             <PrimaryContent>
               지금 당장 카카오프렌즈를 만나보세요.
             </PrimaryContent>
-            {data?.Product.mainBottomImg.map((img: string, index: number) => (
-              <ProductImage key={index} src={`/img/product/${img}`} />
-            ))}
+            {product?.Product.mainBottomImg.map(
+              (img: string, index: number) => (
+                <ProductImage key={index} src={`/img/product/${img}`} />
+              )
+            )}
             <PrimaryTitle>구성품</PrimaryTitle>
             <PrimaryContent>건진지 외 필요한거 여러개</PrimaryContent>
           </SubInfoContainer>

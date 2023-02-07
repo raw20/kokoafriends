@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
-import Slider from "react-slick";
 
 export const BestProductsContainer = styled.div`
   width: 100%;
@@ -20,6 +19,12 @@ export const ProductsBox = styled.div`
     grid-template-rows: 250px 250px;
   }
 `;
+export const BestProductsTitleBox = styled.div`
+  width: 80%;
+  height: auto;
+  margin: 1rem auto;
+  text-align: center;
+`;
 export const ProductLink = styled(Link)`
   width: 80%;
   height: auto;
@@ -34,7 +39,7 @@ export const ProductLink = styled(Link)`
     opacity: 0.7;
   }
 `;
-export const ProductImageBox = styled.div`
+export const BestProductsImageBox = styled.div`
   width: 100%;
   height: auto;
   margin: 0 auto;
@@ -44,6 +49,13 @@ export const ProductImageBox = styled.div`
   flex-direction: column;
   position: relative;
 `;
+export const BestProductsContentsBox = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const ProductContainer = styled.div`
   width: 100%;
   height: auto;
@@ -60,7 +72,7 @@ export const ProductContainer = styled.div`
   }
 `;
 
-export const ProductImageSlider = styled(Slider)`
+export const ProductImageSlider = styled.div`
   width: 100%;
   box-sizing: border-box;
   @media ${(props) => props.theme.tablet} {

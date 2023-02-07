@@ -18,7 +18,10 @@ function Loading() {
   return (
     <Wrap>
       <Inner>
-        <Image src="/img/loading/spinner.gif" alt="loading" />
+        <Image
+          src={require("../../asset/image/loading/spinner.gif")}
+          alt="loading"
+        />
       </Inner>
     </Wrap>
   );
