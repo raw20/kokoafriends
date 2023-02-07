@@ -1,4 +1,4 @@
-import { pool1 } from "../mysqlPool";
+import { pool1 } from "../utils/mysqlPool";
 
 export const allUserBuyItemList = async () => {
   const [rows] = await pool1.query("select * from buyItem");

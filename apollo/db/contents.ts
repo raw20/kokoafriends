@@ -1,4 +1,4 @@
-import poolPromise, { dbConfig } from "../db.config.js";
+import poolPromise, { dbConfig } from "../utils/db.config.js";
 import mysql from "mysql2/promise";
 import statusUtil from "../status/statusUtil.js";
 
