@@ -10,18 +10,21 @@ import {
 } from "../../../styles/Common.style";
 import {
   BestProductsContainer,
-  ProductImageBox,
+  BestProductsImageBox,
   ProductLink,
   ProductsBox,
-} from "./styles/Best.style";
+  BestProductsTitleBox,
+  BestProductsContentsBox,
+} from "./styles/BestProducts.style";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import useCountView from "./hooks/mutations/useCountView";
 import useGetProducts from "./hooks/queries/useGetProducts";
 
 function BestProducts() {
-  const { data, loading } = useGetProducts();
+  const { products, loading } = useGetProducts();
   const countView = useCountView();
 
-  const bestProducts = data?.products
+  const bestProducts = products?.products
     .map((ele) => ele)
     .sort((a, b) => b.sView - a.sView);
 
@@ -36,7 +39,9 @@ function BestProducts() {
   return (
     <BestProductsContainer>
       <PrimaryComponentsInner>
-        <PrimaryTitle>지금 인기있는😍</PrimaryTitle>
+        <BestProductsTitleBox>
+          <PrimaryTitle>지금 인기있는😍</PrimaryTitle>
+        </BestProductsTitleBox>
 
         <ProductsBox>
           {bestProducts?.map((product, index) =>
@@ -48,7 +53,7 @@ function BestProducts() {
                 to={`/Product/${product?.sId}`}
                 key={product?.sId}
               >
-                <ProductImageBox>
+                <BestProductsImageBox>
                   <PrimaryImage
                     src={require(`../../../asset/image/product/${product?.slideImg[0]}`)}
                   />
@@ -57,9 +62,12 @@ function BestProducts() {
                   ) : (
                     <PrimaryRank>{index + 1}</PrimaryRank>
                   )}
-                  <SecondContent> {product?.sName}</SecondContent>
+                  <BestProductsContentsBox>
+                    <SecondContent> {product?.sName}</SecondContent>
+                    <ShoppingCartOutlinedIcon style={{ color: "#616161" }} />
+                  </BestProductsContentsBox>
                   <SecondTitle>{product?.sPrice}원</SecondTitle>
-                </ProductImageBox>
+                </BestProductsImageBox>
               </ProductLink>
             ) : null
           )}

@@ -12,6 +12,7 @@ export const NewProductContainer = styled.div`
     width: 100%;
   }
 `;
+
 export const NewProductBox = styled(BannerContainer)`
   width: 100%;
   margin: 4.5rem auto;
@@ -63,20 +64,5 @@ export const NewProductImageSlider = styled.div`
   @media ${(props) => props.theme.mobile} {
     width: 85%;
     margin: 0 auto;
-  }
-  .slick-list {
-    width: 100%;
-    box-sizing: border-box;
-    @media ${(props) => props.theme.tablet} {
-      width: 100%;
-    }
-    @media ${(props) => props.theme.mobile} {
-      width: 100%;
-      margin-right: 1rem;
-    }
-  }
-  .slick-arrow {
-    background-color: ${(props) => props.theme.borderColor};
-    border-radius: 50%;
   }
 `;
