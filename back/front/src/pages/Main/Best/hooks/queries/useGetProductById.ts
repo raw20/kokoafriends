@@ -3,12 +3,12 @@ import { ProductComponent } from "../../../../../types/IProps.interface";
 import { PRODUCT } from "../../graphql/schema";
 
 function useGetProductById(id: string | undefined) {
-  const { data, loading } = useQuery<ProductComponent>(PRODUCT, {
+  const { data: product, loading } = useQuery<ProductComponent>(PRODUCT, {
     variables: {
       selectItemId: Number(id),
     },
   });
-  return { data, loading };
+  return { product, loading };
 }
 
 export default useGetProductById;

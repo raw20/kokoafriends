@@ -38,7 +38,7 @@ const CustomModalStyles = {
 
 function Product() {
   const { id } = useParams();
-  const { data: product, loading } = useGetProductById(id);
+  const { product, loading } = useGetProductById(id);
   const addCart = useAddCart();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   function openModal() {
