@@ -1,4 +1,4 @@
-import { dbConfig } from "../db.config.js";
+import { dbConfig } from "../utils/db.config.js";
 import mysql from "mysql2/promise";
 const pool1 = mysql.createPool({
     host: dbConfig.host,
