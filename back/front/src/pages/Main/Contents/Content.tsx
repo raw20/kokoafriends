@@ -22,7 +22,7 @@ import {
   HeartFull,
   RegComment,
 } from "./Contents";
-import { KAKAO_AUTH_URL } from "../../../auth/OAuth";
+import { KAKAO_AUTH_URL } from "../../../utils/oAuth";
 import { useState } from "react";
 import Loading from "../../../components/Loading/Loading";
 
