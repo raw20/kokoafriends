@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import KaKaoRedirect from "../auth/KaKaoRedirect";
 import Home from "../pages/Main/Home/Home";
 import Contents from "../pages/Main/Contents/Contents";
 import BestProducts from "../pages/Main/Best/BestProducts";
@@ -7,7 +6,6 @@ import Search from "../pages/Sub/Search/Search";
 import Product from "../pages/Main/Best/Product";
 import Mypage from "../pages/Sub/Mypage/Mypage";
 import Cart from "../pages/Sub/Cart/Cart";
-import KaKaoLogout from "../auth/KaKaoLogout";
 import ContentsDetail from "../pages/Main/Contents/Content";
 
 function Router() {
@@ -25,9 +23,6 @@ function Router() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<Search />} />
         </Route>
-        {/* login */}
-        <Route path="/oauth/callback/kakao" element={<KaKaoRedirect />} />
-        <Route path="/oauth/callback/kakao/logout" element={<KaKaoLogout />} />
       </Routes>
     </BrowserRouter>
   );

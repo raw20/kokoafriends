@@ -6,6 +6,7 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { KAKAO_LOGOUT_URL } from "../../utils/oAuth";
 
 interface ISettingItem {
   id: string;
@@ -15,7 +16,6 @@ interface ISettingItem {
 
 function HeaderAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const token: string = window.localStorage.getItem("token") as string;
   const menuItem = [
     {
       id: "1",
@@ -31,11 +31,6 @@ function HeaderAvatar() {
       id: "3",
       name: "배송조회",
       path: "/buy-list",
-    },
-    {
-      id: "4",
-      name: token ? "로그아웃" : "로그인",
-      path: token ? "/logout" : "/login",
     },
   ];
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -73,6 +68,11 @@ function HeaderAvatar() {
             <Typography textAlign="center">{setting.name}</Typography>
           </MenuItem>
         ))}
+        <a href={KAKAO_LOGOUT_URL}>
+          <MenuItem>
+            <Typography textAlign="center">로그아웃</Typography>
+          </MenuItem>
+        </a>
       </Menu>
     </Box>
   );

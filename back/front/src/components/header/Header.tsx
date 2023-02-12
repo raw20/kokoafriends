@@ -1,4 +1,6 @@
+import Avatar from "@mui/material/Avatar";
 import { Link, useMatch } from "react-router-dom";
+import { KAKAO_AUTH_URL } from "../../utils/oAuth";
 import HeaderAvatar from "../Avatar/HeaderAvatar";
 import {
   GlobalNavBar,
@@ -20,6 +22,7 @@ function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
+  const token: string = window.localStorage.getItem("token") as string;
 
   return (
     <HeaderContainer>
@@ -38,7 +41,13 @@ function Header() {
         </HeaderCenter>
         <HeaderEnd>
           <SideNavBar>
-            <HeaderAvatar />
+            {token ? (
+              <HeaderAvatar />
+            ) : (
+              <a href={KAKAO_AUTH_URL}>
+                <Avatar alt="로그인" />
+              </a>
+            )}
           </SideNavBar>
         </HeaderEnd>
       </HeaderInner>

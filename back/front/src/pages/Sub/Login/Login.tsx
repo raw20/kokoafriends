@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { KAKAO_AUTH_URL } from "../../../auth/OAuth";
+import { KAKAO_AUTH_URL } from "../../../utils/oAuth";
 
 const Wrap = styled.div`
   width: 100%;
