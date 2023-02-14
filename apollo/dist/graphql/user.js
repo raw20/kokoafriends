@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { ObjectType } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
-import { user } from "../db/user";
+import { user } from "../db/user.js";
 let User = class User {
 };
 __decorate([
@@ -45,7 +45,7 @@ User = __decorate([
 ], User);
 let UserResolver = class UserResolver {
     async user() {
-        return user;
+        return user();
     }
 };
 __decorate([
