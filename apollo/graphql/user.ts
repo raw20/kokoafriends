@@ -1,13 +1,13 @@
-import { ObjectType } from "type-graphql";
+import { Arg, ID, ObjectType } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
-import { user } from "../db/user.js";
+import { userById, users } from "../db/user.js";
 
 @ObjectType()
 class User {
   @Field()
   user_code: number;
 
-  @Field()
+  @Field((type) => ID)
   kakao_id: string;
 
   @Field()
@@ -29,7 +29,11 @@ class User {
 @Resolver(User)
 export class UserResolver {
   @Query((returns) => [User])
-  async user() {
-    return user();
+  async users() {
+    return users();
+  }
+  @Query((returns) => [User])
+  async user(@Arg("id", (type) => ID!) id: string) {
+    return userById(id);
   }
 }

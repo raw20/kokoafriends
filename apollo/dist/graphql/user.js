@@ -7,9 +7,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { ObjectType } from "type-graphql";
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+import { Arg, ID, ObjectType } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
-import { user } from "../db/user.js";
+import { userById, users } from "../db/user.js";
 let User = class User {
 };
 __decorate([
@@ -17,7 +20,7 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "user_code", void 0);
 __decorate([
-    Field(),
+    Field((type) => ID),
     __metadata("design:type", String)
 ], User.prototype, "kakao_id", void 0);
 __decorate([
@@ -44,14 +47,24 @@ User = __decorate([
     ObjectType()
 ], User);
 let UserResolver = class UserResolver {
-    async user() {
-        return user();
+    async users() {
+        return users();
+    }
+    async user(id) {
+        return userById(id);
     }
 };
 __decorate([
     Query((returns) => [User]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "users", null);
+__decorate([
+    Query((returns) => [User]),
+    __param(0, Arg("id", (type) => ID)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "user", null);
 UserResolver = __decorate([

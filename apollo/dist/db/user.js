@@ -1,5 +1,9 @@
 import { pool1 } from "../utils/mysqlPool.js";
-export const user = async () => {
+export const users = async () => {
     const [rows] = await pool1.query("select * from user_master");
+    return rows;
+};
+export const userById = async (id) => {
+    const [rows] = await pool1.query(`select * from user_master where kakao_id=${id}`);
     return rows;
 };
