@@ -6,6 +6,7 @@ export const pool1 = mysql.createPool({
   user: dbConfig.user,
   password: dbConfig.password,
   database: dbConfig.database,
+  port: dbConfig.port,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
