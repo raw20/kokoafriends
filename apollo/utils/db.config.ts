@@ -1,11 +1,15 @@
 import mysql from "promise-mysql";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 export const dbConfig = {
-  host: "database-1.cd6uosjs1jca.ap-northeast-2.rds.amazonaws.com",
-  user: "admin",
-  password: "12345678",
-  database: "chauk",
-  charset: "utf8mb4",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  port: Number(process.env.DB_PORT),
+  database: process.env.DB_DATABASE,
+  charset: process.env.DB_CHARSET,
 };
 
 export default mysql.createPool(dbConfig);

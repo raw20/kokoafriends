@@ -24,6 +24,16 @@ export const typeDefs = `#graphql
     user_role : String
     create_time : Date
   }
+ 
+  type latLng{
+    Id : Int
+    name : String
+    addr1 : String
+    addr2 : String
+    lat : String
+    lng : String
+  }
+  
 
   type Reviews {
     rId : Int
