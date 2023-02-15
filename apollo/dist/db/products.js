@@ -4,10 +4,10 @@ export const products = async () => {
     return rows;
 };
 export const productById = async (id) => {
-    const [rows] = await pool1.query(`select * from products where sId=${id}`);
+    const [rows] = await pool1.query(`select * from products where products_id=${id}`);
     return rows;
 };
 export const countView = async (id) => {
-    const [rows] = await pool1.query(`update products set sView = sView + 1 where sId = ${id}`);
+    const [rows] = await pool1.query(`update products set products_view = products_view + 1 where products_id = ${id}`);
     return rows;
 };

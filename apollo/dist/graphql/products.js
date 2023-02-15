@@ -19,55 +19,55 @@ let Products = class Products {
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", Number)
-], Products.prototype, "sId", void 0);
+], Products.prototype, "products_id", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", String)
-], Products.prototype, "sName", void 0);
+], Products.prototype, "products_name", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", String)
-], Products.prototype, "sTitle", void 0);
+], Products.prototype, "products_title", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", String)
-], Products.prototype, "sContents", void 0);
+], Products.prototype, "products_contents", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", Number)
-], Products.prototype, "sPrice", void 0);
+], Products.prototype, "products_price", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", Number)
-], Products.prototype, "sLike", void 0);
+], Products.prototype, "products_like", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", Number)
-], Products.prototype, "sView", void 0);
+], Products.prototype, "products_view", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", String)
-], Products.prototype, "sHalf_title", void 0);
+], Products.prototype, "products_half_title", void 0);
 __decorate([
     Field({ nullable: true }),
     __metadata("design:type", String)
-], Products.prototype, "sCategory", void 0);
+], Products.prototype, "products_category", void 0);
 __decorate([
     Field((type) => [String], { nullable: true }),
     __metadata("design:type", Array)
-], Products.prototype, "slideImg", void 0);
+], Products.prototype, "products_slideImg", void 0);
 __decorate([
     Field((type) => [String], { nullable: true }),
     __metadata("design:type", Array)
-], Products.prototype, "mainTopImg", void 0);
+], Products.prototype, "products_mainTopImg", void 0);
 __decorate([
     Field((type) => [String], { nullable: true }),
     __metadata("design:type", Array)
-], Products.prototype, "mainMidImg", void 0);
+], Products.prototype, "products_mainMidImg", void 0);
 __decorate([
     Field((type) => [String], { nullable: true }),
     __metadata("design:type", Array)
-], Products.prototype, "mainBottomImg", void 0);
+], Products.prototype, "products_mainBottomImg", void 0);
 Products = __decorate([
     ObjectType()
 ], Products);
