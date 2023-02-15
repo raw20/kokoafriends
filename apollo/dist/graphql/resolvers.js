@@ -1,12 +1,12 @@
 import { countView, productById, products } from "../db/products.js";
 import { deleteReview, postReview, reviewById, reviews, } from "../db/reviews.js";
-import { user } from "../db/user.js";
+import { users } from "../db/user.js";
 let nowUser = [];
 let cart = [];
 export const resolvers = {
     Query: {
         products: () => products(),
-        user: () => user(),
+        user: () => users(),
         cart: () => cart,
         product: (root, { id }) => productById(id),
         reviews: () => reviews(),

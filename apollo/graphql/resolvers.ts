@@ -5,7 +5,7 @@ import {
   reviewById,
   reviews,
 } from "../db/reviews.js";
-import { user } from "../db/user.js";
+import { users } from "../db/user.js";
 
 let nowUser = [];
 let cart = [];
@@ -13,7 +13,7 @@ let cart = [];
 export const resolvers = {
   Query: {
     products: () => products(),
-    user: () => user(),
+    user: () => users(),
     cart: () => cart,
     product: (root: any, { id }) => productById(id),
     reviews: () => reviews(),
