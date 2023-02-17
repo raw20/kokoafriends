@@ -7,7 +7,7 @@ import Product from "../pages/Main/Best/Product";
 import Mypage from "../pages/Sub/Mypage/Mypage";
 import Cart from "../pages/Sub/Cart/Cart";
 import ContentsDetail from "../pages/Main/Contents/Content";
-import KaKaoLoginRedirect from "../services/KaKaoLoginRedirect";
+import KaKaoLoginRedirect from "../services/auth/KaKaoLoginRedirect";
 
 function Router() {
   return (
