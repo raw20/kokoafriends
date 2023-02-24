@@ -1,5 +1,9 @@
 import { Arg, Mutation, ObjectType } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
+import {
+  KakaoLoginAuthorAPI,
+  KakaoLoginAccessTokenAPI,
+} from "../services/kakao-auth-api.js";
 
 @ObjectType()
 class UserAuthorization {
@@ -23,6 +27,11 @@ export class UserAuthorizationResolver {
     const userAuthCode = { authorization_code };
     this.userAuthorizationCode.push(userAuthCode);
 
-    return userAuthCode;
+    const authApi = new KakaoLoginAuthorAPI();
+    const tokenApi = new KakaoLoginAccessTokenAPI();
+    authApi.getUserAuthorize(authorization_code);
+    tokenApi.getUserAccessToken(authorization_code);
+
+    return authorization_code;
   }
 }
