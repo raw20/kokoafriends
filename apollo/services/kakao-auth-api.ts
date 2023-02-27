@@ -14,8 +14,7 @@ export class KakaoLoginAuthorAPI extends RESTDataSource {
         response_type: "code",
       },
     }).catch((error: any) => console.log(error));
-
-    return data.results;
+    return data;
   }
 }
 
@@ -36,6 +35,7 @@ export class KakaoLoginAccessTokenAPI extends RESTDataSource {
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
       },
     }).catch((error: any) => console.log(error));
-    return data.results;
+    console.log("sex2",data);
+    return data.access_token;
   }
 }
