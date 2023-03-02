@@ -1,34 +1,36 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../utils/oAuth";
-import useLoginAuth from "./hooks/useLoginAuth";
+const { Kakao } = window;
 
-function KaKaoLoginRedirect(initialState = {}) {
-  const navigate = useNavigate();
-  const getUserAuthorization = useLoginAuth();
-  const code = new URL(window.location.href).searchParams.get("code");
+function KaKaoLoginRedirect() {
   useEffect(() => {
-    getUserAuthorization({
-      variables: {
-        code: code,
-      },
-    });
-    (async () => {
-      try {
-        const res = await axios.get(
-          `${BASE_URL}/oauth/callback/kakao/token?code=${code}`
-        );
+    let code = new URL(document.location.toString()).searchParams.get("code");
+    let grant_type = "authorization_code";
+    let client_id = process.env.REACT_APP_JS_SDK_KEY;
+    axios
+      .post(
+        `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${process.env.REACT_APP_CLINET_BASE_URL}/oauth/callback/kakao&code=${code}`,
+        {
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("res", res);
 
-        const token = res.headers.authorization;
-        window.localStorage.setItem("token", token);
-        console.log("res1 : ", res);
-        navigate("/");
-      } catch (error: any) {
-        console.error(error);
-      }
-    })();
-  }, []);
+        Kakao.Auth.setAccessToken(res.data.access_token);
+        Kakao.API.request({
+          url: "/v2/user/me",
+        })
+          .then(function (response: any) {
+            console.log(response);
+          })
+          .catch(function (error: any) {
+            console.log(error);
+          });
+      });
+  });
   return <></>;
 }
 
