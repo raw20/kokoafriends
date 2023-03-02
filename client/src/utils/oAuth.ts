@@ -1,4 +1,4 @@
-export const CLIENT_ID = process.env.REACT_APP_REST_API_KEY;
+export const CLIENT_ID = process.env.REACT_APP_JS_SDK_KEY;
 export const ADMIN_KEY = process.env.REACT_APP_ADMIN_KEY;
 export const REDIRECT_URI = "http://localhost:3000/oauth/callback/kakao";
 export const LOGOUT_REDIRECT_URI =
