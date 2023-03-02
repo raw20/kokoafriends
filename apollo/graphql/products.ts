@@ -14,43 +14,43 @@ import { countView } from "../db/products.js";
 @ObjectType()
 class Products {
   @Field({ nullable: true })
-  sId: number;
+  products_id: number;
 
   @Field({ nullable: true })
-  sName: string;
+  products_name: string;
 
   @Field({ nullable: true })
-  sTitle: string;
+  products_title: string;
 
   @Field({ nullable: true })
-  sContents: string;
+  products_contents: string;
 
   @Field({ nullable: true })
-  sPrice: number;
+  products_price: number;
 
   @Field({ nullable: true })
-  sLike: number;
+  products_like: number;
 
   @Field({ nullable: true })
-  sView: number;
+  products_view: number;
 
   @Field({ nullable: true })
-  sHalf_title: string;
+  products_half_title: string;
 
   @Field({ nullable: true })
-  sCategory: string;
+  products_category: string;
 
   @Field((type) => [String], { nullable: true })
-  slideImg: string[] | null;
+  products_slideImg: string[] | null;
 
   @Field((type) => [String], { nullable: true })
-  mainTopImg: string[] | null;
+  products_mainTopImg: string[] | null;
 
   @Field((type) => [String], { nullable: true })
-  mainMidImg: string[] | null;
+  products_mainMidImg: string[] | null;
 
   @Field((type) => [String], { nullable: true })
-  mainBottomImg: string[] | null;
+  products_mainBottomImg: string[] | null;
 }
 
 @Resolver(Products)

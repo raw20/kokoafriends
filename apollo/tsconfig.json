@@ -3,7 +3,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "dist",
-    "lib": ["es2018", "esnext.asynciterable"],
+    "lib": ["DOM", "es2018", "esnext.asynciterable"],
     "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
