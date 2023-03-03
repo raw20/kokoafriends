@@ -2,6 +2,7 @@ import Avatar from "@mui/material/Avatar";
 import { Link, useMatch } from "react-router-dom";
 import { LOGIN_REDIRECT_URI } from "../../utils/oAuth";
 import HeaderAvatar from "../Avatar/HeaderAvatar";
+import LockIcon from "@mui/icons-material/Lock";
 import {
   GlobalNavBar,
   GlobalNavBarWrapper,
@@ -51,9 +52,12 @@ function Header() {
             ) : (
               <Avatar
                 alt="로그인"
+                title="로그인"
                 onClick={kakaoLoginHandler}
                 style={{ cursor: "pointer" }}
-              />
+              >
+                <LockIcon />
+              </Avatar>
             )}
           </SideNavBar>
         </HeaderEnd>
