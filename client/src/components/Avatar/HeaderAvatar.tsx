@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -6,7 +7,9 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { KAKAO_LOGOUT_URL } from "../../utils/oAuth";
+import { LOGOUT_REDIRECT_URI } from "../../utils/oAuth";
+
+const { Kakao } = window;
 
 interface ISettingItem {
   id: string;
@@ -16,6 +19,8 @@ interface ISettingItem {
 
 function HeaderAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
+
   const menuItem = [
     {
       id: "1",
@@ -39,6 +44,12 @@ function HeaderAvatar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const kakaoLogoutHandler = () => {
+    Kakao.Auth.authorize({
+      redirectUri: `${LOGOUT_REDIRECT_URI}`,
+    });
   };
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -68,11 +79,9 @@ function HeaderAvatar() {
             <Typography textAlign="center">{setting.name}</Typography>
           </MenuItem>
         ))}
-        <a href={KAKAO_LOGOUT_URL}>
-          <MenuItem>
-            <Typography textAlign="center">로그아웃</Typography>
-          </MenuItem>
-        </a>
+        <MenuItem onClick={kakaoLogoutHandler}>
+          <Typography textAlign="center">로그아웃</Typography>
+        </MenuItem>
       </Menu>
     </Box>
   );

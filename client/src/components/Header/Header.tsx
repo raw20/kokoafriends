@@ -23,7 +23,6 @@ function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const token: string = window.localStorage.getItem("token") as string;
 
   const kakaoLoginHandler = () => {
     Kakao.Auth.authorize({
@@ -47,10 +46,14 @@ function Header() {
         </HeaderCenter>
         <HeaderEnd>
           <SideNavBar>
-            {token ? (
+            {Kakao.Auth.getAccessToken() ? (
               <HeaderAvatar />
             ) : (
-              <Avatar alt="로그인" onClick={kakaoLoginHandler} />
+              <Avatar
+                alt="로그인"
+                onClick={kakaoLoginHandler}
+                style={{ cursor: "pointer" }}
+              />
             )}
           </SideNavBar>
         </HeaderEnd>
