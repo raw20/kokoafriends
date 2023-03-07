@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserResponseData } from "../../types/User.interface";
+import useLogin from "./hooks/useLogin";
 const { Kakao } = window;
 
 function KaKaoLoginRedirect() {
   const navigate = useNavigate();
-
+  const addUser = useLogin();
+  const user_code = Math.floor(new Date().getTime() * 0.00001);
   useEffect(() => {
     let code = new URL(document.location.toString()).searchParams.get("code");
     let grant_type = "authorization_code";
@@ -26,8 +29,19 @@ function KaKaoLoginRedirect() {
         Kakao.API.request({
           url: "/v2/user/me",
         })
-          .then(function (response: any) {
+          .then(function (response: UserResponseData) {
             navigate("/");
+            addUser({
+              variables: {
+                userCode: user_code,
+                kakaoId: String(response.id),
+                kakaoProfileImg: String(response.properties.profile_image),
+                kakaoNickname: String(response.properties.nickname),
+                kakaoEmail: String(response.kakao_account.email),
+                userRole: "USER_ROLE",
+                createTime: response.connected_at,
+              },
+            });
             console.log(response);
           })
           .catch(function (error: any) {

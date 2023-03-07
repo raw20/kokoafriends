@@ -35,6 +35,7 @@
     "compression": "^1.7.4",
     "dotenv": "^16.0.3",
     "graphql-tools": "^8.3.6",
+    "joiful": "^3.0.2",
     "mysql2": "^2.3.3",
     "node-fetch": "^3.2.10",
     "promise-mysql": "^5.2.0",
