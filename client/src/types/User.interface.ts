@@ -9,7 +9,7 @@ export interface User {
 
 export interface UserResponseData {
   connected_at: Date;
-  id: string;
+  id: number;
   properties: {
     profile_image: string;
     nickname: string;
