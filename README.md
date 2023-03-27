@@ -6,44 +6,42 @@
 
 - 기간 : 22.09.02 ~ 22.11.14
 
-  (리팩토링) 23.01.26 ~
-
 ### 🔹조원 및 역할
 
 - 정찬욱: 프론트엔드 기능 담당 및 백엔드 보조
 
-- 박민규 : 백엔드 기능 및 데이터 파이프라인, 배포 및 프론트엔드 보조
+- 박민규 : 백엔드 기능 및 데이터 파이프라인, 배포
 
 ### 🔹페이지구성
 
 - 마이페이지
 
   - 유저 정보
-  
+
   - 최근 구매 목록
 
 - 메인페이지
 
   - 검색
-  
+
   - 게시판
-  
+
   - 카카오 소셜 로그인
-  
+
   - 베스트
 
 - 상세페이지
 
   - 정보출력
-  
+
   - 좋아요
-  
+
   - 조회수
-  
+
   - 장바구니
-  
+
   - 구매하기
-  
+
   - 댓글
 
 **비회원일시 - 로그인창 보내기**
@@ -68,31 +66,36 @@
 
 ### 🔹백엔드
 
-#### Spring boot
+<details markdown="1">
+<summary>접기/펼치기</summary>
 
-- JAVA 11
+#### ~~Spring boot~~
 
-- Spring MVC
+- ~~JAVA 11~~
 
-- Spring Boot Security
+- ~~Spring MVC~~
 
-- Spring Data JPA
+- ~~Spring Boot Security~~
 
-- JWT
+- ~~Spring Data JPA~~
 
-- Oauth
+- ~~JWT~~
 
-- thymeleaf
+- ~~Oauth~~
 
-- lombok
+- ~~thymeleaf~~
 
-- devtools
+- ~~lombok~~
 
-- mysql-connector-java
+- ~~devtools~~
 
-- gson
+- ~~mysql-connector-java~~
 
-- springsecurity5
+- ~~gson~~
+
+- ~~springsecurity5~~
+
+</details>
 
 #### Build tool
 
@@ -159,6 +162,8 @@
   state 관리를 위해 사용 <정찬욱>
 
 ## 📋 실제 화면
+<details markdown="1">
+<summary>접기/펼치기</summary>
 
 ### 카카오 로그인 화면
 
@@ -234,6 +239,7 @@
 <p align="center">
 <img src="https://user-images.githubusercontent.com/62588402/208843723-3db65b2d-eae2-4d32-af2b-17e5b9e16ddc.jpeg" width="350" height="350"/>
 </p>
+</details>
 
 ### 보완해야할 점
 
@@ -242,44 +248,182 @@
 - 기존 자바 스프링으로 구현한 server와 apollo server 통합
 
 - 로그인
-  
+
   - 여러명이 접속해 있을때 마이페이지에서 다른 유저의 정보가 출력되는 문제 발생을 수정
-  
-  -  jwt 인증 방식 변경 :  REST API --> Apollo Server 
+
+  - jwt 인증 방식 변경 : REST API --> Apollo Server
 
 #### 정찬욱 (프론트엔드)
 
 - 폴더 구성 및 컴포넌트 분류 미흡
 
   - Page폴더와 Component 폴더가 있음에도 Page폴더 안에 또 다른 Component가 존재
- 
+
   - 한 컴포넌트에 300줄이상 코드가 작성되어 가독성이 떨어지고 다른 컴포넌트로 분리 미흡으로 인해 수정할 예정
 
 - 결제화면 페이지
 
   - 구매하기 누르면 주소입력이 들어간 등 결제화면 페이지가 존재하지 않아 아쉬움이 남았고 이를 수정할 예정
- 
+
 - 댓글
 
   - 댓글 수정기능 추가 및 댓글 입력이나 수정/삭제 시 한번 더 확인시켜주는 Modal창을 보여주게 수정할 예정
- 
+
 - 디자인 수정
 
 - 매장찾기 추가
 
-   - 데이터엔지니어가 크롤링한 데이터(위도,경도)를 토대로 Google Map API를 이용하여 지도기능 추가할 예정
+  - 데이터엔지니어가 크롤링한 데이터(위도,경도)를 토대로 Google Map API를 이용하여 지도기능 추가할 예정
 
-#### 박민규 (백엔드 및 데이터)
-- 데이터 수집
-  - 기존에 사용한 적은양의 데이터들을 크롤링으로 수집하여 기존 10개의 쇼핑데이터을 총 100개의 데이터로 보여줄 예정
-  - 오프라인 쇼핑몰의 위치를 보여주기위해 주소를 크롤링한 후 Geocoding으로 위도와 경도로 데이터를 바꿔 지도기능을 추가할 예정
+#### 박민규
 
-- RDS 설정
-  - 기존 rds는 보안상의 취약점(database이름, user와 passwd, 포트, 퍼블릭)을 개선하여 새로운 database로 바꿔 연결할 예정
-  
-- java를 통해 지도 시각화 및 yaml파일에 있는 계정 정보 보안설정
-  - 기존 js를 통해 시각화하였지만 본인은 백엔드이기때문에 java를 통해서 데이터를 시각화하는 것을 개인적으로 할 예정
-  - Jasypt를 사용하여 yaml파일 보안설정할 예정
+### 1차 리팩토링 (23.01.26 ~ 23.03.03)
 
+#### 1. 폴더 구조 수정 및 파일 분리
 
-### 1차 리팩토링 (23.01.26 ~ 23.?.?)
+- apollo 폴더
+
+  - 폴더 구조는 기존과 차이없음
+
+  - 코드의 가독성과 타입 정의의 반복을 최소화 하기 위하여 graphql 스키마와 리졸버 파일을 `TypeGraphQL` 라이브러리로 재정의
+
+```
+📦apollo
+ ┣ 📂db
+ ┣ 📂dist
+ ┃ ┣ 📂db
+ ┃ ┣ 📂graphql
+ ┃ ┣ 📂status
+ ┃ ┣ 📂utils
+ ┃ ┗ 📜index.js
+ ┣ 📂graphql
+ ┣ 📂interface
+ ┣ 📂status
+ ┣ 📂utils
+ ┣ 📜.env
+ ┣ 📜.gitignore
+ ┣ 📜index.ts
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┗ 📜tsconfig.json
+```
+
+- client 폴더
+
+  - page폴더 안에 있는 각각 하위 폴더 안에 graphql 스키마 정의 파일이 담긴 `graphql`폴더와 커스텀 훅이 담긴 `hooks`을 생성
+
+  - 기존엔 컴포넌트 안에 styled-componets로 작업한 css 코드들을 넣었는데 코드의 가독성을 위해 `.style.tsx`로 분리, 그리고 `styles` 폴더를 생성하여 공통적인 스타일링 요소를 관리
+
+  - 수정 전엔 `page`폴더 안에 해당 컴포넌트에서 분리된 파일을 따로 관리하였으나 관심사 분리를 향상시키기 위해 `src` 하위 폴더인 `components`로 관리
+
+```
+수정 전
+📦src
+ ┣ 📂auth
+ ┣ 📂components
+ ┃ ┣ 📂contentsDetail
+ ┃ ┣ 📂footer
+ ┃ ┣ 📂header
+ ┃ ┣ 📂itemDetail
+ ┃ ┣ 📂loading
+ ┃ ┗ 📂scrollTopButton
+ ┣ 📂interface
+ ┣ 📂pages
+ ┃ ┣ 📂mainMenu
+ ┃ ┃ ┣ 📂best
+ ┃ ┃ ┣ 📂contents
+ ┃ ┃ ┗ 📂home
+ ┃ ┗ 📂subMenu
+ ┃ ┃ ┣ 📂cart
+ ┃ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂login
+ ┃ ┃ ┣ 📂myPage
+ ┃ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┗ 📂search
+ ┃ ┃ ┃ ┣ 📂components
+ ┣ 📂routes
+ ┣ 📜App.css
+ ┣ 📜App.tsx
+ ┣ 📜client.ts
+ ┣ 📜index.tsx
+ ┣ 📜react-app-env.d.ts
+ ┣ 📜reportWebVitals.ts
+ ┣ 📜setPoxy.js
+ ┣ 📜setupTests.ts
+ ┣ 📜styled.t.ts
+ ┗ 📜theme.ts
+```
+
+```
+수정 후
+📦src
+ ┣ 📂asset
+ ┃ ┗ 📂image
+ ┃ ┃ ┣ 📂category
+ ┃ ┃ ┣ 📂contents
+ ┃ ┃ ┣ 📂etc
+ ┃ ┃ ┣ 📂loading
+ ┃ ┃ ┣ 📂product
+ ┃ ┃ ┗ 📂search
+ ┣ 📂components
+ ┃ ┣ 📂Avatar
+ ┃ ┣ 📂Button
+ ┃ ┣ 📂Footer
+ ┃ ┣ 📂Header
+ ┃ ┣ 📂Loading
+ ┃ ┗ 📂Modal
+ ┣ 📂pages
+ ┃ ┣ 📂Main
+ ┃ ┃ ┣ 📂Best
+ ┃ ┃ ┃ ┣ 📂graphql
+ ┃ ┃ ┃ ┣ 📂hooks
+ ┃ ┃ ┃ ┃ ┣ 📂mutations
+ ┃ ┃ ┃ ┃ ┗ 📂queries
+ ┃ ┃ ┃ ┣ 📂styles
+ ┃ ┃ ┣ 📂Contents
+ ┃ ┃ ┗ 📂Home
+ ┃ ┃ ┃ ┣ 📂graphql
+ ┃ ┃ ┃ ┣ 📂hooks
+ ┃ ┃ ┃ ┃ ┣ 📂mutations
+ ┃ ┃ ┃ ┃ ┗ 📂queries
+ ┃ ┃ ┃ ┣ 📂styles
+ ┃ ┗ 📂Sub
+ ┃ ┃ ┣ 📂Cart
+ ┃ ┃ ┣ 📂Login
+ ┃ ┃ ┣ 📂Mypage
+ ┃ ┃ ┗ 📂Search
+ ┣ 📂routes
+ ┣ 📂services
+ ┃ ┗ 📂auth
+ ┃ ┃ ┣ 📂graphql
+ ┃ ┃ ┣ 📂hooks
+ ┣ 📂styles
+ ┣ 📂types
+ ┣ 📂utils
+ ┣ 📜App.css
+ ┣ 📜App.tsx
+ ┣ 📜client.ts
+ ┣ 📜index.tsx
+ ┣ 📜react-app-env.d.ts
+ ┣ 📜reportWebVitals.ts
+ ┣ 📜setPoxy.ts
+ ┗ 📜setupTests.ts
+```
+
+#### 2. 서버스 서버 수정
+
+##### 기존
+
+- 기존 서버 구조는 백엔드 개발자가 자바 스프링으로 구축한 `백엔드`서버 와 프론트엔드 개발자가 구축한 `아폴로`서버로 이루어짐
+  - 백엔드서버 : 카카오 소설로그인 JWT를 처리하기 위해 사용된 서버
+  - 아폴로서버 : 데이터베이스와 연동하여 데이터 CRUD 할수 있는 서버
+
+##### 문제점
+
+- 성능상의 이슈는 없지만 서버를 두개를 켜야한다는 점이 불편했고 백엔드 서버에서는 단순히 로그인 JWT만 처리하는 서버였기 때문에 아폴로 서버와 통합하고자 시도
+
+##### 해결방법
+
+- client에서 REST API를 이용해 카카오 서버로 로그인을 요청하고 'apollo'서버와 통신하면서 JWT를 구현하고자 하였으나 `client` 서버와 'apollo' 서버를 같은 포트를 써야하기 때문에 구현이 어려워서 대안으로 'client'에서 REST API가 아닌 Javascript JDK를 이용하여 `apollo`서버와 통신하지 않고 다이렉트로 카카오 서버와 통신하는 방식으로 변경하였습니다.
+
+### 2차 리팩토링 (23.03.27 ~ )
