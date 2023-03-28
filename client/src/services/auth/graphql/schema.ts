@@ -22,7 +22,7 @@ export const ADD_USER = gql`
     $kakaoNickname: String!
     $kakaoProfileImg: String!
     $kakaoId: ID!
-    $userCode: Int!
+    $userCode: userCodeScalar!
   ) {
     addUser(
       create_time: $createTime

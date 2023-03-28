@@ -5,7 +5,7 @@ export const users = async () => {
   return rows;
 };
 
-export const userById = async (id: string) => {
+export const userById = async (id: number) => {
   const [rows] = await pool1.query(
     `select * from user_master where kakao_id=${id}`
   );

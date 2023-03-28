@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import * as joiful from "joiful";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
@@ -8,6 +9,12 @@ import { UserResolver } from "./graphql/User.js";
 // definition and your set of resolvers.
 buildSchema({
     resolvers: [ProductsResolver, UserResolver],
+    validate: (argValue) => {
+        const { error } = joiful.validate(argValue);
+        if (error) {
+            throw error;
+        }
+    },
 }).then((schema) => {
     const server = new ApolloServer({ schema });
     (async () => {

@@ -8,7 +8,6 @@ const { Kakao } = window;
 function KaKaoLoginRedirect() {
   const navigate = useNavigate();
   const addUser = useLogin();
-  const user_code = Math.floor(new Date().getTime() * 0.00001);
   useEffect(() => {
     let code = new URL(document.location.toString()).searchParams.get("code");
     let grant_type = "authorization_code";
@@ -33,16 +32,15 @@ function KaKaoLoginRedirect() {
             navigate("/");
             addUser({
               variables: {
-                userCode: user_code,
+                userCode: response.id,
                 kakaoId: String(response.id),
-                kakaoProfileImg: String(response.properties.profile_image),
-                kakaoNickname: String(response.properties.nickname),
-                kakaoEmail: String(response.kakao_account.email),
+                kakaoProfileImg: response.properties.profile_image,
+                kakaoNickname: response.properties.nickname,
+                kakaoEmail: response.kakao_account.email,
                 userRole: "USER_ROLE",
                 createTime: response.connected_at,
               },
             });
-            console.log(response);
           })
           .catch(function (error: any) {
             console.log(error);

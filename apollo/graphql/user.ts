@@ -1,22 +1,15 @@
 import * as jf from "joiful";
-import {
-  Arg,
-  ID,
-  Mutation,
-  ObjectType,
-  ArgsType,
-  Args,
-  Int,
-} from "type-graphql";
+import { Arg, ID, Mutation, ObjectType, ArgsType, Args } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
 import { addUser, userById, users } from "../db/user.js";
+import { userCodeScalarType } from "../scalar/customScalar.js";
 
 @ObjectType()
 class User {
-  @Field()
+  @Field((type) => userCodeScalarType!)
   user_code: number;
 
-  @Field((type) => ID)
+  @Field((type) => ID!)
   kakao_id: string;
 
   @Field()
@@ -37,7 +30,7 @@ class User {
 
 @ArgsType()
 export class AddUserArgs {
-  @Field((type) => Int!)
+  @Field((type) => userCodeScalarType!)
   @jf.number().required().min(0)
   user_code: number;
 
@@ -66,17 +59,17 @@ export class AddUserArgs {
   create_time: Date;
 }
 
-@Resolver(User)
+@Resolver(User!)
 export class UserResolver {
-  @Query((returns) => [User])
+  @Query((returns) => [User]!)
   async users() {
     return users();
   }
-  @Query((returns) => [User])
-  async user(@Arg("id", (type) => ID!) id: string) {
+  @Query((returns) => [User]!)
+  async user(@Arg("id", (type) => userCodeScalarType!) id: number) {
     return userById(id);
   }
-  @Mutation((returns) => User)
+  @Mutation((returns) => User!)
   async addUser(@Args() options: AddUserArgs) {
     return addUser(
       options.user_code,

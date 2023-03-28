@@ -10,9 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Arg, ID, ObjectType } from "type-graphql";
+import * as jf from "joiful";
+import { Arg, ID, Mutation, ObjectType, ArgsType, Args, Int, } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
-import { userById, users } from "../db/user.js";
+import { addUser, userById, users } from "../db/user.js";
 let User = class User {
 };
 __decorate([
@@ -46,12 +47,56 @@ __decorate([
 User = __decorate([
     ObjectType()
 ], User);
+let AddUserArgs = class AddUserArgs {
+};
+__decorate([
+    Field((type) => Int),
+    jf.number().required().min(0),
+    __metadata("design:type", Number)
+], AddUserArgs.prototype, "user_code", void 0);
+__decorate([
+    Field((type) => ID),
+    jf.string().required().min(0),
+    __metadata("design:type", String)
+], AddUserArgs.prototype, "kakao_id", void 0);
+__decorate([
+    Field((type) => String),
+    jf.string().required().min(0),
+    __metadata("design:type", String)
+], AddUserArgs.prototype, "kakao_profile_img", void 0);
+__decorate([
+    Field((type) => String),
+    jf.string().required().min(0),
+    __metadata("design:type", String)
+], AddUserArgs.prototype, "kakao_nickname", void 0);
+__decorate([
+    Field((type) => String),
+    jf.string().required().min(0),
+    __metadata("design:type", String)
+], AddUserArgs.prototype, "kakao_email", void 0);
+__decorate([
+    Field((type) => String),
+    jf.string().required().min(0),
+    __metadata("design:type", String)
+], AddUserArgs.prototype, "user_role", void 0);
+__decorate([
+    Field((type) => Date),
+    jf.date().required().min(0),
+    __metadata("design:type", Date)
+], AddUserArgs.prototype, "create_time", void 0);
+AddUserArgs = __decorate([
+    ArgsType()
+], AddUserArgs);
+export { AddUserArgs };
 let UserResolver = class UserResolver {
     async users() {
         return users();
     }
     async user(id) {
         return userById(id);
+    }
+    async addUser(options) {
+        return addUser(options.user_code, options.kakao_id, options.kakao_profile_img, options.kakao_nickname, options.kakao_email, options.user_role, options.create_time);
     }
 };
 __decorate([
@@ -67,6 +112,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "user", null);
+__decorate([
+    Mutation((returns) => User),
+    __param(0, Args()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [AddUserArgs]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "addUser", null);
 UserResolver = __decorate([
     Resolver(User)
 ], UserResolver);
