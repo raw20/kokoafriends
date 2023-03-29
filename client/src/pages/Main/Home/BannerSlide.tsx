@@ -11,7 +11,9 @@ import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 import Carousel from "react-bootstrap/Carousel";
 
 function BannerSlide({ data, countView }: IHomeChildComponentProps) {
-  const bannerProducts = data?.products.filter((product) => product.sId < 6);
+  const bannerProducts = data?.products.filter(
+    (product) => product.products_id < 6
+  );
   function countViewHandler(id: number) {
     countView({
       variables: {
@@ -24,21 +26,21 @@ function BannerSlide({ data, countView }: IHomeChildComponentProps) {
       <BannerContainer>
         <Carousel>
           {bannerProducts?.map((product) => (
-            <Carousel.Item key={product?.sId}>
+            <Carousel.Item key={product?.products_id}>
               <BannerImageBox
-                to={`/product/${product?.sId}`}
+                to={`/product/${product?.products_id}`}
                 onClick={() => {
-                  countViewHandler(product?.sId);
+                  countViewHandler(product?.products_id);
                 }}
               >
                 <BannerImage
-                  src={require(`../../../asset/image/product/${product?.mainBottomImg[0]}`)}
-                  alt={product?.sTitle}
+                  src={require(`../../../asset/image/product/${product?.products_mainBottomImg[0]}`)}
+                  alt={product?.products_title}
                 />
                 <Carousel.Caption>
                   <BannerTextBox>
-                    <BannerTitle>{product.sTitle}</BannerTitle>
-                    <BannerContents>{product.sContents}</BannerContents>
+                    <BannerTitle>{product.products_title}</BannerTitle>
+                    <BannerContents>{product.products_contents}</BannerContents>
                   </BannerTextBox>
                 </Carousel.Caption>
               </BannerImageBox>

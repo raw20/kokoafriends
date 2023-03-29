@@ -16,7 +16,7 @@ import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 
 function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
   const newProducts = data?.products.filter(
-    (product) => product.sId > data?.products.length - 4
+    (product) => product.products_id > data?.products.length - 4
   );
   function countViewHandler(id: number) {
     countView({
@@ -32,18 +32,18 @@ function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
         <NewProductImageSlider>
           {newProducts?.map((product, index) => (
             <NewProductImageBox
-              to={`/bestProduct/${product?.sId}`}
+              to={`/bestProduct/${product?.products_id}`}
               key={index}
               onClick={() => {
-                countViewHandler(product?.sId);
+                countViewHandler(product?.products_id);
               }}
             >
               <NewProductImageBoxInner>
                 <NewProductImage
-                  src={require(`../../../asset/image/product/${product?.slideImg[0]}`)}
+                  src={require(`../../../asset/image/product/${product?.products_slideImg[0]}`)}
                 />
-                <SecondContent> {product?.sName}</SecondContent>
-                <SecondTitle>{product?.sPrice}원</SecondTitle>
+                <SecondContent> {product?.products_name}</SecondContent>
+                <SecondTitle>{product?.products_price}원</SecondTitle>
               </NewProductImageBoxInner>
             </NewProductImageBox>
           ))}
