@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const USERS = gql`
   query Users {
-    users {
+    allUser {
       user_code
       kakao_id
       kakao_profile_img
@@ -13,7 +13,19 @@ export const USERS = gql`
     }
   }
 `;
-
+export const USER = gql`
+  query User($userId: ID!) {
+    me(id: $userId) {
+      user_code
+      kakao_id
+      kakao_profile_img
+      kakao_nickname
+      kakao_email
+      user_role
+      create_time
+    }
+  }
+`;
 export const ADD_USER = gql`
   mutation AddUser(
     $userCode: userCodeScalar

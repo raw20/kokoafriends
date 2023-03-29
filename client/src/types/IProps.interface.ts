@@ -8,12 +8,12 @@ import {
 import { Cart } from "./Cart.interface";
 import { Contents, LikeContents } from "./Contents.interface";
 import { BuyProducts, Product, Products, Review } from "./Products.interface";
-import { User } from "./User.interface";
+import { IUser } from "./User.interface";
 
 export interface ReviewsComponent {
   review: [Review];
   selectReview: [Review];
-  nowUser: [User];
+  nowUser: [IUser];
   selectUserBuyItemList: [BuyProducts];
 }
 
@@ -25,19 +25,19 @@ export interface ContentsComponent {
   contents: [Contents];
   comments: [Comment];
   likeContents: [LikeContents];
-  nowUser: [User];
+  nowUser: [IUser];
 }
 export interface ContentsDetailComponent {
   selectContents: [Contents];
   selectComment: [Comment];
   comments: [Review];
   likeContents: [LikeContents];
-  nowUser: [User];
+  nowUser: [IUser];
 }
 export interface CartComponent {
   cartList: [Cart];
   allUserBuyItemList: [BuyProducts];
-  nowUser: [User];
+  nowUser: [IUser];
 }
 export interface BuyModalComponent {
   selectItem: [Product];
@@ -46,7 +46,7 @@ export interface BuyModalComponent {
 }
 export interface RecentBIComponent {
   selectUserBuyItemList: [BuyProducts];
-  nowUser: [User];
+  nowUser: [IUser];
 }
 export interface SearchItem {
   item: [Product];

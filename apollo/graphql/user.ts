@@ -62,11 +62,11 @@ export class AddUserArgs {
 @Resolver()
 export class UserResolver {
   @Query(() => [User])
-  async users() {
+  allUser() {
     return users();
   }
   @Query(() => [User])
-  async user(@Arg("id", () => ID) id: string) {
+  me(@Arg("id", () => ID) id: string) {
     return userById(id);
   }
   @Mutation(() => User)

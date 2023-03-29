@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -7,6 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { LOGOUT_REDIRECT_URI } from "../../utils/oAuth";
+import useLogin from "../../services/auth/hooks/useLogin";
 
 interface ISettingItem {
   id: string;
@@ -16,6 +17,7 @@ interface ISettingItem {
 
 function HeaderAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const { user } = useLogin();
 
   const menuItem = [
     {
@@ -47,7 +49,11 @@ function HeaderAvatar() {
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar
+            sx={{ width: 56, height: 56 }}
+            alt="kakao_profile_img"
+            src={user && user?.me[0].kakao_profile_img}
+          />
         </IconButton>
       </Tooltip>
       <Menu
