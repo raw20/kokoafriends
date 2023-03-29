@@ -7,7 +7,8 @@ const { Kakao } = window;
 
 function KaKaoLoginRedirect() {
   const navigate = useNavigate();
-  const addUser = useLogin();
+  const { addUser } = useLogin();
+
   useEffect(() => {
     let code = new URL(document.location.toString()).searchParams.get("code");
     let grant_type = "authorization_code";
@@ -22,8 +23,6 @@ function KaKaoLoginRedirect() {
         }
       )
       .then((res) => {
-        console.log("res", res);
-
         Kakao.Auth.setAccessToken(res.data.access_token);
         Kakao.API.request({
           url: "/v2/user/me",
@@ -32,7 +31,7 @@ function KaKaoLoginRedirect() {
             navigate("/");
             addUser({
               variables: {
-                userCode: response.id,
+                userCode: Math.ceil(response.id * 0.1),
                 kakaoId: String(response.id),
                 kakaoProfileImg: response.properties.profile_image,
                 kakaoNickname: response.properties.nickname,

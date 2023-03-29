@@ -15,23 +15,23 @@ export const USERS = gql`
 `;
 
 export const ADD_USER = gql`
-  mutation Mutation(
-    $createTime: DateTime!
-    $userRole: String!
-    $kakaoEmail: String!
-    $kakaoNickname: String!
-    $kakaoProfileImg: String!
-    $kakaoId: ID!
-    $userCode: userCodeScalar!
+  mutation AddUser(
+    $userCode: userCodeScalar
+    $createTime: DateTime
+    $userRole: String
+    $kakaoEmail: String
+    $kakaoNickname: String
+    $kakaoProfileImg: String
+    $kakaoId: ID
   ) {
     addUser(
+      user_code: $userCode
       create_time: $createTime
       user_role: $userRole
       kakao_email: $kakaoEmail
       kakao_nickname: $kakaoNickname
       kakao_profile_img: $kakaoProfileImg
       kakao_id: $kakaoId
-      user_code: $userCode
     ) {
       user_code
       kakao_id

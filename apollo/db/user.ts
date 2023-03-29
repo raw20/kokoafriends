@@ -5,14 +5,14 @@ export const users = async () => {
   return rows;
 };
 
-export const userById = async (id: number) => {
+export const userById = async (id: string) => {
   const [rows] = await pool1.query(
     `select * from user_master where kakao_id=${id}`
   );
   return rows;
 };
 
-export const addUser = async (
+export const addUserInfor = async (
   user_code: number,
   kakao_id: string,
   kakao_profile_img: string,
@@ -22,7 +22,7 @@ export const addUser = async (
   create_time: Date
 ) => {
   const [rows] = await pool1.query(
-    `insert into user_master(
+    `insert ignore into user_master(
       user_code,
       kakao_id,
       kakao_profile_img,

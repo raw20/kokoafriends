@@ -1,84 +1,85 @@
 import * as jf from "joiful";
 import { Arg, ID, Mutation, ObjectType, ArgsType, Args } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
-import { addUser, userById, users } from "../db/user.js";
+import { addUserInfor, userById, users } from "../db/user.js";
 import { userCodeScalarType } from "../scalar/customScalar.js";
 
 @ObjectType()
 class User {
-  @Field((type) => userCodeScalarType!)
+  @Field(() => userCodeScalarType, { nullable: true })
   user_code: number;
 
-  @Field((type) => ID!)
+  @Field(() => ID, { nullable: true })
   kakao_id: string;
 
-  @Field()
+  @Field({ nullable: true })
   kakao_profile_img: string;
 
-  @Field()
+  @Field({ nullable: true })
   kakao_nickname: string;
 
-  @Field()
+  @Field({ nullable: true })
   kakao_email: string;
 
-  @Field()
+  @Field({ nullable: true })
   user_role: string;
 
-  @Field()
+  @Field({ nullable: true })
   create_time: Date;
 }
 
 @ArgsType()
 export class AddUserArgs {
-  @Field((type) => userCodeScalarType!)
+  @Field(() => userCodeScalarType, { nullable: true })
   @jf.number().required().min(0)
   user_code: number;
 
-  @Field((type) => ID!)
+  @Field(() => ID, { nullable: true })
   @jf.string().required().min(0)
   kakao_id: string;
 
-  @Field((type) => String!)
+  @Field({ nullable: true })
   @jf.string().required().min(0)
   kakao_profile_img: string;
 
-  @Field((type) => String!)
+  @Field({ nullable: true })
   @jf.string().required().min(0)
   kakao_nickname: string;
 
-  @Field((type) => String!)
+  @Field({ nullable: true })
   @jf.string().required().min(0)
   kakao_email: string;
 
-  @Field((type) => String!)
+  @Field({ nullable: true })
   @jf.string().required().min(0)
   user_role: string;
 
-  @Field((type) => Date!)
+  @Field({ nullable: true })
   @jf.date().required().min(0)
   create_time: Date;
 }
 
-@Resolver(User!)
+@Resolver()
 export class UserResolver {
-  @Query((returns) => [User]!)
+  @Query(() => [User])
   async users() {
     return users();
   }
-  @Query((returns) => [User]!)
-  async user(@Arg("id", (type) => userCodeScalarType!) id: number) {
+  @Query(() => [User])
+  async user(@Arg("id", () => ID) id: string) {
     return userById(id);
   }
-  @Mutation((returns) => User!)
-  async addUser(@Args() options: AddUserArgs) {
-    return addUser(
-      options.user_code,
-      options.kakao_id,
-      options.kakao_profile_img,
-      options.kakao_nickname,
-      options.kakao_email,
-      options.user_role,
-      options.create_time
+  @Mutation(() => User)
+  async addUser(@Args() user: AddUserArgs) {
+    const login = await addUserInfor(
+      user.user_code,
+      user.kakao_id,
+      user.kakao_profile_img,
+      user.kakao_nickname,
+      user.kakao_email,
+      user.user_role,
+      user.create_time
     );
+    return login;
   }
 }
