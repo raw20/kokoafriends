@@ -71,7 +71,7 @@ export class UserResolver {
   }
   @Mutation(() => User)
   async addUser(@Args() user: AddUserArgs) {
-    const login = await addUserInfor(
+    await addUserInfor(
       user.user_code,
       user.kakao_id,
       user.kakao_profile_img,
@@ -80,6 +80,8 @@ export class UserResolver {
       user.user_role,
       user.create_time
     );
-    return login;
+    return {
+      kakao_id: user.kakao_id,
+    };
   }
 }

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { KAKAO_ID } from "../../constant/storageKey";
 const { Kakao } = window;
 
 function KaKaoLogoutRedirect() {
@@ -14,6 +15,7 @@ function KaKaoLogoutRedirect() {
     Kakao.Auth.logout()
       .then(function () {
         navigate("/");
+        localStorage.removeItem(KAKAO_ID);
         console.log(Kakao.Auth.getAccessToken()); // null
       })
       .catch(function () {

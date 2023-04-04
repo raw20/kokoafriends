@@ -51,6 +51,7 @@ function Header() {
               <HeaderAvatar />
             ) : (
               <Avatar
+                sx={{ width: 56, height: 56 }}
                 alt="로그인"
                 title="로그인"
                 onClick={kakaoLoginHandler}
