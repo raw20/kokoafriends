@@ -1,6 +1,6 @@
 import Avatar from "@mui/material/Avatar";
 import { Link, useMatch } from "react-router-dom";
-import { LOGIN_REDIRECT_URI } from "../../utils/oAuth";
+import { LOGIN_REDIRECT_URI } from "../../constant/oAuth";
 import HeaderAvatar from "../Avatar/HeaderAvatar";
 import LockIcon from "@mui/icons-material/Lock";
 import {

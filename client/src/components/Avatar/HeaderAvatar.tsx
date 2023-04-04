@@ -6,7 +6,7 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { LOGOUT_REDIRECT_URI } from "../../utils/oAuth";
+import { LOGOUT_REDIRECT_URI } from "../../constant/oAuth";
 import useLogin from "../../services/auth/hooks/useLogin";
 
 interface ISettingItem {
