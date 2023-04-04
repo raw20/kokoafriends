@@ -6,7 +6,8 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { KAKAO_LOGOUT_URL } from "../../utils/oAuth";
+import { LOGOUT_REDIRECT_URI } from "../../constant/oAuth";
+import useLogin from "../../services/auth/hooks/useLogin";
 
 interface ISettingItem {
   id: string;
@@ -16,6 +17,8 @@ interface ISettingItem {
 
 function HeaderAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const { user } = useLogin();
+
   const menuItem = [
     {
       id: "1",
@@ -40,11 +43,17 @@ function HeaderAvatar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const kakaoLogoutHandler = () => {};
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar
+            sx={{ width: 56, height: 56 }}
+            alt="kakao_profile_img"
+            src={user && user?.me[0].kakao_profile_img}
+          />
         </IconButton>
       </Tooltip>
       <Menu
@@ -68,11 +77,11 @@ function HeaderAvatar() {
             <Typography textAlign="center">{setting.name}</Typography>
           </MenuItem>
         ))}
-        <a href={KAKAO_LOGOUT_URL}>
-          <MenuItem>
+        <MenuItem onClick={kakaoLogoutHandler}>
+          <a href={LOGOUT_REDIRECT_URI}>
             <Typography textAlign="center">로그아웃</Typography>
-          </MenuItem>
-        </a>
+          </a>
+        </MenuItem>
       </Menu>
     </Box>
   );

@@ -26,7 +26,7 @@ function BestProducts() {
 
   const bestProducts = products?.products
     .map((ele) => ele)
-    .sort((a, b) => b.sView - a.sView);
+    .sort((a, b) => b.products_view - a.products_view);
 
   function viewCountHandler(id: number) {
     countView({
@@ -48,14 +48,14 @@ function BestProducts() {
             index < 6 ? (
               <ProductLink
                 onClick={() => {
-                  viewCountHandler(product?.sId);
+                  viewCountHandler(product?.products_id);
                 }}
-                to={`/Product/${product?.sId}`}
-                key={product?.sId}
+                to={`/Product/${product?.products_id}`}
+                key={product?.products_id}
               >
                 <BestProductsImageBox>
                   <PrimaryImage
-                    src={require(`../../../asset/image/product/${product?.slideImg[0]}`)}
+                    src={require(`../../../asset/image/product/${product?.products_slideImg[0]}`)}
                   />
                   {index < 3 ? (
                     <SecondRank>{index + 1}</SecondRank>
@@ -63,10 +63,10 @@ function BestProducts() {
                     <PrimaryRank>{index + 1}</PrimaryRank>
                   )}
                   <BestProductsContentsBox>
-                    <SecondContent> {product?.sName}</SecondContent>
+                    <SecondContent> {product?.products_name}</SecondContent>
                     <ShoppingCartOutlinedIcon style={{ color: "#616161" }} />
                   </BestProductsContentsBox>
-                  <SecondTitle>{product?.sPrice}원</SecondTitle>
+                  <SecondTitle>{product?.products_name}원</SecondTitle>
                 </BestProductsImageBox>
               </ProductLink>
             ) : null

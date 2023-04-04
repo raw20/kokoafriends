@@ -1,7 +1,8 @@
 import Avatar from "@mui/material/Avatar";
 import { Link, useMatch } from "react-router-dom";
-import { KAKAO_AUTH_URL } from "../../utils/oAuth";
+import { LOGIN_REDIRECT_URI } from "../../constant/oAuth";
 import HeaderAvatar from "../Avatar/HeaderAvatar";
+import LockIcon from "@mui/icons-material/Lock";
 import {
   GlobalNavBar,
   GlobalNavBarWrapper,
@@ -17,13 +18,18 @@ import {
   NavInner,
 } from "./Header.style";
 import SearchBar from "./SearchBar";
+const { Kakao } = window;
 
 function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const token: string = window.localStorage.getItem("token") as string;
 
+  const kakaoLoginHandler = () => {
+    Kakao.Auth.authorize({
+      redirectUri: `${LOGIN_REDIRECT_URI}`,
+    });
+  };
   return (
     <HeaderContainer>
       <HeaderInner>
@@ -41,12 +47,18 @@ function Header() {
         </HeaderCenter>
         <HeaderEnd>
           <SideNavBar>
-            {token ? (
+            {Kakao.Auth.getAccessToken() ? (
               <HeaderAvatar />
             ) : (
-              <a href={KAKAO_AUTH_URL}>
-                <Avatar alt="로그인" />
-              </a>
+              <Avatar
+                sx={{ width: 56, height: 56 }}
+                alt="로그인"
+                title="로그인"
+                onClick={kakaoLoginHandler}
+                style={{ cursor: "pointer" }}
+              >
+                <LockIcon />
+              </Avatar>
             )}
           </SideNavBar>
         </HeaderEnd>

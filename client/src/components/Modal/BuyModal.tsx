@@ -99,7 +99,7 @@ function BuyModal({ userCode }: IBuyModalProps) {
           <ModalDiv>
             <PrimaryTitle>총 제품금액</PrimaryTitle>
             <PrimaryContent>
-              {Number(data?.selectItem[0].sPrice) * number}원
+              {Number(data?.selectItem[0].products_price) * number}원
             </PrimaryContent>
           </ModalDiv>
           <BuyButton onClick={() => buyItem()}>구매하기</BuyButton>

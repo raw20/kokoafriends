@@ -53,15 +53,19 @@ function Product() {
   const cartIndex = Number(
     `${id}${userCode}${getIndex.substring(getIndex.length - 3)}`
   ); */
-  function addCartHandler(name: string, price: number, slideImg: string) {
+  function addCartHandler(
+    name: string,
+    price: number,
+    products_slideImg: string
+  ) {
     addCart({
       variables: {
         cartId: index++,
         sId: Number(id),
-        sName: name,
-        sPrice: price,
+        products_name: name,
+        products_price: price,
         bCount: 1,
-        slideImg: slideImg,
+        products_slideImg: products_slideImg,
         check: true,
       },
     });
@@ -73,31 +77,31 @@ function Product() {
     <ProductContainer>
       <SecondComponentsInner>
         {/*  <ProductImageSlider {...settings}>
-          {data?.Product.slideImg.map((item: string, index: number) => (
+          {data?.Product.products_slideImg.map((item: string, index: number) => (
             <SliderImage key={index} src={`/img/product/${item}`} />
           ))}
         </ProductImageSlider> */}
         <TopMainInfoContainer>
-          <SecondTitle>{product?.Product.sName}</SecondTitle>
+          <SecondTitle>{product?.Product.products_name}</SecondTitle>
           <BsCart
             onClick={() =>
               addCartHandler(
-                String(product?.Product.sName),
-                Number(product?.Product.sPrice),
-                String(product?.Product.slideImg[0])
+                String(product?.Product.products_name),
+                Number(product?.Product.products_price),
+                String(product?.Product.products_slideImg[0])
               )
             }
           />
         </TopMainInfoContainer>
         <BottomMainInfoContainer>
-          <SecondTitle>{product?.Product.sPrice}원</SecondTitle>
+          <SecondTitle>{product?.Product.products_price}원</SecondTitle>
           <SecondContent>
-            {product?.Product.sView}번 조회되었습니다.
+            {product?.Product.products_view}번 조회되었습니다.
           </SecondContent>
         </BottomMainInfoContainer>
         <ShowButtonArea>
           <SubInfoContainer>
-            {product?.Product.sHalf_title
+            {product?.Product.products_half_title
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryTitle key={index}>
@@ -105,7 +109,7 @@ function Product() {
                   <br />
                 </PrimaryTitle>
               ))}
-            {product?.Product.sContents
+            {product?.Product.products_contents
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryContent key={index}>
@@ -113,19 +117,23 @@ function Product() {
                   <br />
                 </PrimaryContent>
               ))}
-            {product?.Product.mainTopImg.map((img: string, index: number) => (
-              <ProductImage key={index} src={`/img/product/${img}`} />
-            ))}
+            {product?.Product.products_mainTopImg.map(
+              (img: string, index: number) => (
+                <ProductImage key={index} src={`/img/product/${img}`} />
+              )
+            )}
             <PrimaryContent>
               이렇게 귀여운 카카오프렌즈샵 제품입니다.
             </PrimaryContent>
-            {product?.Product.mainMidImg.map((img: string, index: number) => (
-              <ProductImage key={index} src={`/img/product/${img}`} />
-            ))}
+            {product?.Product.products_mainMidImg.map(
+              (img: string, index: number) => (
+                <ProductImage key={index} src={`/img/product/${img}`} />
+              )
+            )}
             <PrimaryContent>
               지금 당장 카카오프렌즈를 만나보세요.
             </PrimaryContent>
-            {product?.Product.mainBottomImg.map(
+            {product?.Product.products_mainBottomImg.map(
               (img: string, index: number) => (
                 <ProductImage key={index} src={`/img/product/${img}`} />
               )
