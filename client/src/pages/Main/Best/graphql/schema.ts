@@ -3,46 +3,39 @@ import { gql } from "@apollo/client";
 export const PRODUCTS = gql`
   query Products {
     products {
-      sId
-      sName
-      sPrice
-      slideImg
-      sView
-      sCategory
+      products_id
+      products_name
+      products_price
+      products_slideImg
+      products_view
+      products_category
     }
   }
 `;
 export const PRODUCT = gql`
-  query Product($ProductId: Int!) {
+  query Product($productId: Int!) {
     product(id: $productId) {
-      sId
-      sName
-      sTitle
-      sContents
-      sPrice
-      sLike
-      sView
-      sHalf_title
-      slideImg
-      mainTopImg
-      mainMidImg
-      mainBottomImg
-    }
-    nowUser {
-      user_code
-    }
-    cartList {
-      sName
-      sPrice
-      slideImg
+      products_id
+      products_name
+      products_title
+      products_contents
+      products_price
+      products_like
+      products_view
+      products_half_title
+      products_category
+      products_slideImg
+      products_mainTopImg
+      products_mainMidImg
+      products_mainBottomImg
     }
   }
 `;
 
 export const COUNT_VIEW = gql`
-  mutation CountView($CountViewId: Int) {
-    countView(id: $countViewId) {
-      sId
+  mutation CountViews($CountViewId: Int) {
+    countViews(id: $countViewId) {
+      products_id
     }
   }
 `;

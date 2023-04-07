@@ -38,9 +38,10 @@ const CustomModalStyles = {
 
 function Product() {
   const { id } = useParams();
-  const { product, loading } = useGetProductById(id);
+  const { data, loading } = useGetProductById(id);
   const addCart = useAddCart();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   function openModal() {
     setModalOpen(true);
   }
@@ -82,26 +83,26 @@ function Product() {
           ))}
         </ProductImageSlider> */}
         <TopMainInfoContainer>
-          <SecondTitle>{product?.Product.products_name}</SecondTitle>
+          <SecondTitle>{data?.product[0].products_name}</SecondTitle>
           <BsCart
             onClick={() =>
               addCartHandler(
-                String(product?.Product.products_name),
-                Number(product?.Product.products_price),
-                String(product?.Product.products_slideImg[0])
+                String(data?.product[0].products_name),
+                Number(data?.product[0].products_price),
+                String(data?.product[0].products_slideImg[0])
               )
             }
           />
         </TopMainInfoContainer>
         <BottomMainInfoContainer>
-          <SecondTitle>{product?.Product.products_price}원</SecondTitle>
+          <SecondTitle>{data?.product[0].products_price}원</SecondTitle>
           <SecondContent>
-            {product?.Product.products_view}번 조회되었습니다.
+            {data?.product[0].products_view}번 조회되었습니다.
           </SecondContent>
         </BottomMainInfoContainer>
         <ShowButtonArea>
           <SubInfoContainer>
-            {product?.Product.products_half_title
+            {data?.product[0].products_half_title
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryTitle key={index}>
@@ -109,7 +110,7 @@ function Product() {
                   <br />
                 </PrimaryTitle>
               ))}
-            {product?.Product.products_contents
+            {data?.product[0].products_contents
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryContent key={index}>
@@ -117,25 +118,36 @@ function Product() {
                   <br />
                 </PrimaryContent>
               ))}
-            {product?.Product.products_mainTopImg.map(
+            {data?.product[0].products_mainTopImg.map(
               (img: string, index: number) => (
-                <ProductImage key={index} src={`/img/product/${img}`} />
+                <ProductImage
+                  key={index}
+                  src={require(`../../../asset/image/product/${img}`)}
+                />
               )
             )}
             <PrimaryContent>
               이렇게 귀여운 카카오프렌즈샵 제품입니다.
             </PrimaryContent>
-            {product?.Product.products_mainMidImg.map(
+            {data?.product[0].products_mainMidImg.map(
               (img: string, index: number) => (
-                <ProductImage key={index} src={`/img/product/${img}`} />
+                <ProductImage
+                  key={index}
+                  alt={data?.product[0].products_name}
+                  src={require(`../../../asset/image/product/${img}`)}
+                />
               )
             )}
             <PrimaryContent>
               지금 당장 카카오프렌즈를 만나보세요.
             </PrimaryContent>
-            {product?.Product.products_mainBottomImg.map(
+            {data?.product[0].products_mainBottomImg.map(
               (img: string, index: number) => (
-                <ProductImage key={index} src={`/img/product/${img}`} />
+                <ProductImage
+                  key={index}
+                  alt={data?.product[0].products_name}
+                  src={require(`../../../asset/image/product/${img}`)}
+                />
               )
             )}
             <PrimaryTitle>구성품</PrimaryTitle>

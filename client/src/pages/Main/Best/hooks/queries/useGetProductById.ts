@@ -1,14 +1,15 @@
 import { useQuery } from "@apollo/client";
-import { ProductComponent } from "../../../../../types/IProps.interface";
+import { IProductComponent } from "../../../../../types/IProps.interface";
 import { PRODUCT } from "../../graphql/schema";
 
-function useGetProductById(id: string | undefined) {
-  const { data: product, loading } = useQuery<ProductComponent>(PRODUCT, {
+function useGetProductById(id?: string) {
+  const { data, loading } = useQuery<IProductComponent>(PRODUCT, {
     variables: {
-      selectItemId: Number(id),
+      productId: Number(id),
     },
   });
-  return { product, loading };
+
+  return { data, loading };
 }
 
 export default useGetProductById;

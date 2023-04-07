@@ -1,4 +1,4 @@
-export interface Product {
+export interface IProduct {
   products_id: number;
   products_name: string;
   products_title: string;
@@ -13,8 +13,8 @@ export interface Product {
   products_mainMidImg: [string];
   products_mainBottomImg: [string];
 }
-export interface Products {
-  products: [Product];
+export interface IProducts {
+  products: [IProduct];
 }
 
 export interface BuyProducts {

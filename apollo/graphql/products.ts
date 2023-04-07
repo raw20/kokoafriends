@@ -40,31 +40,31 @@ class Products {
   @Field({ nullable: true })
   products_category: string;
 
-  @Field((type) => [String], { nullable: true })
-  products_slideImg: string[] | null;
+  @Field(() => [String], { nullable: true })
+  products_slideImg?: string[];
 
-  @Field((type) => [String], { nullable: true })
-  products_mainTopImg: string[] | null;
+  @Field(() => [String], { nullable: true })
+  products_mainTopImg?: string[];
 
-  @Field((type) => [String], { nullable: true })
-  products_mainMidImg: string[] | null;
+  @Field(() => [String], { nullable: true })
+  products_mainMidImg?: string[];
 
-  @Field((type) => [String], { nullable: true })
-  products_mainBottomImg: string[] | null;
+  @Field(() => [String], { nullable: true })
+  products_mainBottomImg?: string[];
 }
 
 @Resolver(Products)
 export class ProductsResolver {
-  @Query((returns) => [Products])
+  @Query(() => [Products])
   async products() {
     return products();
   }
-  @Query((returns) => Products)
-  async product(@Arg("id", (type) => Int) id: number) {
+  @Query(() => [Products])
+  async product(@Arg("id", () => Int) id: number) {
     return productById(id);
   }
-  @Mutation((returns) => Products)
-  countViews(@Arg("id", (type) => Int) id: number) {
+  @Mutation(() => Products)
+  countViews(@Arg("id", () => Int) id: number) {
     return countView(id);
   }
 }

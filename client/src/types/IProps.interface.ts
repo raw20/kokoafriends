@@ -7,7 +7,7 @@ import {
 } from "@apollo/client";
 import { Cart } from "./Cart.interface";
 import { Contents, LikeContents } from "./Contents.interface";
-import { BuyProducts, Product, Products, Review } from "./Products.interface";
+import { BuyProducts, IProducts, IProduct, Review } from "./Products.interface";
 import { IUser } from "./User.interface";
 
 export interface ReviewsComponent {
@@ -17,8 +17,8 @@ export interface ReviewsComponent {
   selectUserBuyItemList: [BuyProducts];
 }
 
-export interface ProductComponent {
-  Product: Product;
+export interface IProductComponent {
+  product: [IProduct];
   cartList: [Cart];
 }
 export interface ContentsComponent {
@@ -40,7 +40,7 @@ export interface CartComponent {
   nowUser: [IUser];
 }
 export interface BuyModalComponent {
-  selectItem: [Product];
+  selectItem: [IProduct];
   allUserBuyItemList: [BuyProducts];
   selectUserBuyItemList: [BuyProducts];
 }
@@ -49,12 +49,12 @@ export interface RecentBIComponent {
   nowUser: [IUser];
 }
 export interface SearchItem {
-  item: [Product];
-  items: Product[];
+  item: [IProduct];
+  items: IProduct[];
 }
 
 export interface IHomeChildComponentProps {
-  data: Products | undefined;
+  data: IProducts | undefined;
   countView: (
     options?:
       | MutationFunctionOptions<
