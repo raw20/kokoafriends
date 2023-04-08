@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const USERS = gql`
   query Users {
     allUser {
-      user_code
       kakao_id
       kakao_profile_img
       kakao_nickname
@@ -14,9 +13,8 @@ export const USERS = gql`
   }
 `;
 export const USER = gql`
-  query User($userId: ID!) {
+  query User($userId: String!) {
     me(id: $userId) {
-      user_code
       kakao_id
       kakao_profile_img
       kakao_nickname
@@ -28,16 +26,14 @@ export const USER = gql`
 `;
 export const ADD_USER = gql`
   mutation AddUser(
-    $userCode: userCodeScalar
     $createTime: DateTime
     $userRole: String
     $kakaoEmail: String
     $kakaoNickname: String
     $kakaoProfileImg: String
-    $kakaoId: ID
+    $kakaoId: String
   ) {
     addUser(
-      user_code: $userCode
       create_time: $createTime
       user_role: $userRole
       kakao_email: $kakaoEmail
@@ -45,13 +41,7 @@ export const ADD_USER = gql`
       kakao_profile_img: $kakaoProfileImg
       kakao_id: $kakaoId
     ) {
-      user_code
       kakao_id
-      kakao_profile_img
-      kakao_nickname
-      kakao_email
-      user_role
-      create_time
     }
   }
 `;

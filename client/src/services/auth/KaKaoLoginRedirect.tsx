@@ -31,7 +31,6 @@ function KaKaoLoginRedirect() {
               navigate("/");
               addUser({
                 variables: {
-                  userCode: Math.ceil(response.id * 0.1),
                   kakaoId: String(response.id),
                   kakaoProfileImg: response.properties.profile_image,
                   kakaoNickname: response.properties.nickname,

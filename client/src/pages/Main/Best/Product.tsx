@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Modal from "react-modal";
 import BuyModal from "../../../components/Modal/BuyModal";
-import Reviews from "./Reviews";
+import Reviews from "./ProductReviews";
 import Loading from "../../../components/Loading/Loading";
 import useGetProductById from "./hooks/queries/useGetProductById";
 import useAddCart from "./hooks/mutations/useAddCart";

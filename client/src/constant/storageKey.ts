@@ -1,1 +1,1 @@
-export const KAKAO_ID = "kakaoId";
+export const USER_CODE = "user_code";

@@ -3,6 +3,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { ReviewsComponent } from "../../../types/IProps.interface";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+const { Kakao } = window;
 
 interface IReviewsProps {
   userCode: number | undefined;
@@ -189,7 +190,7 @@ function Reviews({ userCode }: IReviewsProps) {
   const [deleteReviews] = useMutation(DELETE_REVIEW, {
     refetchQueries: [{ query: GET_REVIEW }, "SelectReview"],
   });
-  const myUserCode = Number(data?.nowUser.map((user) => user.user_code));
+  const myUserCode = Number(data?.nowUser.map((user) => user.kakao_id));
   const itemBuyListCheck = data?.selectUserBuyItemList.filter(
     (ele) => ele.sId === Number(id)
   );
@@ -220,7 +221,7 @@ function Reviews({ userCode }: IReviewsProps) {
         <ItemReviewInform>
           <NormalText>리뷰 {data?.selectReview.length} 건</NormalText>
         </ItemReviewInform>
-        {!token ? (
+        {!Kakao.Auth.getAccessToken() ? (
           <FalseReviewButton>로그인이 필요합니다.</FalseReviewButton>
         ) : itemBuyListCheck?.length === 0 ? (
           <FalseReviewButton>구매 후 리뷰를 남겨주세요.</FalseReviewButton>
