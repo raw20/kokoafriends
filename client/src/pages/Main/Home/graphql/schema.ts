@@ -20,8 +20,8 @@ export const PRODUCTS = gql`
   }
 `;
 export const COUNT_VIEW = gql`
-  mutation CountView($CountViewId: Int) {
-    countView(id: $countViewId) {
+  mutation CountViews($countViewsId: Int!) {
+    countViews(id: $countViewsId) {
       products_id
     }
   }

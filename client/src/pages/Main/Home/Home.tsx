@@ -13,7 +13,7 @@ import Category from "./Category";
 function Home() {
   const state = useLocation();
   const { data, loading } = useGetProducts();
-  const countView = useCountView();
+  const countViews = useCountView();
   if (loading) return <Loading />;
 
   return (
@@ -21,9 +21,9 @@ function Home() {
       <Header />
       {state.pathname === "/" ? (
         <MainContainer>
-          <BannerSlide data={data} countView={countView} />
+          <BannerSlide data={data} countViews={countViews} />
           <Category />
-          <NewProjuctsSlide data={data} countView={countView} />
+          <NewProjuctsSlide data={data} countViews={countViews} />
         </MainContainer>
       ) : (
         <Outlet />

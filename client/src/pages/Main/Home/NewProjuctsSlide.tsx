@@ -13,14 +13,14 @@ import {
 } from "../../../styles/Common.style";
 import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 
-function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
+function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   const newProducts = data?.products.filter(
     (product) => product.products_id > 55000
   );
   function countViewHandler(id: number) {
-    countView({
+    countViews({
       variables: {
-        countViewId: Number(id),
+        countViewsId: Number(id),
       },
     });
   }

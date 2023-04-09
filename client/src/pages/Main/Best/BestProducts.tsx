@@ -22,16 +22,16 @@ import useGetProducts from "./hooks/queries/useGetProducts";
 
 function BestProducts() {
   const { data, loading } = useGetProducts();
-  const countView = useCountView();
+  const countViews = useCountView();
 
   const bestProducts = data?.products
     .map((ele) => ele)
     .sort((a, b) => b.products_view - a.products_view);
 
   function viewCountHandler(id: number) {
-    countView({
+    countViews({
       variables: {
-        countViewId: Number(id),
+        countViewsId: id,
       },
     });
   }

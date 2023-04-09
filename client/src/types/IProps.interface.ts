@@ -54,8 +54,8 @@ export interface SearchItem {
 }
 
 export interface IHomeChildComponentProps {
-  data: IProducts | undefined;
-  countView: (
+  data?: IProducts;
+  countViews: (
     options?:
       | MutationFunctionOptions<
           any,
