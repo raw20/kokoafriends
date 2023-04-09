@@ -6,22 +6,23 @@ export const reviews = async () => {
 };
 export const reviewById = async (id: number) => {
   const [rows] = await pool1.query(
-    `select * from review,user_master where review.user_code = user_master.user_code and review.products_id=${id}`
+    `select * from review,user_master where review.kakao_id = user_master.kakao_id and review.products_id=${id}`
   );
   return rows;
 };
 export const postReview = async (
-  rId: number,
+  review_id: number,
   products_id: number,
-  user_code: number,
-  rReview: string
+  kakao_id: number,
+  review_text: string,
+  review_rating: number
 ) => {
   const [rows] = await pool1.query(
-    `insert into review(rId,products_id,user_code,rReview) values('${rId}','${products_id}','${user_code}','${rReview}') `
+    `insert into review(review_id,products_id,kakao_id,review_text,review_rating) values('${review_id}','${products_id}','${kakao_id}','${review_text}','${review_rating}') `
   );
   return rows;
 };
 export const deleteReview = async (id: number) => {
-  const [rows] = await pool1.query(`DELETE FROM review where rId=${id}`);
+  const [rows] = await pool1.query(`DELETE FROM review where review_id=${id}`);
   return rows;
 };

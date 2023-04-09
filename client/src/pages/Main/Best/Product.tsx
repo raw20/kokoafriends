@@ -6,12 +6,14 @@ import Reviews from "./ProductReviews";
 import Loading from "../../../components/Loading/Loading";
 import useGetProductById from "./hooks/queries/useGetProductById";
 import useAddCart from "./hooks/mutations/useAddCart";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {
   BottomMainInfoContainer,
-  BsCart,
   ProductContainer,
   ProductImage,
+  ProductImageSlider,
   ShowButtonArea,
+  SliderImage,
   SubInfoContainer,
   TopMainInfoContainer,
 } from "./styles/BestProducts.style";
@@ -49,11 +51,7 @@ function Product() {
     setModalOpen(false);
   }
   let index = 0;
-  /* const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
-  const getIndex = String(new Date().getTime());
-  const cartIndex = Number(
-    `${id}${userCode}${getIndex.substring(getIndex.length - 3)}`
-  ); */
+
   function addCartHandler(
     name: string,
     price: number,
@@ -72,19 +70,23 @@ function Product() {
     });
     alert(`${name}이(가) 장바구니에 담겼습니다.`);
   }
+
   if (loading) return <Loading />;
 
   return (
     <ProductContainer>
       <SecondComponentsInner>
-        {/*  <ProductImageSlider {...settings}>
-          {data?.Product.products_slideImg.map((item: string, index: number) => (
-            <SliderImage key={index} src={`/img/product/${item}`} />
-          ))}
-        </ProductImageSlider> */}
+        <ProductImageSlider>
+          <SliderImage
+            alt={data?.product[0].products_name}
+            src={data?.product[0].products_slideImg}
+          />
+        </ProductImageSlider>
+
         <TopMainInfoContainer>
           <SecondTitle>{data?.product[0].products_name}</SecondTitle>
-          <BsCart
+          <ShoppingCartOutlinedIcon
+            style={{ color: "#616161", cursor: "pointer" }}
             onClick={() =>
               addCartHandler(
                 String(data?.product[0].products_name),
@@ -120,7 +122,7 @@ function Product() {
               ))}
 
             <ProductImage
-              key={index}
+              alt={data?.product[0].products_name}
               src={data?.product[0].products_mainTopImg}
             />
             <PrimaryContent>
@@ -128,7 +130,6 @@ function Product() {
             </PrimaryContent>
 
             <ProductImage
-              key={index}
               alt={data?.product[0].products_name}
               src={data?.product[0].products_mainMidImg}
             />
@@ -137,13 +138,12 @@ function Product() {
             </PrimaryContent>
 
             <ProductImage
-              key={index}
               alt={data?.product[0].products_name}
               src={data?.product[0].products_mainBottomImg}
             />
 
             <PrimaryTitle>구성품</PrimaryTitle>
-            <PrimaryContent>건진지 외 필요한거 여러개</PrimaryContent>
+            <PrimaryContent>상품 및 설명서</PrimaryContent>
           </SubInfoContainer>
           <Reviews userCode={11} />
           <BuyButton onClick={() => openModal()}>구매하기</BuyButton>

@@ -62,11 +62,11 @@ class Products {
 @Resolver(Products)
 export class ProductsResolver {
   @Query(() => [Products])
-  async products() {
+  products() {
     return products();
   }
   @Query(() => [Products])
-  async product(@Arg("id", () => Int) id: number) {
+  product(@Arg("id", () => Int) id: number) {
     return productById(id);
   }
   @Mutation(() => Products)
