@@ -1,4 +1,3 @@
-import React from "react";
 import {
   NewProductBox,
   NewProductContainer,
@@ -16,7 +15,7 @@ import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 
 function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
   const newProducts = data?.products.filter(
-    (product) => product.products_id > data?.products.length - 4
+    (product) => product.products_id > 55000
   );
   function countViewHandler(id: number) {
     countView({
@@ -39,9 +38,7 @@ function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
               }}
             >
               <NewProductImageBoxInner>
-                <NewProductImage
-                  src={require(`../../../asset/image/product/${product?.products_slideImg[0]}`)}
-                />
+                <NewProductImage src={product?.products_slideImg} />
                 <SecondContent> {product?.products_name}</SecondContent>
                 <SecondTitle>{product?.products_price}원</SecondTitle>
               </NewProductImageBoxInner>

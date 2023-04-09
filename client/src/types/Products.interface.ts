@@ -3,15 +3,15 @@ export interface IProduct {
   products_name: string;
   products_title: string;
   products_contents: string;
-  products_price: number;
+  products_price: string;
   products_like: number;
   products_view: number;
   products_half_title: string;
   products_category: string;
-  products_slideImg: [string];
-  products_mainTopImg: [string];
-  products_mainMidImg: [string];
-  products_mainBottomImg: [string];
+  products_slideImg: string;
+  products_mainTopImg: string;
+  products_mainMidImg: string;
+  products_mainBottomImg: string;
 }
 export interface IProducts {
   products: [IProduct];

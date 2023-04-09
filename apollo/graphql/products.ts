@@ -26,7 +26,7 @@ class Products {
   products_contents: string;
 
   @Field({ nullable: true })
-  products_price: number;
+  products_price: string;
 
   @Field({ nullable: true })
   products_like: number;
@@ -40,17 +40,17 @@ class Products {
   @Field({ nullable: true })
   products_category: string;
 
-  @Field(() => [String], { nullable: true })
-  products_slideImg?: string[];
+  @Field({ nullable: true })
+  products_slideImg: string;
 
-  @Field(() => [String], { nullable: true })
-  products_mainTopImg?: string[];
+  @Field({ nullable: true })
+  products_mainTopImg: string;
 
-  @Field(() => [String], { nullable: true })
-  products_mainMidImg?: string[];
+  @Field({ nullable: true })
+  products_mainMidImg: string;
 
-  @Field(() => [String], { nullable: true })
-  products_mainBottomImg?: string[];
+  @Field({ nullable: true })
+  products_mainBottomImg: string;
 }
 
 @Resolver(Products)

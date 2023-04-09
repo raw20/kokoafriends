@@ -89,7 +89,7 @@ function Product() {
               addCartHandler(
                 String(data?.product[0].products_name),
                 Number(data?.product[0].products_price),
-                String(data?.product[0].products_slideImg[0])
+                String(data?.product[0].products_slideImg)
               )
             }
           />
@@ -118,38 +118,30 @@ function Product() {
                   <br />
                 </PrimaryContent>
               ))}
-            {data?.product[0].products_mainTopImg.map(
-              (img: string, index: number) => (
-                <ProductImage
-                  key={index}
-                  src={require(`../../../asset/image/product/${img}`)}
-                />
-              )
-            )}
+
+            <ProductImage
+              key={index}
+              src={data?.product[0].products_mainTopImg}
+            />
             <PrimaryContent>
               이렇게 귀여운 카카오프렌즈샵 제품입니다.
             </PrimaryContent>
-            {data?.product[0].products_mainMidImg.map(
-              (img: string, index: number) => (
-                <ProductImage
-                  key={index}
-                  alt={data?.product[0].products_name}
-                  src={require(`../../../asset/image/product/${img}`)}
-                />
-              )
-            )}
+
+            <ProductImage
+              key={index}
+              alt={data?.product[0].products_name}
+              src={data?.product[0].products_mainMidImg}
+            />
             <PrimaryContent>
               지금 당장 카카오프렌즈를 만나보세요.
             </PrimaryContent>
-            {data?.product[0].products_mainBottomImg.map(
-              (img: string, index: number) => (
-                <ProductImage
-                  key={index}
-                  alt={data?.product[0].products_name}
-                  src={require(`../../../asset/image/product/${img}`)}
-                />
-              )
-            )}
+
+            <ProductImage
+              key={index}
+              alt={data?.product[0].products_name}
+              src={data?.product[0].products_mainBottomImg}
+            />
+
             <PrimaryTitle>구성품</PrimaryTitle>
             <PrimaryContent>건진지 외 필요한거 여러개</PrimaryContent>
           </SubInfoContainer>

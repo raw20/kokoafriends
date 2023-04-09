@@ -53,9 +53,7 @@ function BestProducts() {
               key={product?.products_id}
             >
               <BestProductsImageBox>
-                <PrimaryImage
-                  src={require(`../../../asset/image/product/${product?.products_slideImg[0]}`)}
-                />
+                <PrimaryImage src={product?.products_slideImg} />
                 {index < 3 ? (
                   <SecondRank>{index + 1}</SecondRank>
                 ) : (
@@ -65,7 +63,7 @@ function BestProducts() {
                   <SecondContent> {product?.products_name}</SecondContent>
                   <ShoppingCartOutlinedIcon style={{ color: "#616161" }} />
                 </BestProductsContentsBox>
-                <SecondTitle>{product?.products_name}원</SecondTitle>
+                <SecondTitle>{product?.products_price}원</SecondTitle>
               </BestProductsImageBox>
             </ProductLink>
           ))}

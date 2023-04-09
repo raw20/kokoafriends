@@ -10,8 +10,6 @@ import BannerSlide from "./BannerSlide";
 import NewProjuctsSlide from "./NewProjuctsSlide";
 import Category from "./Category";
 
-//const token: string = window.localStorage.getItem("token") as string;
-
 function Home() {
   const state = useLocation();
   const { data, loading } = useGetProducts();
