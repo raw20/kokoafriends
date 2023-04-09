@@ -15,7 +15,7 @@ import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 
 function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   const newProducts = data?.products.filter(
-    (product) => product.products_id > 55000
+    (product) => product.products_new_status
   );
   function countViewHandler(id: number) {
     countViews({

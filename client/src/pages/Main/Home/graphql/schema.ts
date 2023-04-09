@@ -10,6 +10,8 @@ export const PRODUCTS = gql`
       products_price
       products_like
       products_view
+      products_banner_status
+      products_new_status
       products_half_title
       products_category
       products_slideImg

@@ -35,6 +35,12 @@ class Products {
   products_view: number;
 
   @Field({ nullable: true })
+  products_banner_status: boolean;
+
+  @Field({ nullable: true })
+  products_new_status: boolean;
+
+  @Field({ nullable: true })
   products_half_title: string;
 
   @Field({ nullable: true })

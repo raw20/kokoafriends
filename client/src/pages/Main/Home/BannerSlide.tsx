@@ -11,10 +11,10 @@ import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 import Carousel from "react-bootstrap/Carousel";
 
 function BannerSlide({ data, countViews }: IHomeChildComponentProps) {
-  /*  const bannerProducts = data?.products
-    .sort((a, b) => b.products_view - a.products_view)
-    .filter((product) => product.products_view > 3);
- */
+  const bannerProducts = data?.products.filter(
+    (product) => product.products_banner_status
+  );
+
   function countViewHandler(id: number) {
     countViews({
       variables: {
@@ -26,7 +26,7 @@ function BannerSlide({ data, countViews }: IHomeChildComponentProps) {
     <>
       <BannerContainer>
         <Carousel>
-          {data?.products.map((product) => (
+          {bannerProducts?.map((product) => (
             <Carousel.Item key={product?.products_id}>
               <BannerImageBox
                 to={`/product/${product?.products_id}`}

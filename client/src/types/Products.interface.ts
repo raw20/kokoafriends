@@ -6,6 +6,8 @@ export interface IProduct {
   products_price: string;
   products_like: number;
   products_view: number;
+  products_banner_status: boolean;
+  products_new_status: boolean;
   products_half_title: string;
   products_category: string;
   products_slideImg: string;
