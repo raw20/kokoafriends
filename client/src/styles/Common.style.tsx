@@ -4,6 +4,7 @@ export const PrimaryTitle = styled.h1`
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.6rem;
+  margin-left: 1rem;
 
   @media ${(props) => props.theme.mobile} {
     font-size: 1.1rem;

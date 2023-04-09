@@ -1,10 +1,10 @@
 import {
-  NewProductBox,
+  NewProductInner,
   NewProductContainer,
   NewProductImage,
   NewProductImageBox,
   NewProductImageBoxInner,
-  NewProductImageSlider,
+  NewProductBox,
 } from "./styles/NewProductSlice.style";
 import {
   PrimaryTitle,
@@ -17,6 +17,7 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   const newProducts = data?.products.filter(
     (product) => product.products_new_status
   );
+
   function countViewHandler(id: number) {
     countViews({
       variables: {
@@ -26,13 +27,13 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   }
   return (
     <NewProductContainer>
-      <NewProductBox>
+      <NewProductInner>
         <PrimaryTitle>새로나온 친구들</PrimaryTitle>
-        <NewProductImageSlider>
-          {newProducts?.map((product, index) => (
+        <NewProductBox>
+          {newProducts?.map((product) => (
             <NewProductImageBox
-              to={`/bestProduct/${product?.products_id}`}
-              key={index}
+              to={`/Product/${product?.products_id}`}
+              key={product?.products_id}
               onClick={() => {
                 countViewHandler(product?.products_id);
               }}
@@ -44,8 +45,8 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
               </NewProductImageBoxInner>
             </NewProductImageBox>
           ))}
-        </NewProductImageSlider>
-      </NewProductBox>
+        </NewProductBox>
+      </NewProductInner>
     </NewProductContainer>
   );
 }
