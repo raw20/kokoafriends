@@ -7,7 +7,7 @@ import useGetProducts from "./hooks/queries/useGetProducts";
 import useCountView from "./hooks/mutations/useCountView";
 import { MainContainer } from "./styles/Home.style";
 import BannerSlide from "./BannerSlide";
-import NewProjuctsSlide from "./NewProjuctsSlide";
+import NewProducts from "./NewProducts";
 import Category from "./Category";
 
 function Home() {
@@ -23,7 +23,7 @@ function Home() {
         <MainContainer>
           <BannerSlide data={data} countViews={countViews} />
           <Category />
-          <NewProjuctsSlide data={data} countViews={countViews} />
+          <NewProducts data={data} countViews={countViews} />
         </MainContainer>
       ) : (
         <Outlet />

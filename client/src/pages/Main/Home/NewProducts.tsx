@@ -5,7 +5,7 @@ import {
   NewProductImageBox,
   NewProductImageBoxInner,
   NewProductBox,
-} from "./styles/NewProductSlice.style";
+} from "./styles/NewProducts.style";
 import {
   PrimaryTitle,
   SecondContent,
