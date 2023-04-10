@@ -36,6 +36,9 @@ class Reviews {
 
   @Field({ nullable: true })
   review_date: Date;
+
+  @Field({ nullable: true })
+  kakao_nickname: string;
 }
 
 @ArgsType()
