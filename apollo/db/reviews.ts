@@ -15,10 +15,11 @@ export const postReview = async (
   products_id: number,
   kakao_id: number,
   review_text: string,
-  review_rating: number
+  review_rating: number,
+  review_date: Date
 ) => {
   const [rows] = await pool1.query(
-    `insert into review(review_id,products_id,kakao_id,review_text,review_rating) values('${review_id}','${products_id}','${kakao_id}','${review_text}','${review_rating}') `
+    `insert into review(review_id,products_id,kakao_id,review_text,review_rating,review_date) values('${review_id}','${products_id}','${kakao_id}','${review_text}','${review_rating}','${review_date}') `
   );
   return rows;
 };

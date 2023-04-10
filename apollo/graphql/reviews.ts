@@ -59,6 +59,10 @@ export class PostReviewArgs {
   @Field({ nullable: true })
   @jf.number().required().min(0)
   review_rating: number;
+
+  @Field({ nullable: true })
+  @jf.date().required().min(0)
+  review_date: Date;
 }
 
 @Resolver(Reviews)
@@ -80,7 +84,8 @@ export class ReviewsResolver {
       review.products_id,
       review.kakao_id,
       review.review_text,
-      review.review_rating
+      review.review_rating,
+      review.review_date
     );
     return { review_id: review.review_id };
   }
