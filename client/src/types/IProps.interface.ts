@@ -7,19 +7,17 @@ import {
 } from "@apollo/client";
 import { Cart } from "./Cart.interface";
 import { Contents, LikeContents } from "./Contents.interface";
-import { BuyProducts, IProducts, IProduct, Review } from "./Products.interface";
+import { BuyProducts, IProducts, IProduct } from "./Products.interface";
 import { IUser } from "./User.interface";
-
-export interface ReviewsComponent {
-  review: [Review];
-  selectReview: [Review];
-  nowUser: [IUser];
-  selectUserBuyItemList: [BuyProducts];
-}
+import { IReview } from "./Reviews.interface";
 
 export interface IProductComponent {
   product: [IProduct];
-  cartList: [Cart];
+  review: [IReview];
+}
+
+export interface IProductReviewsComponent {
+  data?: IProductComponent;
 }
 export interface ContentsComponent {
   contents: [Contents];
@@ -30,7 +28,7 @@ export interface ContentsComponent {
 export interface ContentsDetailComponent {
   selectContents: [Contents];
   selectComment: [Comment];
-  comments: [Review];
+  comments: [IReview];
   likeContents: [LikeContents];
   nowUser: [IUser];
 }

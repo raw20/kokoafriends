@@ -103,7 +103,7 @@ export const SecondComponentsInner = styled.div`
   }
 `;
 
-export const BuyButton = styled.div`
+export const ProductBuyButton = styled.div`
   width: 100%;
   height: 50px;
   background-color: ${(props) => props.theme.jaygColor};

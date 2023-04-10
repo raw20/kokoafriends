@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Modal from "react-modal";
 import BuyModal from "../../../components/Modal/BuyModal";
-import Reviews from "./ProductReviews";
+import ProductReviews from "./ProductReviews";
 import Loading from "../../../components/Loading/Loading";
 import useGetProductById from "./hooks/queries/useGetProductById";
 import useAddCart from "./hooks/mutations/useAddCart";
@@ -18,7 +18,7 @@ import {
   TopMainInfoContainer,
 } from "./styles/BestProducts.style";
 import {
-  BuyButton,
+  ProductBuyButton,
   PrimaryContent,
   PrimaryTitle,
   SecondComponentsInner,
@@ -50,6 +50,7 @@ function Product() {
   function closeModal() {
     setModalOpen(false);
   }
+
   let index = 0;
 
   function addCartHandler(
@@ -57,7 +58,7 @@ function Product() {
     price: number,
     products_slideImg: string
   ) {
-    addCart({
+    /*  addCart({
       variables: {
         cartId: index++,
         sId: Number(id),
@@ -67,7 +68,7 @@ function Product() {
         products_slideImg: products_slideImg,
         check: true,
       },
-    });
+    }); */
     alert(`${name}이(가) 장바구니에 담겼습니다.`);
   }
 
@@ -145,8 +146,10 @@ function Product() {
             <PrimaryTitle>구성품</PrimaryTitle>
             <PrimaryContent>상품 및 설명서</PrimaryContent>
           </SubInfoContainer>
-          <Reviews userCode={11} />
-          <BuyButton onClick={() => openModal()}>구매하기</BuyButton>
+          <ProductReviews data={data} />
+          <ProductBuyButton onClick={() => openModal()}>
+            구매하기
+          </ProductBuyButton>
           <Modal
             isOpen={modalOpen}
             onRequestClose={() => closeModal()}

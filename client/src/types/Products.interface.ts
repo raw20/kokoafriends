@@ -29,12 +29,3 @@ export interface BuyProducts {
   bCount: number;
   slideImg: [string];
 }
-
-export interface Review {
-  rId: number;
-  sId: number;
-  user_code: number;
-  rReview: string;
-  rDate: string;
-  kakao_nickname: string;
-}
