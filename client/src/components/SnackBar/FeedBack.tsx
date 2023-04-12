@@ -6,6 +6,7 @@ function FeedBack({
   openSnackBar,
   setOpenSnackBar,
   feedBackMessage,
+  isFetchCompleted,
 }: IFeedbackProps) {
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -21,11 +22,7 @@ function FeedBack({
     <Snackbar open={openSnackBar} autoHideDuration={5000} onClose={handleClose}>
       <Alert
         onClose={handleClose}
-        severity={
-          feedBackMessage === "리뷰 등록이 완료되었습니다."
-            ? "success"
-            : "error"
-        }
+        severity={isFetchCompleted ? "success" : "error"}
         sx={{ width: "100%" }}
       >
         {feedBackMessage}

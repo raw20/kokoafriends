@@ -93,6 +93,7 @@ export interface IFeedbackProps {
   openSnackBar: boolean;
   setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
   feedBackMessage: string;
+  isFetchCompleted: boolean;
 }
 
 export interface IHomeChildComponentProps {

@@ -37,6 +37,7 @@ function Reviews({ data }: IProductReviewsComponent) {
     setEditTextValue,
     editRatingValue,
     setEditRatingValue,
+    isFetchCompleted,
   } = useReviews();
   let reviewIndex = getCreatedIndex(data?.review.map((ele) => ele.review_id));
 
@@ -126,6 +127,7 @@ function Reviews({ data }: IProductReviewsComponent) {
         openSnackBar={openSnackBar}
         setOpenSnackBar={setOpenSnackBar}
         feedBackMessage={feedBackMessage}
+        isFetchCompleted={isFetchCompleted}
       />
     </>
   );

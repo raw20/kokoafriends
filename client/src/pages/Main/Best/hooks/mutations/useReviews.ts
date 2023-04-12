@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import useLocalStorage from "../custom/useLocalStorage";
 
 function useReviews() {
+  const [isFetchCompleted, setIsFetchCompleted] = useState(false);
   const [feedBackMessage, setFeedBackMessage] = useState("");
   const [textValue, setTextValue] = useLocalStorage(REVIEW_TEXT, "");
   const [ratingValue, setRatingValue] = useLocalStorage(REVIEW_RATING, 2);
@@ -32,12 +33,14 @@ function useReviews() {
     refetchQueries: [{ query: SELECTED_PRODUCT }, "Product"],
     onCompleted: () => {
       setTextValue("");
+      setIsFetchCompleted(true);
       setFeedBackMessage("리뷰 등록이 완료되었습니다.");
       localStorage.removeItem(REVIEW_TEXT);
       localStorage.removeItem(REVIEW_RATING);
     },
     onError: () => {
       setFeedBackMessage("내용을 입력해주세요.");
+      setIsFetchCompleted(false);
     },
   });
 
@@ -45,20 +48,24 @@ function useReviews() {
     refetchQueries: [{ query: SELECTED_PRODUCT }, "Product"],
     onCompleted: () => {
       setEditTextValue("");
+      setIsFetchCompleted(true);
       setFeedBackMessage("리뷰를 수정하였습니다.");
     },
     onError: () => {
       setFeedBackMessage("수정에 실패하였습니다.");
+      setIsFetchCompleted(false);
     },
   });
 
   const [deleteReviews] = useMutation(DELETE_REVIEW, {
     refetchQueries: [{ query: SELECTED_PRODUCT }, "Product"],
     onCompleted: () => {
+      setIsFetchCompleted(true);
       setFeedBackMessage("리뷰를 삭제하였습니다.");
     },
     onError: () => {
       setFeedBackMessage("삭제에 실패하였습니다.");
+      setIsFetchCompleted(false);
     },
   });
 
@@ -79,6 +86,7 @@ function useReviews() {
     setEditTextValue,
     editRatingValue,
     setEditRatingValue,
+    isFetchCompleted,
   };
 }
 
