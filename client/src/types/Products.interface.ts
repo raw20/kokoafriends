@@ -1,20 +1,22 @@
-export interface Product {
+export interface IProduct {
   products_id: number;
   products_name: string;
   products_title: string;
   products_contents: string;
-  products_price: number;
+  products_price: string;
   products_like: number;
   products_view: number;
+  products_banner_status: boolean;
+  products_new_status: boolean;
   products_half_title: string;
   products_category: string;
-  products_slideImg: [string];
-  products_mainTopImg: [string];
-  products_mainMidImg: [string];
-  products_mainBottomImg: [string];
+  products_slideImg: string;
+  products_mainTopImg: string;
+  products_mainMidImg: string;
+  products_mainBottomImg: string;
 }
-export interface Products {
-  products: [Product];
+export interface IProducts {
+  products: [IProduct];
 }
 
 export interface BuyProducts {
@@ -26,13 +28,4 @@ export interface BuyProducts {
   sPrice: number;
   bCount: number;
   slideImg: [string];
-}
-
-export interface Review {
-  rId: number;
-  sId: number;
-  user_code: number;
-  rReview: string;
-  rDate: string;
-  kakao_nickname: string;
 }

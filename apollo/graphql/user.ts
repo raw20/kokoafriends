@@ -1,15 +1,11 @@
 import * as jf from "joiful";
-import { Arg, ID, Mutation, ObjectType, ArgsType, Args } from "type-graphql";
+import { Arg, Mutation, ObjectType, ArgsType, Args } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
 import { addUserInfor, userById, users } from "../db/user.js";
-import { userCodeScalarType } from "../scalar/customScalar.js";
 
 @ObjectType()
 class User {
-  @Field(() => userCodeScalarType, { nullable: true })
-  user_code: number;
-
-  @Field(() => ID, { nullable: true })
+  @Field({ nullable: true })
   kakao_id: string;
 
   @Field({ nullable: true })
@@ -30,11 +26,7 @@ class User {
 
 @ArgsType()
 export class AddUserArgs {
-  @Field(() => userCodeScalarType, { nullable: true })
-  @jf.number().required().min(0)
-  user_code: number;
-
-  @Field(() => ID, { nullable: true })
+  @Field({ nullable: true })
   @jf.string().required().min(0)
   kakao_id: string;
 
@@ -66,13 +58,12 @@ export class UserResolver {
     return users();
   }
   @Query(() => [User])
-  me(@Arg("id", () => ID) id: string) {
+  me(@Arg("id", () => String) id: string) {
     return userById(id);
   }
   @Mutation(() => User)
-  async addUser(@Args() user: AddUserArgs) {
-    await addUserInfor(
-      user.user_code,
+  addUser(@Args() user: AddUserArgs) {
+    addUserInfor(
       user.kakao_id,
       user.kakao_profile_img,
       user.kakao_nickname,

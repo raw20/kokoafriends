@@ -7,55 +7,23 @@ import {
 } from "@apollo/client";
 import { Cart } from "./Cart.interface";
 import { Contents, LikeContents } from "./Contents.interface";
-import { BuyProducts, Product, Products, Review } from "./Products.interface";
+import { BuyProducts, IProducts, IProduct } from "./Products.interface";
 import { IUser } from "./User.interface";
+import { IReview } from "./Reviews.interface";
+import { Dispatch, SetStateAction } from "react";
 
-export interface ReviewsComponent {
-  review: [Review];
-  selectReview: [Review];
-  nowUser: [IUser];
-  selectUserBuyItemList: [BuyProducts];
-}
-
-export interface ProductComponent {
-  Product: Product;
-  cartList: [Cart];
-}
-export interface ContentsComponent {
-  contents: [Contents];
-  comments: [Comment];
-  likeContents: [LikeContents];
-  nowUser: [IUser];
-}
-export interface ContentsDetailComponent {
-  selectContents: [Contents];
-  selectComment: [Comment];
-  comments: [Review];
-  likeContents: [LikeContents];
-  nowUser: [IUser];
-}
-export interface CartComponent {
-  cartList: [Cart];
-  allUserBuyItemList: [BuyProducts];
-  nowUser: [IUser];
-}
-export interface BuyModalComponent {
-  selectItem: [Product];
-  allUserBuyItemList: [BuyProducts];
-  selectUserBuyItemList: [BuyProducts];
-}
-export interface RecentBIComponent {
-  selectUserBuyItemList: [BuyProducts];
-  nowUser: [IUser];
-}
-export interface SearchItem {
-  item: [Product];
-  items: Product[];
+export interface IProductComponent {
+  product: [IProduct];
+  review: [IReview];
 }
 
-export interface IHomeChildComponentProps {
-  data: Products | undefined;
-  countView: (
+export interface IProductReviewsComponent {
+  data?: IProductComponent;
+}
+
+export interface IProductReviewListComponent {
+  review: IReview;
+  updateReviews: (
     options?:
       | MutationFunctionOptions<
           any,
@@ -65,4 +33,112 @@ export interface IHomeChildComponentProps {
         >
       | undefined
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+  deleteReviews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
+  editTextValue: string;
+  setEditTextValue: Dispatch<SetStateAction<string | null>>;
+  editRatingValue: number;
+  setEditRatingValue: Dispatch<SetStateAction<number | null>>;
+}
+
+export interface ICommonPropsDialog {
+  id: number;
+  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
+  setIsEditClick: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface IDeleteDialogComponent extends ICommonPropsDialog {
+  openDeleteDialog: boolean;
+  setOpenDeleteDialog: Dispatch<SetStateAction<boolean>>;
+  deleteReviews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+}
+
+export interface IUpdateDialogComponent extends ICommonPropsDialog {
+  openUpdateDialog: boolean;
+  setOpenUpdateDialog: Dispatch<SetStateAction<boolean>>;
+
+  updateReviews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+  editTextValue: string;
+  editRatingValue: number;
+}
+
+export interface IFeedbackProps {
+  openSnackBar: boolean;
+  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
+  feedBackMessage: string;
+  isFetchCompleted: boolean;
+}
+
+export interface IHomeChildComponentProps {
+  data?: IProducts;
+  countViews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+}
+
+///// 추후 수정예정인 인터페이스
+export interface ContentsComponent {
+  contents: [Contents];
+  comments: [Comment];
+  likeContents: [LikeContents];
+  nowUser: [IUser];
+}
+export interface ContentsDetailComponent {
+  selectContents: [Contents];
+  selectComment: [Comment];
+  comments: [IReview];
+  likeContents: [LikeContents];
+  nowUser: [IUser];
+}
+export interface CartComponent {
+  cartList: [Cart];
+  allUserBuyItemList: [BuyProducts];
+  nowUser: [IUser];
+}
+export interface BuyModalComponent {
+  selectItem: [IProduct];
+  allUserBuyItemList: [BuyProducts];
+  selectUserBuyItemList: [BuyProducts];
+}
+export interface RecentBIComponent {
+  selectUserBuyItemList: [BuyProducts];
+  nowUser: [IUser];
+}
+export interface SearchItem {
+  item: [IProduct];
+  items: IProduct[];
 }

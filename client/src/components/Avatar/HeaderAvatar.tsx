@@ -44,7 +44,6 @@ function HeaderAvatar() {
     setAnchorElUser(null);
   };
 
-  const kakaoLogoutHandler = () => {};
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Open settings">
@@ -77,7 +76,7 @@ function HeaderAvatar() {
             <Typography textAlign="center">{setting.name}</Typography>
           </MenuItem>
         ))}
-        <MenuItem onClick={kakaoLogoutHandler}>
+        <MenuItem>
           <a href={LOGOUT_REDIRECT_URI}>
             <Typography textAlign="center">로그아웃</Typography>
           </a>

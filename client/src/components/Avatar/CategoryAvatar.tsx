@@ -19,7 +19,7 @@ function CategoryAvatar() {
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       {categories.map((category) => (
         <IconButton sx={{ p: 0, mr: 2 }} key={category.id}>
           <CategoryAvatarBox>

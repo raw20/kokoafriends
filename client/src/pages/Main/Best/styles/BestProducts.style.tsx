@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
 
 export const BestProductsContainer = styled.div`
@@ -74,6 +73,8 @@ export const ProductContainer = styled.div`
 
 export const ProductImageSlider = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
   @media ${(props) => props.theme.tablet} {
     width: 100%;
@@ -82,14 +83,10 @@ export const ProductImageSlider = styled.div`
     width: 80%;
     margin: 1rem auto;
   }
-  .slick-arrow {
-    background-color: ${(props) => props.theme.borderColor};
-    border-radius: 50%;
-  }
 `;
 export const SliderImage = styled.img`
-  width: 620px;
-  height: 620px;
+  width: 500px;
+  height: 500px;
 
   @media ${(props) => props.theme.tablet} {
     width: 90%;
@@ -124,11 +121,4 @@ export const ProductImage = styled.img`
 `;
 export const ShowButtonArea = styled.div`
   width: 100%;
-`;
-export const BsCart = styled(BsCart4)`
-  font-size: 2rem;
-  cursor: pointer;
-  @media ${(props) => props.theme.mobile} {
-    font-size: 1.4rem;
-  }
 `;

@@ -7,15 +7,13 @@ import useGetProducts from "./hooks/queries/useGetProducts";
 import useCountView from "./hooks/mutations/useCountView";
 import { MainContainer } from "./styles/Home.style";
 import BannerSlide from "./BannerSlide";
-import NewProjuctsSlide from "./NewProjuctsSlide";
+import NewProducts from "./NewProducts";
 import Category from "./Category";
-
-//const token: string = window.localStorage.getItem("token") as string;
 
 function Home() {
   const state = useLocation();
   const { data, loading } = useGetProducts();
-  const countView = useCountView();
+  const countViews = useCountView();
   if (loading) return <Loading />;
 
   return (
@@ -23,9 +21,9 @@ function Home() {
       <Header />
       {state.pathname === "/" ? (
         <MainContainer>
-          <BannerSlide data={data} countView={countView} />
+          <BannerSlide data={data} countViews={countViews} />
           <Category />
-          <NewProjuctsSlide data={data} countView={countView} />
+          <NewProducts data={data} countViews={countViews} />
         </MainContainer>
       ) : (
         <Outlet />

@@ -1,12 +1,11 @@
-import React from "react";
 import {
-  NewProductBox,
+  NewProductInner,
   NewProductContainer,
   NewProductImage,
   NewProductImageBox,
   NewProductImageBoxInner,
-  NewProductImageSlider,
-} from "./styles/NewProductSlice.style";
+  NewProductBox,
+} from "./styles/NewProducts.style";
 import {
   PrimaryTitle,
   SecondContent,
@@ -14,41 +13,40 @@ import {
 } from "../../../styles/Common.style";
 import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 
-function NewProjuctsSlide({ data, countView }: IHomeChildComponentProps) {
+function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   const newProducts = data?.products.filter(
-    (product) => product.products_id > data?.products.length - 4
+    (product) => product.products_new_status
   );
+
   function countViewHandler(id: number) {
-    countView({
+    countViews({
       variables: {
-        countViewId: Number(id),
+        countViewsId: Number(id),
       },
     });
   }
   return (
     <NewProductContainer>
-      <NewProductBox>
+      <NewProductInner>
         <PrimaryTitle>새로나온 친구들</PrimaryTitle>
-        <NewProductImageSlider>
-          {newProducts?.map((product, index) => (
+        <NewProductBox>
+          {newProducts?.map((product) => (
             <NewProductImageBox
-              to={`/bestProduct/${product?.products_id}`}
-              key={index}
+              to={`/Product/${product?.products_id}`}
+              key={product?.products_id}
               onClick={() => {
                 countViewHandler(product?.products_id);
               }}
             >
               <NewProductImageBoxInner>
-                <NewProductImage
-                  src={require(`../../../asset/image/product/${product?.products_slideImg[0]}`)}
-                />
+                <NewProductImage src={product?.products_slideImg} />
                 <SecondContent> {product?.products_name}</SecondContent>
                 <SecondTitle>{product?.products_price}원</SecondTitle>
               </NewProductImageBoxInner>
             </NewProductImageBox>
           ))}
-        </NewProductImageSlider>
-      </NewProductBox>
+        </NewProductBox>
+      </NewProductInner>
     </NewProductContainer>
   );
 }

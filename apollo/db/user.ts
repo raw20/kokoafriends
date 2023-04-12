@@ -13,7 +13,6 @@ export const userById = async (id: string) => {
 };
 
 export const addUserInfor = async (
-  user_code: number,
   kakao_id: string,
   kakao_profile_img: string,
   kakao_nickname: string,
@@ -23,13 +22,12 @@ export const addUserInfor = async (
 ) => {
   const [rows] = await pool1.query(
     `insert ignore into user_master(
-      user_code,
       kakao_id,
       kakao_profile_img,
       kakao_nickname,
       kakao_email,
       user_role,
-      create_time) values("${user_code}","${kakao_id}","${kakao_profile_img}","${kakao_nickname}","${kakao_email}","${user_role}","${create_time}")`
+      create_time) values("${kakao_id}","${kakao_profile_img}","${kakao_nickname}","${kakao_email}","${user_role}","${create_time}")`
   );
   return rows;
 };

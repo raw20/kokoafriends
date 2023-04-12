@@ -26,7 +26,7 @@ class Products {
   products_contents: string;
 
   @Field({ nullable: true })
-  products_price: number;
+  products_price: string;
 
   @Field({ nullable: true })
   products_like: number;
@@ -35,36 +35,42 @@ class Products {
   products_view: number;
 
   @Field({ nullable: true })
+  products_banner_status: boolean;
+
+  @Field({ nullable: true })
+  products_new_status: boolean;
+
+  @Field({ nullable: true })
   products_half_title: string;
 
   @Field({ nullable: true })
   products_category: string;
 
-  @Field((type) => [String], { nullable: true })
-  products_slideImg: string[] | null;
+  @Field({ nullable: true })
+  products_slideImg: string;
 
-  @Field((type) => [String], { nullable: true })
-  products_mainTopImg: string[] | null;
+  @Field({ nullable: true })
+  products_mainTopImg: string;
 
-  @Field((type) => [String], { nullable: true })
-  products_mainMidImg: string[] | null;
+  @Field({ nullable: true })
+  products_mainMidImg: string;
 
-  @Field((type) => [String], { nullable: true })
-  products_mainBottomImg: string[] | null;
+  @Field({ nullable: true })
+  products_mainBottomImg: string;
 }
 
 @Resolver(Products)
 export class ProductsResolver {
-  @Query((returns) => [Products])
-  async products() {
+  @Query(() => [Products])
+  products() {
     return products();
   }
-  @Query((returns) => Products)
-  async product(@Arg("id", (type) => Int) id: number) {
+  @Query(() => [Products])
+  product(@Arg("id", () => Int) id: number) {
     return productById(id);
   }
-  @Mutation((returns) => Products)
-  countViews(@Arg("id", (type) => Int) id: number) {
+  @Mutation(() => Products)
+  countViews(@Arg("id", () => Int) id: number) {
     return countView(id);
   }
 }

@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client";
-import { Products } from "../../../../../types/Products.interface";
+import { IProducts } from "../../../../../types/Products.interface";
 import { PRODUCTS } from "../../graphql/schema";
 
 function useGetProducts() {
-  const { data: products, loading } = useQuery<Products>(PRODUCTS);
+  const { data, loading } = useQuery<IProducts>(PRODUCTS);
 
-  return { products, loading };
+  return { data, loading };
 }
 
 export default useGetProducts;

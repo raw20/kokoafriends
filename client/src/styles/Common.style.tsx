@@ -1,9 +1,10 @@
 import styled from "styled-components";
-
+import { Button } from "@mui/material";
 export const PrimaryTitle = styled.h1`
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.6rem;
+  margin-top: 1rem;
 
   @media ${(props) => props.theme.mobile} {
     font-size: 1.1rem;
@@ -102,7 +103,7 @@ export const SecondComponentsInner = styled.div`
   }
 `;
 
-export const BuyButton = styled.div`
+export const ProductBuyButton = styled.div`
   width: 100%;
   height: 50px;
   background-color: ${(props) => props.theme.jaygColor};
@@ -114,4 +115,8 @@ export const BuyButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+`;
+
+export const DialogButton = styled(Button)`
+  color: ${(props) => props.theme.secondColor};
 `;

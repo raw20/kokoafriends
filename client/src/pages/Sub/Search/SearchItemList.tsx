@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
-import { Products } from "../../../types/Products.interface";
+import { IProducts } from "../../../types/Products.interface";
 
 const SEARCH_RESULT_ITEM = gql`
   query Item {
@@ -33,7 +33,7 @@ const Text = styled.h1`
   text-align: center;
 `;
 
-function SearchItemList({ searchData }: { searchData: Products[] }) {
+function SearchItemList({ searchData }: { searchData: IProducts[] }) {
   /*   const [viewCount] = useMutation(VIEW_COUNT, {
     refetchQueries: [{ query: SEARCH_RESULT_ITEM }, "Item"],
   });
