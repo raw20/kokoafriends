@@ -72,6 +72,30 @@ export const POST_REVIEW = gql`
   }
 `;
 
+export const UPDATE_REVIEW = gql`
+  mutation UpdateReview(
+    $reviewId: Float
+    $reviewText: String
+    $reviewRating: Float
+    $reviewDate: DateTime
+  ) {
+    updateReview(
+      review_id: $reviewId
+      review_text: $reviewText
+      review_rating: $reviewRating
+      review_date: $reviewDate
+    ) {
+      review_id
+      products_id
+      kakao_id
+      review_text
+      review_rating
+      review_date
+      kakao_nickname
+    }
+  }
+`;
+
 export const DELETE_REVIEW = gql`
   mutation DeleteReview($deleteReviewId: Float!) {
     deleteReview(id: $deleteReviewId) {
@@ -79,6 +103,7 @@ export const DELETE_REVIEW = gql`
     }
   }
 `;
+
 export const ADD_CART = gql`
   mutation AddCart(
     $cartId: Int!

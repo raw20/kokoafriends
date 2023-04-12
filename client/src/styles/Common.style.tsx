@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Button } from "@mui/material";
 export const PrimaryTitle = styled.h1`
   font-size: 1.6rem;
   font-weight: 600;
@@ -115,4 +115,8 @@ export const ProductBuyButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+`;
+
+export const DialogButton = styled(Button)`
+  color: ${(props) => props.theme.secondColor};
 `;

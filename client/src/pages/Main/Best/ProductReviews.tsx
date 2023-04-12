@@ -2,19 +2,11 @@ import { IProductReviewsComponent } from "../../../types/IProps.interface";
 import { useParams } from "react-router-dom";
 import {
   FalseReviewButton,
-  ItemReviewList,
+  ReviewListContainer,
   NormalText,
-  ReViewContent,
-  ReviewBox,
-  ReviewDate,
-  ReviewDeleteButton,
   ReviewInforBox,
-  ReviewRate,
-  ReviewText,
-  ReviewWriter,
   ReviewsContainer,
   SubNormalText,
-  UserName,
   WriteReviewButton,
   WriteReviewInput,
 } from "./styles/ProductReviews.style";
@@ -26,6 +18,7 @@ import { Rating, Typography } from "@mui/material";
 import FeedBack from "../../../components/SnackBar/FeedBack";
 import { useState } from "react";
 import getCreatedIndex from "../../../utils/getCreatedIndex";
+import ProductReviewList from "./ProductReviewList";
 const { Kakao } = window;
 
 function Reviews({ data }: IProductReviewsComponent) {
@@ -33,15 +26,18 @@ function Reviews({ data }: IProductReviewsComponent) {
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const {
     postReviews,
+    updateReviews,
     deleteReviews,
     textValue,
     setTextValue,
     ratingValue,
     setRatingValue,
     feedBackMessage,
+    editTextValue,
+    setEditTextValue,
+    editRatingValue,
+    setEditRatingValue,
   } = useReviews();
-
-  const reviewDate = getFormatDate(new Date());
   let reviewIndex = getCreatedIndex(data?.review.map((ele) => ele.review_id));
 
   const itemBuyListCheck = 0;
@@ -53,18 +49,10 @@ function Reviews({ data }: IProductReviewsComponent) {
         kakaoId: Number(localStorage.getItem(USER_CODE)),
         reviewText: textValue,
         reviewRating: ratingValue,
-        reviewDate: reviewDate,
+        reviewDate: getFormatDate(new Date()),
       },
     });
     setOpenSnackBar(true);
-  }
-  function deleteHandler(id: number) {
-    deleteReviews({
-      variables: {
-        deleteReviewId: id,
-      },
-    });
-    alert("상품평이 삭제되었습니다.");
   }
 
   return (
@@ -113,38 +101,25 @@ function Reviews({ data }: IProductReviewsComponent) {
           </>
         )}
 
-        <ItemReviewList>
+        <ReviewListContainer>
           {Number(data?.review.length) === 0 ? (
             <SubNormalText>아직 리뷰가 없어요</SubNormalText>
           ) : (
             data?.review.map((element) => (
-              <ReviewBox key={element.review_id}>
-                <ReviewWriter>
-                  <UserName>{element.kakao_nickname}</UserName>
-                  {Kakao.Auth.getAccessToken() ? (
-                    <ReviewDeleteButton
-                      onClick={() => deleteHandler(element.review_id)}
-                    >
-                      삭제
-                    </ReviewDeleteButton>
-                  ) : null}
-                </ReviewWriter>
-
-                <ReviewRate>
-                  <Rating
-                    name="read-only"
-                    value={element.review_rating}
-                    readOnly
-                  />
-                  <ReviewDate>{String(element.review_date)}</ReviewDate>
-                </ReviewRate>
-                <ReViewContent>
-                  <ReviewText>{element.review_text}</ReviewText>
-                </ReViewContent>
-              </ReviewBox>
+              <ProductReviewList
+                key={element.review_id}
+                review={element}
+                updateReviews={updateReviews}
+                deleteReviews={deleteReviews}
+                setOpenSnackBar={setOpenSnackBar}
+                editTextValue={editTextValue!}
+                setEditTextValue={setEditTextValue}
+                editRatingValue={editRatingValue!}
+                setEditRatingValue={setEditRatingValue}
+              />
             ))
           )}
-        </ItemReviewList>
+        </ReviewListContainer>
       </ReviewsContainer>
 
       <FeedBack

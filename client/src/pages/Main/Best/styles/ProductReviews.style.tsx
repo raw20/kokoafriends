@@ -33,6 +33,8 @@ export const WriteReviewInput = styled(TextField)`
   }
 `;
 
+export const WriteEditReviewInput = styled(WriteReviewInput)``;
+
 export const WriteReviewButton = styled(Button)`
   background-color: ${(props) => props.theme.boxColor};
 
@@ -41,7 +43,7 @@ export const WriteReviewButton = styled(Button)`
   }
 `;
 
-export const ItemReviewList = styled.div`
+export const ReviewListContainer = styled.div`
   width: 100%;
   height: auto;
   border-top: 1px solid ${(props) => props.theme.jaygColor};
@@ -108,7 +110,7 @@ export const ReviewDate = styled.p`
   }
 `;
 
-export const ReviewDeleteButton = styled.span`
+export const ReviewUtilButton = styled.span`
   width: 35px;
   height: 20px;
   font-size: 0.7rem;

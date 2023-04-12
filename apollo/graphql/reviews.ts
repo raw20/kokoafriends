@@ -15,6 +15,7 @@ import {
   postReview,
   reviewById,
   reviews,
+  updateReview,
 } from "../db/reviews.js";
 
 @ObjectType()
@@ -68,6 +69,25 @@ export class PostReviewArgs {
   review_date: Date;
 }
 
+@ArgsType()
+export class UpdateReviewArgs {
+  @Field({ nullable: true })
+  @jf.number().required().min(0)
+  review_id: number;
+
+  @Field({ nullable: true })
+  @jf.string().required().min(0)
+  review_text: string;
+
+  @Field({ nullable: true })
+  @jf.number().required().min(0)
+  review_rating: number;
+
+  @Field({ nullable: true })
+  @jf.date().required().min(0)
+  review_date: Date;
+}
+
 @Resolver(Reviews)
 export class ReviewsResolver {
   @Query(() => [Reviews])
@@ -86,6 +106,17 @@ export class ReviewsResolver {
       review.review_id,
       review.products_id,
       review.kakao_id,
+      review.review_text,
+      review.review_rating,
+      review.review_date
+    );
+    return { review_id: review.review_id };
+  }
+
+  @Mutation(() => Reviews)
+  updateReview(@Args() review: UpdateReviewArgs) {
+    updateReview(
+      review.review_id,
       review.review_text,
       review.review_rating,
       review.review_date
