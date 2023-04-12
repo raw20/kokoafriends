@@ -10,6 +10,7 @@ import { Contents, LikeContents } from "./Contents.interface";
 import { BuyProducts, IProducts, IProduct } from "./Products.interface";
 import { IUser } from "./User.interface";
 import { IReview } from "./Reviews.interface";
+import { Dispatch, SetStateAction } from "react";
 
 export interface IProductComponent {
   product: [IProduct];
@@ -49,6 +50,12 @@ export interface RecentBIComponent {
 export interface SearchItem {
   item: [IProduct];
   items: IProduct[];
+}
+
+export interface IFeedbackProps {
+  openSnackBar: boolean;
+  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
+  feedBackMessage: string;
 }
 
 export interface IHomeChildComponentProps {

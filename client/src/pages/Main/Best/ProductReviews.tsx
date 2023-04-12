@@ -16,44 +16,52 @@ import {
   SubNormalText,
   UserName,
   WriteReviewButton,
+  WriteReviewInput,
 } from "./styles/ProductReviews.style";
+import CreateIcon from "@mui/icons-material/Create";
 import useReviews from "./hooks/mutations/useReviews";
-import {
-  REVIEW_RATING,
-  REVIEW_TEXT,
-  USER_CODE,
-} from "../../../constant/storageKey";
+import { USER_CODE } from "../../../constant/storageKey";
 import getFormatDate from "../../../utils/getFormatDate";
 import { Rating, Typography } from "@mui/material";
-import useLocalStorage from "./hooks/custom/useLocalStorage";
+import FeedBack from "../../../components/SnackBar/FeedBack";
+import { useState } from "react";
 const { Kakao } = window;
 
 function Reviews({ data }: IProductReviewsComponent) {
   const { id } = useParams();
-  const [textValue, setTextValue] = useLocalStorage(REVIEW_TEXT, "");
-  const [ratingValue, setRatingValue] = useLocalStorage(REVIEW_RATING, 2);
+  const [openSnackBar, setOpenSnackBar] = useState(false);
 
-  const { postReviews, deleteReviews } = useReviews();
+  const {
+    postReviews,
+    deleteReviews,
+    textValue,
+    setTextValue,
+    ratingValue,
+    setRatingValue,
+    feedBackMessage,
+  } = useReviews();
   const reviewDate = getFormatDate(new Date());
-  let reviewIndex = Number(data?.review.length);
+
+  let reviewIndex =
+    data?.review
+      .map((ele) => ele.review_id)
+      .reduce(function (a, b) {
+        return Math.max(a, b);
+      }, 0) || 0;
 
   const itemBuyListCheck = 0;
-  function enterSubmit(e: any) {
-    if (e.key === "Enter") {
-      postReviews({
-        variables: {
-          reviewId: (reviewIndex += 1),
-          productsId: Number(id),
-          kakaoId: Number(localStorage.getItem(USER_CODE)),
-          reviewText: textValue,
-          reviewRating: ratingValue,
-          reviewDate: reviewDate,
-        },
-      });
-      localStorage.removeItem(REVIEW_TEXT);
-      localStorage.removeItem(REVIEW_RATING);
-      setTextValue("");
-    }
+  function postHandler() {
+    postReviews({
+      variables: {
+        reviewId: (reviewIndex += 1),
+        productsId: Number(id),
+        kakaoId: Number(localStorage.getItem(USER_CODE)),
+        reviewText: textValue,
+        reviewRating: ratingValue,
+        reviewDate: reviewDate,
+      },
+    });
+    setOpenSnackBar(true);
   }
   function deleteHandler(id: number) {
     deleteReviews({
@@ -86,12 +94,27 @@ function Reviews({ data }: IProductReviewsComponent) {
                 setRatingValue(newValue);
               }}
             />
-            <WriteReviewButton
-              placeholder="리뷰를 남겨주세요."
-              onChange={({ target: { value } }) => setTextValue(value)}
-              onKeyUp={(e) => enterSubmit(e)}
-              value={textValue}
+
+            <WriteReviewInput
+              fullWidth
+              sx={{ mt: 1 }}
+              id="review-text-field"
+              label="리뷰를 남겨주세요."
+              multiline
+              rows={4}
+              value={textValue ? textValue : ""}
+              onChange={(e) => setTextValue(e.target.value)}
+              color="warning"
             />
+            <WriteReviewButton
+              sx={{ mt: 1, mb: 3 }}
+              fullWidth
+              variant="contained"
+              endIcon={<CreateIcon />}
+              onClick={postHandler}
+            >
+              리뷰등록
+            </WriteReviewButton>
           </>
         )}
 
@@ -128,6 +151,12 @@ function Reviews({ data }: IProductReviewsComponent) {
           )}
         </ItemReviewList>
       </ReviewsContainer>
+
+      <FeedBack
+        openSnackBar={openSnackBar}
+        setOpenSnackBar={setOpenSnackBar}
+        feedBackMessage={feedBackMessage}
+      />
     </>
   );
 }

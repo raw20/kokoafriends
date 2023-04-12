@@ -1,3 +1,4 @@
+import { Button, TextField } from "@mui/material";
 import styled from "styled-components";
 
 export const ReviewsContainer = styled.div`
@@ -25,19 +26,19 @@ export const FalseReviewButton = styled.span`
   color: ${(props) => props.theme.bgColor};
   font-family: "Noto Sans KR", sans-serif;
 `;
+export const WriteReviewInput = styled(TextField)`
+  border-color: ${(props) => props.theme.boxColor};
+  &:focus {
+    border-color: ${(props) => props.theme.secondColor};
+  }
+`;
 
-export const WriteReviewButton = styled.input`
-  width: 100%;
-  height: 40px;
-  margin: 1rem auto;
-  display: flex;
+export const WriteReviewButton = styled(Button)`
   background-color: ${(props) => props.theme.boxColor};
-  border-radius: 10px;
-  align-items: center;
-  border: none;
-  font-size: 0.9rem;
-  color: ${(props) => props.theme.bgColor};
-  font-family: "Noto Sans KR", sans-serif;
+
+  &:hover {
+    background-color: ${(props) => props.theme.secondColor};
+  }
 `;
 
 export const ItemReviewList = styled.div`

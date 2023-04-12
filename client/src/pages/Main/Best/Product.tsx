@@ -25,6 +25,7 @@ import {
   SecondContent,
   SecondTitle,
 } from "../../../styles/Common.style";
+import { Box, Rating } from "@mui/material";
 
 const CustomModalStyles = {
   content: {
@@ -41,6 +42,15 @@ const CustomModalStyles = {
 function Product() {
   const { id } = useParams();
   const { data, loading } = useGetProductById(id);
+  const productRating =
+    data?.review !== undefined
+      ? data?.review
+          .map((element) => element.review_rating)
+          .reduce(function add(sum, curr) {
+            return sum + curr;
+          }, 0) / data?.review.length
+      : 0;
+
   const addCart = useAddCart();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -85,9 +95,18 @@ function Product() {
         </ProductImageSlider>
 
         <TopMainInfoContainer>
-          <SecondTitle>{data?.product[0].products_name}</SecondTitle>
+          <Box>
+            <SecondTitle>{data?.product[0].products_name}</SecondTitle>
+            <Rating
+              name="half-rating-read"
+              defaultValue={productRating || 0}
+              precision={0.5}
+              readOnly
+            />
+          </Box>
+
           <ShoppingCartOutlinedIcon
-            style={{ color: "#616161", cursor: "pointer" }}
+            style={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
             onClick={() =>
               addCartHandler(
                 String(data?.product[0].products_name),
