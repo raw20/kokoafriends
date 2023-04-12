@@ -25,12 +25,12 @@ import getFormatDate from "../../../utils/getFormatDate";
 import { Rating, Typography } from "@mui/material";
 import FeedBack from "../../../components/SnackBar/FeedBack";
 import { useState } from "react";
+import getCreatedIndex from "../../../utils/getCreatedIndex";
 const { Kakao } = window;
 
 function Reviews({ data }: IProductReviewsComponent) {
   const { id } = useParams();
   const [openSnackBar, setOpenSnackBar] = useState(false);
-
   const {
     postReviews,
     deleteReviews,
@@ -40,14 +40,9 @@ function Reviews({ data }: IProductReviewsComponent) {
     setRatingValue,
     feedBackMessage,
   } = useReviews();
-  const reviewDate = getFormatDate(new Date());
 
-  let reviewIndex =
-    data?.review
-      .map((ele) => ele.review_id)
-      .reduce(function (a, b) {
-        return Math.max(a, b);
-      }, 0) || 0;
+  const reviewDate = getFormatDate(new Date());
+  let reviewIndex = getCreatedIndex(data!);
 
   const itemBuyListCheck = 0;
   function postHandler() {
