@@ -42,7 +42,7 @@ function Reviews({ data }: IProductReviewsComponent) {
   } = useReviews();
 
   const reviewDate = getFormatDate(new Date());
-  let reviewIndex = getCreatedIndex(data!);
+  let reviewIndex = getCreatedIndex(data?.review.map((ele) => ele.review_id));
 
   const itemBuyListCheck = 0;
   function postHandler() {
