@@ -4,8 +4,8 @@ import Modal from "react-modal";
 import BuyModal from "../../../components/Modal/BuyModal";
 import ProductReviews from "./ProductReviews";
 import Loading from "../../../components/Loading/Loading";
-import useGetProductById from "./hooks/queries/useGetProductById";
-import useAddCart from "./hooks/mutations/useAddCart";
+import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
+import useAddCart from "../../../services/products/hooks/mutations/useAddCart";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {
   BottomMainInfoContainer,

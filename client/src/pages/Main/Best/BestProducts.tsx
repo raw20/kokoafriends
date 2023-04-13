@@ -17,12 +17,12 @@ import {
   BestProductsContentsBox,
 } from "./styles/BestProducts.style";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import useCountView from "./hooks/mutations/useCountView";
-import useGetProducts from "./hooks/queries/useGetProducts";
+import useGetBestProducts from "../../../services/products/hooks/queries/useGetBestProducts";
 import { useNavigate } from "react-router-dom";
+import useCountView from "../../../services/products/hooks/mutations/useCountView";
 
 function BestProducts() {
-  const { data, loading } = useGetProducts();
+  const { data, loading } = useGetBestProducts();
   const countViews = useCountView();
   const navigate = useNavigate();
 

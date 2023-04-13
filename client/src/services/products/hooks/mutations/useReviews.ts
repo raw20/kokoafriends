@@ -4,13 +4,13 @@ import {
   POST_REVIEW,
   SELECTED_PRODUCT,
   UPDATE_REVIEW,
-} from "../../graphql/schema";
+} from "../../graphql/bestProductsSchema";
 import {
   REVIEW_EDIT_RATING,
   REVIEW_EDiT_TEXT,
   REVIEW_RATING,
   REVIEW_TEXT,
-} from "../../../../../constant/storageKey";
+} from "../../../../constant/storageKey";
 import { useEffect, useRef, useState } from "react";
 import useLocalStorage from "../custom/useLocalStorage";
 

@@ -11,7 +11,7 @@ import {
   WriteReviewInput,
 } from "./styles/ProductReviews.style";
 import CreateIcon from "@mui/icons-material/Create";
-import useReviews from "./hooks/mutations/useReviews";
+import useReviews from "../../../services/products/hooks/mutations/useReviews";
 import { USER_CODE } from "../../../constant/storageKey";
 import getFormatDate from "../../../utils/getFormatDate";
 import { Rating, Typography } from "@mui/material";
