@@ -12,19 +12,30 @@ import {
   SecondTitle,
 } from "../../../styles/Common.style";
 import { IHomeChildComponentProps } from "../../../types/IProps.interface";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
+  const navigate = useNavigate();
   const newProducts = data?.products.filter(
     (product) => product.products_new_status
   );
 
-  function countViewHandler(id: number) {
+  function replaceProductHandler(id: number) {
+    navigate(`/Product/${id}`);
     countViews({
       variables: {
         countViewsId: Number(id),
       },
     });
   }
+
+  function addCartHandler(e: { stopPropagation: () => void }) {
+    e.stopPropagation();
+    console.log("add");
+  }
+
   return (
     <NewProductContainer>
       <NewProductInner>
@@ -32,15 +43,21 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
         <NewProductBox>
           {newProducts?.map((product) => (
             <NewProductImageBox
-              to={`/Product/${product?.products_id}`}
               key={product?.products_id}
               onClick={() => {
-                countViewHandler(product?.products_id);
+                replaceProductHandler(product?.products_id);
               }}
             >
               <NewProductImageBoxInner>
                 <NewProductImage src={product?.products_slideImg} />
-                <SecondContent> {product?.products_name}</SecondContent>
+                <Box sx={{ display: "flex" }}>
+                  <SecondContent> {product?.products_name}</SecondContent>
+                  <ShoppingCartOutlinedIcon
+                    onClick={addCartHandler}
+                    sx={{ cursor: "pointer" }}
+                    style={{ color: "#616161" }}
+                  />
+                </Box>
                 <SecondTitle>{product?.products_price}원</SecondTitle>
               </NewProductImageBoxInner>
             </NewProductImageBox>

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { BannerContainer } from "./BannerSlide.style";
 
 export const NewProductContainer = styled.div`
@@ -21,7 +20,7 @@ export const NewProductInner = styled(BannerContainer)`
   margin: 4.5rem auto;
 `;
 
-export const NewProductImageBox = styled(Link)`
+export const NewProductImageBox = styled.div`
   width: 80%;
   height: auto;
   display: flex;

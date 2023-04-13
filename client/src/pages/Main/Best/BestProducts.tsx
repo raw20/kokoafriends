@@ -19,22 +19,31 @@ import {
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import useCountView from "./hooks/mutations/useCountView";
 import useGetProducts from "./hooks/queries/useGetProducts";
+import { useNavigate } from "react-router-dom";
 
 function BestProducts() {
   const { data, loading } = useGetProducts();
   const countViews = useCountView();
+  const navigate = useNavigate();
 
   const bestProducts = data?.products
     .map((ele) => ele)
     .sort((a, b) => b.products_view - a.products_view);
 
-  function viewCountHandler(id: number) {
+  function replaceProductHandler(id: number) {
+    navigate(`/Product/${id}`);
     countViews({
       variables: {
         countViewsId: id,
       },
     });
   }
+
+  function addCartHandler(e: { stopPropagation: () => void }) {
+    e.stopPropagation();
+    console.log("add");
+  }
+
   if (loading) return <Loading />;
   return (
     <BestProductsContainer>
@@ -47,9 +56,8 @@ function BestProducts() {
           {bestProducts?.map((product, index) => (
             <ProductLink
               onClick={() => {
-                viewCountHandler(product?.products_id);
+                replaceProductHandler(product?.products_id);
               }}
-              to={`/Product/${product?.products_id}`}
               key={product?.products_id}
             >
               <BestProductsImageBox>
@@ -61,7 +69,11 @@ function BestProducts() {
                 )}
                 <BestProductsContentsBox>
                   <SecondContent> {product?.products_name}</SecondContent>
-                  <ShoppingCartOutlinedIcon style={{ color: "#616161" }} />
+                  <ShoppingCartOutlinedIcon
+                    onClick={addCartHandler}
+                    sx={{ cursor: "pointer" }}
+                    style={{ color: "#616161" }}
+                  />
                 </BestProductsContentsBox>
                 <SecondTitle>{product?.products_price}원</SecondTitle>
               </BestProductsImageBox>
