@@ -6,13 +6,12 @@ import { buildSchema } from "type-graphql";
 import { ProductsResolver } from "./graphql/products.js";
 import { UserResolver } from "./graphql/user.js";
 import { ReviewsResolver } from "./graphql/reviews.js";
-import { CartResolver } from "./graphql/cart.js";
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 
 buildSchema({
-  resolvers: [ProductsResolver, UserResolver, ReviewsResolver, CartResolver],
+  resolvers: [ProductsResolver, UserResolver, ReviewsResolver],
   validate: (argValue) => {
     const { error } = joiful.validate(argValue);
     if (error) {
