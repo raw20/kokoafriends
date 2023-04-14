@@ -5,7 +5,7 @@ import {
   MutationFunctionOptions,
   OperationVariables,
 } from "@apollo/client";
-import { Cart } from "./Cart.interface";
+import { ICart } from "./Cart.interface";
 import { Contents, LikeContents } from "./Contents.interface";
 import { BuyProducts, IProducts, IProduct } from "./Products.interface";
 import { IUser } from "./User.interface";
@@ -110,6 +110,10 @@ export interface IHomeChildComponentProps {
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
 }
 
+export interface ICartListComponent {
+  cartElement: ICart;
+}
+
 ///// 추후 수정예정인 인터페이스
 export interface ContentsComponent {
   contents: [Contents];
@@ -124,11 +128,7 @@ export interface ContentsDetailComponent {
   likeContents: [LikeContents];
   nowUser: [IUser];
 }
-export interface CartComponent {
-  cartList: [Cart];
-  allUserBuyItemList: [BuyProducts];
-  nowUser: [IUser];
-}
+
 export interface BuyModalComponent {
   selectItem: [IProduct];
   allUserBuyItemList: [BuyProducts];

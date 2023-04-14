@@ -20,6 +20,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import useGetBestProducts from "../../../services/products/hooks/queries/useGetBestProducts";
 import { useNavigate } from "react-router-dom";
 import useCountView from "../../../services/products/hooks/mutations/useCountView";
+import { addCart } from "../../../store/cart";
 
 function BestProducts() {
   const { data, loading } = useGetBestProducts();
@@ -39,9 +40,15 @@ function BestProducts() {
     });
   }
 
-  function addCartHandler(e: { stopPropagation: () => void }) {
+  function addCartHandler(
+    e: { stopPropagation: () => void },
+    id: number,
+    name: string,
+    price: string,
+    img: string
+  ) {
     e.stopPropagation();
-    console.log("add");
+    addCart(id, name, 1, price, img);
   }
 
   if (loading) return <Loading />;
@@ -70,7 +77,15 @@ function BestProducts() {
                 <BestProductsContentsBox>
                   <SecondContent> {product?.products_name}</SecondContent>
                   <ShoppingCartOutlinedIcon
-                    onClick={addCartHandler}
+                    onClick={(e) =>
+                      addCartHandler(
+                        e,
+                        product.products_id,
+                        product.products_name,
+                        product.products_price,
+                        product.products_slideImg
+                      )
+                    }
                     sx={{ cursor: "pointer" }}
                     style={{ color: "#616161" }}
                   />

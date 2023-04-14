@@ -5,7 +5,6 @@ import BuyModal from "../../../components/Modal/BuyModal";
 import ProductReviews from "./ProductReviews";
 import Loading from "../../../components/Loading/Loading";
 import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
-import useAddCart from "../../../services/products/hooks/mutations/useAddCart";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import {
   BottomMainInfoContainer,
@@ -26,6 +25,7 @@ import {
   SecondTitle,
 } from "../../../styles/Common.style";
 import { Box, Rating } from "@mui/material";
+import { addCart } from "../../../store/cart";
 
 const CustomModalStyles = {
   content: {
@@ -51,7 +51,6 @@ function Product() {
           }, 0) / data?.review.length
       : 0;
 
-  const addCart = useAddCart();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   function openModal() {
@@ -61,24 +60,14 @@ function Product() {
     setModalOpen(false);
   }
 
-  let index = 0;
-
   function addCartHandler(
+    id: number,
     name: string,
-    price: number,
-    products_slideImg: string
+    price: string,
+    img: string
   ) {
-    /*  addCart({
-      variables: {
-        cartId: index++,
-        sId: Number(id),
-        products_name: name,
-        products_price: price,
-        bCount: 1,
-        products_slideImg: products_slideImg,
-        check: true,
-      },
-    }); */
+    addCart(id, name, 1, price, img);
+
     alert(`${name}이(가) 장바구니에 담겼습니다.`);
   }
 
@@ -109,8 +98,9 @@ function Product() {
             style={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
             onClick={() =>
               addCartHandler(
+                Number(data?.product[0].products_id),
                 String(data?.product[0].products_name),
-                Number(data?.product[0].products_price),
+                String(data?.product[0].products_price),
                 String(data?.product[0].products_slideImg)
               )
             }

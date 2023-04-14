@@ -7,7 +7,7 @@ import {
 } from "./styles/DeliveryFee.style";
 import { SecondMediumText } from "./styles/Cart.style";
 
-function DeliveryFee() {
+function DeliveryFee({ sumPrice }: { sumPrice: number }) {
   return (
     <DeliveryFeeBox>
       <DeliveryFeeTextBox>

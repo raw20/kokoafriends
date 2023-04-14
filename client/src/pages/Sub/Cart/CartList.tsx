@@ -1,3 +1,4 @@
+import { ICartListComponent } from "../../../types/IProps.interface";
 import { CheckBox, LargeText, MediumText } from "./styles/Cart.style";
 import {
   BoxCenter,
@@ -8,16 +9,18 @@ import {
   DeleteButton,
 } from "./styles/CartList.style";
 
-function CartList() {
+function CartList({ cartElement }: ICartListComponent) {
   return (
-    <CartListBox key={ele.cartId}>
+    <CartListBox>
       <BoxLeft>
-        <CheckBox type="checkbox" checked={ele.check ? true : false} />
-        <CartProductImage src={`/img/product/${ele?.slideImg}`} />
+        <CheckBox type="checkbox" />
+        <CartProductImage src={cartElement.products_slideImg} />
       </BoxLeft>
       <BoxCenter>
-        <LargeText>{ele.sName}</LargeText>
-        <MediumText>{ele.sPrice * ele.bCount}원</MediumText>
+        <LargeText>{cartElement.products_name}</LargeText>
+        <MediumText>
+          {cartElement.products_price * cartElement.products_amount}원
+        </MediumText>
       </BoxCenter>
       <BoxRight>
         <DeleteButton />

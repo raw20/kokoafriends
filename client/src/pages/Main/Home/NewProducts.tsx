@@ -15,9 +15,11 @@ import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { addCart } from "../../../store/cart";
 
 function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   const navigate = useNavigate();
+
   const newProducts = data?.products.filter(
     (product) => product.products_new_status
   );
@@ -31,9 +33,15 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
     });
   }
 
-  function addCartHandler(e: { stopPropagation: () => void }) {
+  function addCartHandler(
+    e: { stopPropagation: () => void },
+    id: number,
+    name: string,
+    price: string,
+    img: string
+  ) {
     e.stopPropagation();
-    console.log("add");
+    addCart(id, name, 1, price, img);
   }
 
   return (
@@ -53,7 +61,15 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
                 <Box sx={{ display: "flex" }}>
                   <SecondContent> {product?.products_name}</SecondContent>
                   <ShoppingCartOutlinedIcon
-                    onClick={addCartHandler}
+                    onClick={(e) =>
+                      addCartHandler(
+                        e,
+                        product.products_id,
+                        product.products_name,
+                        product.products_price,
+                        product.products_slideImg
+                      )
+                    }
                     sx={{ cursor: "pointer" }}
                     style={{ color: "#616161" }}
                   />

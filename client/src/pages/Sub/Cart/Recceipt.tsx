@@ -6,7 +6,7 @@ import {
 } from "./styles/Receipt.style";
 import { LargeText } from "./styles/Cart.style";
 
-function Recceipt() {
+function Recceipt({ sumPrice }: { sumPrice: number }) {
   return (
     <ReceiptBox>
       <ReceiptLeft>

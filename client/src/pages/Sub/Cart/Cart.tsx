@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import EmptyCart from "./EmptyCart";
 import CartList from "./CartList";
 import {
@@ -18,20 +17,28 @@ import {
 } from "./styles/Cart.style";
 import Recceipt from "./Recceipt";
 import DeliveryFee from "./DeliveryFee";
+import { useReactiveVar } from "@apollo/client";
+import { cartList } from "../../../store/cart";
 
 function Cart() {
-  const navigate = useNavigate();
-
+  const data = useReactiveVar(cartList);
+  console.log(data);
+  const sumPrice =
+    data !== undefined
+      ? data
+          ?.map((element) => element.products_price)
+          .reduce((a: number, b: number) => a + b, 0)
+      : 0;
   return (
     <>
       <CartContainer>
         <CartInner>
           <Title>장바구니</Title>
-          {Number(data?.cartList.length) === 0 ? (
+          {data === undefined ? (
             <EmptyCart />
           ) : (
             <>
-              <DeliveryFee />
+              <DeliveryFee sumPrice={sumPrice!} />
 
               <CheckTable>
                 <CheckLeft>
@@ -43,12 +50,14 @@ function Cart() {
                 </CheckRight>
               </CheckTable>
               <CartListTable>
-                {data?.cartList.map((ele, index) => (
-                  <CartList />
-                ))}
+                {data !== undefined
+                  ? data?.map((element) => (
+                      <CartList key={element.cart_id} cartElement={element} />
+                    ))
+                  : null}
               </CartListTable>
 
-              <Recceipt />
+              <Recceipt sumPrice={sumPrice!} />
 
               <BuyTable>
                 {sumPrice ? (
