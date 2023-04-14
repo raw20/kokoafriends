@@ -44,6 +44,7 @@ export const CheckBox = styled.input`
   background-color: ${(props) => props.theme.muziColor};
   border-radius: 50%;
   margin-right: 1rem;
+  cursor: pointer;
 `;
 export const CartListTable = styled.div`
   width: 100%;

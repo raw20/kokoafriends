@@ -17,13 +17,16 @@ import {
   BestProductsContentsBox,
 } from "./styles/BestProducts.style";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import useGetBestProducts from "../../../services/products/hooks/queries/useGetBestProducts";
 import { useNavigate } from "react-router-dom";
 import useCountView from "../../../services/products/hooks/mutations/useCountView";
-import { addCart } from "../../../store/cart";
+import { addCart, deleteCart } from "../../../store/cart";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 
 function BestProducts() {
   const { data, loading } = useGetBestProducts();
+  const { findProductId } = useGetCartData();
   const countViews = useCountView();
   const navigate = useNavigate();
 
@@ -51,6 +54,11 @@ function BestProducts() {
     addCart(id, name, 1, price, img);
   }
 
+  function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
+    e.stopPropagation();
+    deleteCart(id);
+  }
+
   if (loading) return <Loading />;
   return (
     <BestProductsContainer>
@@ -76,19 +84,25 @@ function BestProducts() {
                 )}
                 <BestProductsContentsBox>
                   <SecondContent> {product?.products_name}</SecondContent>
-                  <ShoppingCartOutlinedIcon
-                    onClick={(e) =>
-                      addCartHandler(
-                        e,
-                        product.products_id,
-                        product.products_name,
-                        product.products_price,
-                        product.products_slideImg
-                      )
-                    }
-                    sx={{ cursor: "pointer" }}
-                    style={{ color: "#616161" }}
-                  />
+                  {!findProductId.includes(product.products_id) ? (
+                    <ShoppingCartOutlinedIcon
+                      onClick={(e) =>
+                        addCartHandler(
+                          e,
+                          product.products_id,
+                          product.products_name,
+                          product.products_price,
+                          product.products_slideImg
+                        )
+                      }
+                      sx={{ color: "#616161", cursor: "pointer" }}
+                    />
+                  ) : (
+                    <RemoveShoppingCartIcon
+                      onClick={(e) => deleteCartHandler(e, product.products_id)}
+                      sx={{ color: "#616161", cursor: "pointer" }}
+                    />
+                  )}
                 </BestProductsContentsBox>
                 <SecondTitle>{product?.products_price}원</SecondTitle>
               </BestProductsImageBox>

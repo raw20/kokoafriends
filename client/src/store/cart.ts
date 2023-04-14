@@ -23,12 +23,13 @@ export function addCart(
   };
   cartList([...currentCartItem, newCartItem]);
   cartId(prevId + 1);
+  //localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
 }
 
-export function deleteCart(cartId: number) {
+export function deleteCart(productId: number) {
   const currentCartItem = [...cartList()];
   const deleteIndex = currentCartItem.findIndex(
-    (element) => element.cart_id === cartId
+    (element) => element.products_id === productId
   );
 
   if (deleteIndex === -1) return;

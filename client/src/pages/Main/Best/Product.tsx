@@ -6,6 +6,7 @@ import ProductReviews from "./ProductReviews";
 import Loading from "../../../components/Loading/Loading";
 import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import {
   BottomMainInfoContainer,
   ProductContainer,
@@ -25,7 +26,8 @@ import {
   SecondTitle,
 } from "../../../styles/Common.style";
 import { Box, Rating } from "@mui/material";
-import { addCart } from "../../../store/cart";
+import { addCart, deleteCart } from "../../../store/cart";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 
 const CustomModalStyles = {
   content: {
@@ -42,6 +44,7 @@ const CustomModalStyles = {
 function Product() {
   const { id } = useParams();
   const { data, loading } = useGetProductById(id);
+  const { findProductId } = useGetCartData();
   const productRating =
     data?.review !== undefined
       ? data?.review
@@ -67,8 +70,10 @@ function Product() {
     img: string
   ) {
     addCart(id, name, 1, price, img);
-
-    alert(`${name}이(가) 장바구니에 담겼습니다.`);
+  }
+  function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
+    e.stopPropagation();
+    deleteCart(id);
   }
 
   if (loading) return <Loading />;
@@ -93,18 +98,26 @@ function Product() {
               readOnly
             />
           </Box>
-
-          <ShoppingCartOutlinedIcon
-            style={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
-            onClick={() =>
-              addCartHandler(
-                Number(data?.product[0].products_id),
-                String(data?.product[0].products_name),
-                String(data?.product[0].products_price),
-                String(data?.product[0].products_slideImg)
-              )
-            }
-          />
+          {!findProductId.includes(Number(data?.product[0].products_id)) ? (
+            <ShoppingCartOutlinedIcon
+              style={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
+              onClick={() =>
+                addCartHandler(
+                  Number(data?.product[0].products_id),
+                  String(data?.product[0].products_name),
+                  String(data?.product[0].products_price),
+                  String(data?.product[0].products_slideImg)
+                )
+              }
+            />
+          ) : (
+            <RemoveShoppingCartIcon
+              onClick={(e) =>
+                deleteCartHandler(e, Number(data?.product[0].products_id))
+              }
+              sx={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
+            />
+          )}
         </TopMainInfoContainer>
         <BottomMainInfoContainer>
           <SecondTitle>{data?.product[0].products_price}원</SecondTitle>

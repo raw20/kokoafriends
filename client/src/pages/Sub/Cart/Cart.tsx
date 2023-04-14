@@ -17,24 +17,17 @@ import {
 } from "./styles/Cart.style";
 import Recceipt from "./Recceipt";
 import DeliveryFee from "./DeliveryFee";
-import { useReactiveVar } from "@apollo/client";
-import { cartList } from "../../../store/cart";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 
 function Cart() {
-  const data = useReactiveVar(cartList);
-  console.log(data);
-  const sumPrice =
-    data !== undefined
-      ? data
-          ?.map((element) => element.products_price)
-          .reduce((a: number, b: number) => a + b, 0)
-      : 0;
+  const { cartData, sumPrice } = useGetCartData();
+
   return (
     <>
       <CartContainer>
         <CartInner>
           <Title>장바구니</Title>
-          {data === undefined ? (
+          {cartData?.length === 0 ? (
             <EmptyCart />
           ) : (
             <>
@@ -50,8 +43,8 @@ function Cart() {
                 </CheckRight>
               </CheckTable>
               <CartListTable>
-                {data !== undefined
-                  ? data?.map((element) => (
+                {cartData
+                  ? cartData?.map((element) => (
                       <CartList key={element.cart_id} cartElement={element} />
                     ))
                   : null}

@@ -7,3 +7,5 @@ export const REVIEW_TEXT = "review_text";
 export const REVIEW_EDIT_RATING = "review_edit_rating";
 
 export const REVIEW_EDiT_TEXT = "review_edit_text";
+
+export const CART_LIST = "cart_list";

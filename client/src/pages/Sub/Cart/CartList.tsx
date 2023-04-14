@@ -1,5 +1,12 @@
 import { ICartListComponent } from "../../../types/IProps.interface";
-import { CheckBox, LargeText, MediumText } from "./styles/Cart.style";
+import {
+  CheckBox,
+  Control,
+  Input,
+  LargeText,
+  MediumText,
+  NumControl,
+} from "./styles/Cart.style";
 import {
   BoxCenter,
   BoxLeft,
@@ -21,6 +28,15 @@ function CartList({ cartElement }: ICartListComponent) {
         <MediumText>
           {cartElement.products_price * cartElement.products_amount}원
         </MediumText>
+        <NumControl>
+          <Control onClick={() => cartElement.products_amount--}>-</Control>
+          <Input
+            type="number"
+            value={cartElement.products_amount}
+            onChange={(e) => e}
+          />
+          <Control onClick={() => cartElement.products_amount++}>+</Control>
+        </NumControl>
       </BoxCenter>
       <BoxRight>
         <DeleteButton />
