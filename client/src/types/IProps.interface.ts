@@ -112,6 +112,10 @@ export interface IHomeChildComponentProps {
 
 export interface ICartListComponent {
   cartElement: ICart;
+  isAllchecked: boolean;
+  setIsAllchecked: Dispatch<SetStateAction<boolean>>;
+  productId: number[];
+  setProductId: Dispatch<SetStateAction<number[]>>;
 }
 
 ///// 추후 수정예정인 인터페이스

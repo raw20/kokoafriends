@@ -26,8 +26,15 @@ export function addCart(
   //localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
 }
 
-export function deleteCart(productId: number) {
+export function deleteCart(productId: number | number[]) {
   const currentCartItem = [...cartList()];
+
+  if (typeof productId === "object") {
+    const filterCartItem = currentCartItem.filter(
+      (element) => !productId.includes(element.products_id)
+    );
+    cartList(filterCartItem);
+  }
   const deleteIndex = currentCartItem.findIndex(
     (element) => element.products_id === productId
   );
@@ -35,5 +42,27 @@ export function deleteCart(productId: number) {
   if (deleteIndex === -1) return;
 
   currentCartItem.splice(deleteIndex, 1);
+  cartList(currentCartItem);
+}
+
+export function amountMinus(productId: number) {
+  const currentCartItem = [...cartList()];
+  const findIndex = currentCartItem.findIndex(
+    (element) => element.products_id === productId
+  );
+  if (currentCartItem[findIndex].products_amount > 1)
+    currentCartItem[findIndex].products_amount -= 1;
+
+  cartList(currentCartItem);
+}
+
+export function amountPlus(productId: number) {
+  const currentCartItem = [...cartList()];
+  const findIndex = currentCartItem.findIndex(
+    (element) => element.products_id === productId
+  );
+  if (currentCartItem[findIndex].products_amount > 0)
+    currentCartItem[findIndex].products_amount += 1;
+
   cartList(currentCartItem);
 }

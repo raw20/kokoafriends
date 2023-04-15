@@ -18,9 +18,25 @@ import {
 import Recceipt from "./Recceipt";
 import DeliveryFee from "./DeliveryFee";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import { ChangeEvent, useState } from "react";
+import { deleteCart } from "../../../store/cart";
 
 function Cart() {
   const { cartData, sumPrice } = useGetCartData();
+  const [productId, setProductId] = useState<number[]>([]);
+  const [isAllchecked, setIsAllchecked] = useState(false);
+
+  function allCheckHandler(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.checked && cartData) {
+      setProductId(cartData?.map((element) => element.products_id));
+      setIsAllchecked(true);
+    } else {
+      const copyProductId = [...productId];
+      copyProductId.splice(0);
+      setProductId(copyProductId);
+      setIsAllchecked(false);
+    }
+  }
 
   return (
     <>
@@ -35,17 +51,30 @@ function Cart() {
 
               <CheckTable>
                 <CheckLeft>
-                  <CheckBox type="checkbox" onChange={(e) => console.log(e)} />
-                  <MediumText>총 0개</MediumText>
+                  <CheckBox
+                    type="checkbox"
+                    checked={isAllchecked}
+                    onChange={(e) => allCheckHandler(e)}
+                  />
+                  <MediumText>총 {cartData?.length} 개</MediumText>
                 </CheckLeft>
                 <CheckRight>
-                  <SmallText>선택삭제</SmallText>
+                  <SmallText onClick={() => deleteCart(productId)}>
+                    선택삭제
+                  </SmallText>
                 </CheckRight>
               </CheckTable>
               <CartListTable>
                 {cartData
                   ? cartData?.map((element) => (
-                      <CartList key={element.cart_id} cartElement={element} />
+                      <CartList
+                        key={element.cart_id}
+                        cartElement={element}
+                        isAllchecked={isAllchecked}
+                        setIsAllchecked={setIsAllchecked}
+                        productId={productId}
+                        setProductId={setProductId}
+                      />
                     ))
                   : null}
               </CartListTable>

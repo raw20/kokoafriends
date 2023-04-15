@@ -18,8 +18,8 @@ function useGetCartData() {
           ?.map((element) => element.products_price)
           .reduce((a: number, b: number) => a + b, 0)
       : 0;
-  console.log("cartVar : ", copyCartVar);
-  console.log("cartData : ", cartData);
+  /* console.log("cartVar : ", copyCartVar);
+  console.log("cartData : ", cartData); */
 
   useEffect(() => {
     setCartDate(cartVar);
