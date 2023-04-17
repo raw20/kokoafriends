@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const BestProductsContainer = styled.div`
@@ -18,13 +17,14 @@ export const ProductsBox = styled.div`
     grid-template-rows: 250px 250px;
   }
 `;
+
 export const BestProductsTitleBox = styled.div`
   width: 80%;
   height: auto;
   margin: 1rem auto;
   text-align: center;
 `;
-export const ProductLink = styled(Link)`
+export const ProductLink = styled.div`
   width: 80%;
   height: auto;
   margin: 1rem auto;
@@ -48,6 +48,7 @@ export const BestProductsImageBox = styled.div`
   flex-direction: column;
   position: relative;
 `;
+
 export const BestProductsContentsBox = styled.div`
   width: 100%;
   height: auto;
@@ -84,6 +85,7 @@ export const ProductImageSlider = styled.div`
     margin: 1rem auto;
   }
 `;
+
 export const SliderImage = styled.img`
   width: 500px;
   height: 500px;
@@ -96,6 +98,7 @@ export const SliderImage = styled.img`
     height: 70%;
   }
 `;
+
 export const TopMainInfoContainer = styled.div`
   width: 100%;
   height: auto;
@@ -103,6 +106,7 @@ export const TopMainInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 export const BottomMainInfoContainer = styled.div`
   width: 100%;
   height: auto;
@@ -114,11 +118,13 @@ export const SubInfoContainer = styled.div`
   height: auto;
   margin: 3.5rem auto;
 `;
+
 export const ProductImage = styled.img`
   width: 100%;
   height: auto;
   margin: 1rem auto;
 `;
+
 export const ShowButtonArea = styled.div`
   width: 100%;
 `;

@@ -11,19 +11,17 @@ import {
   WriteReviewInput,
 } from "./styles/ProductReviews.style";
 import CreateIcon from "@mui/icons-material/Create";
-import useReviews from "./hooks/mutations/useReviews";
+import useReviews from "../../../services/products/hooks/mutations/useReviews";
 import { USER_CODE } from "../../../constant/storageKey";
 import getFormatDate from "../../../utils/getFormatDate";
 import { Rating, Typography } from "@mui/material";
-import FeedBack from "../../../components/SnackBar/FeedBack";
-import { useState } from "react";
 import getCreatedIndex from "../../../utils/getCreatedIndex";
 import ProductReviewList from "./ProductReviewList";
+import { isOpenSnackBarVar } from "../../../store/snackbar";
 const { Kakao } = window;
 
-function Reviews({ data }: IProductReviewsComponent) {
+function ProductReviews({ data }: IProductReviewsComponent) {
   const { id } = useParams();
-  const [openSnackBar, setOpenSnackBar] = useState(false);
   const {
     postReviews,
     updateReviews,
@@ -32,14 +30,12 @@ function Reviews({ data }: IProductReviewsComponent) {
     setTextValue,
     ratingValue,
     setRatingValue,
-    feedBackMessage,
     editTextValue,
     setEditTextValue,
     editRatingValue,
     setEditRatingValue,
-    isFetchCompleted,
   } = useReviews();
-  let reviewIndex = getCreatedIndex(data?.review.map((ele) => ele.review_id));
+  let reviewIndex = getCreatedIndex(data?.reviews.map((ele) => ele.review_id));
 
   const itemBuyListCheck = 0;
   function postHandler() {
@@ -53,7 +49,7 @@ function Reviews({ data }: IProductReviewsComponent) {
         reviewDate: getFormatDate(new Date()),
       },
     });
-    setOpenSnackBar(true);
+    isOpenSnackBarVar(true);
   }
 
   return (
@@ -112,7 +108,6 @@ function Reviews({ data }: IProductReviewsComponent) {
                 review={element}
                 updateReviews={updateReviews}
                 deleteReviews={deleteReviews}
-                setOpenSnackBar={setOpenSnackBar}
                 editTextValue={editTextValue!}
                 setEditTextValue={setEditTextValue}
                 editRatingValue={editRatingValue!}
@@ -122,15 +117,8 @@ function Reviews({ data }: IProductReviewsComponent) {
           )}
         </ReviewListContainer>
       </ReviewsContainer>
-
-      <FeedBack
-        openSnackBar={openSnackBar}
-        setOpenSnackBar={setOpenSnackBar}
-        feedBackMessage={feedBackMessage}
-        isFetchCompleted={isFetchCompleted}
-      />
     </>
   );
 }
 
-export default Reviews;
+export default ProductReviews;

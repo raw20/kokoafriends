@@ -8,17 +8,19 @@ import {
 import { DialogButton } from "../../styles/Common.style";
 import { IUpdateDialogComponent } from "../../types/IProps.interface";
 import getFormatDate from "../../utils/getFormatDate";
+import { isOpenSnackBarVar } from "../../store/snackbar";
+import { isOpenUpdateReviewDialogVar } from "../../store/dialog";
+import { useReactiveVar } from "@apollo/client";
 
-function UpdateDialog({
+function UpdateReviewDialog({
   id,
-  openUpdateDialog,
-  setOpenSnackBar,
-  setOpenUpdateDialog,
   setIsEditClick,
   updateReviews,
   editTextValue,
   editRatingValue,
 }: IUpdateDialogComponent) {
+  const isOpenDialog = useReactiveVar(isOpenUpdateReviewDialogVar);
+
   function updateHandler() {
     updateReviews({
       variables: {
@@ -28,16 +30,17 @@ function UpdateDialog({
         reviewDate: getFormatDate(new Date()),
       },
     });
-    setOpenSnackBar(true);
+    isOpenSnackBarVar(true);
     setIsEditClick(false);
-    setOpenUpdateDialog(false);
+    isOpenUpdateReviewDialogVar(false);
   }
+
   function handleClose() {
-    setOpenUpdateDialog(false);
+    isOpenUpdateReviewDialogVar(false);
   }
   return (
     <Dialog
-      open={openUpdateDialog}
+      open={isOpenDialog}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -56,4 +59,4 @@ function UpdateDialog({
   );
 }
 
-export default UpdateDialog;
+export default UpdateReviewDialog;

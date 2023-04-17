@@ -7,33 +7,35 @@ import {
 } from "@mui/material";
 import { IDeleteDialogComponent } from "../../types/IProps.interface";
 import { DialogButton } from "../../styles/Common.style";
+import { isOpenSnackBarVar } from "../../store/snackbar";
+import { useReactiveVar } from "@apollo/client";
+import { isOpenDeleteReviewDialogVar } from "../../store/dialog";
 
-function DeleteDialog({
+function DeleteReviewDialog({
   id,
-  openDeleteDialog,
-  setOpenSnackBar,
-  setOpenDeleteDialog,
   setIsEditClick,
   deleteReviews,
 }: IDeleteDialogComponent) {
+  const isOpenDialog = useReactiveVar(isOpenDeleteReviewDialogVar);
+
   function deleteHandler() {
     deleteReviews({
       variables: {
         deleteReviewId: id,
       },
     });
-    setOpenSnackBar(true);
+    isOpenSnackBarVar(true);
     setIsEditClick(false);
-    setOpenDeleteDialog(false);
+    isOpenDeleteReviewDialogVar(false);
   }
 
   function handleClose() {
-    setOpenDeleteDialog(false);
+    isOpenDeleteReviewDialogVar(false);
   }
 
   return (
     <Dialog
-      open={openDeleteDialog}
+      open={isOpenDialog}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -52,4 +54,4 @@ function DeleteDialog({
   );
 }
 
-export default DeleteDialog;
+export default DeleteReviewDialog;

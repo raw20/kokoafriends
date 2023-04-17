@@ -12,23 +12,24 @@ import {
 import { Box, Rating } from "@mui/material";
 import { IProductReviewListComponent } from "../../../types/IProps.interface";
 import { useState } from "react";
-import DeleteDialog from "../../../components/Dialog/DeleteDialog";
-import UpdateDialog from "../../../components/Dialog/UpdateDialog";
+import DeleteReviewDialog from "../../../components/Dialog/DeleteReviewDialog";
+import UpdateReviewDialog from "../../../components/Dialog/UpdateReviewDialog";
+import {
+  isOpenUpdateReviewDialogVar,
+  isOpenDeleteReviewDialogVar,
+} from "../../../store/dialog";
 const { Kakao } = window;
 
 function ProductReviewList({
   review,
   updateReviews,
   deleteReviews,
-  setOpenSnackBar,
   editTextValue,
   setEditTextValue,
   editRatingValue,
   setEditRatingValue,
 }: IProductReviewListComponent) {
   const [isEditClick, setIsEditClick] = useState(false);
-  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   return (
     <ReviewBox>
@@ -38,14 +39,18 @@ function ProductReviewList({
           <Box sx={{ display: "flex" }}>
             <ReviewUtilButton
               onClick={() =>
-                isEditClick ? setOpenUpdateDialog(true) : setIsEditClick(true)
+                isEditClick && editTextValue !== ""
+                  ? isOpenUpdateReviewDialogVar(true)
+                  : setIsEditClick(true)
               }
             >
               {isEditClick ? "등록" : "수정"}
             </ReviewUtilButton>
             <ReviewUtilButton
               onClick={() =>
-                isEditClick ? setIsEditClick(false) : setOpenDeleteDialog(true)
+                isEditClick
+                  ? setIsEditClick(false)
+                  : isOpenDeleteReviewDialogVar(true)
               }
             >
               {isEditClick ? "취소" : "삭제"}
@@ -83,19 +88,13 @@ function ProductReviewList({
         )}
       </ReViewContent>
 
-      <DeleteDialog
+      <DeleteReviewDialog
         id={review.review_id}
-        openDeleteDialog={openDeleteDialog}
-        setOpenSnackBar={setOpenSnackBar}
-        setOpenDeleteDialog={setOpenDeleteDialog}
         setIsEditClick={setIsEditClick}
         deleteReviews={deleteReviews}
       />
-      <UpdateDialog
+      <UpdateReviewDialog
         id={review.review_id}
-        openUpdateDialog={openUpdateDialog}
-        setOpenSnackBar={setOpenSnackBar}
-        setOpenUpdateDialog={setOpenUpdateDialog}
         setIsEditClick={setIsEditClick}
         updateReviews={updateReviews}
         editTextValue={editTextValue}

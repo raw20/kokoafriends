@@ -17,24 +17,58 @@ import {
   BestProductsContentsBox,
 } from "./styles/BestProducts.style";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import useCountView from "./hooks/mutations/useCountView";
-import useGetProducts from "./hooks/queries/useGetProducts";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+import useGetBestProducts from "../../../services/products/hooks/queries/useGetBestProducts";
+import { useNavigate } from "react-router-dom";
+import useCountView from "../../../services/products/hooks/mutations/useCountView";
+import { addCart, deleteCart } from "../../../store/cart";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import {
+  feedbackMessageVar,
+  isFetchCompletedVar,
+  isOpenSnackBarVar,
+} from "../../../store/snackbar";
 
 function BestProducts() {
-  const { data, loading } = useGetProducts();
+  const { data, loading } = useGetBestProducts();
+  const { findProductId } = useGetCartData();
   const countViews = useCountView();
+  const navigate = useNavigate();
 
   const bestProducts = data?.products
     .map((ele) => ele)
     .sort((a, b) => b.products_view - a.products_view);
 
-  function viewCountHandler(id: number) {
+  function replaceProductHandler(id: number) {
+    navigate(`/Product/${id}`);
     countViews({
       variables: {
         countViewsId: id,
       },
     });
   }
+
+  function addCartHandler(
+    e: { stopPropagation: () => void },
+    id: number,
+    name: string,
+    price: string,
+    img: string
+  ) {
+    e.stopPropagation();
+    addCart(id, name, 1, price, img);
+    isFetchCompletedVar(true);
+    feedbackMessageVar(`장바구니에 ${name}가 담겼습니다.`);
+    isOpenSnackBarVar(true);
+  }
+
+  function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
+    e.stopPropagation();
+    deleteCart(id);
+    feedbackMessageVar("장바구니 담기를 취소하였습니다.");
+    isOpenSnackBarVar(true);
+  }
+
   if (loading) return <Loading />;
   return (
     <BestProductsContainer>
@@ -47,9 +81,8 @@ function BestProducts() {
           {bestProducts?.map((product, index) => (
             <ProductLink
               onClick={() => {
-                viewCountHandler(product?.products_id);
+                replaceProductHandler(product?.products_id);
               }}
-              to={`/Product/${product?.products_id}`}
               key={product?.products_id}
             >
               <BestProductsImageBox>
@@ -61,7 +94,25 @@ function BestProducts() {
                 )}
                 <BestProductsContentsBox>
                   <SecondContent> {product?.products_name}</SecondContent>
-                  <ShoppingCartOutlinedIcon style={{ color: "#616161" }} />
+                  {!findProductId.includes(product.products_id) ? (
+                    <ShoppingCartOutlinedIcon
+                      onClick={(e) =>
+                        addCartHandler(
+                          e,
+                          product.products_id,
+                          product.products_name,
+                          product.products_price,
+                          product.products_slideImg
+                        )
+                      }
+                      sx={{ color: "#616161", cursor: "pointer" }}
+                    />
+                  ) : (
+                    <RemoveShoppingCartIcon
+                      onClick={(e) => deleteCartHandler(e, product.products_id)}
+                      sx={{ color: "#616161", cursor: "pointer" }}
+                    />
+                  )}
                 </BestProductsContentsBox>
                 <SecondTitle>{product?.products_price}원</SecondTitle>
               </BestProductsImageBox>

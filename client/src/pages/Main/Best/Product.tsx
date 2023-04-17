@@ -3,10 +3,9 @@ import { useState } from "react";
 import Modal from "react-modal";
 import BuyModal from "../../../components/Modal/BuyModal";
 import ProductReviews from "./ProductReviews";
-import Loading from "../../../components/Loading/Loading";
-import useGetProductById from "./hooks/queries/useGetProductById";
-import useAddCart from "./hooks/mutations/useAddCart";
+import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import {
   BottomMainInfoContainer,
   ProductContainer,
@@ -26,6 +25,13 @@ import {
   SecondTitle,
 } from "../../../styles/Common.style";
 import { Box, Rating } from "@mui/material";
+import { addCart, deleteCart } from "../../../store/cart";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import {
+  feedbackMessageVar,
+  isFetchCompletedVar,
+  isOpenSnackBarVar,
+} from "../../../store/snackbar";
 
 const CustomModalStyles = {
   content: {
@@ -41,7 +47,8 @@ const CustomModalStyles = {
 
 function Product() {
   const { id } = useParams();
-  const { data, loading } = useGetProductById(id);
+  const { data } = useGetProductById(id);
+  const { findProductId } = useGetCartData();
   const productRating =
     data?.review !== undefined
       ? data?.review
@@ -51,7 +58,6 @@ function Product() {
           }, 0) / data?.review.length
       : 0;
 
-  const addCart = useAddCart();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   function openModal() {
@@ -61,28 +67,23 @@ function Product() {
     setModalOpen(false);
   }
 
-  let index = 0;
-
   function addCartHandler(
+    id: number,
     name: string,
-    price: number,
-    products_slideImg: string
+    price: string,
+    img: string
   ) {
-    /*  addCart({
-      variables: {
-        cartId: index++,
-        sId: Number(id),
-        products_name: name,
-        products_price: price,
-        bCount: 1,
-        products_slideImg: products_slideImg,
-        check: true,
-      },
-    }); */
-    alert(`${name}이(가) 장바구니에 담겼습니다.`);
+    addCart(id, name, 1, price, img);
+    isFetchCompletedVar(true);
+    feedbackMessageVar(`장바구니에 ${name}가 담겼습니다.`);
+    isOpenSnackBarVar(true);
   }
-
-  if (loading) return <Loading />;
+  function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
+    e.stopPropagation();
+    deleteCart(id);
+    feedbackMessageVar("장바구니 담기를 취소하였습니다.");
+    isOpenSnackBarVar(true);
+  }
 
   return (
     <ProductContainer>
@@ -104,17 +105,26 @@ function Product() {
               readOnly
             />
           </Box>
-
-          <ShoppingCartOutlinedIcon
-            style={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
-            onClick={() =>
-              addCartHandler(
-                String(data?.product[0].products_name),
-                Number(data?.product[0].products_price),
-                String(data?.product[0].products_slideImg)
-              )
-            }
-          />
+          {!findProductId.includes(Number(data?.product[0].products_id)) ? (
+            <ShoppingCartOutlinedIcon
+              style={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
+              onClick={() =>
+                addCartHandler(
+                  Number(data?.product[0].products_id),
+                  String(data?.product[0].products_name),
+                  String(data?.product[0].products_price),
+                  String(data?.product[0].products_slideImg)
+                )
+              }
+            />
+          ) : (
+            <RemoveShoppingCartIcon
+              onClick={(e) =>
+                deleteCartHandler(e, Number(data?.product[0].products_id))
+              }
+              sx={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
+            />
+          )}
         </TopMainInfoContainer>
         <BottomMainInfoContainer>
           <SecondTitle>{data?.product[0].products_price}원</SecondTitle>

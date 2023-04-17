@@ -8,6 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { LOGOUT_REDIRECT_URI } from "../../constant/oAuth";
 import useLogin from "../../services/auth/hooks/useLogin";
+import { Link } from "react-router-dom";
 
 interface ISettingItem {
   id: string;
@@ -19,21 +20,21 @@ function HeaderAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { user } = useLogin();
 
-  const menuItem = [
+  const MENU_ITEM = [
     {
       id: "1",
       name: "마이페이지",
-      path: "/mypage",
+      path: "mypage",
     },
     {
       id: "2",
       name: "장바구니",
-      path: "/cart",
+      path: "cart",
     },
     {
       id: "3",
       name: "배송조회",
-      path: "/buy-list",
+      path: "buy-list",
     },
   ];
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -71,9 +72,11 @@ function HeaderAvatar() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {menuItem.map((setting: ISettingItem) => (
+        {MENU_ITEM.map((setting: ISettingItem) => (
           <MenuItem key={setting.id} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting.name}</Typography>
+            <Link to={`/${setting.path}`}>
+              <Typography textAlign="center">{setting.name}</Typography>
+            </Link>
           </MenuItem>
         ))}
         <MenuItem>

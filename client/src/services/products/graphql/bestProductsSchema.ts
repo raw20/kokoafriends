@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const PRODUCTS = gql`
+export const BEST_PRODUCTS = gql`
   query Products {
     products {
       products_id
@@ -31,6 +31,15 @@ export const SELECTED_PRODUCT = gql`
       products_mainBottomImg
     }
     review(id: $productId) {
+      review_id
+      products_id
+      kakao_id
+      review_text
+      review_rating
+      review_date
+      kakao_nickname
+    }
+    reviews {
       review_id
       products_id
       kakao_id
@@ -100,35 +109,6 @@ export const DELETE_REVIEW = gql`
   mutation DeleteReview($deleteReviewId: Float!) {
     deleteReview(id: $deleteReviewId) {
       review_id
-    }
-  }
-`;
-
-export const ADD_CART = gql`
-  mutation AddCart(
-    $cartId: Int!
-    $sId: Int!
-    $sName: String!
-    $sPrice: Int!
-    $bCount: Int!
-    $slideImg: [String]!
-    $check: Boolean!
-  ) {
-    addCart(
-      cartId: $cartId
-      sId: $sId
-      sName: $sName
-      sPrice: $sPrice
-      bCount: $bCount
-      slideImg: $slideImg
-      check: $check
-    ) {
-      sId
-      sName
-      sPrice
-      bCount
-      slideImg
-      check
     }
   }
 `;

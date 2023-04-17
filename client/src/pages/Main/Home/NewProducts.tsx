@@ -12,19 +12,55 @@ import {
   SecondTitle,
 } from "../../../styles/Common.style";
 import { IHomeChildComponentProps } from "../../../types/IProps.interface";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { addCart, deleteCart } from "../../../store/cart";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import {
+  feedbackMessageVar,
+  isFetchCompletedVar,
+  isOpenSnackBarVar,
+} from "../../../store/snackbar";
 
-function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
+function NewProducts({ data, countViews }: IHomeChildComponentProps) {
+  const navigate = useNavigate();
+  const { findProductId } = useGetCartData();
   const newProducts = data?.products.filter(
     (product) => product.products_new_status
   );
 
-  function countViewHandler(id: number) {
+  function replaceProductHandler(id: number) {
+    navigate(`/Product/${id}`);
     countViews({
       variables: {
         countViewsId: Number(id),
       },
     });
   }
+
+  function addCartHandler(
+    e: { stopPropagation: () => void },
+    id: number,
+    name: string,
+    price: string,
+    img: string
+  ) {
+    e.stopPropagation();
+    addCart(id, name, 1, price, img);
+    isFetchCompletedVar(true);
+    feedbackMessageVar(`장바구니에 ${name}가 담겼습니다.`);
+    isOpenSnackBarVar(true);
+  }
+
+  function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
+    e.stopPropagation();
+    deleteCart(id);
+    feedbackMessageVar("장바구니 담기를 취소하였습니다.");
+    isOpenSnackBarVar(true);
+  }
+
   return (
     <NewProductContainer>
       <NewProductInner>
@@ -32,15 +68,37 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
         <NewProductBox>
           {newProducts?.map((product) => (
             <NewProductImageBox
-              to={`/Product/${product?.products_id}`}
               key={product?.products_id}
               onClick={() => {
-                countViewHandler(product?.products_id);
+                replaceProductHandler(product?.products_id);
               }}
             >
               <NewProductImageBoxInner>
                 <NewProductImage src={product?.products_slideImg} />
-                <SecondContent> {product?.products_name}</SecondContent>
+                <Box sx={{ display: "flex" }}>
+                  <SecondContent> {product?.products_name}</SecondContent>
+                  {!findProductId.includes(product.products_id) ? (
+                    <ShoppingCartOutlinedIcon
+                      onClick={(e) =>
+                        addCartHandler(
+                          e,
+                          product.products_id,
+                          product.products_name,
+                          product.products_price,
+                          product.products_slideImg
+                        )
+                      }
+                      sx={{ cursor: "pointer" }}
+                      style={{ color: "#616161" }}
+                    />
+                  ) : (
+                    <RemoveShoppingCartIcon
+                      onClick={(e) => deleteCartHandler(e, product.products_id)}
+                      sx={{ cursor: "pointer" }}
+                      style={{ color: "#616161" }}
+                    />
+                  )}
+                </Box>
                 <SecondTitle>{product?.products_price}원</SecondTitle>
               </NewProductImageBoxInner>
             </NewProductImageBox>
@@ -51,4 +109,4 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   );
 }
 
-export default NewProjuctsSlide;
+export default NewProducts;

@@ -5,7 +5,7 @@ import {
   MutationFunctionOptions,
   OperationVariables,
 } from "@apollo/client";
-import { Cart } from "./Cart.interface";
+import { ICart } from "./Cart.interface";
 import { Contents, LikeContents } from "./Contents.interface";
 import { BuyProducts, IProducts, IProduct } from "./Products.interface";
 import { IUser } from "./User.interface";
@@ -15,6 +15,7 @@ import { Dispatch, SetStateAction } from "react";
 export interface IProductComponent {
   product: [IProduct];
   review: [IReview];
+  reviews: [IReview];
 }
 
 export interface IProductReviewsComponent {
@@ -43,7 +44,6 @@ export interface IProductReviewListComponent {
         >
       | undefined
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
-  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
   editTextValue: string;
   setEditTextValue: Dispatch<SetStateAction<string | null>>;
   editRatingValue: number;
@@ -52,13 +52,10 @@ export interface IProductReviewListComponent {
 
 export interface ICommonPropsDialog {
   id: number;
-  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
   setIsEditClick: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface IDeleteDialogComponent extends ICommonPropsDialog {
-  openDeleteDialog: boolean;
-  setOpenDeleteDialog: Dispatch<SetStateAction<boolean>>;
   deleteReviews: (
     options?:
       | MutationFunctionOptions<
@@ -72,9 +69,6 @@ export interface IDeleteDialogComponent extends ICommonPropsDialog {
 }
 
 export interface IUpdateDialogComponent extends ICommonPropsDialog {
-  openUpdateDialog: boolean;
-  setOpenUpdateDialog: Dispatch<SetStateAction<boolean>>;
-
   updateReviews: (
     options?:
       | MutationFunctionOptions<
@@ -87,13 +81,6 @@ export interface IUpdateDialogComponent extends ICommonPropsDialog {
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
   editTextValue: string;
   editRatingValue: number;
-}
-
-export interface IFeedbackProps {
-  openSnackBar: boolean;
-  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
-  feedBackMessage: string;
-  isFetchCompleted: boolean;
 }
 
 export interface IHomeChildComponentProps {
@@ -110,6 +97,14 @@ export interface IHomeChildComponentProps {
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
 }
 
+export interface ICartListComponent {
+  cartElement: ICart;
+  isAllchecked: boolean;
+  setIsAllchecked: Dispatch<SetStateAction<boolean>>;
+  productId: number[];
+  setProductId: Dispatch<SetStateAction<number[]>>;
+}
+
 ///// 추후 수정예정인 인터페이스
 export interface ContentsComponent {
   contents: [Contents];
@@ -124,11 +119,7 @@ export interface ContentsDetailComponent {
   likeContents: [LikeContents];
   nowUser: [IUser];
 }
-export interface CartComponent {
-  cartList: [Cart];
-  allUserBuyItemList: [BuyProducts];
-  nowUser: [IUser];
-}
+
 export interface BuyModalComponent {
   selectItem: [IProduct];
   allUserBuyItemList: [BuyProducts];
