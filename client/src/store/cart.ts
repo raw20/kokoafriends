@@ -1,8 +1,10 @@
 import { makeVar } from "@apollo/client";
 import { ICart } from "../types/Cart.interface";
+import { CART_LIST } from "../constant/storageKey";
+import getCreatedIndex from "../utils/getCreatedIndex";
 
-const cartId = makeVar(0);
-export const cartList = makeVar<ICart[]>([]);
+export const localCartList = JSON.parse(localStorage.getItem(CART_LIST)!) || [];
+export const cartList = makeVar<ICart[]>(localCartList);
 
 export function addCart(
   products_id: number,
@@ -11,10 +13,12 @@ export function addCart(
   products_price: string,
   products_slideImg: string
 ) {
-  const prevId = cartId();
   const currentCartItem = cartList();
+  let cartIndex = getCreatedIndex(
+    currentCartItem.map((element) => element.cart_id)
+  );
   const newCartItem = {
-    cart_id: prevId + 1,
+    cart_id: cartIndex + 1,
     products_id: products_id,
     products_name: products_name,
     products_amount: products_amount,
@@ -22,8 +26,7 @@ export function addCart(
     products_slideImg: products_slideImg,
   };
   cartList([...currentCartItem, newCartItem]);
-  cartId(prevId + 1);
-  //localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
+  localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
 }
 
 export function deleteCart(productId: number | number[]) {
@@ -34,6 +37,7 @@ export function deleteCart(productId: number | number[]) {
       (element) => !productId.includes(element.products_id)
     );
     cartList(filterCartItem);
+    localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
   }
   const deleteIndex = currentCartItem.findIndex(
     (element) => element.products_id === productId
@@ -43,6 +47,7 @@ export function deleteCart(productId: number | number[]) {
 
   currentCartItem.splice(deleteIndex, 1);
   cartList(currentCartItem);
+  localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
 }
 
 export function amountMinus(productId: number) {
@@ -54,6 +59,7 @@ export function amountMinus(productId: number) {
     currentCartItem[findIndex].products_amount -= 1;
 
   cartList(currentCartItem);
+  localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
 }
 
 export function amountPlus(productId: number) {
@@ -65,4 +71,5 @@ export function amountPlus(productId: number) {
     currentCartItem[findIndex].products_amount += 1;
 
   cartList(currentCartItem);
+  localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
 }

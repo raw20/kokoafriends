@@ -56,8 +56,6 @@ export interface ICommonPropsDialog {
 }
 
 export interface IDeleteDialogComponent extends ICommonPropsDialog {
-  openDeleteDialog: boolean;
-  setOpenDeleteDialog: Dispatch<SetStateAction<boolean>>;
   deleteReviews: (
     options?:
       | MutationFunctionOptions<
@@ -71,9 +69,6 @@ export interface IDeleteDialogComponent extends ICommonPropsDialog {
 }
 
 export interface IUpdateDialogComponent extends ICommonPropsDialog {
-  openUpdateDialog: boolean;
-  setOpenUpdateDialog: Dispatch<SetStateAction<boolean>>;
-
   updateReviews: (
     options?:
       | MutationFunctionOptions<

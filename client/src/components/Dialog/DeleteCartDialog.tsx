@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Dialog,
   DialogActions,
@@ -5,43 +6,35 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { IDeleteDialogComponent } from "../../types/IProps.interface";
+import { isOpenDeleteCartDialogVar } from "../../store/dialog";
 import { DialogButton } from "../../styles/Common.style";
 import { isOpenSnackBarVar } from "../../store/snackbar";
+import { deleteCart } from "../../store/cart";
 
-function DeleteDialog({
-  id,
-  openDeleteDialog,
-  setOpenDeleteDialog,
-  setIsEditClick,
-  deleteReviews,
-}: IDeleteDialogComponent) {
+function DeleteCartDialog({ id }: { id: number | number[] }) {
+  const isOpenDialog = useReactiveVar(isOpenDeleteCartDialogVar);
+
   function deleteHandler() {
-    deleteReviews({
-      variables: {
-        deleteReviewId: id,
-      },
-    });
+    deleteCart(id);
     isOpenSnackBarVar(true);
-    setIsEditClick(false);
-    setOpenDeleteDialog(false);
+    isOpenDeleteCartDialogVar(false);
   }
 
   function handleClose() {
-    setOpenDeleteDialog(false);
+    isOpenDeleteCartDialogVar(false);
   }
 
   return (
     <Dialog
-      open={openDeleteDialog}
+      open={isOpenDialog}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">알림창</DialogTitle>
+      <DialogTitle id="alert-dialog-title">선택 삭제</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          리뷰를 삭제하시겠습니까?
+          장바구니에서 선택된 상품을 제거하시겠습니까??
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -52,4 +45,4 @@ function DeleteDialog({
   );
 }
 
-export default DeleteDialog;
+export default DeleteCartDialog;

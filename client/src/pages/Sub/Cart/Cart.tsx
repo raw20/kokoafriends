@@ -19,7 +19,8 @@ import Recceipt from "./Recceipt";
 import DeliveryFee from "./DeliveryFee";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 import { ChangeEvent, useState } from "react";
-import { deleteCart } from "../../../store/cart";
+import DeleteCartDialog from "../../../components/Dialog/DeleteCartDialog";
+import { isOpenDeleteCartDialogVar } from "../../../store/dialog";
 
 function Cart() {
   const { cartData, sumPrice } = useGetCartData();
@@ -59,7 +60,7 @@ function Cart() {
                   <MediumText>총 {cartData?.length} 개</MediumText>
                 </CheckLeft>
                 <CheckRight>
-                  <SmallText onClick={() => deleteCart(productId)}>
+                  <SmallText onClick={() => isOpenDeleteCartDialogVar(true)}>
                     선택삭제
                   </SmallText>
                 </CheckRight>
@@ -99,6 +100,8 @@ function Cart() {
           )}
         </CartInner>
       </CartContainer>
+
+      <DeleteCartDialog id={productId} />
     </>
   );
 }
