@@ -15,7 +15,7 @@ function useGetCartData() {
   const sumPrice =
     cartData !== undefined
       ? cartData
-          ?.map((element) => element.products_price)
+          ?.map((element) => element.products_price * element.products_amount)
           .reduce((a: number, b: number) => a + b, 0)
       : 0;
   /* console.log("cartVar : ", copyCartVar);

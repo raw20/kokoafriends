@@ -90,7 +90,7 @@ export const BuyButton = styled.div`
   width: 100%;
   height: 50px;
   margin-top: 1.5rem;
-  background-color: ${(props) => props.theme.apeachColor};
+  background-color: ${(props) => props.theme.secondColor};
   color: ${(props) => props.theme.bgColor};
   font-size: 1.4rem;
   display: flex;

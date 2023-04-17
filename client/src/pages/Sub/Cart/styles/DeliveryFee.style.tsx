@@ -21,11 +21,13 @@ export const DeliveryFeeBar = styled.div`
 export const DeliveryFeeBarFull = styled.div<{ priceSize: number }>`
   width: ${(props) =>
     props.priceSize >= 30000 ? 100 : props.priceSize / 300}%;
-  background-color: ${(props) => props.theme.apeachColor};
-  color: ${(props) => props.theme.apeachColor};
+  height: 100%;
+  background-color: ${(props) => props.theme.secondColor};
+  color: ${(props) => props.theme.secondColor};
   border-radius: 5px;
   display: flex;
   justify-content: start;
+  align-items: center;
   animation: blink 0.6s ease-in-out infinite alternate;
 
   @keyframes blink {
@@ -39,5 +41,5 @@ export const DeliveryFeeBarFull = styled.div<{ priceSize: number }>`
 `;
 
 export const DeliveryFeeText = styled(SecondMediumText)`
-  color: ${(props) => props.theme.apeachColor};
+  color: ${(props) => props.theme.ryanColor};
 `;
