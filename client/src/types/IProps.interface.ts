@@ -6,9 +6,8 @@ import {
   OperationVariables,
 } from "@apollo/client";
 import { ICart } from "./Cart.interface";
-import { Contents, LikeContents } from "./Contents.interface";
 import { BuyProducts, IProducts, IProduct } from "./Products.interface";
-import { IUser } from "./User.interface";
+import { IMeData, IUser } from "./User.interface";
 import { IReview } from "./Reviews.interface";
 import { Dispatch, SetStateAction } from "react";
 
@@ -106,18 +105,9 @@ export interface ICartListComponent {
 }
 
 ///// 추후 수정예정인 인터페이스
-export interface ContentsComponent {
-  contents: [Contents];
-  comments: [Comment];
-  likeContents: [LikeContents];
-  nowUser: [IUser];
-}
-export interface ContentsDetailComponent {
-  selectContents: [Contents];
-  selectComment: [Comment];
-  comments: [IReview];
-  likeContents: [LikeContents];
-  nowUser: [IUser];
+
+export interface IOrderCustomerComponent {
+  user: IMeData;
 }
 
 export interface BuyModalComponent {

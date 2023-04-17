@@ -81,6 +81,22 @@ export const PrimaryImage = styled.img`
   }
 `;
 
+export const PrimaryContainer = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 1.2rem 7.5rem;
+  box-sizing: border-box;
+  justify-content: center;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    padding: 1.2rem 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    padding: 0;
+  }
+`;
+
 export const PrimaryComponentsInner = styled.div`
   width: 60%;
   height: auto;

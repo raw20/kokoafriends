@@ -21,11 +21,13 @@ import useGetCartData from "../../../services/products/hooks/custom/useGetCartDa
 import { ChangeEvent, useState } from "react";
 import DeleteCartDialog from "../../../components/Dialog/DeleteCartDialog";
 import { isOpenDeleteCartDialogVar } from "../../../store/dialog";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const { cartData, sumPrice } = useGetCartData();
   const [productId, setProductId] = useState<number[]>([]);
   const [isAllchecked, setIsAllchecked] = useState(false);
+  const navigator = useNavigate();
 
   function allCheckHandler(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.checked && cartData) {
@@ -85,7 +87,7 @@ function Cart() {
               <BuyTable>
                 {sumPrice ? (
                   <>
-                    <BuyButton>
+                    <BuyButton onClick={() => navigator("/checkout")}>
                       {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
                       주문하기
                     </BuyButton>

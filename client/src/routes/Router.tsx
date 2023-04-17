@@ -9,6 +9,7 @@ import Cart from "../pages/Sub/Cart/Cart";
 import ContentsDetail from "../pages/Main/Contents/Content";
 import KaKaoLoginRedirect from "../services/auth/KaKaoLoginRedirect";
 import KaKaoLogoutRedirect from "../services/auth/KaKaoLogoutRedirect";
+import BuyCheckout from "../pages/Sub/BuyCheckout/BuyCheckout";
 
 function Router() {
   return (
@@ -33,6 +34,8 @@ function Router() {
             path="/oauth/callback/kakao/logout"
             element={<KaKaoLogoutRedirect />}
           />
+          {/* Order Page */}
+          <Route path="/checkout" element={<BuyCheckout />} />
         </Route>
       </Routes>
     </BrowserRouter>
