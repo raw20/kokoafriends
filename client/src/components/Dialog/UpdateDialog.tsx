@@ -8,11 +8,11 @@ import {
 import { DialogButton } from "../../styles/Common.style";
 import { IUpdateDialogComponent } from "../../types/IProps.interface";
 import getFormatDate from "../../utils/getFormatDate";
+import { isOpenSnackBarVar } from "../../store/snackbar";
 
 function UpdateDialog({
   id,
   openUpdateDialog,
-  setOpenSnackBar,
   setOpenUpdateDialog,
   setIsEditClick,
   updateReviews,
@@ -28,7 +28,7 @@ function UpdateDialog({
         reviewDate: getFormatDate(new Date()),
       },
     });
-    setOpenSnackBar(true);
+    isOpenSnackBarVar(true);
     setIsEditClick(false);
     setOpenUpdateDialog(false);
   }

@@ -43,7 +43,6 @@ export interface IProductReviewListComponent {
         >
       | undefined
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
-  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
   editTextValue: string;
   setEditTextValue: Dispatch<SetStateAction<string | null>>;
   editRatingValue: number;
@@ -52,7 +51,6 @@ export interface IProductReviewListComponent {
 
 export interface ICommonPropsDialog {
   id: number;
-  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
   setIsEditClick: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -87,13 +85,6 @@ export interface IUpdateDialogComponent extends ICommonPropsDialog {
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
   editTextValue: string;
   editRatingValue: number;
-}
-
-export interface IFeedbackProps {
-  openSnackBar: boolean;
-  setOpenSnackBar: Dispatch<SetStateAction<boolean>>;
-  feedBackMessage: string;
-  isFetchCompleted: boolean;
 }
 
 export interface IHomeChildComponentProps {

@@ -18,8 +18,13 @@ import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { addCart, deleteCart } from "../../../store/cart";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import {
+  feedbackMessageVar,
+  isFetchCompletedVar,
+  isOpenSnackBarVar,
+} from "../../../store/snackbar";
 
-function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
+function NewProducts({ data, countViews }: IHomeChildComponentProps) {
   const navigate = useNavigate();
   const { findProductId } = useGetCartData();
   const newProducts = data?.products.filter(
@@ -44,11 +49,16 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   ) {
     e.stopPropagation();
     addCart(id, name, 1, price, img);
+    isFetchCompletedVar(true);
+    feedbackMessageVar(`장바구니에 ${name}가 담겼습니다.`);
+    isOpenSnackBarVar(true);
   }
 
   function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
     e.stopPropagation();
     deleteCart(id);
+    feedbackMessageVar("장바구니 담기를 취소하였습니다.");
+    isOpenSnackBarVar(true);
   }
 
   return (
@@ -99,4 +109,4 @@ function NewProjuctsSlide({ data, countViews }: IHomeChildComponentProps) {
   );
 }
 
-export default NewProjuctsSlide;
+export default NewProducts;

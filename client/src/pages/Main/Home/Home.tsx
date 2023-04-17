@@ -9,11 +9,13 @@ import { MainContainer } from "./styles/Home.style";
 import BannerSlide from "./BannerSlide";
 import NewProducts from "./NewProducts";
 import Category from "./Category";
+import FeedBack from "../../../components/SnackBar/FeedBack";
 
 function Home() {
   const state = useLocation();
   const { data, loading } = useGetHomeProducts();
   const countViews = useCountView();
+
   if (loading) return <Loading />;
 
   return (
@@ -28,7 +30,7 @@ function Home() {
       ) : (
         <Outlet />
       )}
-
+      <FeedBack />
       <ScrollTopButton />
       <Footer />
     </>

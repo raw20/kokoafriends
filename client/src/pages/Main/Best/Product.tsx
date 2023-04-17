@@ -28,6 +28,11 @@ import {
 import { Box, Rating } from "@mui/material";
 import { addCart, deleteCart } from "../../../store/cart";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import {
+  feedbackMessageVar,
+  isFetchCompletedVar,
+  isOpenSnackBarVar,
+} from "../../../store/snackbar";
 
 const CustomModalStyles = {
   content: {
@@ -70,10 +75,15 @@ function Product() {
     img: string
   ) {
     addCart(id, name, 1, price, img);
+    isFetchCompletedVar(true);
+    feedbackMessageVar(`장바구니에 ${name}가 담겼습니다.`);
+    isOpenSnackBarVar(true);
   }
   function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
     e.stopPropagation();
     deleteCart(id);
+    feedbackMessageVar("장바구니 담기를 취소하였습니다.");
+    isOpenSnackBarVar(true);
   }
 
   if (loading) return <Loading />;

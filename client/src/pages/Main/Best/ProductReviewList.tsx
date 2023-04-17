@@ -20,7 +20,6 @@ function ProductReviewList({
   review,
   updateReviews,
   deleteReviews,
-  setOpenSnackBar,
   editTextValue,
   setEditTextValue,
   editRatingValue,
@@ -86,7 +85,6 @@ function ProductReviewList({
       <DeleteDialog
         id={review.review_id}
         openDeleteDialog={openDeleteDialog}
-        setOpenSnackBar={setOpenSnackBar}
         setOpenDeleteDialog={setOpenDeleteDialog}
         setIsEditClick={setIsEditClick}
         deleteReviews={deleteReviews}
@@ -94,7 +92,6 @@ function ProductReviewList({
       <UpdateDialog
         id={review.review_id}
         openUpdateDialog={openUpdateDialog}
-        setOpenSnackBar={setOpenSnackBar}
         setOpenUpdateDialog={setOpenUpdateDialog}
         setIsEditClick={setIsEditClick}
         updateReviews={updateReviews}

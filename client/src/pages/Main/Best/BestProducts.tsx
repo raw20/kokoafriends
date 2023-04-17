@@ -23,6 +23,11 @@ import { useNavigate } from "react-router-dom";
 import useCountView from "../../../services/products/hooks/mutations/useCountView";
 import { addCart, deleteCart } from "../../../store/cart";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import {
+  feedbackMessageVar,
+  isFetchCompletedVar,
+  isOpenSnackBarVar,
+} from "../../../store/snackbar";
 
 function BestProducts() {
   const { data, loading } = useGetBestProducts();
@@ -52,11 +57,16 @@ function BestProducts() {
   ) {
     e.stopPropagation();
     addCart(id, name, 1, price, img);
+    isFetchCompletedVar(true);
+    feedbackMessageVar(`장바구니에 ${name}가 담겼습니다.`);
+    isOpenSnackBarVar(true);
   }
 
   function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
     e.stopPropagation();
     deleteCart(id);
+    feedbackMessageVar("장바구니 담기를 취소하였습니다.");
+    isOpenSnackBarVar(true);
   }
 
   if (loading) return <Loading />;

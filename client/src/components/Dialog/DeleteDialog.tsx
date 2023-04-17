@@ -7,11 +7,11 @@ import {
 } from "@mui/material";
 import { IDeleteDialogComponent } from "../../types/IProps.interface";
 import { DialogButton } from "../../styles/Common.style";
+import { isOpenSnackBarVar } from "../../store/snackbar";
 
 function DeleteDialog({
   id,
   openDeleteDialog,
-  setOpenSnackBar,
   setOpenDeleteDialog,
   setIsEditClick,
   deleteReviews,
@@ -22,7 +22,7 @@ function DeleteDialog({
         deleteReviewId: id,
       },
     });
-    setOpenSnackBar(true);
+    isOpenSnackBarVar(true);
     setIsEditClick(false);
     setOpenDeleteDialog(false);
   }

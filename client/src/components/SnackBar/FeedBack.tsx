@@ -1,13 +1,11 @@
 import { Alert, Snackbar } from "@mui/material";
 import React from "react";
-import { IFeedbackProps } from "../../types/IProps.interface";
+import useFeedback from "../../services/products/hooks/custom/useFeedback";
+import { isOpenSnackBarVar } from "../../store/snackbar";
 
-function FeedBack({
-  openSnackBar,
-  setOpenSnackBar,
-  feedBackMessage,
-  isFetchCompleted,
-}: IFeedbackProps) {
+function FeedBack() {
+  const { isopenSnackBar, isFetchCompleted, feedBackMessage } = useFeedback();
+
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -15,11 +13,15 @@ function FeedBack({
     if (reason === "clickaway") {
       return;
     }
-    setOpenSnackBar(false);
+    isOpenSnackBarVar(false);
   };
 
   return (
-    <Snackbar open={openSnackBar} autoHideDuration={5000} onClose={handleClose}>
+    <Snackbar
+      open={isopenSnackBar}
+      autoHideDuration={5000}
+      onClose={handleClose}
+    >
       <Alert
         onClose={handleClose}
         severity={isFetchCompleted ? "success" : "error"}
