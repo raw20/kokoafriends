@@ -9,8 +9,37 @@ import {
 } from "@mui/material";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { SHIP_MESSAHE } from "../../../constant/category";
+import { useDaumPostcodePopup } from "react-daum-postcode";
+import { CURRENT_URL } from "../../../constant/map";
 
 function ShippingAddress() {
+  const open = useDaumPostcodePopup(CURRENT_URL);
+  const handleComplete = (data: {
+    address: string;
+    addressType: string;
+    bname: string;
+    buildingName: string;
+  }) => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    console.log(fullAddress);
+  };
+
+  const handleClick = () => {
+    open({ onComplete: handleComplete });
+  };
   return (
     <Accordion expanded>
       <AccordionSummary
@@ -41,6 +70,20 @@ function ShippingAddress() {
             id="order-customer-number"
             label="전화번호"
           />
+          <TextField
+            disabled
+            required
+            type="number"
+            id="order-customer-main-address"
+            label="주소찾기"
+            onClick={handleClick}
+          />
+          <TextField
+            required
+            id="order-customer-second-address"
+            label="나머지 주소"
+          />
+
           <Autocomplete
             disablePortal
             id="shipping-message"

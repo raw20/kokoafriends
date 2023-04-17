@@ -6,6 +6,8 @@ import { Box } from "@mui/material";
 import OrderCustomer from "./OrderCustomer";
 import useLogin from "../../../services/auth/hooks/useLogin";
 import ShippingAddress from "./ShippingAddress";
+import OrderProducts from "./OrderProducts";
+import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
@@ -15,9 +17,13 @@ function BuyCheckout() {
         <Box>
           <OrderCustomer user={localUserData!} />
         </Box>
-        <Box>
+        <Box sx={{ mt: 2 }}>
           <ShippingAddress />
         </Box>
+        <Box sx={{ mt: 2 }}>
+          <OrderProducts />
+        </Box>
+        <ProductPrimaryBuyButton>구매하기</ProductPrimaryBuyButton>
       </BuyCheckoutInner>
     </BuyCheckoutContainer>
   );
