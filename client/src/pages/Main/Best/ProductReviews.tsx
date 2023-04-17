@@ -20,7 +20,7 @@ import ProductReviewList from "./ProductReviewList";
 import { isOpenSnackBarVar } from "../../../store/snackbar";
 const { Kakao } = window;
 
-function Reviews({ data }: IProductReviewsComponent) {
+function ProductReviews({ data }: IProductReviewsComponent) {
   const { id } = useParams();
   const {
     postReviews,
@@ -35,7 +35,7 @@ function Reviews({ data }: IProductReviewsComponent) {
     editRatingValue,
     setEditRatingValue,
   } = useReviews();
-  let reviewIndex = getCreatedIndex(data?.review.map((ele) => ele.review_id));
+  let reviewIndex = getCreatedIndex(data?.reviews.map((ele) => ele.review_id));
 
   const itemBuyListCheck = 0;
   function postHandler() {
@@ -121,4 +121,4 @@ function Reviews({ data }: IProductReviewsComponent) {
   );
 }
 
-export default Reviews;
+export default ProductReviews;

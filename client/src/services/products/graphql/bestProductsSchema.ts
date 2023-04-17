@@ -39,6 +39,15 @@ export const SELECTED_PRODUCT = gql`
       review_date
       kakao_nickname
     }
+    reviews {
+      review_id
+      products_id
+      kakao_id
+      review_text
+      review_rating
+      review_date
+      kakao_nickname
+    }
   }
 `;
 

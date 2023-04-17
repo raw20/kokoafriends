@@ -15,6 +15,7 @@ import { Dispatch, SetStateAction } from "react";
 export interface IProductComponent {
   product: [IProduct];
   review: [IReview];
+  reviews: [IReview];
 }
 
 export interface IProductReviewsComponent {

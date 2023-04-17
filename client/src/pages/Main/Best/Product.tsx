@@ -3,7 +3,6 @@ import { useState } from "react";
 import Modal from "react-modal";
 import BuyModal from "../../../components/Modal/BuyModal";
 import ProductReviews from "./ProductReviews";
-import Loading from "../../../components/Loading/Loading";
 import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
@@ -48,7 +47,7 @@ const CustomModalStyles = {
 
 function Product() {
   const { id } = useParams();
-  const { data, loading } = useGetProductById(id);
+  const { data } = useGetProductById(id);
   const { findProductId } = useGetCartData();
   const productRating =
     data?.review !== undefined
@@ -85,8 +84,6 @@ function Product() {
     feedbackMessageVar("장바구니 담기를 취소하였습니다.");
     isOpenSnackBarVar(true);
   }
-
-  if (loading) return <Loading />;
 
   return (
     <ProductContainer>
