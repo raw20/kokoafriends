@@ -1,7 +1,6 @@
 import EmptyCart from "./EmptyCart";
 import CartList from "./CartList";
 import {
-  BuyButton,
   BuyTable,
   CartContainer,
   CartInner,
@@ -22,6 +21,7 @@ import { ChangeEvent, useState } from "react";
 import DeleteCartDialog from "../../../components/Dialog/DeleteCartDialog";
 import { isOpenDeleteCartDialogVar } from "../../../store/dialog";
 import { useNavigate } from "react-router-dom";
+import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
 
 function Cart() {
   const { cartData, sumPrice } = useGetCartData();
@@ -87,10 +87,12 @@ function Cart() {
               <BuyTable>
                 {sumPrice ? (
                   <>
-                    <BuyButton onClick={() => navigator("/checkout")}>
+                    <ProductPrimaryBuyButton
+                      onClick={() => navigator("/checkout")}
+                    >
                       {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
                       주문하기
-                    </BuyButton>
+                    </ProductPrimaryBuyButton>
                   </>
                 ) : (
                   <>

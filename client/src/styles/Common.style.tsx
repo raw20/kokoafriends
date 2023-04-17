@@ -119,18 +119,25 @@ export const SecondComponentsInner = styled.div`
   }
 `;
 
-export const ProductBuyButton = styled.div`
+export const ProductPrimaryBuyButton = styled.div`
   width: 100%;
-  height: 50px;
-  background-color: ${(props) => props.theme.jaygColor};
+  height: 70px;
+  margin-top: 1.5rem;
+  background-color: ${(props) => props.theme.secondColor};
   color: ${(props) => props.theme.bgColor};
-  font-size: 1.4rem;
   position: sticky;
   bottom: 0px;
+  font-size: 1.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+`;
+
+export const ProductSecondBuyButton = styled(ProductPrimaryBuyButton)`
+  background-color: ${(props) => props.theme.jaygColor};
+  color: ${(props) => props.theme.bgColor};
+  font-size: 1.4rem;
 `;
 
 export const DialogButton = styled(Button)`

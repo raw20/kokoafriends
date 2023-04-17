@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import ItemNumControl from "../Input/ItemNumControl";
 import {
-  ProductBuyButton,
+  ProductSecondBuyButton,
   PrimaryTitle,
   PrimaryContent,
 } from "../../styles/Common.style";
@@ -102,9 +102,9 @@ function BuyModal({ userCode }: IBuyModalProps) {
               {Number(data?.selectItem[0].products_price) * number}원
             </PrimaryContent>
           </ModalDiv>
-          <ProductBuyButton onClick={() => buyItem()}>
+          <ProductSecondBuyButton onClick={() => buyItem()}>
             구매하기
-          </ProductBuyButton>
+          </ProductSecondBuyButton>
         </>
       )}
     </>

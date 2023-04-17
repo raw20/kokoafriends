@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ProductPrimaryBuyButton } from "../../../../styles/Common.style";
 
 export const CartContainer = styled.div`
   width: 100%;
@@ -86,19 +87,8 @@ export const BuyTable = styled.div`
   height: auto;
   padding: 1rem 0;
 `;
-export const BuyButton = styled.div`
-  width: 100%;
-  height: 50px;
-  margin-top: 1.5rem;
-  background-color: ${(props) => props.theme.secondColor};
-  color: ${(props) => props.theme.bgColor};
-  font-size: 1.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-export const DefaultBuyButton = styled(BuyButton)`
+
+export const DefaultBuyButton = styled(ProductPrimaryBuyButton)`
   background-color: ${(props) => props.theme.borderColor};
 `;
 export const NumControl = styled.div`
