@@ -73,11 +73,11 @@ function HeaderAvatar() {
         onClose={handleCloseUserMenu}
       >
         {MENU_ITEM.map((setting: ISettingItem) => (
-          <MenuItem key={setting.id} onClick={handleCloseUserMenu}>
-            <Link to={`/${setting.path}`}>
+          <Link to={`/${setting.path}`} key={setting.id}>
+            <MenuItem onClick={handleCloseUserMenu}>
               <Typography textAlign="center">{setting.name}</Typography>
-            </Link>
-          </MenuItem>
+            </MenuItem>
+          </Link>
         ))}
         <MenuItem>
           <a href={LOGOUT_REDIRECT_URI}>
