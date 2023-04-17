@@ -17,9 +17,9 @@ import {
   TopMainInfoContainer,
 } from "./styles/BestProducts.style";
 import {
-  ProductBuyButton,
   PrimaryContent,
   PrimaryTitle,
+  ProductPrimaryBuyButton,
   SecondComponentsInner,
   SecondContent,
   SecondTitle,
@@ -176,9 +176,9 @@ function Product() {
             <PrimaryContent>상품 및 설명서</PrimaryContent>
           </SubInfoContainer>
           <ProductReviews data={data} />
-          <ProductBuyButton onClick={() => openModal()}>
+          <ProductPrimaryBuyButton onClick={() => openModal()}>
             구매하기
-          </ProductBuyButton>
+          </ProductPrimaryBuyButton>
           <Modal
             isOpen={modalOpen}
             onRequestClose={() => closeModal()}
