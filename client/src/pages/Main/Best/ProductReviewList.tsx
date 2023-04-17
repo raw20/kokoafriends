@@ -39,7 +39,7 @@ function ProductReviewList({
           <Box sx={{ display: "flex" }}>
             <ReviewUtilButton
               onClick={() =>
-                isEditClick && editTextValue !== ""
+                isEditClick
                   ? isOpenUpdateReviewDialogVar(true)
                   : setIsEditClick(true)
               }
@@ -74,6 +74,7 @@ function ProductReviewList({
         {isEditClick ? (
           <WriteEditReviewInput
             fullWidth
+            required
             sx={{ mt: 1 }}
             id="review-edit-text-field"
             label="리뷰를 수정할 수 있어요"
