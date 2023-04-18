@@ -10,10 +10,13 @@ import OrderProducts from "./OrderProducts";
 import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
 import Payment from "./Payment";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import useOrderData from "../../../services/products/hooks/custom/useOrderData";
+import { DefaultBuyButton } from "../Cart/styles/Cart.style";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
   const { cartData, sumPrice } = useGetCartData();
+  const { isCheckBuyItem } = useOrderData();
   return (
     <BuyCheckoutContainer>
       <BuyCheckoutInner>
@@ -29,7 +32,13 @@ function BuyCheckout() {
         <Box sx={{ mt: 2 }}>
           <Payment />
         </Box>
-        <ProductPrimaryBuyButton>{sumPrice}원 주문하기</ProductPrimaryBuyButton>
+        {isCheckBuyItem ? (
+          <ProductPrimaryBuyButton>
+            {sumPrice}원 주문하기
+          </ProductPrimaryBuyButton>
+        ) : (
+          <DefaultBuyButton>{sumPrice}원 주문하기</DefaultBuyButton>
+        )}
       </BuyCheckoutInner>
     </BuyCheckoutContainer>
   );

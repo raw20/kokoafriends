@@ -9,8 +9,15 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PersonIcon from "@mui/icons-material/Person";
 import { IOrderCustomerComponent } from "../../../types/IProps.interface";
+import { userEmailVar, userNameVar } from "../../../store/order";
+import { useEffect } from "react";
 
 function OrderCustomer({ user }: IOrderCustomerComponent) {
+  useEffect(() => {
+    userNameVar(user?.me[0].kakao_nickname);
+    userEmailVar(user?.me[0].kakao_email);
+  }, [user?.me]);
+
   return (
     <Accordion>
       <AccordionSummary
@@ -40,18 +47,15 @@ function OrderCustomer({ user }: IOrderCustomerComponent) {
             id="order-customer-name"
             label="이름"
             defaultValue={user?.me[0].kakao_nickname}
+            onChange={(e) => userNameVar(e.target.value)}
           />
-          <TextField
-            required
-            type="number"
-            id="order-customer-number"
-            label="전화번호"
-          />
+
           <TextField
             required
             id="order-customer-email"
             label="이메일"
             defaultValue={user?.me[0].kakao_email}
+            onChange={(e) => userEmailVar(e.target.value)}
           />
         </Box>
       </AccordionDetails>

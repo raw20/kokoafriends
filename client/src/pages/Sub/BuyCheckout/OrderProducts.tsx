@@ -1,15 +1,13 @@
-import React from "react";
-
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Alert,
   AlertTitle,
+  Box,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -54,21 +52,13 @@ function OrderProducts({ cartData }: IOrderProductsComponent) {
                   alt={element.products_name}
                 />
               </ListItemAvatar>
-              <ListItemText
-                primaryTypographyProps={{
-                  fontSize: "1.3rem",
-                  fontWeight: "700",
-                }}
-                primary={element.products_name}
-                secondary={
-                  <React.Fragment>
-                    <SecondContent>{element.products_amount}개</SecondContent>
-                    <PrimaryContent>
-                      {element.products_price * element.products_amount}원
-                    </PrimaryContent>
-                  </React.Fragment>
-                }
-              />
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <PrimaryContent>{element.products_name}</PrimaryContent>
+                <SecondContent>{element.products_amount}개</SecondContent>
+                <PrimaryContent>
+                  {element.products_price * element.products_amount}원
+                </PrimaryContent>
+              </Box>
             </ListItem>
           ))}
         </List>
