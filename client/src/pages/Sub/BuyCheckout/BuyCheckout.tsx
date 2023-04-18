@@ -8,6 +8,7 @@ import useLogin from "../../../services/auth/hooks/useLogin";
 import ShippingAddress from "./ShippingAddress";
 import OrderProducts from "./OrderProducts";
 import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
+import Payment from "./Payment";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
@@ -22,6 +23,9 @@ function BuyCheckout() {
         </Box>
         <Box sx={{ mt: 2 }}>
           <OrderProducts />
+        </Box>
+        <Box>
+          <Payment />
         </Box>
         <ProductPrimaryBuyButton>구매하기</ProductPrimaryBuyButton>
       </BuyCheckoutInner>
