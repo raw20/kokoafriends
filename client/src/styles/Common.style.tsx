@@ -143,3 +143,16 @@ export const ProductSecondBuyButton = styled(ProductPrimaryBuyButton)`
 export const DialogButton = styled(Button)`
   color: ${(props) => props.theme.secondColor};
 `;
+
+export const ProductImage = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 1rem 3rem 1rem 0;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  @media ${(props) => props.theme.mobile} {
+    width: 100px;
+    height: 100px;
+    margin: 0.5rem 1.5rem 0.5rem 0;
+  }
+`;

@@ -15,13 +15,11 @@ function Recceipt({ sumPrice }: { sumPrice: number }) {
         <ReceiptText>총 결제금액</ReceiptText>
       </ReceiptLeft>
       <ReceiptRight>
-        <LargeText> {sumPrice ? sumPrice : 0}원</LargeText>
+        <LargeText> {sumPrice}원</LargeText>
         {sumPrice ? (
           <>
             <LargeText>{sumPrice >= 30000 ? "무료" : "3000원"}</LargeText>
-            <ReceiptText>
-              {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
-            </ReceiptText>
+            <ReceiptText>{sumPrice}원</ReceiptText>
           </>
         ) : (
           <>

@@ -1,15 +1,33 @@
+import React from "react";
+
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
+  Alert,
+  AlertTitle,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ShopIcon from "@mui/icons-material/Shop";
-function OrderProducts() {
+import { IOrderProductsComponent } from "../../../types/IProps.interface";
+import {
+  PrimaryContent,
+  ProductImage,
+  SecondContent,
+} from "../../../styles/Common.style";
+import getFormatDate from "../../../utils/getFormatDate";
+
+function OrderProducts({ cartData }: IOrderProductsComponent) {
+  const today = getFormatDate(new Date());
+
   return (
-    <Accordion>
+    <Accordion defaultExpanded={true}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
@@ -24,7 +42,36 @@ function OrderProducts() {
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Box component="form"></Box>
+        <Alert severity="info" icon={<LocalShippingIcon />}>
+          <AlertTitle>{today.substring(0, 10)} 도착예정</AlertTitle>
+        </Alert>
+        <List sx={{ width: "100%", bgcolor: "background.paper", m: 1 }}>
+          {cartData.map((element) => (
+            <ListItem key={element.cart_id}>
+              <ListItemAvatar>
+                <ProductImage
+                  src={element.products_slideImg}
+                  alt={element.products_name}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primaryTypographyProps={{
+                  fontSize: "1.3rem",
+                  fontWeight: "700",
+                }}
+                primary={element.products_name}
+                secondary={
+                  <React.Fragment>
+                    <SecondContent>{element.products_amount}개</SecondContent>
+                    <PrimaryContent>
+                      {element.products_price * element.products_amount}원
+                    </PrimaryContent>
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
       </AccordionDetails>
     </Accordion>
   );

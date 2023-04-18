@@ -9,9 +9,11 @@ import ShippingAddress from "./ShippingAddress";
 import OrderProducts from "./OrderProducts";
 import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
 import Payment from "./Payment";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
+  const { cartData, sumPrice } = useGetCartData();
   return (
     <BuyCheckoutContainer>
       <BuyCheckoutInner>
@@ -22,12 +24,12 @@ function BuyCheckout() {
           <ShippingAddress />
         </Box>
         <Box sx={{ mt: 2 }}>
-          <OrderProducts />
+          <OrderProducts cartData={cartData} />
         </Box>
-        <Box>
+        <Box sx={{ mt: 2 }}>
           <Payment />
         </Box>
-        <ProductPrimaryBuyButton>구매하기</ProductPrimaryBuyButton>
+        <ProductPrimaryBuyButton>{sumPrice}원 주문하기</ProductPrimaryBuyButton>
       </BuyCheckoutInner>
     </BuyCheckoutContainer>
   );

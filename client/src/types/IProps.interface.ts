@@ -104,11 +104,15 @@ export interface ICartListComponent {
   setProductId: Dispatch<SetStateAction<number[]>>;
 }
 
-///// 추후 수정예정인 인터페이스
-
 export interface IOrderCustomerComponent {
   user: IMeData;
 }
+
+export interface IOrderProductsComponent {
+  cartData: ICart[];
+}
+
+///// 추후 수정예정인 인터페이스
 
 export interface BuyModalComponent {
   selectItem: [IProduct];

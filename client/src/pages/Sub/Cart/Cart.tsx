@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
 
 function Cart() {
-  const { cartData, sumPrice } = useGetCartData();
+  const { cartData, sumPrice, productPrice } = useGetCartData();
   const [productId, setProductId] = useState<number[]>([]);
   const [isAllchecked, setIsAllchecked] = useState(false);
   const navigator = useNavigate();
@@ -50,7 +50,7 @@ function Cart() {
             <EmptyCart />
           ) : (
             <>
-              <DeliveryFee sumPrice={sumPrice!} />
+              <DeliveryFee productPrice={productPrice!} />
 
               <CheckTable>
                 <CheckLeft>
@@ -85,13 +85,12 @@ function Cart() {
               <Recceipt sumPrice={sumPrice!} />
 
               <BuyTable>
-                {sumPrice ? (
+                {cartData.length > 0 ? (
                   <>
                     <ProductPrimaryBuyButton
                       onClick={() => navigator("/checkout")}
                     >
-                      {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
-                      주문하기
+                      {sumPrice}원 주문하기
                     </ProductPrimaryBuyButton>
                   </>
                 ) : (

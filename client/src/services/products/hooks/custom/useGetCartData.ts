@@ -8,14 +8,12 @@ function useGetCartData() {
     ? cartData?.map((element) => element.products_id)
     : [];
 
-  const sumPrice =
-    cartData !== undefined
-      ? cartData
-          ?.map((element) => element.products_price * element.products_amount)
-          .reduce((a: number, b: number) => a + b, 0)
-      : 0;
+  const productPrice = cartData
+    ?.map((element) => element.products_price * element.products_amount)
+    .reduce((a: number, b: number) => a + b, 0);
+  const sumPrice = productPrice >= 30000 ? productPrice : productPrice + 3000;
 
-  return { cartData, findProductId, sumPrice };
+  return { cartData, findProductId, sumPrice, productPrice };
 }
 
 export default useGetCartData;

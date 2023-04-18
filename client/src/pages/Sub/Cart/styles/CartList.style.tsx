@@ -1,5 +1,6 @@
 import { MdDeleteForever } from "react-icons/md";
 import styled from "styled-components";
+import { ProductImage } from "../../../../styles/Common.style";
 
 export const CartListBox = styled.div`
   width: 100%;
@@ -38,17 +39,7 @@ export const BoxRight = styled.div`
   align-items: center;
 `;
 
-export const CartProductImage = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin: 1rem 3rem 1rem 0;
-  border: 1px solid ${(props) => props.theme.borderColor};
-  @media ${(props) => props.theme.mobile} {
-    width: 50px;
-    height: 50px;
-  }
-`;
+export const CartProductImage = styled(ProductImage)``;
 
 export const DeleteButton = styled(MdDeleteForever)`
   font-size: 2rem;
