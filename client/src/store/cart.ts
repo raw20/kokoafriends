@@ -50,6 +50,17 @@ export function deleteCart(productId: number | number[]) {
   localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
 }
 
+export function amoutInput(productId: number, amount: number) {
+  if (amount === 0) amount = 1;
+  const currentCartItem = [...cartList()];
+  const findIndex = currentCartItem.findIndex(
+    (element) => element.products_id === productId
+  );
+  currentCartItem[findIndex].products_amount = amount;
+  cartList(currentCartItem);
+  localStorage.setItem(CART_LIST, JSON.stringify(cartList()));
+}
+
 export function amountMinus(productId: number) {
   const currentCartItem = [...cartList()];
   const findIndex = currentCartItem.findIndex(

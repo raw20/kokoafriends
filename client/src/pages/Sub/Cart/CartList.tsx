@@ -1,5 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { amountMinus, amountPlus, deleteCart } from "../../../store/cart";
+import {
+  amountMinus,
+  amountPlus,
+  amoutInput,
+  deleteCart,
+} from "../../../store/cart";
 import { ICartListComponent } from "../../../types/IProps.interface";
 import {
   CheckBox,
@@ -71,7 +76,13 @@ function CartList({
           <Control onClick={() => amountMinus(cartElement.products_id)}>
             -
           </Control>
-          <Input type="number" value={cartElement.products_amount} />
+          <Input
+            type="number"
+            value={cartElement.products_amount}
+            onChange={(e) =>
+              amoutInput(cartElement.products_id, Number(e.target.value))
+            }
+          />
           <Control onClick={() => amountPlus(cartElement.products_id)}>
             +
           </Control>
