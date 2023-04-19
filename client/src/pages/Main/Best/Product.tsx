@@ -68,7 +68,7 @@ function Product() {
             <SecondTitle>{data?.product[0].products_name}</SecondTitle>
             <Rating
               name="half-rating-read"
-              defaultValue={productRating || 0}
+              value={productRating}
               precision={0.5}
               readOnly
             />
