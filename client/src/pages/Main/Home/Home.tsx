@@ -2,7 +2,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import ScrollTopButton from "../../../components/Button/ScrollTopButton";
-import Loading from "../../../components/Loading/Loading";
 import useGetHomeProducts from "../../../services/products/hooks/queries/useGetHomeProducts";
 import useCountView from "../../../services/products/hooks/mutations/useCountView";
 import { MainContainer } from "./styles/Home.style";
@@ -10,13 +9,19 @@ import BannerSlide from "./BannerSlide";
 import NewProducts from "./NewProducts";
 import Category from "./Category";
 import FeedBack from "../../../components/SnackBar/FeedBack";
+import { useEffect } from "react";
+import { DIRECT_PRODUCT } from "../../../constant/storageKey";
 
 function Home() {
   const state = useLocation();
-  const { data, loading } = useGetHomeProducts();
+  const { data } = useGetHomeProducts();
   const countViews = useCountView();
 
-  if (loading) return <Loading />;
+  useEffect(() => {
+    if (state.pathname !== "/checkout") {
+      localStorage.removeItem(DIRECT_PRODUCT);
+    }
+  }, [state.pathname]);
 
   return (
     <>

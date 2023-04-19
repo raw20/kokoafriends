@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { getKakaoPayReady } from "../../../utils/getKakaoPayReady";
 import { useReactiveVar } from "@apollo/client";
 import { oneProductVar } from "../../../store/oneProductBuy";
+import { DIRECT_PRODUCT } from "../../../constant/storageKey";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
@@ -40,7 +41,11 @@ function BuyCheckout() {
           <ShippingAddress />
         </Box>
         <Box sx={{ mt: 2 }}>
-          <OrderProducts cartData={oneProduct ? oneProduct : cartData} />
+          <OrderProducts
+            cartData={
+              localStorage.getItem(DIRECT_PRODUCT) ? oneProduct : cartData
+            }
+          />
         </Box>
         <Box sx={{ mt: 2 }}>
           <Payment />
