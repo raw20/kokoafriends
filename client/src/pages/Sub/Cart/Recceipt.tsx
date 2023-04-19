@@ -6,7 +6,13 @@ import {
 } from "./styles/Receipt.style";
 import { LargeText } from "./styles/Cart.style";
 
-function Recceipt({ sumPrice }: { sumPrice: number }) {
+function Recceipt({
+  productPrice,
+  sumPrice,
+}: {
+  productPrice: number;
+  sumPrice: number;
+}) {
   return (
     <ReceiptBox>
       <ReceiptLeft>
@@ -15,13 +21,11 @@ function Recceipt({ sumPrice }: { sumPrice: number }) {
         <ReceiptText>총 결제금액</ReceiptText>
       </ReceiptLeft>
       <ReceiptRight>
-        <LargeText> {sumPrice ? sumPrice : 0}원</LargeText>
-        {sumPrice ? (
+        <LargeText> {productPrice}원</LargeText>
+        {productPrice ? (
           <>
-            <LargeText>{sumPrice >= 30000 ? "무료" : "3000원"}</LargeText>
-            <ReceiptText>
-              {sumPrice >= 30000 ? sumPrice : sumPrice + 3000}원
-            </ReceiptText>
+            <LargeText>{productPrice >= 30000 ? "무료" : "3000원"}</LargeText>
+            <ReceiptText>{sumPrice}원</ReceiptText>
           </>
         ) : (
           <>

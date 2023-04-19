@@ -6,9 +6,8 @@ import {
   OperationVariables,
 } from "@apollo/client";
 import { ICart } from "./Cart.interface";
-import { Contents, LikeContents } from "./Contents.interface";
-import { BuyProducts, IProducts, IProduct } from "./Products.interface";
-import { IUser } from "./User.interface";
+import { IProducts, IProduct } from "./Products.interface";
+import { IMeData } from "./User.interface";
 import { IReview } from "./Reviews.interface";
 import { Dispatch, SetStateAction } from "react";
 
@@ -105,30 +104,16 @@ export interface ICartListComponent {
   setProductId: Dispatch<SetStateAction<number[]>>;
 }
 
-///// 추후 수정예정인 인터페이스
-export interface ContentsComponent {
-  contents: [Contents];
-  comments: [Comment];
-  likeContents: [LikeContents];
-  nowUser: [IUser];
-}
-export interface ContentsDetailComponent {
-  selectContents: [Contents];
-  selectComment: [Comment];
-  comments: [IReview];
-  likeContents: [LikeContents];
-  nowUser: [IUser];
+export interface IOrderCustomerComponent {
+  user: IMeData;
 }
 
-export interface BuyModalComponent {
-  selectItem: [IProduct];
-  allUserBuyItemList: [BuyProducts];
-  selectUserBuyItemList: [BuyProducts];
+export interface IOrderProductsComponent {
+  cartData: ICart[];
 }
-export interface RecentBIComponent {
-  selectUserBuyItemList: [BuyProducts];
-  nowUser: [IUser];
-}
+
+///// 추후 수정예정인 인터페이스
+
 export interface SearchItem {
   item: [IProduct];
   items: IProduct[];

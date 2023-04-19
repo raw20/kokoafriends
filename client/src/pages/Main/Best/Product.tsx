@@ -1,7 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import Modal from "react-modal";
-import BuyModal from "../../../components/Modal/BuyModal";
 import ProductReviews from "./ProductReviews";
 import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -17,9 +14,9 @@ import {
   TopMainInfoContainer,
 } from "./styles/BestProducts.style";
 import {
-  ProductBuyButton,
   PrimaryContent,
   PrimaryTitle,
+  ProductPrimaryBuyButton,
   SecondComponentsInner,
   SecondContent,
   SecondTitle,
@@ -32,40 +29,13 @@ import {
   isFetchCompletedVar,
   isOpenSnackBarVar,
 } from "../../../store/snackbar";
-
-const CustomModalStyles = {
-  content: {
-    width: "50%",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import { isOpenModalVar } from "../../../store/modal";
+import BuyOneProductModal from "../../../components/Modal/BuyOneProductModal";
 
 function Product() {
   const { id } = useParams();
-  const { data } = useGetProductById(id);
+  const { data, productRating } = useGetProductById(id);
   const { findProductId } = useGetCartData();
-  const productRating =
-    data?.review !== undefined
-      ? data?.review
-          .map((element) => element.review_rating)
-          .reduce(function add(sum, curr) {
-            return sum + curr;
-          }, 0) / data?.review.length
-      : 0;
-
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-
-  function openModal() {
-    setModalOpen(true);
-  }
-  function closeModal() {
-    setModalOpen(false);
-  }
 
   function addCartHandler(
     id: number,
@@ -100,7 +70,7 @@ function Product() {
             <SecondTitle>{data?.product[0].products_name}</SecondTitle>
             <Rating
               name="half-rating-read"
-              defaultValue={productRating || 0}
+              value={productRating}
               precision={0.5}
               readOnly
             />
@@ -175,17 +145,13 @@ function Product() {
             <PrimaryTitle>구성품</PrimaryTitle>
             <PrimaryContent>상품 및 설명서</PrimaryContent>
           </SubInfoContainer>
+
           <ProductReviews data={data} />
-          <ProductBuyButton onClick={() => openModal()}>
+
+          <ProductPrimaryBuyButton onClick={() => isOpenModalVar(true)}>
             구매하기
-          </ProductBuyButton>
-          <Modal
-            isOpen={modalOpen}
-            onRequestClose={() => closeModal()}
-            style={CustomModalStyles}
-          >
-            <BuyModal userCode={11} />
-          </Modal>
+          </ProductPrimaryBuyButton>
+          <BuyOneProductModal data={data} />
         </ShowButtonArea>
       </SecondComponentsInner>
     </ProductContainer>

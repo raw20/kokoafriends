@@ -18,14 +18,3 @@ export interface IProduct {
 export interface IProducts {
   products: [IProduct];
 }
-
-export interface BuyProducts {
-  bId: number;
-  sId: number;
-  user_code: number;
-  bDate: string;
-  sName: string;
-  sPrice: number;
-  bCount: number;
-  slideImg: [string];
-}

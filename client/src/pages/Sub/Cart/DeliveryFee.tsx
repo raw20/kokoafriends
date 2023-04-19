@@ -7,17 +7,17 @@ import {
 } from "./styles/DeliveryFee.style";
 import { SecondMediumText } from "./styles/Cart.style";
 
-function DeliveryFee({ sumPrice }: { sumPrice: number }) {
+function DeliveryFee({ productPrice }: { productPrice: number }) {
   return (
     <DeliveryFeeBox>
       <DeliveryFeeTextBox>
-        {sumPrice ? (
+        {productPrice ? (
           <>
             <DeliveryFeeText>
-              {sumPrice >= 30000 ? "무료배송" : 30000 - sumPrice}
+              {productPrice >= 30000 ? "무료배송" : 30000 - productPrice}
             </DeliveryFeeText>
             <SecondMediumText>
-              {sumPrice >= 30000 ? null : "원 추가시 무료배송"}
+              {productPrice >= 30000 ? null : "원 추가시 무료배송"}
             </SecondMediumText>
           </>
         ) : (
@@ -27,9 +27,9 @@ function DeliveryFee({ sumPrice }: { sumPrice: number }) {
         )}
       </DeliveryFeeTextBox>
       <DeliveryFeeBar>
-        {sumPrice ? (
+        {productPrice ? (
           <>
-            <DeliveryFeeBarFull priceSize={Number(sumPrice)}>
+            <DeliveryFeeBarFull priceSize={Number(productPrice)}>
               1
             </DeliveryFeeBarFull>
           </>

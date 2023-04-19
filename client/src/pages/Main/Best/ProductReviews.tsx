@@ -37,7 +37,6 @@ function ProductReviews({ data }: IProductReviewsComponent) {
   } = useReviews();
   let reviewIndex = getCreatedIndex(data?.reviews.map((ele) => ele.review_id));
 
-  const itemBuyListCheck = 0;
   function postHandler() {
     postReviews({
       variables: {
@@ -60,8 +59,6 @@ function ProductReviews({ data }: IProductReviewsComponent) {
         </ReviewInforBox>
         {!Kakao.Auth.getAccessToken() ? (
           <FalseReviewButton>로그인이 필요합니다.</FalseReviewButton>
-        ) : itemBuyListCheck ? (
-          <FalseReviewButton>구매 후 리뷰를 남겨주세요.</FalseReviewButton>
         ) : (
           <>
             <Typography component="legend">

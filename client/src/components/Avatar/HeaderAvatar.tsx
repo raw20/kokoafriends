@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { LOGOUT_REDIRECT_URI } from "../../constant/oAuth";
 import useLogin from "../../services/auth/hooks/useLogin";
 import { Link } from "react-router-dom";
+import { MENU_ITEM } from "../../constant/category";
 
 interface ISettingItem {
   id: string;
@@ -20,23 +21,6 @@ function HeaderAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { user } = useLogin();
 
-  const MENU_ITEM = [
-    {
-      id: "1",
-      name: "마이페이지",
-      path: "mypage",
-    },
-    {
-      id: "2",
-      name: "장바구니",
-      path: "cart",
-    },
-    {
-      id: "3",
-      name: "배송조회",
-      path: "buy-list",
-    },
-  ];
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -73,11 +57,11 @@ function HeaderAvatar() {
         onClose={handleCloseUserMenu}
       >
         {MENU_ITEM.map((setting: ISettingItem) => (
-          <MenuItem key={setting.id} onClick={handleCloseUserMenu}>
-            <Link to={`/${setting.path}`}>
+          <Link to={`/${setting.path}`} key={setting.id}>
+            <MenuItem onClick={handleCloseUserMenu}>
               <Typography textAlign="center">{setting.name}</Typography>
-            </Link>
-          </MenuItem>
+            </MenuItem>
+          </Link>
         ))}
         <MenuItem>
           <a href={LOGOUT_REDIRECT_URI}>

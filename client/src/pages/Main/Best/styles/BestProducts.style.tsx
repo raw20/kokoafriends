@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { PrimaryContainer } from "../../../../styles/Common.style";
 
 export const BestProductsContainer = styled.div`
   width: 100%;
@@ -56,21 +57,7 @@ export const BestProductsContentsBox = styled.div`
   justify-content: space-between;
 `;
 
-export const ProductContainer = styled.div`
-  width: 100%;
-  height: auto;
-  padding: 1.2rem 7.5rem;
-  box-sizing: border-box;
-  justify-content: center;
-  @media ${(props) => props.theme.tablet} {
-    width: 100%;
-    padding: 1.2rem 0;
-  }
-  @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    padding: 0;
-  }
-`;
+export const ProductContainer = styled(PrimaryContainer)``;
 
 export const ProductImageSlider = styled.div`
   width: 100%;
