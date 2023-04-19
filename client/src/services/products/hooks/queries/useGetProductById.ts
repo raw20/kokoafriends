@@ -15,7 +15,7 @@ function useGetProductById(id?: string) {
           return sum + curr;
         }, 0) / data?.review.length
     : 0;
-  console.log(productRating);
+
   return { data, productRating };
 }
 
