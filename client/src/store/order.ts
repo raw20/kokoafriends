@@ -16,4 +16,5 @@ export const userMainAddressVar = makeVar(localUserMainAddress);
 export const userSecondAddressVar = makeVar(localUserSecondAddress);
 export const userMessageVar = makeVar("");
 export const directTextFieldVar = makeVar(localDirectTextFieldVar);
+export const payRedirectURLVar = makeVar("");
 export const isCheckBuyItemVar = makeVar(false);

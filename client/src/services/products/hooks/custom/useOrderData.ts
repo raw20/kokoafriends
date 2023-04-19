@@ -5,6 +5,7 @@ import {
   userMainAddressVar,
   userSecondAddressVar,
   directTextFieldVar,
+  payRedirectURLVar,
   isCheckBuyItemVar,
 } from "../../../../store/order";
 import { useEffect } from "react";
@@ -15,6 +16,7 @@ function useOrderData() {
   const userMainAddress = useReactiveVar(userMainAddressVar);
   const userSecondAddress = useReactiveVar(userSecondAddressVar);
   const directTextField = useReactiveVar(directTextFieldVar);
+  const payRedirectURL = useReactiveVar(payRedirectURLVar);
   const isCheckBuyItem = useReactiveVar(isCheckBuyItemVar);
 
   useEffect(() => {
@@ -29,6 +31,7 @@ function useOrderData() {
     userMainAddress,
     userSecondAddress,
     directTextField,
+    payRedirectURL,
     isCheckBuyItem,
   };
 }

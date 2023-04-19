@@ -12,11 +12,21 @@ import Payment from "./Payment";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 import useOrderData from "../../../services/products/hooks/custom/useOrderData";
 import { DefaultBuyButton } from "../Cart/styles/Cart.style";
+import { useEffect } from "react";
+import { getKakaoPayReady } from "../../../utils/getKakaoPayReady";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
-  const { cartData, sumPrice } = useGetCartData();
-  const { isCheckBuyItem } = useOrderData();
+  const { cartData, sumPrice, sumQuantity, product_item_name } =
+    useGetCartData();
+  const { payRedirectURL, isCheckBuyItem } = useOrderData();
+
+  useEffect(() => {
+    if (isCheckBuyItem) {
+      getKakaoPayReady(product_item_name, sumQuantity, sumPrice);
+    }
+  }, [isCheckBuyItem, product_item_name, sumPrice, sumQuantity]);
+
   return (
     <BuyCheckoutContainer>
       <BuyCheckoutInner>
@@ -33,9 +43,11 @@ function BuyCheckout() {
           <Payment />
         </Box>
         {isCheckBuyItem ? (
-          <ProductPrimaryBuyButton>
-            {sumPrice}원 주문하기
-          </ProductPrimaryBuyButton>
+          <a href={payRedirectURL}>
+            <ProductPrimaryBuyButton>
+              {sumPrice}원 주문하기
+            </ProductPrimaryBuyButton>
+          </a>
         ) : (
           <DefaultBuyButton>{sumPrice}원 주문하기</DefaultBuyButton>
         )}
