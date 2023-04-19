@@ -14,12 +14,15 @@ import useOrderData from "../../../services/products/hooks/custom/useOrderData";
 import { DefaultBuyButton } from "../Cart/styles/Cart.style";
 import { useEffect } from "react";
 import { getKakaoPayReady } from "../../../utils/getKakaoPayReady";
+import { useReactiveVar } from "@apollo/client";
+import { oneProductVar } from "../../../store/oneProductBuy";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
   const { cartData, sumPrice, sumQuantity, product_item_name } =
     useGetCartData();
   const { payRedirectURL, isCheckBuyItem } = useOrderData();
+  const oneProduct = useReactiveVar(oneProductVar);
 
   useEffect(() => {
     if (isCheckBuyItem) {
@@ -37,7 +40,7 @@ function BuyCheckout() {
           <ShippingAddress />
         </Box>
         <Box sx={{ mt: 2 }}>
-          <OrderProducts cartData={cartData} />
+          <OrderProducts cartData={oneProduct ? oneProduct : cartData} />
         </Box>
         <Box sx={{ mt: 2 }}>
           <Payment />

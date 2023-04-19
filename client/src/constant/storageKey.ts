@@ -17,3 +17,5 @@ export const USER_ADDRESS2 = "user_address2";
 export const ORDER_DIR_MESSAGE = "order_dir_message_state";
 
 export const PAY_TID = "tid";
+
+export const DIRECT_PRODUCT = "direct_product";

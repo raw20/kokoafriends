@@ -91,28 +91,3 @@ export const BuyTable = styled.div`
 export const DefaultBuyButton = styled(ProductPrimaryBuyButton)`
   background-color: ${(props) => props.theme.borderColor};
 `;
-export const NumControl = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
-export const Control = styled.span`
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-  margin: 1rem;
-  border-radius: 50%;
-  border: 1px solid ${(props) => props.theme.borderColor};
-  display: flex;
-  justify-content: center;
-  font-size: 1rem;
-  cursor: pointer;
-`;
-export const Input = styled.input`
-  width: 50px;
-  height: 25px;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.borderColor};
-`;

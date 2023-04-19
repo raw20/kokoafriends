@@ -156,3 +156,32 @@ export const ProductImage = styled.img`
     margin: 0.5rem 1.5rem 0.5rem 0;
   }
 `;
+
+export const NumControlBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+export const NumControlFlexEndBox = styled(NumControlBox)`
+  justify-content: flex-end;
+`;
+export const NumberControlButton = styled.span`
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  margin: 1rem;
+  border-radius: 50%;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+`;
+export const NumberControlInput = styled.input`
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid ${(props) => props.theme.borderColor};
+`;

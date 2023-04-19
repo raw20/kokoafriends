@@ -29,6 +29,8 @@ import {
   isFetchCompletedVar,
   isOpenSnackBarVar,
 } from "../../../store/snackbar";
+import { isOpenModalVar } from "../../../store/modal";
+import BuyOneProductModal from "../../../components/Modal/BuyOneProductModal";
 
 function Product() {
   const { id } = useParams();
@@ -143,8 +145,13 @@ function Product() {
             <PrimaryTitle>구성품</PrimaryTitle>
             <PrimaryContent>상품 및 설명서</PrimaryContent>
           </SubInfoContainer>
+
           <ProductReviews data={data} />
-          <ProductPrimaryBuyButton>구매하기</ProductPrimaryBuyButton>
+
+          <ProductPrimaryBuyButton onClick={() => isOpenModalVar(true)}>
+            구매하기
+          </ProductPrimaryBuyButton>
+          <BuyOneProductModal data={data} />
         </ShowButtonArea>
       </SecondComponentsInner>
     </ProductContainer>

@@ -6,14 +6,7 @@ import {
   deleteCart,
 } from "../../../store/cart";
 import { ICartListComponent } from "../../../types/IProps.interface";
-import {
-  CheckBox,
-  Control,
-  Input,
-  LargeText,
-  MediumText,
-  NumControl,
-} from "./styles/Cart.style";
+import { CheckBox, LargeText, MediumText } from "./styles/Cart.style";
 import {
   BoxCenter,
   BoxLeft,
@@ -22,6 +15,11 @@ import {
   CartProductImage,
   DeleteButton,
 } from "./styles/CartList.style";
+import {
+  NumControlBox,
+  NumberControlButton,
+  NumberControlInput,
+} from "../../../styles/Common.style";
 
 function CartList({
   cartElement,
@@ -72,21 +70,25 @@ function CartList({
         <MediumText>
           {cartElement.products_price * cartElement.products_amount}원
         </MediumText>
-        <NumControl>
-          <Control onClick={() => amountMinus(cartElement.products_id)}>
+        <NumControlBox>
+          <NumberControlButton
+            onClick={() => amountMinus(cartElement.products_id)}
+          >
             -
-          </Control>
-          <Input
+          </NumberControlButton>
+          <NumberControlInput
             type="number"
             value={cartElement.products_amount}
             onChange={(e) =>
               amoutInput(cartElement.products_id, Number(e.target.value))
             }
           />
-          <Control onClick={() => amountPlus(cartElement.products_id)}>
+          <NumberControlButton
+            onClick={() => amountPlus(cartElement.products_id)}
+          >
             +
-          </Control>
-        </NumControl>
+          </NumberControlButton>
+        </NumControlBox>
       </BoxCenter>
       <BoxRight>
         <DeleteButton onClick={() => deleteCart(cartElement.products_id)} />
