@@ -1,4 +1,3 @@
-import Loading from "../../../components/Loading/Loading";
 import {
   PrimaryComponentsInner,
   PrimaryImage,
@@ -30,7 +29,7 @@ import {
 } from "../../../store/snackbar";
 
 function BestProducts() {
-  const { data, loading } = useGetBestProducts();
+  const { data } = useGetBestProducts();
   const { findProductId } = useGetCartData();
   const countViews = useCountView();
   const navigate = useNavigate();
@@ -69,7 +68,6 @@ function BestProducts() {
     isOpenSnackBarVar(true);
   }
 
-  if (loading) return <Loading />;
   return (
     <BestProductsContainer>
       <PrimaryComponentsInner>
