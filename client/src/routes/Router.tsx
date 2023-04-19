@@ -6,7 +6,6 @@ import Search from "../pages/Sub/Search/Search";
 import Product from "../pages/Main/Best/Product";
 import Mypage from "../pages/Sub/Mypage/Mypage";
 import Cart from "../pages/Sub/Cart/Cart";
-import ContentsDetail from "../pages/Main/Contents/Content";
 import KaKaoLoginRedirect from "../services/auth/KaKaoLoginRedirect";
 import KaKaoLogoutRedirect from "../services/auth/KaKaoLogoutRedirect";
 import BuyCheckout from "../pages/Sub/BuyCheckout/BuyCheckout";
@@ -19,7 +18,6 @@ function Router() {
           {/* main menu */}
           <Route path="/best" element={<BestProducts />} />
           <Route path="/contents" element={<Contents />} />
-          <Route path="/contentsDetail/:id" element={<ContentsDetail />} />
           <Route path="/product/:id" element={<Product />} />
           {/* util menu */}
           <Route path="/mypage" element={<Mypage />} />

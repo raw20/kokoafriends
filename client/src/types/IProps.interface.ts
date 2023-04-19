@@ -6,8 +6,8 @@ import {
   OperationVariables,
 } from "@apollo/client";
 import { ICart } from "./Cart.interface";
-import { BuyProducts, IProducts, IProduct } from "./Products.interface";
-import { IMeData, IUser } from "./User.interface";
+import { IProducts, IProduct } from "./Products.interface";
+import { IMeData } from "./User.interface";
 import { IReview } from "./Reviews.interface";
 import { Dispatch, SetStateAction } from "react";
 
@@ -114,15 +114,6 @@ export interface IOrderProductsComponent {
 
 ///// 추후 수정예정인 인터페이스
 
-export interface BuyModalComponent {
-  selectItem: [IProduct];
-  allUserBuyItemList: [BuyProducts];
-  selectUserBuyItemList: [BuyProducts];
-}
-export interface RecentBIComponent {
-  selectUserBuyItemList: [BuyProducts];
-  nowUser: [IUser];
-}
 export interface SearchItem {
   item: [IProduct];
   items: IProduct[];

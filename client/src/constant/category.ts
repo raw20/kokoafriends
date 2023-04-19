@@ -16,9 +16,4 @@ export const MENU_ITEM = [
     name: "장바구니",
     path: "cart",
   },
-  {
-    id: "3",
-    name: "배송조회",
-    path: "buy-list",
-  },
 ];
