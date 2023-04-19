@@ -1,7 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import Modal from "react-modal";
-import BuyModal from "../../../components/Modal/BuyModal";
 import ProductReviews from "./ProductReviews";
 import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
@@ -33,18 +30,6 @@ import {
   isOpenSnackBarVar,
 } from "../../../store/snackbar";
 
-const CustomModalStyles = {
-  content: {
-    width: "50%",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
 function Product() {
   const { id } = useParams();
   const { data } = useGetProductById(id);
@@ -57,15 +42,6 @@ function Product() {
             return sum + curr;
           }, 0) / data?.review.length
       : 0;
-
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-
-  function openModal() {
-    setModalOpen(true);
-  }
-  function closeModal() {
-    setModalOpen(false);
-  }
 
   function addCartHandler(
     id: number,
@@ -176,16 +152,7 @@ function Product() {
             <PrimaryContent>상품 및 설명서</PrimaryContent>
           </SubInfoContainer>
           <ProductReviews data={data} />
-          <ProductPrimaryBuyButton onClick={() => openModal()}>
-            구매하기
-          </ProductPrimaryBuyButton>
-          <Modal
-            isOpen={modalOpen}
-            onRequestClose={() => closeModal()}
-            style={CustomModalStyles}
-          >
-            <BuyModal userCode={11} />
-          </Modal>
+          <ProductPrimaryBuyButton>구매하기</ProductPrimaryBuyButton>
         </ShowButtonArea>
       </SecondComponentsInner>
     </ProductContainer>
