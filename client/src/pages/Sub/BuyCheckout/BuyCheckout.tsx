@@ -17,6 +17,7 @@ import { getKakaoPayReady } from "../../../utils/getKakaoPayReady";
 import { useReactiveVar } from "@apollo/client";
 import { oneProductVar } from "../../../store/oneProductBuy";
 import { DIRECT_PRODUCT } from "../../../constant/storageKey";
+import getProductsPrice from "../../../utils/getProductsPrice";
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
@@ -24,9 +25,12 @@ function BuyCheckout() {
     useGetCartData();
   const { payRedirectURL, isCheckBuyItem } = useOrderData();
   const oneProduct = useReactiveVar(oneProductVar);
+  const oneProductPrice = getProductsPrice(oneProduct);
+  const oneProductSumPrice =
+    oneProductPrice >= 30000 ? oneProductPrice : oneProductPrice + 3000;
 
   useEffect(() => {
-    if (isCheckBuyItem) {
+    if (isCheckBuyItem && !localStorage.getItem(DIRECT_PRODUCT)) {
       getKakaoPayReady(product_item_name, sumQuantity, sumPrice);
     }
   }, [isCheckBuyItem, product_item_name, sumPrice, sumQuantity]);
@@ -53,11 +57,19 @@ function BuyCheckout() {
         {isCheckBuyItem ? (
           <a href={payRedirectURL}>
             <ProductPrimaryBuyButton>
-              {sumPrice}원 주문하기
+              {localStorage.getItem(DIRECT_PRODUCT)
+                ? oneProductSumPrice
+                : sumPrice}
+              원 주문하기
             </ProductPrimaryBuyButton>
           </a>
         ) : (
-          <DefaultBuyButton>{sumPrice}원 주문하기</DefaultBuyButton>
+          <DefaultBuyButton>
+            {localStorage.getItem(DIRECT_PRODUCT)
+              ? oneProductSumPrice
+              : sumPrice}
+            원 주문하기
+          </DefaultBuyButton>
         )}
       </BuyCheckoutInner>
     </BuyCheckoutContainer>

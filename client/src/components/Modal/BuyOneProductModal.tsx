@@ -9,9 +9,10 @@ import {
   ProductPrimaryBuyButton,
 } from "../../styles/Common.style";
 import { IProductComponent } from "../../types/IProps.interface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addProductItem } from "../../store/oneProductBuy";
+import { getKakaoPayReady } from "../../utils/getKakaoPayReady";
 
 function BuyOneProductModal({ data }: { data?: IProductComponent }) {
   const isOpenModal = useReactiveVar(isOpenModalVar);
@@ -29,6 +30,13 @@ function BuyOneProductModal({ data }: { data?: IProductComponent }) {
     );
     isOpenModalVar(false);
   }
+
+  useEffect(() => {
+    const sumPrice =
+      Number(data?.product[0].products_price.split(",").join("")) * amount;
+
+    getKakaoPayReady(String(data?.product[0].products_name), amount, sumPrice);
+  }, [amount, data?.product]);
 
   return (
     <Modal

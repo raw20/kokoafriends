@@ -1,5 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import { cartList } from "../../../../store/cart";
+import getProductsPrice from "../../../../utils/getProductsPrice";
 
 function useGetCartData() {
   const cartData = useReactiveVar(cartList);
@@ -8,10 +9,7 @@ function useGetCartData() {
     ? cartData?.map((element) => element.products_id)
     : [];
 
-  const productPrice = cartData
-    ?.map((element) => element.products_price * element.products_amount)
-    .reduce((a: number, b: number) => a + b, 0);
-
+  const productPrice = getProductsPrice(cartData);
   const sumPrice = productPrice >= 30000 ? productPrice : productPrice + 3000;
 
   const sumQuantity = cartData

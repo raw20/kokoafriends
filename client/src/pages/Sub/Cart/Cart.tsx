@@ -82,7 +82,7 @@ function Cart() {
                   : null}
               </CartListTable>
 
-              <Recceipt sumPrice={sumPrice!} />
+              <Recceipt productPrice={productPrice} sumPrice={sumPrice} />
 
               <BuyTable>
                 {cartData.length > 0 ? (
