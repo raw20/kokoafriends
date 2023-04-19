@@ -32,16 +32,8 @@ import {
 
 function Product() {
   const { id } = useParams();
-  const { data } = useGetProductById(id);
+  const { data, productRating } = useGetProductById(id);
   const { findProductId } = useGetCartData();
-  const productRating =
-    data?.review !== undefined
-      ? data?.review
-          .map((element) => element.review_rating)
-          .reduce(function add(sum, curr) {
-            return sum + curr;
-          }, 0) / data?.review.length
-      : 0;
 
   function addCartHandler(
     id: number,

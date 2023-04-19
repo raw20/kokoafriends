@@ -8,8 +8,15 @@ function useGetProductById(id?: string) {
       productId: Number(id),
     },
   });
-
-  return { data };
+  const productRating =
+    data?.review !== undefined
+      ? data?.review
+          .map((element) => element.review_rating)
+          .reduce(function add(sum, curr) {
+            return sum + curr;
+          }, 0) / data?.review.length
+      : 0;
+  return { data, productRating };
 }
 
 export default useGetProductById;
