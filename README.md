@@ -162,6 +162,8 @@
   state 관리를 위해 사용 <정찬욱>
 
 ## 📋 실제 화면
+<details markdown="1">
+<summary>접기/펼치기</summary>
 
 ### 카카오 로그인 화면
 
@@ -237,6 +239,7 @@
 <p align="center">
 <img src="https://user-images.githubusercontent.com/62588402/208843723-3db65b2d-eae2-4d32-af2b-17e5b9e16ddc.jpeg" width="350" height="350"/>
 </p>
+</details>
 
 ### 보완해야할 점
 
@@ -249,6 +252,7 @@
   - 여러명이 접속해 있을때 마이페이지에서 다른 유저의 정보가 출력되는 문제 발생을 수정
 
   - jwt 인증 방식 변경 : REST API --> Apollo Server
+
 
 #### 정찬욱 (프론트엔드)
 
@@ -280,6 +284,7 @@
 
 - apollo 폴더
   - 폴더 구조는 기존과 차이없음
+  
   - 코드의 가독성과 타입 정의의 반복을 최소화 하기 위하여 graphql 스키마와 리졸버 파일을 `TypeGraphQL` 라이브러리로 재정의
 
 ```
@@ -305,9 +310,51 @@
 
 - client 폴더
   - page폴더 안에 있는 각각 하위 폴더 안에 graphql 스키마 정의 파일이 담긴 `graphql`폴더와 커스텀 훅이 담긴 `hooks`을 생성
+
   - 기존엔 컴포넌트 안에 styled-componets로 작업한 css 코드들을 넣었는데 코드의 가독성을 위해 `.style.tsx`로 분리, 그리고 `styles` 폴더를 생성하여 공통적인 스타일링 요소를 관리
 
+  - 수정 전엔 `page`폴더 안에 해당 컴포넌트에서 분리된 파일을 따로 관리하였으나 관심사 분리를 향상시키기 위해 `src` 하위 폴더인 `components`로 관리
+
 ```
+수정 전
+📦src
+ ┣ 📂auth
+ ┣ 📂components
+ ┃ ┣ 📂contentsDetail
+ ┃ ┣ 📂footer
+ ┃ ┣ 📂header
+ ┃ ┣ 📂itemDetail
+ ┃ ┣ 📂loading
+ ┃ ┗ 📂scrollTopButton
+ ┣ 📂interface
+ ┣ 📂pages
+ ┃ ┣ 📂mainMenu
+ ┃ ┃ ┣ 📂best
+ ┃ ┃ ┣ 📂contents
+ ┃ ┃ ┗ 📂home
+ ┃ ┗ 📂subMenu
+ ┃ ┃ ┣ 📂cart
+ ┃ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂login
+ ┃ ┃ ┣ 📂myPage
+ ┃ ┃ ┃ ┣ 📂components
+ ┃ ┃ ┗ 📂search
+ ┃ ┃ ┃ ┣ 📂components
+ ┣ 📂routes
+ ┣ 📜App.css
+ ┣ 📜App.tsx
+ ┣ 📜client.ts
+ ┣ 📜index.tsx
+ ┣ 📜react-app-env.d.ts
+ ┣ 📜reportWebVitals.ts
+ ┣ 📜setPoxy.js
+ ┣ 📜setupTests.ts
+ ┣ 📜styled.t.ts
+ ┗ 📜theme.ts
+```
+
+```
+수정 후
 📦src
  ┣ 📂asset
  ┃ ┗ 📂image
@@ -376,6 +423,7 @@
 
 ##### 해결방법
 
-- client에서 REST API를 이용해 카카오 서버로 로그인을 요청하고 'apollo'서버와 통신하면서 JWT를 구현하고자 하였으나 `client` 서버와 'apollo' 서버를 같은 포트를 써야하기 때문에 구현이 어려워서 대안으로 'client'에서 REST API가 아닌 Javascript JDK를 이용하여 `apollo`서버와 통신하지 않고 다이렉트로 카카오 서버와 통신하는 방식으로 변경하였습니다.
+
+- client에서 REST API를 이용해 카카오 서버로 로그인을 요청하고 'apollo'서버와 통신하면서 JWT를 구현하고자 하였으나 `client` 서버와 `apollo` 서버를 같은 포트를 써야하기 때문에 구현이 어려워서 대안으로 `client`에서 REST API가 아닌 Javascript JDK를 이용하여 `apollo`서버와 통신하지 않고 다이렉트로 카카오 서버와 통신하는 방식으로 변경하였습니다.
 
 ### 2차 리팩토링 (23.03.27 ~ )
