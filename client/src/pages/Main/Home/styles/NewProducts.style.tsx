@@ -49,16 +49,15 @@ export const NewProductImageBox = styled.div`
 export const NewProductImageBoxInner = styled.div`
   width: 100%;
   height: auto;
-  margin: 1rem auto;
 
   @media ${(props) => props.theme.tablet} {
     width: 80%;
-    margin: 3rem auto;
+    margin: 0 auto;
   }
 
   @media ${(props) => props.theme.mobile} {
     width: 80%;
-    margin: 3rem auto;
+    margin: 0 auto;
   }
 `;
 export const NewProductImage = styled.img`
@@ -85,17 +84,14 @@ export const NewProductTitleBox = styled.div`
 
   @media ${(props) => props.theme.tablet} {
     width: 90%;
-    margin: 3rem auto;
   }
   @media ${(props) => props.theme.mobile} {
     width: 85%;
-    margin: 1rem auto;
   }
 `;
 
 export const NewProductBox = styled.div`
   width: 100%;
-  height: auto;
   display: grid;
   grid-template-columns: 265px 265px 265px 265px;
   grid-template-rows: 300px 300px 300px 300px;
