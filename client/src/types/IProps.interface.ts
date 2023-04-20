@@ -10,6 +10,7 @@ import { IProducts, IProduct } from "./Products.interface";
 import { IMeData } from "./User.interface";
 import { IReview } from "./Reviews.interface";
 import { Dispatch, SetStateAction } from "react";
+import { URLSearchParamsInit } from "react-router-dom";
 
 export interface IProductComponent {
   product: [IProduct];
@@ -112,9 +113,14 @@ export interface IOrderProductsComponent {
   cartData: ICart[];
 }
 
-///// 추후 수정예정인 인터페이스
+export interface ISearchContextProps {
+  data: IProducts;
+}
 
-export interface SearchItem {
-  item: [IProduct];
-  items: IProduct[];
+export interface ISearchFilterButtonComponent {
+  filterValue: string;
+  setSearchParams: (
+    nextInit: URLSearchParamsInit,
+    navigateOptions?: { replace?: boolean | undefined; state?: any } | undefined
+  ) => void;
 }

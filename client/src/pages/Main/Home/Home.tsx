@@ -33,7 +33,7 @@ function Home() {
           <NewProducts data={data} countViews={countViews} />
         </MainContainer>
       ) : (
-        <Outlet />
+        <Outlet context={{ data }} />
       )}
       <FeedBack />
       <ScrollTopButton />

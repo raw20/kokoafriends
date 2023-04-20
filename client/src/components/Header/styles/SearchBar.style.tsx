@@ -19,6 +19,7 @@ export const SearchBarContainer = styled.span`
 export const SearchIcon = styled(MdOutlineSearch)`
   font-size: 1.7rem;
   color: ${(props) => props.theme.ryanColor};
+  cursor: pointer;
 `;
 
 export const SearchInput = styled.input`

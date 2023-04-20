@@ -16,7 +16,7 @@ import {
   SideNavBar,
   SearchBarWrapper,
   NavInner,
-} from "./Header.style";
+} from "./styles/Header.style";
 import SearchBar from "./SearchBar";
 const { Kakao } = window;
 
@@ -30,6 +30,7 @@ function Header() {
       redirectUri: `${LOGIN_REDIRECT_URI}`,
     });
   };
+
   return (
     <HeaderContainer>
       <HeaderInner>
