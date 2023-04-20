@@ -16,6 +16,7 @@ import {
   SideNavBar,
   SearchBarWrapper,
   NavInner,
+  HeaderAvatarContainer,
 } from "./styles/Header.style";
 import SearchBar from "./SearchBar";
 import { USER_CODE } from "../../constant/storageKey";
@@ -54,15 +55,17 @@ function Header() {
             localStorage.getItem(USER_CODE) !== null ? (
               <HeaderAvatar />
             ) : (
-              <Avatar
-                sx={{ width: 56, height: 56 }}
-                alt="로그인"
-                title="로그인"
-                onClick={kakaoLoginHandler}
-                style={{ cursor: "pointer" }}
-              >
-                <LockIcon />
-              </Avatar>
+              <HeaderAvatarContainer>
+                <Avatar
+                  sx={{ width: 56, height: 56 }}
+                  alt="로그인"
+                  title="로그인"
+                  onClick={kakaoLoginHandler}
+                  style={{ cursor: "pointer" }}
+                >
+                  <LockIcon />
+                </Avatar>
+              </HeaderAvatarContainer>
             )}
           </SideNavBar>
         </HeaderEnd>

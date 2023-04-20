@@ -11,9 +11,14 @@ export const SearchBarContainer = styled.span`
   border: 2px solid ${(props) => props.theme.ryanColor};
   border-radius: 20px;
   margin: 0 auto;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    border-radius: 10px;
+  }
   @media ${(props) => props.theme.mobile} {
-    width: 80%;
-    margin: 0 auto;
+    width: 100%;
+    border-radius: 10px;
   }
 `;
 export const SearchIcon = styled(MdOutlineSearch)`

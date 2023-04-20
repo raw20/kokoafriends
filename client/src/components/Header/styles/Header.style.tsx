@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { MdMenu } from "react-icons/md";
 
 export const HeaderContainer = styled.div`
   width: 100%;
@@ -9,6 +8,10 @@ export const HeaderContainer = styled.div`
     position: relative;
     transition: all 0.5s;
   }
+  @media ${(props) => props.theme.mobile} {
+    height: 100%;
+    flex-direction: column;
+  }
 `;
 export const HeaderInner = styled.div`
   width: 100%;
@@ -16,6 +19,10 @@ export const HeaderInner = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    height: 100%;
+    flex-direction: column;
+  }
 `;
 export const NavInner = styled(HeaderInner)`
   height: 60px;
@@ -27,10 +34,11 @@ export const HeaderStart = styled.div`
   margin: 0 auto;
   justify-content: center;
   align-items: center;
+  @media ${(props) => props.theme.mobile} {
+    margin-top: 1.5rem;
+  }
 `;
-export const HeaderCenter = styled(HeaderStart)`
-  flex-direction: column;
-`;
+export const HeaderCenter = styled(HeaderStart)``;
 export const HeaderEnd = styled(HeaderStart)`
   @media ${(props) => props.theme.mobile} {
   }
@@ -44,6 +52,15 @@ export const LogoWrapper = styled.div`
 export const LogoImage = styled.img`
   width: 40%;
   height: 40%;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 70%;
+    height: 70%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 60%;
+    height: 60%;
+  }
 `;
 export const SearchBarWrapper = styled.div`
   width: 100%;
@@ -73,10 +90,9 @@ export const GlobalNavBar = styled.li<{ isActive: boolean }>`
     props.isActive ? "5px solid" + props.theme.ryanColor : "none"};
 
   @media ${(props) => props.theme.mobile} {
-    width: 55px;
+    width: 80px;
     font-size: 1rem;
     margin-right: 1rem;
-    border-bottom: none;
   }
 `;
 export const SideNavBar = styled.div`
@@ -90,26 +106,13 @@ export const SideNavBar = styled.div`
   @media ${(props) => props.theme.mobile} {
     font-size: 1.5rem;
   }
-  .util-icon {
-    margin-right: 1rem;
-    &:hover {
-      transform: scale(120%);
-    }
-    @media ${(props) => props.theme.mobile} {
-      margin: 0 0.3rem;
-    }
-  }
 `;
-export const TabWrapper = styled.div`
-  width: 100%;
-  display: none;
+
+export const HeaderAvatarContainer = styled.div`
+  flex-grow: 0;
   @media ${(props) => props.theme.mobile} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: absolute;
+    top: 5%;
+    right: 5%;
   }
-`;
-export const TabMenu = styled(MdMenu)`
-  font-size: 2.2rem;
-  cursor: pointer;
 `;
