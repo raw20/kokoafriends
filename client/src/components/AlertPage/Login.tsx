@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import { KAKAO_AUTH_URL } from "../../../constant/oAuth";
+import { KAKAO_AUTH_URL } from "../../constant/oAuth";
 import {
   AlertPageCaontainer,
   AlertPageInner,
@@ -7,7 +7,7 @@ import {
   AlertPageImage,
   AlertPageText,
   AlertPageButton,
-} from "../../../styles/AlertPage.Common.style";
+} from "../../styles/AlertPage.Common.style";
 
 function Login() {
   return (
@@ -16,7 +16,7 @@ function Login() {
         <AlertPageBox>
           <Stack>
             <AlertPageImage
-              src={require("../../../asset/image/etc/img_apeach.png")}
+              src={require("../../asset/image/etc/img_apeach.png")}
               alt="사진"
             />
             <AlertPageText>

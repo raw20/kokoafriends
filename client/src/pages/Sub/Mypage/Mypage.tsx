@@ -1,4 +1,4 @@
-import PreparingPage from "../../../components/Preparing/PreparingPage";
+import PreparingPage from "../../../components/AlertPage/PreparingPage";
 
 function Mypage() {
   return (

@@ -1,4 +1,4 @@
-import EmptyCart from "./EmptyCart";
+import EmptyCart from "../../../components/AlertPage/EmptyCart";
 import CartList from "./CartList";
 import {
   BuyTable,

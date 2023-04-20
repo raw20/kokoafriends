@@ -18,7 +18,7 @@ import { useReactiveVar } from "@apollo/client";
 import { oneProductVar } from "../../../store/oneProductBuy";
 import { DIRECT_PRODUCT, USER_CODE } from "../../../constant/storageKey";
 import getProductsPrice from "../../../utils/getProductsPrice";
-import Login from "../Login/Login";
+import Login from "../../../components/AlertPage/Login";
 const { Kakao } = window;
 
 function BuyCheckout() {

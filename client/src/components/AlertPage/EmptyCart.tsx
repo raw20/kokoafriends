@@ -6,7 +6,7 @@ import {
   AlertPageImage,
   AlertPageInner,
   AlertPageText,
-} from "../../../styles/AlertPage.Common.style";
+} from "../../styles/AlertPage.Common.style";
 import { Stack } from "@mui/material";
 
 function EmptyCart() {
@@ -17,7 +17,7 @@ function EmptyCart() {
         <AlertPageBox>
           <Stack>
             <AlertPageImage
-              src={require("../../../asset/image/etc/ico_cart_empty.png")}
+              src={require("../../asset/image/etc/ico_cart_empty.png")}
               alt="사진"
             />
             <AlertPageText>
