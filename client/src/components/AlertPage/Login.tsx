@@ -7,7 +7,7 @@ import {
   AlertPageImage,
   AlertPageText,
   AlertPageButton,
-} from "../../styles/AlertPage.Common.style";
+} from "./styles/AlertPage.Common.style";
 
 function Login() {
   return (

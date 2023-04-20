@@ -6,7 +6,7 @@ import {
   AlertPageImage,
   AlertPageText,
   AlertPageButton,
-} from "../../styles/AlertPage.Common.style";
+} from "./styles/AlertPage.Common.style";
 import { useNavigate } from "react-router-dom";
 
 function PreparingPage() {

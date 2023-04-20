@@ -6,7 +6,7 @@ import {
   AlertPageImage,
   AlertPageInner,
   AlertPageText,
-} from "../../styles/AlertPage.Common.style";
+} from "./styles/AlertPage.Common.style";
 import { Stack } from "@mui/material";
 
 function EmptyCart() {
