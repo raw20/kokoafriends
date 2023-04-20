@@ -18,9 +18,6 @@ function useLogin() {
 
   const [addUser] = useMutation(ADD_USER, {
     refetchQueries: [{ query: USERS }],
-    onCompleted: (data) => {
-      if (data) localStorage.setItem(USER_CODE, data.addUser.kakao_id);
-    },
     onError: () => alert("login error"),
   });
 

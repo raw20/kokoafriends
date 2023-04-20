@@ -7,17 +7,23 @@ export const NewProductContainer = styled.div`
   display: flex;
   justify-content: center;
   @media ${(props) => props.theme.tablet} {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
   }
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
   }
 `;
 
 export const NewProductInner = styled(BannerContainer)`
   width: 100%;
   margin: 4.5rem auto;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 95%;
+    margin: 0 auto;
+  }
 `;
 
 export const NewProductImageBox = styled.div`
@@ -31,11 +37,28 @@ export const NewProductImageBox = styled.div`
   &:hover {
     opacity: 0.7;
   }
+
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 export const NewProductImageBoxInner = styled.div`
   width: 100%;
   height: auto;
-  margin-top: 3rem;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    width: 80%;
+    margin: 0 auto;
+  }
 `;
 export const NewProductImage = styled.img`
   width: 200px;
@@ -52,10 +75,23 @@ export const NewProductImage = styled.img`
     height: 100%;
   }
 `;
+export const NewProductTitleBox = styled.div`
+  width: 100%;
+  height: auto;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 90%;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 85%;
+  }
+`;
 
 export const NewProductBox = styled.div`
   width: 100%;
-  height: auto;
   display: grid;
   grid-template-columns: 265px 265px 265px 265px;
   grid-template-rows: 300px 300px 300px 300px;
@@ -71,8 +107,8 @@ export const NewProductBox = styled.div`
   }
   @media ${(props) => props.theme.mobile} {
     width: 85%;
-    grid-template-columns: 275px 275px;
-    grid-template-rows: 310px 310px;
+    grid-template-columns: 190px 190px;
+    grid-template-rows: 215px 215px;
     margin: 0 auto;
   }
 `;

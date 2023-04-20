@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading/Loading";
+import Error from "../components/AlertPage/Error";
 
 const Home = lazy(() => import("../pages/Main/Home/Home"));
 const Contents = lazy(() => import("../pages/Main/Contents/Contents"));
@@ -8,7 +9,7 @@ const BestProducts = lazy(() => import("../pages/Main/Best/BestProducts"));
 const Search = lazy(() => import("../pages/Sub/Search/Search"));
 const Product = lazy(() => import("../pages/Main/Best/Product"));
 const Mypage = lazy(() => import("../pages/Sub/Mypage/Mypage"));
-const Cart = lazy(() => import("../pages/Sub/Cart/Cart"));
+const Cart = lazy(() => import("../pages/Main/Cart/Cart"));
 const BuyCheckout = lazy(() => import("../pages/Sub/BuyCheckout/BuyCheckout"));
 
 const KaKaoLoginRedirect = lazy(
@@ -43,6 +44,9 @@ function Router() {
             />
             {/* Order Page */}
             <Route path="/checkout" element={<BuyCheckout />} />
+
+            {/* Error Page */}
+            <Route path="/error" element={<Error />} />
           </Route>
         </Routes>
       </Suspense>

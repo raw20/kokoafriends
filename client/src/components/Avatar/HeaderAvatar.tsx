@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
@@ -10,6 +9,7 @@ import { LOGOUT_REDIRECT_URI } from "../../constant/oAuth";
 import useLogin from "../../services/auth/hooks/useLogin";
 import { Link } from "react-router-dom";
 import { MENU_ITEM } from "../../constant/category";
+import { HeaderAvatarContainer } from "../Header/styles/Header.style";
 
 interface ISettingItem {
   id: string;
@@ -30,13 +30,13 @@ function HeaderAvatar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <HeaderAvatarContainer>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar
             sx={{ width: 56, height: 56 }}
             alt="kakao_profile_img"
-            src={user && user?.me[0].kakao_profile_img}
+            src={user?.me[0].kakao_profile_img}
           />
         </IconButton>
       </Tooltip>
@@ -69,7 +69,7 @@ function HeaderAvatar() {
           </a>
         </MenuItem>
       </Menu>
-    </Box>
+    </HeaderAvatarContainer>
   );
 }
 

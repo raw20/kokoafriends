@@ -34,9 +34,14 @@ function BuyOneProductModal({ data }: { data?: IProductComponent }) {
   useEffect(() => {
     const sumPrice =
       Number(data?.product[0].products_price.split(",").join("")) * amount;
-
-    getKakaoPayReady(String(data?.product[0].products_name), amount, sumPrice);
-  }, [amount, data?.product]);
+    if (isOpenModal) {
+      getKakaoPayReady(
+        String(data?.product[0].products_name),
+        amount,
+        sumPrice
+      );
+    }
+  }, [amount, data?.product, isOpenModal]);
 
   return (
     <Modal

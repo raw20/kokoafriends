@@ -1,5 +1,11 @@
+import PreparingPage from "../../../components/AlertPage/PreparingPage";
+
 function Contents() {
-  return <div>구현 예정</div>;
+  return (
+    <>
+      <PreparingPage />
+    </>
+  );
 }
 
 export default Contents;

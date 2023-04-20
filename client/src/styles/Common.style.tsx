@@ -33,10 +33,9 @@ export const SecondTitle = styled.h1`
 `;
 
 export const SecondContent = styled.p`
-  width: 80%;
   font-size: 1.2rem;
   font-weight: 700;
-  text-align: start;
+  line-height: 1.2rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -98,7 +97,7 @@ export const PrimaryContainer = styled.div`
 `;
 
 export const PrimaryComponentsInner = styled.div`
-  width: 60%;
+  width: 50%;
   height: auto;
   display: flex;
   margin: 1.5rem auto;

@@ -11,13 +11,15 @@ import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
 import Payment from "./Payment";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 import useOrderData from "../../../services/products/hooks/custom/useOrderData";
-import { DefaultBuyButton } from "../Cart/styles/Cart.style";
+import { DefaultBuyButton } from "../../Main/Cart/styles/Cart.style";
 import { useEffect } from "react";
 import { getKakaoPayReady } from "../../../utils/getKakaoPayReady";
 import { useReactiveVar } from "@apollo/client";
 import { oneProductVar } from "../../../store/oneProductBuy";
-import { DIRECT_PRODUCT } from "../../../constant/storageKey";
+import { DIRECT_PRODUCT, USER_CODE } from "../../../constant/storageKey";
 import getProductsPrice from "../../../utils/getProductsPrice";
+import Login from "../../../components/AlertPage/Login";
+const { Kakao } = window;
 
 function BuyCheckout() {
   const { localUserData } = useLogin();
@@ -35,6 +37,12 @@ function BuyCheckout() {
     }
   }, [isCheckBuyItem, product_item_name, sumPrice, sumQuantity]);
 
+  if (
+    !Kakao.Auth.getAccessToken() &&
+    localStorage.getItem(USER_CODE) === null
+  ) {
+    return <Login />;
+  }
   return (
     <BuyCheckoutContainer>
       <BuyCheckoutInner>
