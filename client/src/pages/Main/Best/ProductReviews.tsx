@@ -18,6 +18,7 @@ import { Rating, Typography } from "@mui/material";
 import getCreatedIndex from "../../../utils/getCreatedIndex";
 import ProductReviewList from "./ProductReviewList";
 import { isOpenSnackBarVar } from "../../../store/snackbar";
+import { LOGIN_REDIRECT_URI } from "../../../constant/oAuth";
 const { Kakao } = window;
 
 function ProductReviews({ data }: IProductReviewsComponent) {
@@ -51,6 +52,12 @@ function ProductReviews({ data }: IProductReviewsComponent) {
     isOpenSnackBarVar(true);
   }
 
+  const kakaoLoginHandler = () => {
+    Kakao.Auth.authorize({
+      redirectUri: `${LOGIN_REDIRECT_URI}`,
+    });
+  };
+
   return (
     <>
       <ReviewsContainer>
@@ -58,7 +65,9 @@ function ProductReviews({ data }: IProductReviewsComponent) {
           <NormalText>리뷰 {data?.review.length} 건</NormalText>
         </ReviewInforBox>
         {!Kakao.Auth.getAccessToken() ? (
-          <FalseReviewButton>로그인이 필요합니다.</FalseReviewButton>
+          <FalseReviewButton onClick={kakaoLoginHandler}>
+            로그인이 필요합니다.
+          </FalseReviewButton>
         ) : (
           <>
             <Typography component="legend">

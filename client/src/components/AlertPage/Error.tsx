@@ -7,15 +7,10 @@ import {
   AlertPageText,
   AlertPageButton,
 } from "./styles/AlertPage.Common.style";
-import { LOGIN_REDIRECT_URI } from "../../constant/oAuth";
-const { Kakao } = window;
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const kakaoLoginHandler = () => {
-    Kakao.Auth.authorize({
-      redirectUri: `${LOGIN_REDIRECT_URI}`,
-    });
-  };
+function Error() {
+  const navigator = useNavigate();
 
   return (
     <AlertPageCaontainer>
@@ -23,16 +18,16 @@ function Login() {
         <AlertPageBox>
           <Stack>
             <AlertPageImage
-              src={require("../../asset/image/etc/img_apeach.png")}
+              src={require("../../asset/image/etc/img_tube.png")}
               alt="사진"
             />
             <AlertPageText>
-              로그인이 필요한 서비스입니다.
+              죄송합니다 예상치 못한 오류가 발생하였습니다.
               <br />
-              로그인 후 이용해 주세요.
+              잠시 후 다시 시도해 주세요.
             </AlertPageText>
-            <AlertPageButton onClick={kakaoLoginHandler}>
-              카카오 로그인
+            <AlertPageButton onClick={() => navigator("/")}>
+              홈으로 돌아가기
             </AlertPageButton>
           </Stack>
         </AlertPageBox>
@@ -41,4 +36,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Error;

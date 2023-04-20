@@ -21,3 +21,5 @@ export const PAY_TID = "tid";
 export const DIRECT_PRODUCT = "direct_product";
 
 export const SEARCH_VALUE = "search_value";
+
+export const PATH_NAME = "path_name";

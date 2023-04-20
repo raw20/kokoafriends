@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserResponseData } from "../../types/User.interface";
 import useLogin from "./hooks/useLogin";
-import { USER_CODE } from "../../constant/storageKey";
+import { PATH_NAME, USER_CODE } from "../../constant/storageKey";
 const { Kakao } = window;
 
 function KaKaoLoginRedirect() {
@@ -29,7 +29,6 @@ function KaKaoLoginRedirect() {
             url: "/v2/user/me",
           })
             .then(function (response: UserResponseData) {
-              navigate("/");
               localStorage.setItem(USER_CODE, String(response.id));
               addUser({
                 variables: {
@@ -41,8 +40,10 @@ function KaKaoLoginRedirect() {
                   createTime: response.connected_at,
                 },
               });
+              navigate(`${localStorage.getItem(PATH_NAME)}`);
             })
             .catch(function (error: any) {
+              navigate("/error");
               console.log(error);
             });
         });

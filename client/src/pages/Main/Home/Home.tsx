@@ -10,10 +10,14 @@ import NewProducts from "./NewProducts";
 import Category from "./Category";
 import FeedBack from "../../../components/SnackBar/FeedBack";
 import { useEffect } from "react";
-import { DIRECT_PRODUCT } from "../../../constant/storageKey";
+import { DIRECT_PRODUCT, PATH_NAME } from "../../../constant/storageKey";
 
 function Home() {
   const state = useLocation();
+  if (state.pathname !== "/oauth/callback/kakao") {
+    localStorage.setItem(PATH_NAME, state.pathname);
+  }
+
   const { data } = useGetHomeProducts();
   const countViews = useCountView();
 

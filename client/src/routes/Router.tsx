@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading/Loading";
+import Error from "../components/AlertPage/Error";
 
 const Home = lazy(() => import("../pages/Main/Home/Home"));
 const Contents = lazy(() => import("../pages/Main/Contents/Contents"));
@@ -43,6 +44,9 @@ function Router() {
             />
             {/* Order Page */}
             <Route path="/checkout" element={<BuyCheckout />} />
+
+            {/* Error Page */}
+            <Route path="/error" element={<Error />} />
           </Route>
         </Routes>
       </Suspense>

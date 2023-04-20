@@ -23,6 +23,7 @@ export const FalseReviewButton = styled.span`
   align-items: center;
   border: none;
   font-size: 0.9rem;
+  padding-left: 1rem;
   color: ${(props) => props.theme.bgColor};
   font-family: "Noto Sans KR", sans-serif;
 `;
