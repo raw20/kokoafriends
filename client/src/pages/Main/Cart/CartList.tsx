@@ -24,6 +24,7 @@ import {
   NumberControlButton,
   NumberControlInput,
 } from "../../../styles/Common.style";
+import { Stack } from "@mui/material";
 
 function CartList({
   cartElement,
@@ -70,29 +71,33 @@ function CartList({
         <CartProductImage src={cartElement.products_slideImg} />
       </BoxLeft>
       <BoxCenter>
-        <LargeText>{cartElement.products_name}</LargeText>
-        <MediumText>
-          {cartElement.products_price * cartElement.products_amount}원
-        </MediumText>
-        <NumControlBox>
-          <NumberControlButton
-            onClick={() => amountMinus(cartElement.products_id)}
-          >
-            -
-          </NumberControlButton>
-          <NumberControlInput
-            type="number"
-            value={cartElement.products_amount}
-            onChange={(e) =>
-              amoutInput(cartElement.products_id, Number(e.target.value))
-            }
-          />
-          <NumberControlButton
-            onClick={() => amountPlus(cartElement.products_id)}
-          >
-            +
-          </NumberControlButton>
-        </NumControlBox>
+        <Stack>
+          <LargeText>{cartElement.products_name}</LargeText>
+          <MediumText>
+            {cartElement.products_price * cartElement.products_amount}원
+          </MediumText>
+        </Stack>
+        <Stack>
+          <NumControlBox>
+            <NumberControlButton
+              onClick={() => amountMinus(cartElement.products_id)}
+            >
+              -
+            </NumberControlButton>
+            <NumberControlInput
+              type="number"
+              value={cartElement.products_amount}
+              onChange={(e) =>
+                amoutInput(cartElement.products_id, Number(e.target.value))
+              }
+            />
+            <NumberControlButton
+              onClick={() => amountPlus(cartElement.products_id)}
+            >
+              +
+            </NumberControlButton>
+          </NumControlBox>
+        </Stack>
       </BoxCenter>
       <BoxRight>
         <DeleteButton onClick={() => deleteCart(cartElement.products_id)} />

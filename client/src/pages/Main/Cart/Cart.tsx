@@ -3,7 +3,6 @@ import CartList from "./CartList";
 import {
   BuyTable,
   CartContainer,
-  CartInner,
   CartListTable,
   CheckBox,
   CheckLeft,
@@ -21,7 +20,10 @@ import { ChangeEvent, useState } from "react";
 import DeleteCartDialog from "../../../components/Dialog/DeleteCartDialog";
 import { isOpenDeleteCartDialogVar } from "../../../store/dialog";
 import { useNavigate } from "react-router-dom";
-import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
+import {
+  ProductPrimaryBuyButton,
+  SecondComponentsInner,
+} from "../../../styles/Common.style";
 
 function Cart() {
   const { cartData, sumPrice, productPrice } = useGetCartData();
@@ -44,7 +46,7 @@ function Cart() {
   return (
     <>
       <CartContainer>
-        <CartInner>
+        <SecondComponentsInner>
           <Title>장바구니</Title>
           {cartData?.length === 0 ? (
             <EmptyCart />
@@ -101,7 +103,7 @@ function Cart() {
               </BuyTable>
             </>
           )}
-        </CartInner>
+        </SecondComponentsInner>
       </CartContainer>
 
       <DeleteCartDialog id={productId} />

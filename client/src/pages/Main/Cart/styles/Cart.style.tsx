@@ -1,21 +1,11 @@
 import styled from "styled-components";
-import { ProductPrimaryBuyButton } from "../../../../styles/Common.style";
+import {
+  PrimaryContainer,
+  ProductPrimaryBuyButton,
+} from "../../../../styles/Common.style";
 
-export const CartContainer = styled.div`
-  width: 100%;
-  height: auto;
-  font-family: "Noto Sans KR", sans-serif;
-`;
-export const CartInner = styled.div`
-  width: 800px;
-  height: auto;
-  margin: 0 auto;
-  flex-direction: column;
-  @media ${(props) => props.theme.mobile} {
-    width: 350px;
-    margin: 0 auto;
-  }
-`;
+export const CartContainer = styled(PrimaryContainer)``;
+
 export const Title = styled.h1`
   margin: 1.5rem 0;
   font-size: 2rem;
@@ -56,12 +46,15 @@ export const CartListTable = styled.div`
 `;
 
 export const LargeText = styled.p`
-  width: 100%;
   font-size: 1.4rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: noCartContainer;
   margin-bottom: 1rem;
+
+  @media ${(props) => props.theme.mobile} {
+    font-size: 1rem;
+  }
 `;
 export const MediumText = styled.p`
   width: 100%;

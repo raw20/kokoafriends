@@ -10,29 +10,23 @@ export const CartListBox = styled.div`
 `;
 
 export const BoxLeft = styled.div`
-  width: 250px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media ${(props) => props.theme.mobile} {
-    width: 100px;
-  }
 `;
 
 export const BoxCenter = styled.div`
-  width: 450px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: left;
-  @media ${(props) => props.theme.mobile} {
-    width: 200px;
-  }
 `;
 
 export const BoxRight = styled.div`
-  width: 100px;
+  width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
