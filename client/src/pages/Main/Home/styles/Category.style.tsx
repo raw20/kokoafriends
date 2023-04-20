@@ -12,8 +12,30 @@ export const CategoryContainer = styled.div`
 `;
 export const CategoryBox = styled.div`
   width: 100%;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 `;
+
+export const CategoryAvatarContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media ${(props) => props.theme.tablet} {
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px;
+    grid-template-rows: 100px 100px 100px 100px;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    grid-template-rows: 100px 100px 100px;
+  }
+`;
+
 export const CategoryAvatarBox = styled.div`
   width: 100%;
   height: auto;

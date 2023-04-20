@@ -1,39 +1,78 @@
-import { Arg, ID, ObjectType } from "type-graphql";
+import * as jf from "joiful";
+import { Arg, Mutation, ObjectType, ArgsType, Args } from "type-graphql";
 import { Field, Query, Resolver } from "type-graphql";
-import { userById, users } from "../db/user.js";
+import { addUserInfor, userById, users } from "../db/user.js";
 
 @ObjectType()
 class User {
-  @Field()
-  user_code: number;
-
-  @Field((type) => ID)
+  @Field({ nullable: true })
   kakao_id: string;
 
-  @Field()
+  @Field({ nullable: true })
   kakao_profile_img: string;
 
-  @Field()
+  @Field({ nullable: true })
   kakao_nickname: string;
 
-  @Field()
+  @Field({ nullable: true })
   kakao_email: string;
 
-  @Field()
+  @Field({ nullable: true })
   user_role: string;
 
-  @Field()
+  @Field({ nullable: true })
   create_time: Date;
 }
 
-@Resolver(User)
+@ArgsType()
+export class AddUserArgs {
+  @Field({ nullable: true })
+  @jf.string().required().min(0)
+  kakao_id: string;
+
+  @Field({ nullable: true })
+  @jf.string().required().min(0)
+  kakao_profile_img: string;
+
+  @Field({ nullable: true })
+  @jf.string().required().min(0)
+  kakao_nickname: string;
+
+  @Field({ nullable: true })
+  @jf.string().required().min(0)
+  kakao_email: string;
+
+  @Field({ nullable: true })
+  @jf.string().required().min(0)
+  user_role: string;
+
+  @Field({ nullable: true })
+  @jf.date().required().min(0)
+  create_time: Date;
+}
+
+@Resolver()
 export class UserResolver {
-  @Query((returns) => [User])
-  async users() {
+  @Query(() => [User])
+  allUser() {
     return users();
   }
-  @Query((returns) => [User])
-  async user(@Arg("id", (type) => ID!) id: string) {
+  @Query(() => [User])
+  me(@Arg("id", () => String) id: string) {
     return userById(id);
+  }
+  @Mutation(() => User)
+  addUser(@Args() user: AddUserArgs) {
+    addUserInfor(
+      user.kakao_id,
+      user.kakao_profile_img,
+      user.kakao_nickname,
+      user.kakao_email,
+      user.user_role,
+      user.create_time
+    );
+    return {
+      kakao_id: user.kakao_id,
+    };
   }
 }

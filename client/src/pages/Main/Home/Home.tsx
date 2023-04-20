@@ -2,35 +2,44 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
 import ScrollTopButton from "../../../components/Button/ScrollTopButton";
-import Loading from "../../../components/Loading/Loading";
-import useGetProducts from "./hooks/queries/useGetProducts";
-import useCountView from "./hooks/mutations/useCountView";
+import useGetHomeProducts from "../../../services/products/hooks/queries/useGetHomeProducts";
+import useCountView from "../../../services/products/hooks/mutations/useCountView";
 import { MainContainer } from "./styles/Home.style";
 import BannerSlide from "./BannerSlide";
-import NewProjuctsSlide from "./NewProjuctsSlide";
+import NewProducts from "./NewProducts";
 import Category from "./Category";
-
-//const token: string = window.localStorage.getItem("token") as string;
+import FeedBack from "../../../components/SnackBar/FeedBack";
+import { useEffect } from "react";
+import { DIRECT_PRODUCT, PATH_NAME } from "../../../constant/storageKey";
 
 function Home() {
   const state = useLocation();
-  const { data, loading } = useGetProducts();
-  const countView = useCountView();
-  if (loading) return <Loading />;
+  if (state.pathname !== "/oauth/callback/kakao") {
+    localStorage.setItem(PATH_NAME, state.pathname);
+  }
+
+  const { data } = useGetHomeProducts();
+  const countViews = useCountView();
+
+  useEffect(() => {
+    if (state.pathname !== "/checkout") {
+      localStorage.removeItem(DIRECT_PRODUCT);
+    }
+  }, [state.pathname]);
 
   return (
     <>
       <Header />
       {state.pathname === "/" ? (
         <MainContainer>
-          <BannerSlide data={data} countView={countView} />
+          <BannerSlide data={data} countViews={countViews} />
           <Category />
-          <NewProjuctsSlide data={data} countView={countView} />
+          <NewProducts data={data} countViews={countViews} />
         </MainContainer>
       ) : (
-        <Outlet />
+        <Outlet context={{ data }} />
       )}
-
+      <FeedBack />
       <ScrollTopButton />
       <Footer />
     </>

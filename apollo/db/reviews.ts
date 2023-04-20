@@ -4,24 +4,41 @@ export const reviews = async () => {
   const [rows] = await pool1.query("select * from review");
   return rows;
 };
+
 export const reviewById = async (id: number) => {
   const [rows] = await pool1.query(
-    `select * from review,user_master where review.user_code = user_master.user_code and review.sId=${id}`
+    `select * from review,user_master where review.kakao_id = user_master.kakao_id and review.products_id=${id}`
   );
   return rows;
 };
+
 export const postReview = async (
-  rId: number,
-  sId: number,
-  user_code: number,
-  rReview: string
+  review_id: number,
+  products_id: number,
+  kakao_id: number,
+  review_text: string,
+  review_rating: number,
+  review_date: Date
 ) => {
   const [rows] = await pool1.query(
-    `insert into review(rId,sId,user_code,rReview) values('${rId}','${sId}','${user_code}','${rReview}') `
+    `insert into review(review_id,products_id,kakao_id,review_text,review_rating,review_date) values('${review_id}','${products_id}','${kakao_id}','${review_text}','${review_rating}','${review_date}') `
   );
   return rows;
 };
+
+export const updateReview = async (
+  id: number,
+  text: string,
+  rating: number,
+  review_date: Date
+) => {
+  const [rows] = await pool1.query(
+    `update review set review_text='${text}' , review_rating=${rating}, review_date='${review_date}' where review_id=${id}`
+  );
+  return rows;
+};
+
 export const deleteReview = async (id: number) => {
-  const [rows] = await pool1.query(`DELETE FROM review where rId=${id}`);
+  const [rows] = await pool1.query(`DELETE FROM review where review_id=${id}`);
   return rows;
 };

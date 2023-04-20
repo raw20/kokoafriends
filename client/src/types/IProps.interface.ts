@@ -5,57 +5,26 @@ import {
   MutationFunctionOptions,
   OperationVariables,
 } from "@apollo/client";
-import { Cart } from "./Cart.interface";
-import { Contents, LikeContents } from "./Contents.interface";
-import { BuyProducts, Product, Products, Review } from "./Products.interface";
-import { User } from "./User.interface";
+import { ICart } from "./Cart.interface";
+import { IProducts, IProduct } from "./Products.interface";
+import { IMeData } from "./User.interface";
+import { IReview } from "./Reviews.interface";
+import { Dispatch, SetStateAction } from "react";
+import { URLSearchParamsInit } from "react-router-dom";
 
-export interface ReviewsComponent {
-  review: [Review];
-  selectReview: [Review];
-  nowUser: [User];
-  selectUserBuyItemList: [BuyProducts];
-}
-
-export interface ProductComponent {
-  Product: Product;
-  cartList: [Cart];
-}
-export interface ContentsComponent {
-  contents: [Contents];
-  comments: [Comment];
-  likeContents: [LikeContents];
-  nowUser: [User];
-}
-export interface ContentsDetailComponent {
-  selectContents: [Contents];
-  selectComment: [Comment];
-  comments: [Review];
-  likeContents: [LikeContents];
-  nowUser: [User];
-}
-export interface CartComponent {
-  cartList: [Cart];
-  allUserBuyItemList: [BuyProducts];
-  nowUser: [User];
-}
-export interface BuyModalComponent {
-  selectItem: [Product];
-  allUserBuyItemList: [BuyProducts];
-  selectUserBuyItemList: [BuyProducts];
-}
-export interface RecentBIComponent {
-  selectUserBuyItemList: [BuyProducts];
-  nowUser: [User];
-}
-export interface SearchItem {
-  item: [Product];
-  items: Product[];
+export interface IProductComponent {
+  product: [IProduct];
+  review: [IReview];
+  reviews: [IReview];
 }
 
-export interface IHomeChildComponentProps {
-  data: Products | undefined;
-  countView: (
+export interface IProductReviewsComponent {
+  data?: IProductComponent;
+}
+
+export interface IProductReviewListComponent {
+  review: IReview;
+  updateReviews: (
     options?:
       | MutationFunctionOptions<
           any,
@@ -65,4 +34,93 @@ export interface IHomeChildComponentProps {
         >
       | undefined
   ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+  deleteReviews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+  editTextValue: string;
+  setEditTextValue: Dispatch<SetStateAction<string | null>>;
+  editRatingValue: number;
+  setEditRatingValue: Dispatch<SetStateAction<number | null>>;
+}
+
+export interface ICommonPropsDialog {
+  id: number;
+  setIsEditClick: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface IDeleteDialogComponent extends ICommonPropsDialog {
+  deleteReviews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+}
+
+export interface IUpdateDialogComponent extends ICommonPropsDialog {
+  updateReviews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+  editTextValue: string;
+  editRatingValue: number;
+}
+
+export interface IHomeChildComponentProps {
+  data?: IProducts;
+  countViews: (
+    options?:
+      | MutationFunctionOptions<
+          any,
+          OperationVariables,
+          DefaultContext,
+          ApolloCache<any>
+        >
+      | undefined
+  ) => Promise<FetchResult<any, Record<string, any>, Record<string, any>>>;
+}
+
+export interface ICartListComponent {
+  cartElement: ICart;
+  isAllchecked: boolean;
+  setIsAllchecked: Dispatch<SetStateAction<boolean>>;
+  productId: number[];
+  setProductId: Dispatch<SetStateAction<number[]>>;
+}
+
+export interface IOrderCustomerComponent {
+  user: IMeData;
+}
+
+export interface IOrderProductsComponent {
+  cartData: ICart[];
+}
+
+export interface ISearchContextProps {
+  data: IProducts;
+}
+
+export interface ISearchFilterButtonComponent {
+  filterValue: string;
+  setSearchParams: (
+    nextInit: URLSearchParamsInit,
+    navigateOptions?: { replace?: boolean | undefined; state?: any } | undefined
+  ) => void;
 }

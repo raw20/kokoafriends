@@ -14,57 +14,63 @@ import { countView } from "../db/products.js";
 @ObjectType()
 class Products {
   @Field({ nullable: true })
-  sId: number;
+  products_id: number;
 
   @Field({ nullable: true })
-  sName: string;
+  products_name: string;
 
   @Field({ nullable: true })
-  sTitle: string;
+  products_title: string;
 
   @Field({ nullable: true })
-  sContents: string;
+  products_contents: string;
 
   @Field({ nullable: true })
-  sPrice: number;
+  products_price: string;
 
   @Field({ nullable: true })
-  sLike: number;
+  products_like: number;
 
   @Field({ nullable: true })
-  sView: number;
+  products_view: number;
 
   @Field({ nullable: true })
-  sHalf_title: string;
+  products_banner_status: boolean;
 
   @Field({ nullable: true })
-  sCategory: string;
+  products_new_status: boolean;
 
-  @Field((type) => [String], { nullable: true })
-  slideImg: string[] | null;
+  @Field({ nullable: true })
+  products_half_title: string;
 
-  @Field((type) => [String], { nullable: true })
-  mainTopImg: string[] | null;
+  @Field({ nullable: true })
+  products_category: string;
 
-  @Field((type) => [String], { nullable: true })
-  mainMidImg: string[] | null;
+  @Field({ nullable: true })
+  products_slideImg: string;
 
-  @Field((type) => [String], { nullable: true })
-  mainBottomImg: string[] | null;
+  @Field({ nullable: true })
+  products_mainTopImg: string;
+
+  @Field({ nullable: true })
+  products_mainMidImg: string;
+
+  @Field({ nullable: true })
+  products_mainBottomImg: string;
 }
 
 @Resolver(Products)
 export class ProductsResolver {
-  @Query((returns) => [Products])
-  async products() {
+  @Query(() => [Products])
+  products() {
     return products();
   }
-  @Query((returns) => Products)
-  async product(@Arg("id", (type) => Int) id: number) {
+  @Query(() => [Products])
+  product(@Arg("id", () => Int) id: number) {
     return productById(id);
   }
-  @Mutation((returns) => Products)
-  countViews(@Arg("id", (type) => Int) id: number) {
+  @Mutation(() => Products)
+  countViews(@Arg("id", () => Int) id: number) {
     return countView(id);
   }
 }

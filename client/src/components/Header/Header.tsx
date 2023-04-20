@@ -1,7 +1,8 @@
 import Avatar from "@mui/material/Avatar";
 import { Link, useMatch } from "react-router-dom";
-import { KAKAO_AUTH_URL } from "../../utils/oAuth";
+import { LOGIN_REDIRECT_URI } from "../../constant/oAuth";
 import HeaderAvatar from "../Avatar/HeaderAvatar";
+import LockIcon from "@mui/icons-material/Lock";
 import {
   GlobalNavBar,
   GlobalNavBarWrapper,
@@ -15,14 +16,23 @@ import {
   SideNavBar,
   SearchBarWrapper,
   NavInner,
-} from "./Header.style";
+  HeaderAvatarContainer,
+} from "./styles/Header.style";
 import SearchBar from "./SearchBar";
+import { USER_CODE } from "../../constant/storageKey";
+const { Kakao } = window;
 
 function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
-  const token: string = window.localStorage.getItem("token") as string;
+  const cartMatch = useMatch("/cart");
+
+  const kakaoLoginHandler = () => {
+    Kakao.Auth.authorize({
+      redirectUri: `${LOGIN_REDIRECT_URI}`,
+    });
+  };
 
   return (
     <HeaderContainer>
@@ -41,12 +51,21 @@ function Header() {
         </HeaderCenter>
         <HeaderEnd>
           <SideNavBar>
-            {token ? (
+            {Kakao.Auth.getAccessToken() &&
+            localStorage.getItem(USER_CODE) !== null ? (
               <HeaderAvatar />
             ) : (
-              <a href={KAKAO_AUTH_URL}>
-                <Avatar alt="로그인" />
-              </a>
+              <HeaderAvatarContainer>
+                <Avatar
+                  sx={{ width: 56, height: 56 }}
+                  alt="로그인"
+                  title="로그인"
+                  onClick={kakaoLoginHandler}
+                  style={{ cursor: "pointer" }}
+                >
+                  <LockIcon />
+                </Avatar>
+              </HeaderAvatarContainer>
             )}
           </SideNavBar>
         </HeaderEnd>
@@ -63,6 +82,9 @@ function Header() {
             <GlobalNavBar isActive={contentsMatch !== null}>
               콘텐츠
             </GlobalNavBar>
+          </Link>
+          <Link to="/cart">
+            <GlobalNavBar isActive={cartMatch !== null}>장바구니</GlobalNavBar>
           </Link>
         </GlobalNavBarWrapper>
       </NavInner>

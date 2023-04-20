@@ -4,6 +4,7 @@ import App from "./App";
 import { theme } from "./styles/theme";
 import { ThemeProvider } from "styled-components";
 import { ApolloProvider } from "@apollo/client";
+import { StyledEngineProvider } from "@mui/styled-engine";
 import client from "./client";
 import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(
@@ -11,9 +12,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <ApolloProvider client={client}>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </StyledEngineProvider>
   </ApolloProvider>
 );
 

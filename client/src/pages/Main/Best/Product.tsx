@@ -1,103 +1,110 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import Modal from "react-modal";
-import BuyModal from "../../../components/Modal/BuyModal";
-import Reviews from "./Reviews";
-import Loading from "../../../components/Loading/Loading";
-import useGetProductById from "./hooks/queries/useGetProductById";
-import useAddCart from "./hooks/mutations/useAddCart";
+import ProductReviews from "./ProductReviews";
+import useGetProductById from "../../../services/products/hooks/queries/useGetProductById";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import {
   BottomMainInfoContainer,
-  BsCart,
   ProductContainer,
   ProductImage,
+  ProductImageSlider,
   ShowButtonArea,
+  SliderImage,
   SubInfoContainer,
   TopMainInfoContainer,
 } from "./styles/BestProducts.style";
 import {
-  BuyButton,
   PrimaryContent,
   PrimaryTitle,
+  ProductPrimaryBuyButton,
   SecondComponentsInner,
   SecondContent,
   SecondTitle,
 } from "../../../styles/Common.style";
-
-const CustomModalStyles = {
-  content: {
-    width: "50%",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import { Box, Rating } from "@mui/material";
+import { addCart, deleteCart } from "../../../store/cart";
+import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
+import {
+  feedbackMessageVar,
+  isFetchCompletedVar,
+  isOpenSnackBarVar,
+} from "../../../store/snackbar";
+import { isOpenModalVar } from "../../../store/modal";
+import BuyOneProductModal from "../../../components/Modal/BuyOneProductModal";
 
 function Product() {
   const { id } = useParams();
-  const { product, loading } = useGetProductById(id);
-  const addCart = useAddCart();
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  function openModal() {
-    setModalOpen(true);
+  const { data, productRating } = useGetProductById(id);
+  const { findProductId } = useGetCartData();
+
+  function addCartHandler(
+    id: number,
+    name: string,
+    price: string,
+    img: string
+  ) {
+    addCart(id, name, 1, price, img);
+    isFetchCompletedVar(true);
+    feedbackMessageVar(`장바구니에 ${name}가 담겼습니다.`);
+    isOpenSnackBarVar(true);
   }
-  function closeModal() {
-    setModalOpen(false);
+  function deleteCartHandler(e: { stopPropagation: () => void }, id: number) {
+    e.stopPropagation();
+    deleteCart(id);
+    feedbackMessageVar("장바구니 담기를 취소하였습니다.");
+    isOpenSnackBarVar(true);
   }
-  let index = 0;
-  /* const userCode = Number(data?.nowUser.map((user: any) => user.user_code));
-  const getIndex = String(new Date().getTime());
-  const cartIndex = Number(
-    `${id}${userCode}${getIndex.substring(getIndex.length - 3)}`
-  ); */
-  function addCartHandler(name: string, price: number, slideImg: string) {
-    addCart({
-      variables: {
-        cartId: index++,
-        sId: Number(id),
-        sName: name,
-        sPrice: price,
-        bCount: 1,
-        slideImg: slideImg,
-        check: true,
-      },
-    });
-    alert(`${name}이(가) 장바구니에 담겼습니다.`);
-  }
-  if (loading) return <Loading />;
 
   return (
     <ProductContainer>
       <SecondComponentsInner>
-        {/*  <ProductImageSlider {...settings}>
-          {data?.Product.slideImg.map((item: string, index: number) => (
-            <SliderImage key={index} src={`/img/product/${item}`} />
-          ))}
-        </ProductImageSlider> */}
-        <TopMainInfoContainer>
-          <SecondTitle>{product?.Product.sName}</SecondTitle>
-          <BsCart
-            onClick={() =>
-              addCartHandler(
-                String(product?.Product.sName),
-                Number(product?.Product.sPrice),
-                String(product?.Product.slideImg[0])
-              )
-            }
+        <ProductImageSlider>
+          <SliderImage
+            alt={data?.product[0].products_name}
+            src={data?.product[0].products_slideImg}
           />
+        </ProductImageSlider>
+
+        <TopMainInfoContainer>
+          <Box>
+            <SecondTitle>{data?.product[0].products_name}</SecondTitle>
+            <Rating
+              name="half-rating-read"
+              value={productRating}
+              precision={0.5}
+              readOnly
+            />
+          </Box>
+          {!findProductId.includes(Number(data?.product[0].products_id)) ? (
+            <ShoppingCartOutlinedIcon
+              style={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
+              onClick={() =>
+                addCartHandler(
+                  Number(data?.product[0].products_id),
+                  String(data?.product[0].products_name),
+                  String(data?.product[0].products_price),
+                  String(data?.product[0].products_slideImg)
+                )
+              }
+            />
+          ) : (
+            <RemoveShoppingCartIcon
+              onClick={(e) =>
+                deleteCartHandler(e, Number(data?.product[0].products_id))
+              }
+              sx={{ color: "#616161", cursor: "pointer", fontSize: "2rem" }}
+            />
+          )}
         </TopMainInfoContainer>
         <BottomMainInfoContainer>
-          <SecondTitle>{product?.Product.sPrice}원</SecondTitle>
+          <SecondTitle>{data?.product[0].products_price}원</SecondTitle>
           <SecondContent>
-            {product?.Product.sView}번 조회되었습니다.
+            {data?.product[0].products_view}번 조회되었습니다.
           </SecondContent>
         </BottomMainInfoContainer>
         <ShowButtonArea>
           <SubInfoContainer>
-            {product?.Product.sHalf_title
+            {data?.product[0].products_half_title
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryTitle key={index}>
@@ -105,7 +112,7 @@ function Product() {
                   <br />
                 </PrimaryTitle>
               ))}
-            {product?.Product.sContents
+            {data?.product[0].products_contents
               .split("\n")
               .map((line: string, index: number) => (
                 <PrimaryContent key={index}>
@@ -113,35 +120,38 @@ function Product() {
                   <br />
                 </PrimaryContent>
               ))}
-            {product?.Product.mainTopImg.map((img: string, index: number) => (
-              <ProductImage key={index} src={`/img/product/${img}`} />
-            ))}
+
+            <ProductImage
+              alt={data?.product[0].products_name}
+              src={data?.product[0].products_mainTopImg}
+            />
             <PrimaryContent>
               이렇게 귀여운 카카오프렌즈샵 제품입니다.
             </PrimaryContent>
-            {product?.Product.mainMidImg.map((img: string, index: number) => (
-              <ProductImage key={index} src={`/img/product/${img}`} />
-            ))}
+
+            <ProductImage
+              alt={data?.product[0].products_name}
+              src={data?.product[0].products_mainMidImg}
+            />
             <PrimaryContent>
               지금 당장 카카오프렌즈를 만나보세요.
             </PrimaryContent>
-            {product?.Product.mainBottomImg.map(
-              (img: string, index: number) => (
-                <ProductImage key={index} src={`/img/product/${img}`} />
-              )
-            )}
+
+            <ProductImage
+              alt={data?.product[0].products_name}
+              src={data?.product[0].products_mainBottomImg}
+            />
+
             <PrimaryTitle>구성품</PrimaryTitle>
-            <PrimaryContent>건진지 외 필요한거 여러개</PrimaryContent>
+            <PrimaryContent>상품 및 설명서</PrimaryContent>
           </SubInfoContainer>
-          <Reviews userCode={11} />
-          <BuyButton onClick={() => openModal()}>구매하기</BuyButton>
-          <Modal
-            isOpen={modalOpen}
-            onRequestClose={() => closeModal()}
-            style={CustomModalStyles}
-          >
-            <BuyModal userCode={11} />
-          </Modal>
+
+          <ProductReviews data={data} />
+
+          <ProductPrimaryBuyButton onClick={() => isOpenModalVar(true)}>
+            구매하기
+          </ProductPrimaryBuyButton>
+          <BuyOneProductModal data={data} />
         </ShowButtonArea>
       </SecondComponentsInner>
     </ProductContainer>

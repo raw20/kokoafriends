@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { KAKAO_LOGOUT_URL } from "../../utils/oAuth";
+import { LOGOUT_REDIRECT_URI } from "../../constant/oAuth";
+import useLogin from "../../services/auth/hooks/useLogin";
+import { Link } from "react-router-dom";
+import { MENU_ITEM } from "../../constant/category";
+import { HeaderAvatarContainer } from "../Header/styles/Header.style";
 
 interface ISettingItem {
   id: string;
@@ -16,23 +19,8 @@ interface ISettingItem {
 
 function HeaderAvatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const menuItem = [
-    {
-      id: "1",
-      name: "마이페이지",
-      path: "/mypage",
-    },
-    {
-      id: "2",
-      name: "장바구니",
-      path: "/cart",
-    },
-    {
-      id: "3",
-      name: "배송조회",
-      path: "/buy-list",
-    },
-  ];
+  const { user } = useLogin();
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -40,11 +28,16 @@ function HeaderAvatar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <HeaderAvatarContainer>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar
+            sx={{ width: 56, height: 56 }}
+            alt="kakao_profile_img"
+            src={user?.me[0].kakao_profile_img}
+          />
         </IconButton>
       </Tooltip>
       <Menu
@@ -63,18 +56,20 @@ function HeaderAvatar() {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {menuItem.map((setting: ISettingItem) => (
-          <MenuItem key={setting.id} onClick={handleCloseUserMenu}>
-            <Typography textAlign="center">{setting.name}</Typography>
-          </MenuItem>
+        {MENU_ITEM.map((setting: ISettingItem) => (
+          <Link to={`/${setting.path}`} key={setting.id}>
+            <MenuItem onClick={handleCloseUserMenu}>
+              <Typography textAlign="center">{setting.name}</Typography>
+            </MenuItem>
+          </Link>
         ))}
-        <a href={KAKAO_LOGOUT_URL}>
-          <MenuItem>
+        <MenuItem>
+          <a href={LOGOUT_REDIRECT_URI}>
             <Typography textAlign="center">로그아웃</Typography>
-          </MenuItem>
-        </a>
+          </a>
+        </MenuItem>
       </Menu>
-    </Box>
+    </HeaderAvatarContainer>
   );
 }
 

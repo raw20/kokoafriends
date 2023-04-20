@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
-import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
+import { PrimaryContainer } from "../../../../styles/Common.style";
 
 export const BestProductsContainer = styled.div`
   width: 100%;
@@ -19,13 +18,14 @@ export const ProductsBox = styled.div`
     grid-template-rows: 250px 250px;
   }
 `;
+
 export const BestProductsTitleBox = styled.div`
   width: 80%;
   height: auto;
   margin: 1rem auto;
   text-align: center;
 `;
-export const ProductLink = styled(Link)`
+export const ProductLink = styled.div`
   width: 80%;
   height: auto;
   margin: 1rem auto;
@@ -49,6 +49,7 @@ export const BestProductsImageBox = styled.div`
   flex-direction: column;
   position: relative;
 `;
+
 export const BestProductsContentsBox = styled.div`
   width: 100%;
   height: auto;
@@ -56,24 +57,12 @@ export const BestProductsContentsBox = styled.div`
   justify-content: space-between;
 `;
 
-export const ProductContainer = styled.div`
-  width: 100%;
-  height: auto;
-  padding: 1.2rem 7.5rem;
-  box-sizing: border-box;
-  justify-content: center;
-  @media ${(props) => props.theme.tablet} {
-    width: 100%;
-    padding: 1.2rem 0;
-  }
-  @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    padding: 0;
-  }
-`;
+export const ProductContainer = styled(PrimaryContainer)``;
 
 export const ProductImageSlider = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
   @media ${(props) => props.theme.tablet} {
     width: 100%;
@@ -82,14 +71,11 @@ export const ProductImageSlider = styled.div`
     width: 80%;
     margin: 1rem auto;
   }
-  .slick-arrow {
-    background-color: ${(props) => props.theme.borderColor};
-    border-radius: 50%;
-  }
 `;
+
 export const SliderImage = styled.img`
-  width: 620px;
-  height: 620px;
+  width: 500px;
+  height: 500px;
 
   @media ${(props) => props.theme.tablet} {
     width: 90%;
@@ -99,6 +85,7 @@ export const SliderImage = styled.img`
     height: 70%;
   }
 `;
+
 export const TopMainInfoContainer = styled.div`
   width: 100%;
   height: auto;
@@ -106,6 +93,7 @@ export const TopMainInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 export const BottomMainInfoContainer = styled.div`
   width: 100%;
   height: auto;
@@ -117,18 +105,13 @@ export const SubInfoContainer = styled.div`
   height: auto;
   margin: 3.5rem auto;
 `;
+
 export const ProductImage = styled.img`
   width: 100%;
   height: auto;
   margin: 1rem auto;
 `;
+
 export const ShowButtonArea = styled.div`
   width: 100%;
-`;
-export const BsCart = styled(BsCart4)`
-  font-size: 2rem;
-  cursor: pointer;
-  @media ${(props) => props.theme.mobile} {
-    font-size: 1.4rem;
-  }
 `;

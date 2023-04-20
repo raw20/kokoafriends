@@ -1,9 +1,10 @@
 import styled from "styled-components";
-
+import { Button } from "@mui/material";
 export const PrimaryTitle = styled.h1`
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.6rem;
+  margin-top: 1rem;
 
   @media ${(props) => props.theme.mobile} {
     font-size: 1.1rem;
@@ -32,10 +33,9 @@ export const SecondTitle = styled.h1`
 `;
 
 export const SecondContent = styled.p`
-  width: 80%;
   font-size: 1.2rem;
   font-weight: 700;
-  text-align: start;
+  line-height: 1.2rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -80,8 +80,24 @@ export const PrimaryImage = styled.img`
   }
 `;
 
+export const PrimaryContainer = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 1.2rem 7.5rem;
+  box-sizing: border-box;
+  justify-content: center;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    padding: 1.2rem 0;
+  }
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    padding: 0;
+  }
+`;
+
 export const PrimaryComponentsInner = styled.div`
-  width: 60%;
+  width: 50%;
   height: auto;
   display: flex;
   margin: 1.5rem auto;
@@ -102,16 +118,69 @@ export const SecondComponentsInner = styled.div`
   }
 `;
 
-export const BuyButton = styled.div`
+export const ProductPrimaryBuyButton = styled.div`
   width: 100%;
-  height: 50px;
-  background-color: ${(props) => props.theme.jaygColor};
+  height: 70px;
+  margin-top: 1.5rem;
+  background-color: ${(props) => props.theme.secondColor};
   color: ${(props) => props.theme.bgColor};
-  font-size: 1.4rem;
   position: sticky;
   bottom: 0px;
+  font-size: 1.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+`;
+
+export const ProductSecondBuyButton = styled(ProductPrimaryBuyButton)`
+  background-color: ${(props) => props.theme.jaygColor};
+  color: ${(props) => props.theme.bgColor};
+  font-size: 1.4rem;
+`;
+
+export const DialogButton = styled(Button)`
+  color: ${(props) => props.theme.secondColor};
+`;
+
+export const ProductImage = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 1rem 3rem 1rem 0;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  @media ${(props) => props.theme.mobile} {
+    width: 100px;
+    height: 100px;
+    margin: 0.5rem 1.5rem 0.5rem 0;
+  }
+`;
+
+export const NumControlBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+export const NumControlFlexEndBox = styled(NumControlBox)`
+  justify-content: flex-end;
+`;
+export const NumberControlButton = styled.span`
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  margin: 1rem;
+  border-radius: 50%;
+  border: 1px solid ${(props) => props.theme.borderColor};
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+`;
+export const NumberControlInput = styled.input`
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid ${(props) => props.theme.borderColor};
 `;

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BannerContainer,
   BannerContents,
@@ -10,12 +9,15 @@ import {
 import { IHomeChildComponentProps } from "../../../types/IProps.interface";
 import Carousel from "react-bootstrap/Carousel";
 
-function BannerSlide({ data, countView }: IHomeChildComponentProps) {
-  const bannerProducts = data?.products.filter((product) => product.sId < 6);
+function BannerSlide({ data, countViews }: IHomeChildComponentProps) {
+  const bannerProducts = data?.products.filter(
+    (product) => product.products_banner_status
+  );
+
   function countViewHandler(id: number) {
-    countView({
+    countViews({
       variables: {
-        countViewId: Number(id),
+        countViewsId: Number(id),
       },
     });
   }
@@ -24,21 +26,21 @@ function BannerSlide({ data, countView }: IHomeChildComponentProps) {
       <BannerContainer>
         <Carousel>
           {bannerProducts?.map((product) => (
-            <Carousel.Item key={product?.sId}>
+            <Carousel.Item key={product?.products_id}>
               <BannerImageBox
-                to={`/product/${product?.sId}`}
+                to={`/product/${product?.products_id}`}
                 onClick={() => {
-                  countViewHandler(product?.sId);
+                  countViewHandler(product?.products_id);
                 }}
               >
                 <BannerImage
-                  src={require(`../../../asset/image/product/${product?.mainBottomImg[0]}`)}
-                  alt={product?.sTitle}
+                  src={product?.products_mainBottomImg}
+                  alt={product?.products_title}
                 />
                 <Carousel.Caption>
                   <BannerTextBox>
-                    <BannerTitle>{product.sTitle}</BannerTitle>
-                    <BannerContents>{product.sContents}</BannerContents>
+                    <BannerTitle>{product.products_title}</BannerTitle>
+                    <BannerContents>{product.products_contents}</BannerContents>
                   </BannerTextBox>
                 </Carousel.Caption>
               </BannerImageBox>
