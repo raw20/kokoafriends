@@ -5,6 +5,7 @@ import {
   NewProductImageBox,
   NewProductImageBoxInner,
   NewProductBox,
+  NewProductTitleBox,
 } from "./styles/NewProducts.style";
 import {
   PrimaryTitle,
@@ -64,7 +65,9 @@ function NewProducts({ data, countViews }: IHomeChildComponentProps) {
   return (
     <NewProductContainer>
       <NewProductInner>
-        <PrimaryTitle>새로나온 친구들</PrimaryTitle>
+        <NewProductTitleBox>
+          <PrimaryTitle>😃새로나온 친구들</PrimaryTitle>
+        </NewProductTitleBox>
         <NewProductBox>
           {newProducts?.map((product) => (
             <NewProductImageBox
