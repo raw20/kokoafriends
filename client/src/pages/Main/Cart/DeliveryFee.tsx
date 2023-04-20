@@ -4,8 +4,8 @@ import {
   DeliveryFeeBox,
   DeliveryFeeText,
   DeliveryFeeTextBox,
-} from "./styles/DeliveryFee.style";
-import { SecondMediumText } from "./styles/Cart.style";
+} from "../../Main/Cart/styles/DeliveryFee.style";
+import { SecondMediumText } from "../../Main/Cart/styles/Cart.style";
 
 function DeliveryFee({ productPrice }: { productPrice: number }) {
   return (

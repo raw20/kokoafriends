@@ -6,7 +6,11 @@ import {
   deleteCart,
 } from "../../../store/cart";
 import { ICartListComponent } from "../../../types/IProps.interface";
-import { CheckBox, LargeText, MediumText } from "./styles/Cart.style";
+import {
+  CheckBox,
+  LargeText,
+  MediumText,
+} from "../../Main/Cart/styles/Cart.style";
 import {
   BoxCenter,
   BoxLeft,
@@ -14,7 +18,7 @@ import {
   CartListBox,
   CartProductImage,
   DeleteButton,
-} from "./styles/CartList.style";
+} from "../../Main/Cart/styles/CartList.style";
 import {
   NumControlBox,
   NumberControlButton,

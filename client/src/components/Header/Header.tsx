@@ -25,6 +25,7 @@ function Header() {
   const homeMatch = useMatch("/");
   const contentsMatch = useMatch("/contents");
   const bestMatch = useMatch("/best");
+  const cartMatch = useMatch("/cart");
 
   const kakaoLoginHandler = () => {
     Kakao.Auth.authorize({
@@ -78,6 +79,9 @@ function Header() {
             <GlobalNavBar isActive={contentsMatch !== null}>
               콘텐츠
             </GlobalNavBar>
+          </Link>
+          <Link to="/cart">
+            <GlobalNavBar isActive={cartMatch !== null}>장바구니</GlobalNavBar>
           </Link>
         </GlobalNavBarWrapper>
       </NavInner>

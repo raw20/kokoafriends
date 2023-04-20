@@ -11,7 +11,7 @@ import { ProductPrimaryBuyButton } from "../../../styles/Common.style";
 import Payment from "./Payment";
 import useGetCartData from "../../../services/products/hooks/custom/useGetCartData";
 import useOrderData from "../../../services/products/hooks/custom/useOrderData";
-import { DefaultBuyButton } from "../Cart/styles/Cart.style";
+import { DefaultBuyButton } from "../../Main/Cart/styles/Cart.style";
 import { useEffect } from "react";
 import { getKakaoPayReady } from "../../../utils/getKakaoPayReady";
 import { useReactiveVar } from "@apollo/client";

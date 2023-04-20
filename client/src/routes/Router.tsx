@@ -8,7 +8,7 @@ const BestProducts = lazy(() => import("../pages/Main/Best/BestProducts"));
 const Search = lazy(() => import("../pages/Sub/Search/Search"));
 const Product = lazy(() => import("../pages/Main/Best/Product"));
 const Mypage = lazy(() => import("../pages/Sub/Mypage/Mypage"));
-const Cart = lazy(() => import("../pages/Sub/Cart/Cart"));
+const Cart = lazy(() => import("../pages/Main/Cart/Cart"));
 const BuyCheckout = lazy(() => import("../pages/Sub/BuyCheckout/BuyCheckout"));
 
 const KaKaoLoginRedirect = lazy(

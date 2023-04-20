@@ -11,11 +11,6 @@ export const MENU_ITEM = [
     name: "마이페이지",
     path: "mypage",
   },
-  {
-    id: "2",
-    name: "장바구니",
-    path: "cart",
-  },
 ];
 
 export const CHARACTER_CATEGORY_MENU = [

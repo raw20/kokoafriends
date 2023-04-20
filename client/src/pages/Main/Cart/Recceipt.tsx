@@ -3,8 +3,8 @@ import {
   ReceiptLeft,
   ReceiptRight,
   ReceiptText,
-} from "./styles/Receipt.style";
-import { LargeText } from "./styles/Cart.style";
+} from "../../Main/Cart/styles/Receipt.style";
+import { LargeText } from "../../Main/Cart/styles/Cart.style";
 
 function Recceipt({
   productPrice,
