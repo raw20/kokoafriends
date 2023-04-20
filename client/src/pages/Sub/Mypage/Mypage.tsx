@@ -1,5 +1,11 @@
+import PreparingPage from "../../../components/Preparing/PreparingPage";
+
 function Mypage() {
-  return <div>구현 예정</div>;
+  return (
+    <>
+      <PreparingPage />
+    </>
+  );
 }
 
 export default Mypage;
