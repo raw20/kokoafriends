@@ -18,6 +18,7 @@ import {
   NavInner,
 } from "./styles/Header.style";
 import SearchBar from "./SearchBar";
+import { USER_CODE } from "../../constant/storageKey";
 const { Kakao } = window;
 
 function Header() {
@@ -48,7 +49,8 @@ function Header() {
         </HeaderCenter>
         <HeaderEnd>
           <SideNavBar>
-            {Kakao.Auth.getAccessToken() ? (
+            {Kakao.Auth.getAccessToken() &&
+            localStorage.getItem(USER_CODE) !== null ? (
               <HeaderAvatar />
             ) : (
               <Avatar

@@ -7,20 +7,23 @@ function KaKaoLogoutRedirect() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!Kakao.isInitialized()) {
-      Kakao.init(process.env.REACT_APP_JS_SDK_KEY); // 초기화
-    }
-    Kakao.isInitialized();
+    function KakaoLogoutAccess() {
+      if (!Kakao.isInitialized()) {
+        Kakao.init(process.env.REACT_APP_JS_SDK_KEY); // 초기화
+      }
+      Kakao.isInitialized();
 
-    Kakao.Auth.logout()
-      .then(function () {
-        navigate("/");
-        localStorage.removeItem(USER_CODE);
-        console.log(Kakao.Auth.getAccessToken()); // null
-      })
-      .catch(function () {
-        console.log("Not logged in.");
-      });
+      Kakao.Auth.logout()
+        .then(function () {
+          navigate("/");
+          localStorage.removeItem(USER_CODE);
+          console.log(Kakao.Auth.getAccessToken()); // null
+        })
+        .catch(function () {
+          console.log("Not logged in.");
+        });
+    }
+    KakaoLogoutAccess();
   });
   return <></>;
 }

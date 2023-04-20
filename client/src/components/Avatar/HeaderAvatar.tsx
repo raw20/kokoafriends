@@ -36,7 +36,7 @@ function HeaderAvatar() {
           <Avatar
             sx={{ width: 56, height: 56 }}
             alt="kakao_profile_img"
-            src={user && user?.me[0].kakao_profile_img}
+            src={user?.me[0].kakao_profile_img}
           />
         </IconButton>
       </Tooltip>

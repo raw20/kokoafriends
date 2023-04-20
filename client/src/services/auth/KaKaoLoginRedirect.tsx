@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserResponseData } from "../../types/User.interface";
 import useLogin from "./hooks/useLogin";
+import { USER_CODE } from "../../constant/storageKey";
 const { Kakao } = window;
 
 function KaKaoLoginRedirect() {
@@ -29,6 +30,7 @@ function KaKaoLoginRedirect() {
           })
             .then(function (response: UserResponseData) {
               navigate("/");
+              localStorage.setItem(USER_CODE, String(response.id));
               addUser({
                 variables: {
                   kakaoId: String(response.id),
@@ -45,7 +47,22 @@ function KaKaoLoginRedirect() {
             });
         });
     }
+    if (Kakao.Auth.getAccessToken()) {
+      if (!Kakao.isInitialized()) {
+        Kakao.init(process.env.REACT_APP_JS_SDK_KEY); // 초기화
+      }
+      Kakao.isInitialized();
 
+      Kakao.Auth.logout()
+        .then(function () {
+          navigate("/");
+          localStorage.removeItem(USER_CODE);
+          console.log(Kakao.Auth.getAccessToken()); // null
+        })
+        .catch(function () {
+          console.log("Not logged in.");
+        });
+    }
     kakaoLoginAccess();
   }, [addUser, navigate]);
   return <></>;
