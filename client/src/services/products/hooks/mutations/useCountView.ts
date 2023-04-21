@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { COUNT_VIEW, HOME_PRODUCTS } from "../../graphql/homeSchema";
+import { COUNT_VIEW, HOME_PRODUCTS } from "../../graphql/HomeSchema";
 
 function useCountView() {
   const [countViews] = useMutation(COUNT_VIEW, {

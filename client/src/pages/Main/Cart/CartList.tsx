@@ -25,6 +25,7 @@ import {
   NumberControlInput,
 } from "../../../styles/Common.style";
 import { Stack } from "@mui/material";
+import { isOpenSnackBarVar, feedbackMessageVar } from "../../../store/snackbar";
 
 function CartList({
   cartElement,
@@ -51,6 +52,12 @@ function CartList({
       setProductId(copyProductId);
       setIsAllchecked(false);
     }
+  }
+
+  function deleteCartHandler(id: number) {
+    deleteCart(id);
+    isOpenSnackBarVar(true);
+    feedbackMessageVar("장바구니에 상품을 제거하였습니다.");
   }
 
   useEffect(() => {
@@ -100,7 +107,9 @@ function CartList({
         </Stack>
       </BoxCenter>
       <BoxRight>
-        <DeleteButton onClick={() => deleteCart(cartElement.products_id)} />
+        <DeleteButton
+          onClick={() => deleteCartHandler(cartElement.products_id)}
+        />
       </BoxRight>
     </CartListBox>
   );
