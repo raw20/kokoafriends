@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { isOpenDeleteCartDialogVar } from "../../store/dialog";
 import { DialogButton } from "../../styles/Common.style";
-import { isOpenSnackBarVar } from "../../store/snackbar";
+import { feedbackMessageVar, isOpenSnackBarVar } from "../../store/snackbar";
 import { deleteCart } from "../../store/cart";
 
 function DeleteCartDialog({ id }: { id: number | number[] }) {
@@ -18,6 +18,7 @@ function DeleteCartDialog({ id }: { id: number | number[] }) {
     deleteCart(id);
     isOpenSnackBarVar(true);
     isOpenDeleteCartDialogVar(false);
+    feedbackMessageVar("장바구니에 상품을 제거하였습니다.");
   }
 
   function handleClose() {
