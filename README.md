@@ -308,7 +308,6 @@
   - utils 폴더 추가 : 공통으로 사용되는 함수를 분리 시킨 파일을 모아둔 폴더
 
 ```
-수정 전
 📦src
  ┣ 📂asset
  ┃ ┗ 📂image
@@ -455,62 +454,6 @@
  ┃ ┣ 📜getFormatDate.ts
  ┃ ┣ 📜getKakaoPayReady.ts
  ┃ ┗ 📜getProductsPrice.ts
- ┣ 📜App.css
- ┣ 📜App.tsx
- ┣ 📜client.ts
- ┣ 📜index.tsx
- ┣ 📜react-app-env.d.ts
- ┣ 📜reportWebVitals.ts
- ┣ 📜setPoxy.ts
- ┗ 📜setupTests.ts
-```
-
-```
-수정 후
-📦src
- ┣ 📂asset
- ┃ ┗ 📂image
- ┃ ┃ ┣ 📂category
- ┃ ┃ ┣ 📂contents
- ┃ ┃ ┣ 📂etc
- ┃ ┃ ┣ 📂loading
- ┃ ┃ ┣ 📂product
- ┃ ┃ ┗ 📂search
- ┣ 📂components
- ┃ ┣ 📂Avatar
- ┃ ┣ 📂Button
- ┃ ┣ 📂Footer
- ┃ ┣ 📂Header
- ┃ ┣ 📂Loading
- ┃ ┗ 📂Modal
- ┣ 📂pages
- ┃ ┣ 📂Main
- ┃ ┃ ┣ 📂Best
- ┃ ┃ ┃ ┣ 📂graphql
- ┃ ┃ ┃ ┣ 📂hooks
- ┃ ┃ ┃ ┃ ┣ 📂mutations
- ┃ ┃ ┃ ┃ ┗ 📂queries
- ┃ ┃ ┃ ┣ 📂styles
- ┃ ┃ ┣ 📂Contents
- ┃ ┃ ┗ 📂Home
- ┃ ┃ ┃ ┣ 📂graphql
- ┃ ┃ ┃ ┣ 📂hooks
- ┃ ┃ ┃ ┃ ┣ 📂mutations
- ┃ ┃ ┃ ┃ ┗ 📂queries
- ┃ ┃ ┃ ┣ 📂styles
- ┃ ┗ 📂Sub
- ┃ ┃ ┣ 📂Cart
- ┃ ┃ ┣ 📂Login
- ┃ ┃ ┣ 📂Mypage
- ┃ ┃ ┗ 📂Search
- ┣ 📂routes
- ┣ 📂services
- ┃ ┗ 📂auth
- ┃ ┃ ┣ 📂graphql
- ┃ ┃ ┣ 📂hooks
- ┣ 📂styles
- ┣ 📂types
- ┣ 📂utils
  ┣ 📜App.css
  ┣ 📜App.tsx
  ┣ 📜client.ts
