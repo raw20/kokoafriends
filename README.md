@@ -155,7 +155,7 @@
 
   - 리팩토링 후
 
-    - AWS EC2의 아마존 Ubuntu 기반으로 React와 Apollo 서버 실행 <정찬욱>
+    - AWS EC2의 아마존 Ubuntu 기반으로 Apollo 서버 실행 & AWS S3 기반으로 클라이언트 배포 <정찬욱>
 
 - GraphQL
 
@@ -515,7 +515,7 @@
 
 ```
 
-## 2차 리팩토링 (23.03.27 ~ 23.04.21)
+## 2차 리팩토링 (23.03.27 ~ 23.04.23)
 
 - 전반적으로 관심사 분리와 사용자 경험 개선에 중점을 두고 진행함.
 
@@ -659,4 +659,34 @@
 
 ![반응형 데모](https://user-images.githubusercontent.com/62588402/233614290-337e0f01-b7ba-4a57-bf01-26ac219939c0.gif)
 
+## 실행 방법
+
+- git clone으로 다운 받은 후
+
+```
+cd client
+
+npm install
+
+npm start
+```
+
+### 참고 사항
+
+- 카카오 API를 사용하려면 JS_SDK_KEY와 ADMIN_KEY가 필요하므로 https://developers.kakao.com/console/app 에서 애플리케이션 추가
+
+- 추가 과정에서 JS_SDK_KEY와 ADMIN_KEY를 발급 후 client폴더의 상위 디렉토리안에 .env파일 생성 후 아래 양식에 맞춰서 넣어주면 됨
+
+```
+** .env
+
+REACT_APP_JS_SDK_KEY="사용자의 JS_SDK_KEY"
+
+REACT_APP_ADMIN_KEY="사용자의 ADMIN_KEY"
+
+REACT_APP_CLINET_BASE_URL=http://localhost:3000
+```
+
 ## 배포 링크
+
+http://kokoa-friends-shop-client.s3-website.ap-northeast-2.amazonaws.com/
