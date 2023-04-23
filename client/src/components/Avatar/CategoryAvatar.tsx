@@ -14,9 +14,11 @@ function CategoryAvatar() {
   const navigator = useNavigate();
 
   function categoryClickHandler(name: string) {
-    navigator("/search");
     localStorage.setItem(SEARCH_VALUE, name);
     searchValueVar(name);
+    navigator(
+      `/search?search=${localStorage.getItem(SEARCH_VALUE)}&filter=null`
+    );
   }
 
   return (
