@@ -13,9 +13,11 @@ function SearchBar() {
   const navigator = useNavigate();
 
   function searchClickHandler() {
-    navigator("/search");
     localStorage.setItem(SEARCH_VALUE, input);
     searchValueVar(input);
+    navigator(
+      `/search?search=${localStorage.getItem(SEARCH_VALUE)}&filter=null`
+    );
   }
 
   return (
