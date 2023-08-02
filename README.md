@@ -689,4 +689,4 @@ REACT_APP_CLINET_BASE_URL=http://localhost:3000
 
 ## 배포 링크
 
-http://kokoa-friends-shop-client.s3-website.ap-northeast-2.amazonaws.com/
+서버 비용 문제로 배포 중단
