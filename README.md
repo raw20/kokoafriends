@@ -689,4 +689,4 @@ REACT_APP_CLINET_BASE_URL=http://localhost:3000
 
 ## 배포 링크
 
-서버 비용 문제로 배포 중단
+서버 비용 문제로 데이터 서버 및 클라이언트 서버 삭제 후 배포 중단
